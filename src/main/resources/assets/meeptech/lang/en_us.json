@@ -1,13 +1,7 @@
 {
-  "itemGroup.meeptech": "Example Mod Tab",
-  "block.meeptech.example_block": "Example Block",
-  "item.meeptech.example_item": "Example Item",
-
   "meeptech.configuration.title": "MeepTech Configs",
   "meeptech.configuration.section.meeptech.common.toml": "MeepTech Configs",
   "meeptech.configuration.section.meeptech.common.toml.title": "MeepTech Configs",
-  "meeptech.configuration.items": "Item List",
-  "meeptech.configuration.logDirtBlock": "Log Dirt Block",
-  "meeptech.configuration.magicNumberIntroduction": "Magic Number Text",
-  "meeptech.configuration.magicNumber": "Magic Number"
+
+  "item.meeptech.iron_hammer": "Iron Hammer"
 }

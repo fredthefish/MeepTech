@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "meeptech:item/handle_hammer",
+    "layer1": "meeptech:item/base_hammer"
+  }
+}
