@@ -9,8 +9,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
-public class PrimitiveWorkstationBlockEntity extends BlockEntity {
-    public PrimitiveWorkstationBlockEntity(BlockPos pos, BlockState state) {
+public class MaterialWorkstationBlockEntity extends BlockEntity {
+    public MaterialWorkstationBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.PRIMITIVE_WORKSTATION_BE.get(), pos, state);
     }
 

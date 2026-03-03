@@ -2,7 +2,7 @@ package com.minecraftmod.meeptech;
 
 import java.util.function.Supplier;
 
-import com.minecraftmod.meeptech.Blocks.PrimitiveWorkstationBlock;
+import com.minecraftmod.meeptech.Blocks.MaterialWorkstationBlock;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -15,8 +15,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MeepTech.MODID);
 
-    public static final DeferredBlock<Block> PRIMITIVE_WORKSTATION = registerBlock("primitive_workstation",
-        () -> new PrimitiveWorkstationBlock(BlockBehaviour.Properties.of()
+    public static final DeferredBlock<Block> MATERIAL_WORKSTATION = registerBlock("material_workstation",
+        () -> new MaterialWorkstationBlock(BlockBehaviour.Properties.of()
         .strength(5)
         .destroyTime(10)
         .requiresCorrectToolForDrops()
@@ -30,6 +30,6 @@ public class ModBlocks {
     }
 
     private static void registerBlockItem(String name, DeferredBlock<Block> block) {
-        ModItems.ITEMS.register("primitive_workstation", () -> new BlockItem(PRIMITIVE_WORKSTATION.get(), new Item.Properties()));
+        ModItems.ITEMS.register("material_workstation", () -> new BlockItem(MATERIAL_WORKSTATION.get(), new Item.Properties()));
     }
 }

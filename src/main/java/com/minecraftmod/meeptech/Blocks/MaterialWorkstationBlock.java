@@ -12,19 +12,19 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class PrimitiveWorkstationBlock extends Block implements EntityBlock {
-    public PrimitiveWorkstationBlock(BlockBehaviour.Properties properties) {
+public class MaterialWorkstationBlock extends Block implements EntityBlock {
+    public MaterialWorkstationBlock(BlockBehaviour.Properties properties) {
         super(properties);
     }
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new PrimitiveWorkstationBlockEntity(pos, state);
+        return new MaterialWorkstationBlockEntity(pos, state);
     }
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!level.isClientSide) {
             BlockEntity entity = level.getBlockEntity(pos);
-            if (entity instanceof PrimitiveWorkstationBlockEntity) {
+            if (entity instanceof MaterialWorkstationBlockEntity) {
                 player.openMenu((MenuProvider)state.getBlock(), pos);
             }
         }
