@@ -1,6 +1,7 @@
 {
     "parent": "minecraft:block/cube",
     "textures": {
+        "particle": "meeptech:block/material_workstation_side",
         "down": "meeptech:block/material_workstation_bottom",
         "up": "meeptech:block/material_workstation_top",
         "north": "meeptech:block/material_workstation_side",

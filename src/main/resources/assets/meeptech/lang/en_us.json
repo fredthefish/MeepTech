@@ -4,6 +4,7 @@
   "meeptech.configuration.section.meeptech.common.toml.title": "MeepTech Configs",
 
   "item.meeptech.iron_hammer": "Iron Hammer",
+  "item.meeptech.iron_plate": "Iron Plate",
 
   "block.meeptech.material_workstation": "Material Workstation"
 }
