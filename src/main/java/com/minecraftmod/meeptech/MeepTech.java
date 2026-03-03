@@ -12,6 +12,7 @@ public class MeepTech {
 
     public MeepTech(IEventBus modEventBus, ModContainer modContainer) {
         Items.ITEMS.register(modEventBus);
+        Blocks.BLOCKS.register(modEventBus);
     }
 
     @SubscribeEvent
