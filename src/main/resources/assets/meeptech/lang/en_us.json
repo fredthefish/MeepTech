@@ -1,9 +1,3 @@
 {
-  "meeptech.configuration.title": "MeepTech Configs",
-  "meeptech.configuration.section.meeptech.common.toml": "MeepTech Configs",
-  "meeptech.configuration.section.meeptech.common.toml.title": "MeepTech Configs",
-
-  "item.meeptech.iron_hammer": "Iron Hammer",
-
-  "block.meeptech.primitive_workstation": "Primitive Workstation"
+  "item.meeptech.hammer": "Hammer"
 }
