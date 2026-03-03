@@ -11,8 +11,8 @@ public class MeepTech {
     public static final String MODID = "meeptech";
 
     public MeepTech(IEventBus modEventBus, ModContainer modContainer) {
-        Items.ITEMS.register(modEventBus);
-        Blocks.BLOCKS.register(modEventBus);
+        ModItems.ITEMS.register(modEventBus);
+        ModBlocks.BLOCKS.register(modEventBus);
     }
 
     @SubscribeEvent
