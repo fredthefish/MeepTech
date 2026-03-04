@@ -7,7 +7,7 @@ import com.minecraftmod.meeptech.logic.MachineType;
 public class ModMachineTypes {
     public static final ArrayList<MachineType> MACHINE_TYPES = new ArrayList<MachineType>();
 
-    public static final MachineType PRIMITIVE_SMELTER = addMachineType(new MachineType("primitive_smelter", "Primitive Smelter"));
+    public static final MachineType PRIMITIVE_SMELTER = addMachineType(new MachineType("primitive_smelter"));
 
     public static MachineType addMachineType(MachineType type) {
         MACHINE_TYPES.add(type);

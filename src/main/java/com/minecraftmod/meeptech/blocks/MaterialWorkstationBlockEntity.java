@@ -21,6 +21,7 @@ public class MaterialWorkstationBlockEntity extends BlockEntity implements MenuP
         super(ModBlockEntities.MATERIAL_WORKSTATION_BE.get(), pos, state);
     }
 
+    //Slot 0 is the input, Slot 1 is the hammer, Slot 2 is the output.
     public final ItemStackHandler inventory = new ItemStackHandler(3) {
         @Override
         protected void onContentsChanged(int slot) {

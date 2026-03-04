@@ -1,6 +1,14 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "meeptech:item/blueprint"
-  }
+    "layer0": "meeptech:item/blueprint_blank"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "meeptech:blueprint_has_machine_type": 1
+      },
+      "model": "meeptech:item/blueprint_1"
+    }
+  ]
 }

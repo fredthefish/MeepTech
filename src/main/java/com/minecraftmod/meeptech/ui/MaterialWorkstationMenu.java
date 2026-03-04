@@ -11,7 +11,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -20,7 +19,6 @@ import net.neoforged.neoforge.items.SlotItemHandler;
 
 public class MaterialWorkstationMenu extends AbstractContainerMenu {
     private final ContainerLevelAccess access;
-    private final DataSlot selectedForm = DataSlot.standalone();
 
     public MaterialWorkstationMenu(int windowId, Inventory playerInv) {
         this(windowId, playerInv, new ItemStackHandler(3), ContainerLevelAccess.NULL);
@@ -42,8 +40,6 @@ public class MaterialWorkstationMenu extends AbstractContainerMenu {
                 return false;
             }
         });
-        this.addDataSlot(selectedForm);
-        this.selectedForm.set(-1);
 
         //Add inventory/hotbar.
         for (int i = 0; i < 3; i++) {
@@ -58,8 +54,6 @@ public class MaterialWorkstationMenu extends AbstractContainerMenu {
 
     @Override
     public boolean clickMenuButton(Player player, int buttonId) {
-        this.selectedForm.set(buttonId);
-
         Slot inputSlot = this.getSlot(0);
         Slot hammerSlot = this.getSlot(1);
         Slot outputSlot = this.getSlot(2);
@@ -92,9 +86,6 @@ public class MaterialWorkstationMenu extends AbstractContainerMenu {
             }
         }
         return false;
-    }
-    public int getSelectedForm() {
-        return this.selectedForm.get();
     }
     @Override
     public boolean stillValid(Player player) {

@@ -5,11 +5,16 @@
 
   "item.meeptech.iron_hammer": "Iron Hammer",
   "item.meeptech.iron_plate": "Iron Plate",
-  "item.meeptech.blueprint": "Blueprint",
+  "item.meeptech.blueprint.blank": "Blank Blueprint",
+  "item.meeptech.blueprint.empty": "Empty Machine Blueprint",
 
   "block.meeptech.material_workstation": "Material Workstation",
   "block.meeptech.designing_station": "Designing Station",
 
   "itemGroup.meeptech.materials_tab": "MeepTech Materials",
-  "itemGroup.meeptech.general_tab": "MeepTech General"
+  "itemGroup.meeptech.general_tab": "MeepTech General",
+
+  "meeptech.misc.machine_type_tooltip": "Machine Type: ",
+
+  "meeptech.machineType.primitive_smelter": "Primitive Smelter"
 }
