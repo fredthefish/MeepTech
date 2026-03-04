@@ -9,7 +9,10 @@ public class MaterialWorkstationRecipes {
     private Material material;
 
     public static final MaterialWorkstationRecipe[] RECIPES = new MaterialWorkstationRecipe[] {
-        new MaterialWorkstationRecipe(MaterialForm.Base, MaterialForm.Plate, 1, 1)
+        new MaterialWorkstationRecipe(MaterialForm.Base, MaterialForm.Plate, 1, 1),
+        new MaterialWorkstationRecipe(MaterialForm.Plate, MaterialForm.LargePlate, 4, 1),
+        new MaterialWorkstationRecipe(MaterialForm.Plate, MaterialForm.Box, 6, 1),
+        new MaterialWorkstationRecipe(MaterialForm.Plate, MaterialForm.Hull, 8, 1)
     };
     
     public static final MaterialWorkstationRecipes getAvailableForms(ItemStack input) {

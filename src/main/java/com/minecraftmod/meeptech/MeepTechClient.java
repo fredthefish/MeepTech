@@ -19,6 +19,8 @@ public class MeepTechClient {
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
         ModMaterials.InitializeMaterials();
+        ModMachineComponents.InitializeMachineComponents();
+        ModMachineTypes.InitializeMachineTypes();
     }
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
