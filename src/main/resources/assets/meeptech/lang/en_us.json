@@ -6,5 +6,8 @@
   "item.meeptech.iron_hammer": "Iron Hammer",
   "item.meeptech.iron_plate": "Iron Plate",
 
-  "block.meeptech.material_workstation": "Material Workstation"
+  "block.meeptech.material_workstation": "Material Workstation",
+
+  "itemGroup.meeptech.materials_tab": "MeepTech Materials",
+  "itemGroup.meeptech.general_tab": "MeepTech General"
 }

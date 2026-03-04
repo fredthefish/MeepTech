@@ -1,8 +1,11 @@
 package com.minecraftmod.meeptech.blocks;
 
 import com.minecraftmod.meeptech.ModBlockEntities;
+import com.minecraftmod.meeptech.ui.MaterialWorkstationMenu;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -32,5 +35,17 @@ public class MaterialWorkstationBlockEntity extends BlockEntity implements MenuP
     @Override
     public AbstractContainerMenu createMenu(int windowId, Inventory playerInv, Player player) {
         return new MaterialWorkstationMenu(windowId, playerInv, this.inventory, ContainerLevelAccess.create(this.level, this.worldPosition));
+    }
+    @Override
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.put("Inventory", this.inventory.serializeNBT(registries));
+    }
+    @Override
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        if (tag.contains("Inventory")) {
+            this.inventory.deserializeNBT(registries, tag.getCompound("Inventory"));
+        }
     }
 }

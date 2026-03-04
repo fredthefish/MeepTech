@@ -17,10 +17,10 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> MATERIAL_WORKSTATION = registerBlock("material_workstation",
         () -> new MaterialWorkstationBlock(BlockBehaviour.Properties.of()
-        .strength(5)
-        .destroyTime(10)
-        .requiresCorrectToolForDrops()
-        .sound(SoundType.METAL)
+            .strength(5f, 6f)
+            .destroyTime(5)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.METAL)
     ));
     
     private static DeferredBlock<Block> registerBlock(String name, Supplier<Block> block) {
@@ -30,6 +30,6 @@ public class ModBlocks {
     }
 
     private static void registerBlockItem(String name, DeferredBlock<Block> block) {
-        ModItems.ITEMS.register("material_workstation", () -> new BlockItem(MATERIAL_WORKSTATION.get(), new Item.Properties()));
+        ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 }

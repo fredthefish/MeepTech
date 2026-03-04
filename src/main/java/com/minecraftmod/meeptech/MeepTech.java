@@ -1,7 +1,5 @@
 package com.minecraftmod.meeptech;
 
-import com.minecraftmod.meeptech.logic.ModMaterials;
-
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -17,6 +15,7 @@ public class MeepTech {
         ModBlocks.BLOCKS.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
         ModMenus.MENUS.register(modEventBus);
+        ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
     }
 
     @SubscribeEvent

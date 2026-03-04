@@ -1,8 +1,9 @@
-package com.minecraftmod.meeptech.logic;
+package com.minecraftmod.meeptech;
 
 import java.util.HashSet;
 
-import com.minecraftmod.meeptech.ModItems;
+import com.minecraftmod.meeptech.logic.Material;
+import com.minecraftmod.meeptech.logic.MaterialForm;
 
 import net.minecraft.world.item.Items;
 

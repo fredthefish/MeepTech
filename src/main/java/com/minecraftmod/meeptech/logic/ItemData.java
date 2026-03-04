@@ -2,6 +2,8 @@ package com.minecraftmod.meeptech.logic;
 
 import java.util.HashMap;
 
+import com.minecraftmod.meeptech.ModMaterials;
+
 import net.minecraft.world.item.Item;
 
 public class ItemData {

@@ -1,4 +1,4 @@
-package com.minecraftmod.meeptech.blocks;
+package com.minecraftmod.meeptech.ui;
 
 import com.minecraftmod.meeptech.ModBlocks;
 import com.minecraftmod.meeptech.ModItems;
@@ -102,7 +102,30 @@ public class MaterialWorkstationMenu extends AbstractContainerMenu {
     }
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
-        //TODO: Implement.
-        return ItemStack.EMPTY;
+        ItemStack itemStack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            ItemStack stackInSlot = slot.getItem();
+            itemStack = stackInSlot.copy();
+            //Slot is from within the material workstation.
+            if (index < 3) {
+                if (!this.moveItemStackTo(stackInSlot, 3, 39, true)) return ItemStack.EMPTY;
+                // slot.onQuickCraft(stackInSlot, itemStack);
+            } else {
+                if (stackInSlot.is(ModItems.HAMMER.get())) {
+                    if (!this.moveItemStackTo(stackInSlot, 1, 2, false)) return ItemStack.EMPTY;
+                } else if (!this.moveItemStackTo(stackInSlot, 0, 1, false)) {
+                    //Input is full, moves between hotbar and inventory
+                    if (index < 30) {
+                        if (!this.moveItemStackTo(stackInSlot, 30, 39, false)) return ItemStack.EMPTY; 
+                    } else if (index < 39 && !this.moveItemStackTo(stackInSlot, 3, 30, false)) return ItemStack.EMPTY;
+                }
+            }
+            if (stackInSlot.isEmpty()) slot.setByPlayer(ItemStack.EMPTY);
+            else slot.setChanged();
+            if (stackInSlot.getCount() == itemStack.getCount()) return ItemStack.EMPTY;
+            slot.onTake(player, stackInSlot);
+        }
+        return itemStack;
     }
 }

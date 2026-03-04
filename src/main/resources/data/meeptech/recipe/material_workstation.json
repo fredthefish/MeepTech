@@ -10,6 +10,6 @@
     "R": {"item": "minecraft:redstone"}
   },
   "result": {
-    "id": "meeptech:primitive_workstation"
+    "id": "meeptech:material_workstation"
   }
 }

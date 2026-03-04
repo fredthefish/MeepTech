@@ -8,7 +8,7 @@ public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MeepTech.MODID);
 
     public static final DeferredItem<Item> HAMMER = ITEMS.register("iron_hammer", () -> new Item(new Item.Properties()
-        .durability(1024)
+        .durability(256)
     ));
 
     public static final DeferredItem<Item> IRON_PLATE = ITEMS.register("iron_plate", () -> new Item(new Item.Properties()));

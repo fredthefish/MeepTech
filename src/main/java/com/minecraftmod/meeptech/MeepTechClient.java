@@ -1,7 +1,6 @@
 package com.minecraftmod.meeptech;
 
-import com.minecraftmod.meeptech.blocks.MaterialWorkstationScreen;
-import com.minecraftmod.meeptech.logic.ModMaterials;
+import com.minecraftmod.meeptech.ui.MaterialWorkstationScreen;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
