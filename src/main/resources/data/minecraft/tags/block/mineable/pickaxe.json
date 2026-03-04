@@ -1,6 +1,7 @@
 {
     "replace": false,
     "values": [
-        "meeptech:material_workstation"
+        "meeptech:material_workstation",
+        "meeptech:designing_station"
     ]
 }

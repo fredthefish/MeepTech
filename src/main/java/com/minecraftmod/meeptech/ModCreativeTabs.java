@@ -35,6 +35,8 @@ public class ModCreativeTabs {
         .displayItems((params, output) -> {
             output.accept(ModItems.HAMMER.get());
             output.accept(ModBlocks.MATERIAL_WORKSTATION.get());
+            output.accept(ModBlocks.DESIGNING_STATION.get());
+            output.accept(ModItems.BLUEPRINT.get());
         })
         .build()
     );

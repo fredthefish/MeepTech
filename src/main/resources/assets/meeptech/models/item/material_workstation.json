@@ -1,11 +1,11 @@
 {
     "parent": "minecraft:block/cube",
     "textures": {
-        "down": "meeptech:block/material_workstation_bottom",
-        "up": "meeptech:block/material_workstation_top",
-        "north": "meeptech:block/material_workstation_side",
-        "south": "meeptech:block/material_workstation_side",
-        "west": "meeptech:block/material_workstation_side",
-        "east": "meeptech:block/material_workstation_side"
+        "down": "meeptech:block/material_workstation/down",
+        "up": "meeptech:block/material_workstation/up",
+        "north": "meeptech:block/material_workstation/side",
+        "south": "meeptech:block/material_workstation/side",
+        "west": "meeptech:block/material_workstation/side",
+        "east": "meeptech:block/material_workstation/side"
     }
 }

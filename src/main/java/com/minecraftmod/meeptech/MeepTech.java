@@ -16,6 +16,7 @@ public class MeepTech {
         ModBlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
         ModMenus.MENUS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
+        ModDataComponents.DATA_COMPONENTS.register(modEventBus);
     }
 
     @SubscribeEvent

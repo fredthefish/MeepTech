@@ -10,6 +10,8 @@ public class ModItems {
     public static final DeferredItem<Item> HAMMER = ITEMS.register("iron_hammer", () -> new Item(new Item.Properties()
         .durability(256)
     ));
-
     public static final DeferredItem<Item> IRON_PLATE = ITEMS.register("iron_plate", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> BLUEPRINT = ITEMS.register("blueprint", () -> new Item(new Item.Properties()
+        .stacksTo(1))
+    );
 }
