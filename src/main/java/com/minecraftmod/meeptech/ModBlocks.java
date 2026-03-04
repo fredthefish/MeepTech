@@ -2,7 +2,7 @@ package com.minecraftmod.meeptech;
 
 import java.util.function.Supplier;
 
-import com.minecraftmod.meeptech.Blocks.MaterialWorkstationBlock;
+import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlock;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;

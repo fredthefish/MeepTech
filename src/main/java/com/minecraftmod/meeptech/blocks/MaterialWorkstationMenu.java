@@ -1,9 +1,12 @@
-package com.minecraftmod.meeptech.Blocks;
+package com.minecraftmod.meeptech.blocks;
 
 import com.minecraftmod.meeptech.ModBlocks;
 import com.minecraftmod.meeptech.ModItems;
 import com.minecraftmod.meeptech.ModMenus;
+import com.minecraftmod.meeptech.logic.MaterialWorkstationRecipe;
+import com.minecraftmod.meeptech.logic.MaterialWorkstationRecipes;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -40,6 +43,7 @@ public class MaterialWorkstationMenu extends AbstractContainerMenu {
             }
         });
         this.addDataSlot(selectedForm);
+        this.selectedForm.set(-1);
 
         //Add inventory/hotbar.
         for (int i = 0; i < 3; i++) {
@@ -56,9 +60,38 @@ public class MaterialWorkstationMenu extends AbstractContainerMenu {
     public boolean clickMenuButton(Player player, int buttonId) {
         this.selectedForm.set(buttonId);
 
-        //TODO: Update crafting logic.
+        Slot inputSlot = this.getSlot(0);
+        Slot hammerSlot = this.getSlot(1);
+        Slot outputSlot = this.getSlot(2);
 
-        return true;
+        ItemStack input = inputSlot.getItem();
+        MaterialWorkstationRecipes recipes = MaterialWorkstationRecipes.getAvailableForms(input);
+        
+        if (buttonId >= 0 && buttonId < recipes.getRecipes().size()) {
+            MaterialWorkstationRecipe recipe = recipes.getRecipes().get(buttonId);
+            ItemStack hammer = hammerSlot.getItem();
+            if (hammer.is(ModItems.HAMMER.get()) && input.getCount() >= recipe.getInputAmount()) {
+                ItemStack currentOutput = outputSlot.getItem();
+                ItemStack recipeResult = new ItemStack(recipes.getMaterial().getForm(recipe.getOutputForm()), recipe.getOutputAmount());
+                if (currentOutput.isEmpty() 
+                    || (ItemStack.isSameItemSameComponents(currentOutput, recipeResult)
+                    && currentOutput.getCount() + recipeResult.getCount() <= currentOutput.getMaxStackSize())) {
+                    
+                    inputSlot.remove(recipe.getInputAmount());
+                    if (currentOutput.isEmpty()) outputSlot.set(recipeResult);
+                    else currentOutput.grow(recipeResult.getCount());
+
+                    if (player.level() instanceof ServerLevel serverLevel) {
+                        hammer.hurtAndBreak(1, serverLevel, null, (item) -> {});
+                        if (hammer.getDamageValue() >= hammer.getMaxDamage()) {
+                            hammerSlot.set(ItemStack.EMPTY);
+                        }
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     public int getSelectedForm() {
         return this.selectedForm.get();

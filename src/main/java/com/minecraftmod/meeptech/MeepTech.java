@@ -1,5 +1,7 @@
 package com.minecraftmod.meeptech;
 
+import com.minecraftmod.meeptech.logic.ModMaterials;
+
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -19,6 +21,6 @@ public class MeepTech {
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        
+        ModMaterials.InitializeMaterials();
     }
 }

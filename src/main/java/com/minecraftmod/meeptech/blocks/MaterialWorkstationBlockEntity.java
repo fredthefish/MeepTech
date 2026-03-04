@@ -1,4 +1,4 @@
-package com.minecraftmod.meeptech.Blocks;
+package com.minecraftmod.meeptech.blocks;
 
 import com.minecraftmod.meeptech.ModBlockEntities;
 

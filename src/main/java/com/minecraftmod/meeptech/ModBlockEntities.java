@@ -2,7 +2,7 @@ package com.minecraftmod.meeptech;
 
 import java.util.function.Supplier;
 
-import com.minecraftmod.meeptech.Blocks.MaterialWorkstationBlockEntity;
+import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlockEntity;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;

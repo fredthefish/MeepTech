@@ -1,12 +1,12 @@
 package com.minecraftmod.meeptech;
 
-import com.minecraftmod.meeptech.Blocks.MaterialWorkstationMenu;
-
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
+
+import com.minecraftmod.meeptech.blocks.MaterialWorkstationMenu;
 
 public class ModMenus {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, MeepTech.MODID);

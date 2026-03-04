@@ -1,6 +1,7 @@
 package com.minecraftmod.meeptech;
 
-import com.minecraftmod.meeptech.Blocks.MaterialWorkstationScreen;
+import com.minecraftmod.meeptech.blocks.MaterialWorkstationScreen;
+import com.minecraftmod.meeptech.logic.ModMaterials;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -18,7 +19,7 @@ public class MeepTechClient {
 
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
-
+        ModMaterials.InitializeMaterials();
     }
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
