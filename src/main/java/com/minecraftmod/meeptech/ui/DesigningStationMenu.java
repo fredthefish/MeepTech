@@ -1,5 +1,7 @@
 package com.minecraftmod.meeptech.ui;
 
+import java.util.List;
+
 import com.minecraftmod.meeptech.ModBlocks;
 import com.minecraftmod.meeptech.ModDataComponents;
 import com.minecraftmod.meeptech.ModItems;
@@ -34,7 +36,7 @@ public class DesigningStationMenu extends AbstractContainerMenu {
         this.inventory = handler;
         this.selectedMachine.set(-1);
 
-        this.addSlot(new SlotItemHandler(handler, 0, 16, 21) {
+        this.addSlot(new SlotItemHandler(handler, 0, 16, 16) {
             @Override
             public boolean mayPlace(ItemStack stack) {
                 return stack.is(ModItems.BLUEPRINT.get()) || stack.is(Items.PAPER);
@@ -45,7 +47,7 @@ public class DesigningStationMenu extends AbstractContainerMenu {
                 setupResultSlot();
             }
         });
-        this.addSlot(new SlotItemHandler(handler, 1, 16, 51) {
+        this.addSlot(new SlotItemHandler(handler, 1, 16, 53) {
             @Override
             public boolean mayPlace(ItemStack stack) {
                 return false;
@@ -68,6 +70,8 @@ public class DesigningStationMenu extends AbstractContainerMenu {
         for (int i = 0; i < 9; i++) {
             this.addSlot(new Slot(playerInv, i, 8 + i * 18, 142));
         }
+
+        setupResultSlot();
     }
     public int getSelectedMachine() {
         return this.selectedMachine.get();
@@ -78,12 +82,41 @@ public class DesigningStationMenu extends AbstractContainerMenu {
     }
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
-        return ItemStack.EMPTY;
+        ItemStack itemStack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(index);
+
+        if (slot != null && slot.hasItem()) {
+            ItemStack stackInSlot = slot.getItem();
+            itemStack = stackInSlot.copy();
+            if (index < 2) {
+                if (!this.moveItemStackTo(stackInSlot, 2, 38, true)) {
+                    return ItemStack.EMPTY;
+                }
+            } else {
+                if (stackInSlot.is(Items.PAPER) || stackInSlot.is(ModItems.BLUEPRINT.get())) {
+                    if (!this.moveItemStackTo(stackInSlot, 0, 1, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else {
+                    return ItemStack.EMPTY;
+                }
+            }
+            if (stackInSlot.isEmpty()) slot.setByPlayer(ItemStack.EMPTY);
+            else slot.setChanged();
+            if (stackInSlot.getCount() == itemStack.getCount()) return ItemStack.EMPTY;
+            slot.onTake(player, stackInSlot);
+        }
+        return itemStack;
     }
     @Override
     public boolean clickMenuButton(Player player, int buttonId) {
         if (buttonId >= 0 && buttonId < ModMachineTypes.MACHINE_TYPES.size()) {
-            this.selectedMachine.set(buttonId);
+            if (buttonId == this.selectedMachine.get()) {
+                this.selectedMachine.set(-1);
+            } else {
+                this.selectedMachine.set(buttonId);
+            }
+            setupResultSlot();
             return true;
         }
         return false;
@@ -91,11 +124,16 @@ public class DesigningStationMenu extends AbstractContainerMenu {
     private void setupResultSlot() {
         ItemStack paperSlot = this.inventory.getStackInSlot(0);
         int machineIndex = this.selectedMachine.get();
-        if (!paperSlot.isEmpty() && (paperSlot.is(Items.PAPER) || paperSlot.is(ModItems.BLUEPRINT)) && machineIndex >= 0) {
-            MachineType machineType = ModMachineTypes.MACHINE_TYPES.get(machineIndex);
-            ItemStack blueprint = new ItemStack(ModItems.BLUEPRINT.get(), 1);
-            blueprint.set(ModDataComponents.BLUEPRINT_DATA.get(), new BlueprintData(machineType.getId(), null));
-            ((ItemStackHandler)this.inventory).setStackInSlot(1, blueprint);
+        if (!paperSlot.isEmpty() && (paperSlot.is(Items.PAPER) || paperSlot.is(ModItems.BLUEPRINT))) {
+            if (machineIndex >= 0) {
+                MachineType machineType = ModMachineTypes.MACHINE_TYPES.get(machineIndex);
+                ItemStack blueprint = new ItemStack(ModItems.BLUEPRINT.get(), 1);
+                blueprint.set(ModDataComponents.BLUEPRINT_DATA.get(), new BlueprintData(machineType.getId(), List.of()));
+                ((ItemStackHandler)this.inventory).setStackInSlot(1, blueprint);
+            } else {
+                ItemStack blueprint = new ItemStack(ModItems.BLUEPRINT.get(), 1);
+                ((ItemStackHandler)this.inventory).setStackInSlot(1, blueprint);
+            }
         } else {
             ((ItemStackHandler)this.inventory).setStackInSlot(1, ItemStack.EMPTY);
         }

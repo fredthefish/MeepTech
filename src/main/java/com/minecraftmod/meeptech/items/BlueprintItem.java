@@ -30,7 +30,7 @@ public class BlueprintItem extends Item {
         BlueprintData data = stack.get(ModDataComponents.BLUEPRINT_DATA.get());
         if (data != null) {
             if (data.machineId() != null && !data.machineId().isEmpty()) {
-                tooltipComponents.add(Component.translatable("meeptech.misc.machine_type_tooltip")
+                tooltipComponents.add(Component.translatable("meeptech.misc.machine_type_tooltip").withStyle(ChatFormatting.GRAY)
                     .append(Component.translatable(data.getMachineType().getTranslationKey()).withStyle(ChatFormatting.GRAY)));
             }
         }

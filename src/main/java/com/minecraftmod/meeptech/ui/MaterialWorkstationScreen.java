@@ -9,6 +9,7 @@ import com.minecraftmod.meeptech.logic.MaterialWorkstationRecipes;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -99,7 +100,8 @@ public class MaterialWorkstationScreen extends AbstractContainerScreen<MaterialW
                 int buttonX = startX + (i % COLUMNS) * (BUTTON_SIZE - 1);
                 int buttonY = startY + (i / COLUMNS) * (BUTTON_SIZE - 1);
                 if (mouseX >= buttonX && mouseX < buttonX + BUTTON_SIZE && mouseY >= buttonY && mouseY < buttonY + BUTTON_SIZE) {
-                    this.minecraft.gameMode.handleInventoryButtonClick((this.menu.containerId), i);
+                    this.minecraft.gameMode.handleInventoryButtonClick((this.menu.containerId), 
+                        Screen.hasShiftDown() ? i + 1000 : i); //Add 1000 to buttonId if shift is being held.
                     return true;
                 }
             }

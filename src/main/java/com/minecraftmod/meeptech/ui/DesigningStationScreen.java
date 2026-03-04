@@ -15,7 +15,7 @@ public class DesigningStationScreen extends AbstractContainerScreen<DesigningSta
     private int startIndex; //Which index is currently at the top.
     private final int listX = 43;
     private final int listY = 16;
-    private final int listWidth = 114;
+    private final int listWidth = 115;
     private final int listHeight = 52;
     private final int itemHeight = 13;
     private final int visibleItems = 4;
@@ -40,11 +40,12 @@ public class DesigningStationScreen extends AbstractContainerScreen<DesigningSta
 
         int currentY = y + listY;
         for (int i = startIndex; (i < startIndex + visibleItems) && (i < ModMachineTypes.MACHINE_TYPES.size()); i++) {
-            MachineType machine = ModMachineTypes.MACHINE_TYPES.get(i);
+            System.out.println(this.menu.getSelectedMachine());
             int color = (i == this.menu.getSelectedMachine()) ? 0xFFFFFF00 : 0xFFFFFFFF;
             if (mouseX >= x + listX && mouseX < x + listX + listWidth && mouseY >= currentY && mouseY < currentY + itemHeight) {
                 guiGraphics.fill(x + listX, currentY, x + listX + listWidth, currentY + itemHeight, 0x50FFFFFF);
             }
+            MachineType machine = ModMachineTypes.MACHINE_TYPES.get(i);
             guiGraphics.drawString(this.font, Component.translatable(machine.getTranslationKey()), x + listX + 1, currentY + 1, color, true);
             currentY += itemHeight;
         }

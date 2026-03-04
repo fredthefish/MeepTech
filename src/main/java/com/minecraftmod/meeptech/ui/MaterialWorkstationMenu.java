@@ -60,6 +60,9 @@ public class MaterialWorkstationMenu extends AbstractContainerMenu {
 
         ItemStack input = inputSlot.getItem();
         MaterialWorkstationRecipes recipes = MaterialWorkstationRecipes.getAvailableForms(input);
+
+        boolean craftAll = buttonId >= 1000;
+        buttonId = craftAll ? buttonId - 1000 : buttonId;
         
         if (buttonId >= 0 && buttonId < recipes.getRecipes().size()) {
             MaterialWorkstationRecipe recipe = recipes.getRecipes().get(buttonId);
@@ -67,21 +70,39 @@ public class MaterialWorkstationMenu extends AbstractContainerMenu {
             if (hammer.is(ModItems.HAMMER.get()) && input.getCount() >= recipe.getInputAmount()) {
                 ItemStack currentOutput = outputSlot.getItem();
                 ItemStack recipeResult = new ItemStack(recipes.getMaterial().getForm(recipe.getOutputForm()), recipe.getOutputAmount());
-                if (currentOutput.isEmpty() 
-                    || (ItemStack.isSameItemSameComponents(currentOutput, recipeResult)
+                if (currentOutput.isEmpty() || 
+                    (ItemStack.isSameItemSameComponents(currentOutput, recipeResult) 
                     && currentOutput.getCount() + recipeResult.getCount() <= currentOutput.getMaxStackSize())) {
                     
-                    inputSlot.remove(recipe.getInputAmount());
-                    if (currentOutput.isEmpty()) outputSlot.set(recipeResult);
-                    else currentOutput.grow(recipeResult.getCount());
+                    if (craftAll) {
+                        int hammerHealth = hammer.getMaxDamage() - hammer.getDamageValue();
+                        int inputCrafts = input.getCount() / recipe.getInputAmount();
+                        int outputCrafts = currentOutput.isEmpty() 
+                            ? (recipeResult.getMaxStackSize() / recipe.getOutputAmount()) 
+                            : (currentOutput.getMaxStackSize() - currentOutput.getCount()) / recipe.getOutputAmount();
+                        int crafts = Math.min(Math.min(hammerHealth, inputCrafts), outputCrafts);
 
-                    if (player.level() instanceof ServerLevel serverLevel) {
-                        hammer.hurtAndBreak(1, serverLevel, null, (item) -> {});
-                        if (hammer.getDamageValue() >= hammer.getMaxDamage()) {
-                            hammerSlot.set(ItemStack.EMPTY);
+                        inputSlot.remove(crafts * recipe.getInputAmount());
+                        if (currentOutput.isEmpty()) outputSlot.set(new ItemStack(recipeResult.getItem(), 
+                            currentOutput.getCount() + recipeResult.getCount() * crafts));
+                        else currentOutput.grow(recipeResult.getCount() * crafts);
+                        if (player.level() instanceof ServerLevel serverLevel) {
+                            hammer.hurtAndBreak(crafts, serverLevel, null, (item) -> {});
+                            if (hammer.getDamageValue() >= hammer.getMaxDamage()) {
+                                hammerSlot.set(ItemStack.EMPTY);
+                            }
+                        }
+                    } else {
+                        inputSlot.remove(recipe.getInputAmount());
+                        if (currentOutput.isEmpty()) outputSlot.set(recipeResult);
+                        else currentOutput.grow(recipeResult.getCount());
+                        if (player.level() instanceof ServerLevel serverLevel) {
+                            hammer.hurtAndBreak(1, serverLevel, null, (item) -> {});
+                            if (hammer.getDamageValue() >= hammer.getMaxDamage()) {
+                                hammerSlot.set(ItemStack.EMPTY);
+                            }
                         }
                     }
-                    return true;
                 }
             }
         }
@@ -101,15 +122,11 @@ public class MaterialWorkstationMenu extends AbstractContainerMenu {
             //Slot is from within the material workstation.
             if (index < 3) {
                 if (!this.moveItemStackTo(stackInSlot, 3, 39, true)) return ItemStack.EMPTY;
-                // slot.onQuickCraft(stackInSlot, itemStack);
             } else {
                 if (stackInSlot.is(ModItems.HAMMER.get())) {
                     if (!this.moveItemStackTo(stackInSlot, 1, 2, false)) return ItemStack.EMPTY;
                 } else if (!this.moveItemStackTo(stackInSlot, 0, 1, false)) {
-                    //Input is full, moves between hotbar and inventory
-                    if (index < 30) {
-                        if (!this.moveItemStackTo(stackInSlot, 30, 39, false)) return ItemStack.EMPTY; 
-                    } else if (index < 39 && !this.moveItemStackTo(stackInSlot, 3, 30, false)) return ItemStack.EMPTY;
+                    return ItemStack.EMPTY;
                 }
             }
             if (stackInSlot.isEmpty()) slot.setByPlayer(ItemStack.EMPTY);
