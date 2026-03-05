@@ -15,7 +15,7 @@ public class ModMaterials {
 
     public static final ArrayList<Material> MATERIALS = new ArrayList<Material>();
 
-    public static final Material IRON = addMaterial(new Material("iron", "Iron"));
+    public static final Material IRON = addMaterial(new Material("iron"));
     
     public static void InitializeMaterials() {
         FORM_TRANSLATION_KEYS.put(MaterialForm.Base, "meeptech.materialForm.base");
@@ -30,10 +30,9 @@ public class ModMaterials {
         MATERIAL_STAT_TRANSLATION_KEYS.put(MaterialStat.MeltingPoint, "meeptech.materialStat.melting_point");
         MATERIAL_STAT_TRANSLATION_KEYS.put(MaterialStat.TensileStrength, "meeptech.materialStat.tensile_strength");
 
-        //Iron Forms
+        //Iron
         IRON.addForm(MaterialForm.Base, Items.IRON_INGOT);
         IRON.addForm(MaterialForm.Plate, ModItems.IRON_PLATE.get());
-        //Iron Statistics
         IRON.setThermalConductivity(60);
         IRON.setMeltingPoint(1100);
         IRON.setTensileStrength(600);

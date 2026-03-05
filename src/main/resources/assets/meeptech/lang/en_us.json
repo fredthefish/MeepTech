@@ -16,14 +16,17 @@
   "itemGroup.meeptech.general_tab": "MeepTech General",
 
   "meeptech.ui.machine_type_tooltip": "Machine Type: ",
-  "meeptech.ui.machine_component_cost_tooltip": "Cost: ",
-  "meeptech.ui.machine_component_relevant_stat_tooltip": "Relevant Stat: ",
+  "meeptech.ui.machine_component_cost": "Cost: ",
+  "meeptech.ui.machine_component_relevant_stat": "Relevant Stat: ",
+  "meeptech.ui.inputted_material": "Inputted Material: ",
 
   "meeptech.machineType.primitive_smelter": "Primitive Smelter",
 
   "meeptech.machineComponent.temperature_hull_casing": "Thermal Hull Casing",
   "meeptech.machineComponent.insulative_firebox": "Insulative Firebox",
   "meeptech.machineComponent.thermal_diffuser_rack": "Thermal Diffuser Rack",
+
+  "meeptech.material.iron": "Iron",
 
   "meeptech.materialForm.base": "Base Form",
   "meeptech.materialForm.plate": "Plate",
@@ -35,5 +38,9 @@
   "meeptech.materialStat.thermal_resistance": "Thermal Resistance",
   "meeptech.materialStat.flammability": "Flammability",
   "meeptech.materialStat.melting_point": "Melting Point",
-  "meeptech.materialStat.tensile_strength": "Tensile Strength"
+  "meeptech.materialStat.tensile_strength": "Tensile Strength",
+
+  "meeptech.machineStat.speed": "Speed",
+  "meeptech.machineStat.efficiency": "Efficiency",
+  "meeptech.machineStat.heat_decay": "Heat Decay"
 }

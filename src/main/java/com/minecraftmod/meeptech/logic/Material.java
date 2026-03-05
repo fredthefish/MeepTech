@@ -1,12 +1,13 @@
 package com.minecraftmod.meeptech.logic;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 import net.minecraft.world.item.Item;
 
 public class Material {
     private String id;
-    private String name;
+    private String translationKey;
     private HashMap<MaterialForm, Item> forms = new HashMap<>();
 
     private Double thermalConductivity;
@@ -15,9 +16,9 @@ public class Material {
     private Double meltingPoint;
     private Double tensileStrength;
 
-    public Material(String id, String name) {
+    public Material(String id) {
         this.id = id;
-        this.name = name;
+        this.translationKey = "meeptech.material." + id;
     }
 
     public void addForm(MaterialForm form, Item item) {
@@ -35,8 +36,8 @@ public class Material {
     public String getId() {
         return id;
     }
-    public String getName() {
-        return name;
+    public String getTranslationKey() {
+        return translationKey;
     }
 
     public Double getThermalConductivity() {
@@ -52,11 +53,11 @@ public class Material {
     public boolean isFlammable() {
         return flammable;
     }
-    public Double meltingPoint() {
+    public Double getMeltingPoint() {
         if (meltingPoint != null) return meltingPoint;
         return null;
     }
-    public Double tensileStrength() {
+    public Double getTensileStrength() {
         if (tensileStrength != null) return tensileStrength;
         return null;
     }
@@ -78,5 +79,47 @@ public class Material {
     }
     public void setTensileStrength(double tensileStrength) {
         this.tensileStrength = tensileStrength;
+    }
+    public Object getStat(MaterialStat stat) {
+        switch (stat) {
+            case ThermalConductivity:
+                return getThermalConductivity();
+            case ThermalResistance:
+                return getThermalResistance();
+            case Flammability:
+                return isFlammable();
+            case MeltingPoint:
+                return getMeltingPoint();
+            case TensileStrength:
+                return getTensileStrength();
+        }
+        return null;
+    }
+    public String getStatString(MaterialStat stat) {
+        switch (stat) {
+            case ThermalConductivity:
+                Double thermalConductivity = getThermalConductivity();
+                if (thermalConductivity != null) return roundNumber(thermalConductivity, 2) + " W/(m K)";
+                else return "N/A";
+            case ThermalResistance:
+                Double thermalResistance = getThermalResistance();
+                if (thermalResistance != null) return roundNumber(thermalResistance, 2) + " m K/W";
+                else return "N/A";
+            case Flammability:
+                return Boolean.toString(isFlammable());
+            case MeltingPoint:
+                Double meltingPoint = getMeltingPoint();
+                if (meltingPoint != null) return meltingPoint.intValue() + " K";
+                else return "N/A";
+            case TensileStrength:
+                Double tensileStrength = getTensileStrength();
+                if (tensileStrength != null) return tensileStrength.intValue() + " MPa";
+                else return "N/A";
+        }
+        return "ERROR";
+    }
+    public String roundNumber(double num, int precision) {
+        BigDecimal bd = new BigDecimal(num);
+        return String.format("%."+precision+"G", bd);
     }
 }

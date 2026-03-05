@@ -1,5 +1,6 @@
 package com.minecraftmod.meeptech.logic;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import com.minecraftmod.meeptech.ModMaterials;
@@ -63,7 +64,33 @@ public class MachineComponent {
     public void setCalculations(MachineCalculations calculations) {
         this.calculations = calculations;
     }
-    public Object[] runCalculations(Object[] inputs) {
-        return calculations.calculations(inputs);
+    public Object getStat(MachineStat stat, Material material) {
+        Object[] inputs = new Object[this.relevantStats.size()];
+        for (int i = 0; i < inputs.length; i++) {
+            inputs[i] = material.getStat(relevantStats.get(i));
+        }
+        Object[] stats = calculations.calculations(inputs);
+        for (int i = 0; i < outputStats.size(); i++) {
+            if (outputStats.get(i) == stat) {
+                return stats[i];
+            }
+        }
+        return null;
+    }
+    public String getStatString(MachineStat stat, Material material) {
+        Object statResult = getStat(stat, material);
+        switch (stat) {
+            case Speed:
+                return roundNumber((double)statResult, 3) + "x";
+            case Efficiency:
+                return roundNumber((double)statResult, 3) + "x";
+            case HeatDecay:
+                return roundNumber((double)statResult, 3) + "x";
+        }
+        return null;
+    }
+    public String roundNumber(double num, int precision) {
+        BigDecimal bd = new BigDecimal(num);
+        return String.format("%."+precision+"G", bd);
     }
 }

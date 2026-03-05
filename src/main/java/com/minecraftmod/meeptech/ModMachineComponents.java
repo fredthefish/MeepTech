@@ -1,6 +1,7 @@
 package com.minecraftmod.meeptech;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.minecraftmod.meeptech.logic.MachineComponent;
 import com.minecraftmod.meeptech.logic.MachineStat;
@@ -17,19 +18,24 @@ public class ModMachineComponents {
     public static final MachineComponent THERMAL_DIFFUSER = 
         addMachineComponent(new MachineComponent("thermal_diffuser_rack", MaterialForm.LargePlate, 1));
 
+    public static final HashMap<MachineStat, String> MACHINE_STAT_TRANSLATION_KEYS = new HashMap<>();
+
     public static MachineComponent addMachineComponent(MachineComponent component) {
         MACHINE_COMPONENTS.add(component);
         return component;
     }
 
     public static void InitializeMachineComponents() {
+        MACHINE_STAT_TRANSLATION_KEYS.put(MachineStat.Speed, "meeptech.machineStat.speed");
+        MACHINE_STAT_TRANSLATION_KEYS.put(MachineStat.Efficiency, "meeptech.machineStat.efficiency");
+        MACHINE_STAT_TRANSLATION_KEYS.put(MachineStat.HeatDecay, "meeptech.machineStat.heat_decay");
+
         TEMPERATURE_HULL_CASING.addRelevantStat(MaterialStat.MeltingPoint);
         TEMPERATURE_HULL_CASING.addOutputStat(MachineStat.Speed);
         TEMPERATURE_HULL_CASING.setCalculations((inputs) -> {
             if (inputs[0] instanceof Double meltingPoint) {
                 double baseTemperature = 1000;
-                double baseTime = 10;
-                double rate = (meltingPoint * meltingPoint) / (baseTemperature * baseTemperature * baseTime);
+                double rate = (meltingPoint * meltingPoint) / (baseTemperature * baseTemperature);
                 Object[] result = {rate};
                 return result;
             }
@@ -39,9 +45,8 @@ public class ModMachineComponents {
         INSULATIVE_FIREBOX.addOutputStat(MachineStat.HeatDecay);
         INSULATIVE_FIREBOX.setCalculations((inputs) -> {
             if (inputs[0] instanceof Double thermalResistance) {
-                double baseTime = 10;
                 double baseEfficiency = 2;
-                double rate = 1.0 / baseTime / baseEfficiency / thermalResistance;
+                double rate = 1.0 / baseEfficiency / thermalResistance;
                 Object[] result = {rate};
                 return result;
             }
