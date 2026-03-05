@@ -30,12 +30,14 @@ public class DraftingStationMenu extends AbstractContainerMenu {
         super(ModMenus.DRAFTING_STATION_MENU.get(), windowId);
         this.access = access;
         this.inventory = handler;
+        this.selectedComponent.set(-1);
 
         //Blueprint slot.
         this.addSlot(new SlotItemHandler(handler, 0, 16, 29) {
             @Override
             public boolean mayPlace(ItemStack stack) {
                 if (stack.is(ModItems.BLUEPRINT.get())) {
+                    if (!stack.has(ModDataComponents.BLUEPRINT_DATA.get())) return false;
                     BlueprintData blueprintData = stack.get(ModDataComponents.BLUEPRINT_DATA.get());
                     return blueprintData.getMachineType() != null;
                 }
@@ -54,11 +56,11 @@ public class DraftingStationMenu extends AbstractContainerMenu {
         //Add inventory/hotbar.
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {
-                this.addSlot(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.addSlot(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 124 + i * 18));
             }
         }
         for (int i = 0; i < 9; i++) {
-            this.addSlot(new Slot(playerInv, i, 8 + i * 18, 142));
+            this.addSlot(new Slot(playerInv, i, 8 + i * 18, 182));
         }
 
         this.addDataSlot(selectedComponent);

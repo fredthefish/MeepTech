@@ -32,7 +32,7 @@ public class BlueprintItem extends Item {
         if (data != null) {
             MachineType type = data.getMachineType();
             if (type != null) {
-                tooltipComponents.add(Component.translatable("meeptech.misc.machine_type_tooltip").withStyle(ChatFormatting.GRAY)
+                tooltipComponents.add(Component.translatable("meeptech.ui.machine_type_tooltip").withStyle(ChatFormatting.GRAY)
                     .append(Component.translatable(type.getTranslationKey()).withStyle(ChatFormatting.GRAY)));
             }
         }

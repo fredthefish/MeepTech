@@ -20,6 +20,7 @@ public record BlueprintData(String machineId, List<String> materialIds) {
         ByteBufCodecs.STRING_UTF8, BlueprintData::machineId, ByteBufCodecs.STRING_UTF8.apply(ByteBufCodecs.list()), BlueprintData::materialIds, BlueprintData::new);
     
     public MachineType getMachineType() {
+        if (machineId == null) return null;
         String machineId = this.machineId();
         for (MachineType machineType : ModMachineTypes.MACHINE_TYPES) {
             if (machineType.getId().equals(machineId)) return machineType;

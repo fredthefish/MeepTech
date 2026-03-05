@@ -11,11 +11,11 @@ public class ModMachineComponents {
     public static final ArrayList<MachineComponent> MACHINE_COMPONENTS = new ArrayList<MachineComponent>();
 
     public static final MachineComponent TEMPERATURE_HULL_CASING = 
-        addMachineComponent(new MachineComponent("temperature_hull_casing", "Thermal Hull Casing", MaterialForm.Hull, 1));
+        addMachineComponent(new MachineComponent("temperature_hull_casing", MaterialForm.Hull, 1));
     public static final MachineComponent INSULATIVE_FIREBOX = 
-        addMachineComponent(new MachineComponent("insulative_firebox", "Insulative Firebox", MaterialForm.Box, 1));
+        addMachineComponent(new MachineComponent("insulative_firebox", MaterialForm.Box, 1));
     public static final MachineComponent THERMAL_DIFFUSER = 
-        addMachineComponent(new MachineComponent("thermal_diffuser_rack", "Thermal Diffuser Rack", MaterialForm.LargePlate, 1));
+        addMachineComponent(new MachineComponent("thermal_diffuser_rack", MaterialForm.LargePlate, 1));
 
     public static MachineComponent addMachineComponent(MachineComponent component) {
         MACHINE_COMPONENTS.add(component);

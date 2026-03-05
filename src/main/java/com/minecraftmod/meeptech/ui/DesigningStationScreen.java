@@ -40,7 +40,6 @@ public class DesigningStationScreen extends AbstractContainerScreen<DesigningSta
 
         int currentY = y + listY;
         for (int i = startIndex; (i < startIndex + visibleItems) && (i < ModMachineTypes.MACHINE_TYPES.size()); i++) {
-            System.out.println(this.menu.getSelectedMachine());
             int color = (i == this.menu.getSelectedMachine()) ? 0xFFFFFF00 : 0xFFFFFFFF;
             if (mouseX >= x + listX && mouseX < x + listX + listWidth && mouseY >= currentY && mouseY < currentY + itemHeight) {
                 guiGraphics.fill(x + listX, currentY, x + listX + listWidth, currentY + itemHeight, 0x50FFFFFF);

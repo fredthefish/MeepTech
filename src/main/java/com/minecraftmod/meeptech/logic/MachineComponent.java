@@ -2,18 +2,23 @@ package com.minecraftmod.meeptech.logic;
 
 import java.util.ArrayList;
 
+import com.minecraftmod.meeptech.ModMaterials;
+
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+
 public class MachineComponent {
     private final String id;
-    private final String name;
+    private final String translationKey;
     private final MaterialForm form;
     private final int cost;
     private final ArrayList<MaterialStat> relevantStats;
     private final ArrayList<MachineStat> outputStats;
     private MachineCalculations calculations;
 
-    public MachineComponent(String id, String name, MaterialForm form, int cost) {
+    public MachineComponent(String id, MaterialForm form, int cost) {
         this.id = id;
-        this.name = name;
+        this.translationKey = "meeptech.machineComponent." + id;
         this.form = form;
         this.cost = cost;
         relevantStats = new ArrayList<MaterialStat>();
@@ -22,8 +27,8 @@ public class MachineComponent {
     public String getId() {
         return id;
     }
-    public String getName() {
-        return name;
+    public String getTranslationKey() {
+        return translationKey;
     }
     public MaterialForm getForm() {
         return form;
@@ -33,6 +38,18 @@ public class MachineComponent {
     }
     public ArrayList<MaterialStat> getRelevantStats() {
         return relevantStats;
+    }
+    public Component getRelevantStatsString() {
+        String[] stringArray = new String[relevantStats.size()];
+        for (int i = 0; i < stringArray.length; i++) {
+            stringArray[i] = ModMaterials.MATERIAL_STAT_TRANSLATION_KEYS.get(relevantStats.get(i));
+        }
+        MutableComponent output = Component.literal("");
+        for (int i = 0; i < stringArray.length; i++) {
+            output.append(Component.translatable(stringArray[i]));
+            if (i < stringArray.length - 1) output.append(Component.literal(", "));
+        }
+        return output;
     }
     public void addRelevantStat(MaterialStat stat) {
         relevantStats.add(stat);
