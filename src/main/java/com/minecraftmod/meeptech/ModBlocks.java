@@ -3,6 +3,7 @@ package com.minecraftmod.meeptech;
 import java.util.function.Supplier;
 
 import com.minecraftmod.meeptech.blocks.DesigningStationBlock;
+import com.minecraftmod.meeptech.blocks.DraftingStationBlock;
 import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlock;
 
 import net.minecraft.world.item.BlockItem;
@@ -23,14 +24,20 @@ public class ModBlocks {
             .requiresCorrectToolForDrops()
             .sound(SoundType.METAL)
     ));
-    
     public static final DeferredBlock<Block> DESIGNING_STATION = registerBlock("designing_station", 
         () -> new DesigningStationBlock(BlockBehaviour.Properties.of()
             .strength(2f, 6f)
             .destroyTime(1.5f)
             .requiresCorrectToolForDrops()
             .sound(SoundType.STONE)
-        ));
+    ));
+    public static final DeferredBlock<Block> DRAFTING_STATION = registerBlock("drafting_station", 
+        () -> new DraftingStationBlock(BlockBehaviour.Properties.of()
+            .strength(2f, 6f)
+            .destroyTime(1.5f)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.STONE)
+    ));
 
     private static DeferredBlock<Block> registerBlock(String name, Supplier<Block> block) {
         DeferredBlock<Block> returnBlock = BLOCKS.register(name, block);

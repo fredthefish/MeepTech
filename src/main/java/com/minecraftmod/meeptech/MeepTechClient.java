@@ -2,6 +2,7 @@ package com.minecraftmod.meeptech;
 
 import com.minecraftmod.meeptech.logic.BlueprintData;
 import com.minecraftmod.meeptech.ui.DesigningStationScreen;
+import com.minecraftmod.meeptech.ui.DraftingStationScreen;
 import com.minecraftmod.meeptech.ui.MaterialWorkstationScreen;
 
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -39,5 +40,6 @@ public class MeepTechClient {
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenus.MATERIAL_WORKSTATION_MENU.get(), MaterialWorkstationScreen::new);
         event.register(ModMenus.DESIGNING_STATION_MENU.get(), DesigningStationScreen::new);
+        event.register(ModMenus.DRAFTING_STATION_MENU.get(), DraftingStationScreen::new);
     }
 }

@@ -10,6 +10,7 @@
 
   "block.meeptech.material_workstation": "Material Workstation",
   "block.meeptech.designing_station": "Designing Station",
+  "block.meeptech.drafting_station": "Drafting Station",
 
   "itemGroup.meeptech.materials_tab": "MeepTech Materials",
   "itemGroup.meeptech.general_tab": "MeepTech General",

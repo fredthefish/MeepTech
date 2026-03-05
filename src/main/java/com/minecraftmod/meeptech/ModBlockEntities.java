@@ -3,6 +3,7 @@ package com.minecraftmod.meeptech;
 import java.util.function.Supplier;
 
 import com.minecraftmod.meeptech.blocks.DesigningStationBlockEntity;
+import com.minecraftmod.meeptech.blocks.DraftingStationBlockEntity;
 import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlockEntity;
 
 import net.minecraft.core.registries.Registries;
@@ -16,10 +17,15 @@ public class ModBlockEntities {
         BLOCK_ENTITY_TYPES.register("primitive_workstation_be", () -> BlockEntityType.Builder.of(
             MaterialWorkstationBlockEntity::new,
             ModBlocks.MATERIAL_WORKSTATION.get()
-        ).build(null));
+    ).build(null));
     public static final Supplier<BlockEntityType<DesigningStationBlockEntity>> DESIGNING_STATION_BE = 
         BLOCK_ENTITY_TYPES.register("designing_station_be", () -> BlockEntityType.Builder.of(
             DesigningStationBlockEntity::new,
             ModBlocks.DESIGNING_STATION.get()
-        ).build(null));
+    ).build(null));
+    public static final Supplier<BlockEntityType<DraftingStationBlockEntity>> DRAFTING_STATION_BE = 
+        BLOCK_ENTITY_TYPES.register("drafting_station_be", () -> BlockEntityType.Builder.of(
+            DraftingStationBlockEntity::new,
+            ModBlocks.DRAFTING_STATION.get()
+    ).build(null));
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.minecraftmod.meeptech.ModDataComponents;
 import com.minecraftmod.meeptech.logic.BlueprintData;
+import com.minecraftmod.meeptech.logic.MachineType;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -29,9 +30,10 @@ public class BlueprintItem extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         BlueprintData data = stack.get(ModDataComponents.BLUEPRINT_DATA.get());
         if (data != null) {
-            if (data.machineId() != null && !data.machineId().isEmpty()) {
+            MachineType type = data.getMachineType();
+            if (type != null) {
                 tooltipComponents.add(Component.translatable("meeptech.misc.machine_type_tooltip").withStyle(ChatFormatting.GRAY)
-                    .append(Component.translatable(data.getMachineType().getTranslationKey()).withStyle(ChatFormatting.GRAY)));
+                    .append(Component.translatable(type.getTranslationKey()).withStyle(ChatFormatting.GRAY)));
             }
         }
     }

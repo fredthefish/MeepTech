@@ -20,10 +20,10 @@ public class MaterialWorkstationScreen extends AbstractContainerScreen<MaterialW
     private static final ResourceLocation TEXTURE = 
         ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/material_workstation.png");
 
-    private static final int BUTTON_X_OFFSET = 42;
-    private static final int BUTTON_Y_OFFSET = 15;
-    private static final int BUTTON_SIZE = 18;
-    private static final int COLUMNS = 5;
+    private static final int buttonX = 42;
+    private static final int buttonY = 15;
+    private static final int buttonSize = 18;
+    private static final int columns = 5;
 
     public MaterialWorkstationScreen(MaterialWorkstationMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
@@ -42,13 +42,13 @@ public class MaterialWorkstationScreen extends AbstractContainerScreen<MaterialW
         if (recipes != null) {
             int x = (this.width - this.imageWidth) / 2;
             int y = (this.height - this.imageHeight) / 2;
-            int startX = x + BUTTON_X_OFFSET;
-            int startY = y + BUTTON_Y_OFFSET;
+            int startX = x + buttonX;
+            int startY = y + buttonY;
     
             for (int i = 0; i < recipes.getRecipes().size(); i++) {
-                int buttonX = startX + (i % COLUMNS) * (BUTTON_SIZE - 1);
-                int buttonY = startY + (i / COLUMNS) * (BUTTON_SIZE - 1);
-                if (mouseX >= buttonX && mouseX < buttonX + BUTTON_SIZE && mouseY >= buttonY && mouseY < buttonY + BUTTON_SIZE) {
+                int buttonX = startX + (i % columns) * (buttonSize - 1);
+                int buttonY = startY + (i / columns) * (buttonSize - 1);
+                if (mouseX >= buttonX && mouseX < buttonX + buttonSize && mouseY >= buttonY && mouseY < buttonY + buttonSize) {
                     ItemStack outputItem = new ItemStack(recipes.getMaterial().getForm(recipes.getRecipes().get(i).getOutputForm()));
                     List<Component> tooltip = new ArrayList<>();
                     tooltip.add(outputItem.getHoverName());
@@ -67,17 +67,17 @@ public class MaterialWorkstationScreen extends AbstractContainerScreen<MaterialW
         ItemStack input = this.menu.getSlot(0).getItem();
         MaterialWorkstationRecipes recipes = MaterialWorkstationRecipes.getAvailableForms(input);
         if (recipes != null) {
-            int startX = x + BUTTON_X_OFFSET;
-            int startY = y + BUTTON_Y_OFFSET;
+            int startX = x + buttonX;
+            int startY = y + buttonY;
     
             int i = 0;
             for (MaterialWorkstationRecipe recipe : recipes.getRecipes()) {
-                int buttonX = startX + (i % COLUMNS) * (BUTTON_SIZE - 1);
-                int buttonY = startY + (i / COLUMNS) * (BUTTON_SIZE - 1);
-                guiGraphics.fill(buttonX, buttonY, buttonX + BUTTON_SIZE, buttonY + BUTTON_SIZE, 0xFF373737);
-                guiGraphics.fill(buttonX + 1, buttonY + 1, buttonX + BUTTON_SIZE - 1, buttonY + BUTTON_SIZE - 1, 0xFF616161);
-                if (mouseX >= buttonX && mouseX < buttonX + BUTTON_SIZE && mouseY >= buttonY && mouseY < buttonY + BUTTON_SIZE) {
-                    guiGraphics.fill(buttonX + 1, buttonY + 1, buttonX + BUTTON_SIZE - 1, buttonY + BUTTON_SIZE - 1, 0x80FFFFFF); 
+                int buttonX = startX + (i % columns) * (buttonSize - 1);
+                int buttonY = startY + (i / columns) * (buttonSize - 1);
+                guiGraphics.fill(buttonX, buttonY, buttonX + buttonSize, buttonY + buttonSize, 0xFF373737);
+                guiGraphics.fill(buttonX + 1, buttonY + 1, buttonX + buttonSize - 1, buttonY + buttonSize - 1, 0xFF616161);
+                if (mouseX >= buttonX && mouseX < buttonX + buttonSize && mouseY >= buttonY && mouseY < buttonY + buttonSize) {
+                    guiGraphics.fill(buttonX + 1, buttonY + 1, buttonX + buttonSize - 1, buttonY + buttonSize - 1, 0x80FFFFFF); 
                 }
                 ItemStack outputStack = new ItemStack(recipes.getMaterial().getForm(recipe.getOutputForm()), recipes.getRecipes().get(i).getOutputAmount());
                 guiGraphics.renderItem(outputStack, buttonX + 1, buttonY + 1);
@@ -93,13 +93,13 @@ public class MaterialWorkstationScreen extends AbstractContainerScreen<MaterialW
         ItemStack input = this.menu.getSlot(0).getItem();
         MaterialWorkstationRecipes recipes = MaterialWorkstationRecipes.getAvailableForms(input);
         if (recipes != null) {
-            int startX = x + BUTTON_X_OFFSET;
-            int startY = y + BUTTON_Y_OFFSET;
+            int startX = x + buttonX;
+            int startY = y + buttonY;
     
             for (int i = 0; i < recipes.getRecipes().size(); i++) {
-                int buttonX = startX + (i % COLUMNS) * (BUTTON_SIZE - 1);
-                int buttonY = startY + (i / COLUMNS) * (BUTTON_SIZE - 1);
-                if (mouseX >= buttonX && mouseX < buttonX + BUTTON_SIZE && mouseY >= buttonY && mouseY < buttonY + BUTTON_SIZE) {
+                int buttonX = startX + (i % columns) * (buttonSize - 1);
+                int buttonY = startY + (i / columns) * (buttonSize - 1);
+                if (mouseX >= buttonX && mouseX < buttonX + buttonSize && mouseY >= buttonY && mouseY < buttonY + buttonSize) {
                     this.minecraft.gameMode.handleInventoryButtonClick((this.menu.containerId), 
                         Screen.hasShiftDown() ? i + 1000 : i); //Add 1000 to buttonId if shift is being held.
                     return true;

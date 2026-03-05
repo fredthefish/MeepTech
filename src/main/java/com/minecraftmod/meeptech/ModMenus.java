@@ -7,6 +7,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
 
 import com.minecraftmod.meeptech.ui.DesigningStationMenu;
+import com.minecraftmod.meeptech.ui.DraftingStationMenu;
 import com.minecraftmod.meeptech.ui.MaterialWorkstationMenu;
 
 public class ModMenus {
@@ -16,4 +17,6 @@ public class ModMenus {
         IMenuTypeExtension.create((windowId, inv, data) -> new MaterialWorkstationMenu(windowId, inv)));
     public static final Supplier<MenuType<DesigningStationMenu>> DESIGNING_STATION_MENU = MENUS.register("designing_station", () -> 
         IMenuTypeExtension.create((windowId, inv, data) -> new DesigningStationMenu(windowId, inv)));
+    public static final Supplier<MenuType<DraftingStationMenu>> DRAFTING_STATION_MENU = MENUS.register("drafting_station", () -> 
+        IMenuTypeExtension.create((windowId, inv, data) -> new DraftingStationMenu(windowId, inv)));
 }
