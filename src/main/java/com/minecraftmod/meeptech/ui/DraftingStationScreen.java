@@ -22,18 +22,25 @@ import net.minecraft.world.item.ItemStack;
 public class DraftingStationScreen extends AbstractContainerScreen<DraftingStationMenu> {
     private static final ResourceLocation TEXTURE = 
         ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/drafting_station.png");
+    private static final ResourceLocation THUMB_TEXTURE = 
+        ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/scroll_thumb.png");
     private int startIndex;
     private double boxScroll;
     private final int listX = 43;
     private final int listY = 15;
     private final int statsY = 64;
-    private final int boxWidth = 115;
+    private final int boxWidth = 100;
     private final int boxHeight = 46;
+    private final int scrollX = 146;
+    private final int scrollHeight = 32;
+    private final int scrollThumbWidth = 12;
+    private final int scrollThumbHeight = 15;
     private final int itemHeight = 13;
     private final int visibleItems = 3;
     private final int buttonX = 16;
     private final int buttonY = 83;
     private final int buttonSize = 15;
+    private final int padding = 4;
 
     public DraftingStationScreen(DraftingStationMenu menu, Inventory inv, Component title) {
         super(menu, inv, title);
@@ -57,7 +64,6 @@ public class DraftingStationScreen extends AbstractContainerScreen<DraftingStati
         }
 
         ItemStack blueprintStack = this.menu.getSlot(0).getItem();  
-        ItemStack materialStack = this.menu.getSlot(1).getItem();
 
         if (!blueprintStack.isEmpty() && blueprintStack.has(ModDataComponents.BLUEPRINT_DATA.get())) {
             BlueprintData data = blueprintStack.get(ModDataComponents.BLUEPRINT_DATA.get());
@@ -79,45 +85,22 @@ public class DraftingStationScreen extends AbstractContainerScreen<DraftingStati
                 currentY = y + statsY;
                 //Stats preview.
                 if (selected >= 0 && selected < components.size()) {
+                    ArrayList<Component> statsLines = getStatList();
+                    int contentHeight = getContentHeight(statsLines);
+                    if (contentHeight > boxHeight) {
+                        guiGraphics.blit(THUMB_TEXTURE, x + scrollX, y + statsY + (int)((double)scrollHeight * this.boxScroll / (contentHeight - boxHeight)), 0, 0,
+                            scrollThumbWidth, scrollThumbHeight, scrollThumbWidth, scrollThumbHeight);
+                    } else {
+                        this.boxScroll = 0;
+                    }
                     guiGraphics.enableScissor(x + listX, currentY, x + listX + boxWidth, currentY + boxHeight);
-                    MachineComponent selectedComponent = components.get(selected);
-                    guiGraphics.drawWordWrap(this.font, Component.translatable(selectedComponent.getTranslationKey()), 
-                        x + listX + 1, currentY + 1 - (int)boxScroll, boxWidth, 0xFF404040);
-                    currentY += itemHeight;
-                    guiGraphics.drawWordWrap(this.font, 
-                        Component.translatable("meeptech.ui.machine_component_cost")
-                        .append(Component.literal(Integer.toString(selectedComponent.getCost()) + " "))
-                        .append(Component.translatable(ModMaterials.FORM_TRANSLATION_KEYS.get(selectedComponent.getForm()))),
-                        x + listX + 1, currentY + 1 - (int)boxScroll, boxWidth, 0xFF404040);
-                    currentY += itemHeight;
-                    guiGraphics.drawWordWrap(this.font, Component.translatable("meeptech.ui.machine_component_relevant_stat")
-                        .append(selectedComponent.getRelevantStatsString()),
-                        x + listX + 1, currentY + 1 - (int)boxScroll, boxWidth, 0xFF404040);
-                    if (!materialStack.isEmpty()) {
-                        ItemData itemData = new ItemData(materialStack.getItem());
-                        if (itemData.getMaterial() != null) {
-                            currentY += itemHeight;
-                            guiGraphics.drawWordWrap(this.font, Component.translatable("meeptech.ui.inputted_material")
-                                .append(Component.translatable(itemData.getMaterial().getTranslationKey())),
-                                x + listX + 1, currentY + 1 - (int)boxScroll, boxWidth, 0xFF404040);
-                            MachineComponent machineComponent = components.get(selected);
-                            for (int i = 0; i < machineComponent.getRelevantStats().size(); i++) {
-                                currentY += itemHeight;
-                                MaterialStat stat = machineComponent.getRelevantStats().get(i);
-                                guiGraphics.drawWordWrap(this.font, 
-                                    Component.translatable(ModMaterials.MATERIAL_STAT_TRANSLATION_KEYS.get(stat))
-                                    .append(": ").append(itemData.getMaterial().getStatString(stat)),
-                                    x + listX + 1, currentY - 1 - (int)boxScroll, boxWidth, 0xFF404040);
-                            }
-                            for (int i = 0; i < machineComponent.getOutputStats().size(); i++) {
-                                currentY += itemHeight;
-                                MachineStat stat = machineComponent.getOutputStats().get(i);
-                                guiGraphics.drawWordWrap(this.font, 
-                                    Component.translatable(ModMachineComponents.MACHINE_STAT_TRANSLATION_KEYS.get(stat))
-                                    .append(": ").append(machineComponent.getStatString(stat, itemData.getMaterial())),
-                                    x + listX + 1, currentY - 1 - (int)boxScroll, boxWidth, 0xFF404040);
-                            }
+                    currentY -= boxScroll;
+                    for (Component line : statsLines) {
+                        int lineHeight = this.font.wordWrapHeight(line, boxWidth);
+                        if (currentY >= y + statsY || currentY <= y + statsY + boxHeight) {
+                            guiGraphics.drawWordWrap(this.font, line, x + listX + 1, currentY + 1, boxWidth, 0xFF404040);
                         }
+                        currentY += lineHeight + padding;
                     }
                     guiGraphics.disableScissor();
                 }
@@ -134,6 +117,10 @@ public class DraftingStationScreen extends AbstractContainerScreen<DraftingStati
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
 
+        if (mouseX >= x + scrollX && mouseX < x + scrollX + scrollThumbWidth && mouseY >= y + statsY && mouseY < y + statsY + boxHeight) {
+            this.setDragging(true);
+            return true;
+        }
         if (mouseX >= x + buttonX && mouseX < x + buttonX + buttonSize && mouseY >= y + buttonY && mouseY < y + buttonY + buttonSize) {
             this.minecraft.gameMode.handleInventoryButtonClick((this.menu).containerId, 1000);
             return true;
@@ -142,9 +129,28 @@ public class DraftingStationScreen extends AbstractContainerScreen<DraftingStati
             int clickedY = (int)mouseY - (y + listY);
             int clickedIndex = clickedY / itemHeight;
             this.minecraft.gameMode.handleInventoryButtonClick((this.menu).containerId, clickedIndex);
+            this.boxScroll = 0;
             return true;
         }
         return super.mouseClicked(mouseX, mouseY, button);
+    }
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dragX, double dragY) {
+        if (this.isDragging()) {
+            int y = (this.height - this.imageHeight) / 2;
+            double draggedY = mouseY - (y + statsY) - (scrollThumbHeight / 2);
+            int contentHeight = getContentHeight(getStatList());
+            if (contentHeight - boxHeight > 0) this.boxScroll = Math.clamp(draggedY / (double)scrollHeight * (double)(contentHeight - boxHeight),
+                0, contentHeight - boxHeight);
+            else this.boxScroll = 0;
+            return true;
+        }
+        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+    }
+    @Override
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        this.setDragging(false);
+        return super.mouseReleased(mouseX, mouseY, button);
     }
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
@@ -173,14 +179,60 @@ public class DraftingStationScreen extends AbstractContainerScreen<DraftingStati
                 MachineType type = data.getMachineType();
                 if (type != null) {
                     if (this.menu.getSelectedComponent() >= 0) {
-                        int maxScroll = boxHeight * 2;
+                        int maxScroll = getContentHeight(getStatList());
                         this.boxScroll -= 5 * scrollY;
-                        this.boxScroll = Math.clamp(this.boxScroll, 0, maxScroll);
+                        if (maxScroll - boxHeight > 0) this.boxScroll = Math.clamp(this.boxScroll, 0, maxScroll - boxHeight);
+                        else this.boxScroll = 0;
                         return true;
                     }
                 }
             }
         }
         return false;
+    }
+    public ArrayList<Component> getStatList() {
+        ItemStack blueprintStack = this.menu.getSlot(0).getItem();  
+        ItemStack materialStack = this.menu.getSlot(1).getItem();
+        if (blueprintStack.isEmpty() || !blueprintStack.has(ModDataComponents.BLUEPRINT_DATA.get())) return null;
+        BlueprintData data = blueprintStack.get(ModDataComponents.BLUEPRINT_DATA.get());
+        MachineType type = data.getMachineType();
+        if (type == null) return null;
+        ArrayList<MachineComponent> components = type.getComponents();
+        int selected = this.menu.getSelectedComponent();
+        if (selected < 0) return null;
+
+        ArrayList<Component> statsLines = new ArrayList<>();
+        MachineComponent selectedComponent = components.get(selected);
+        statsLines.add(Component.translatable("meeptech.ui.machine_component_cost")
+            .append(Component.literal(Integer.toString(selectedComponent.getCost()) + " "))
+            .append(Component.translatable(ModMaterials.FORM_TRANSLATION_KEYS.get(selectedComponent.getForm()))));
+        statsLines.add(Component.translatable("meeptech.ui.machine_component_relevant_stat")
+            .append(selectedComponent.getRelevantStatsString()));
+        if (!materialStack.isEmpty()) {
+            ItemData itemData = new ItemData(materialStack.getItem());
+            if (itemData.getMaterial() != null) {
+                statsLines.add(Component.translatable("meeptech.ui.inputted_material")
+                    .append(Component.translatable(itemData.getMaterial().getTranslationKey())));
+                MachineComponent machineComponent = components.get(selected);
+                for (int i = 0; i < machineComponent.getRelevantStats().size(); i++) {
+                    MaterialStat stat = machineComponent.getRelevantStats().get(i);
+                    statsLines.add(Component.translatable(ModMaterials.MATERIAL_STAT_TRANSLATION_KEYS.get(stat))
+                        .append(": ").append(itemData.getMaterial().getStatString(stat)));
+                }
+                for (int i = 0; i < machineComponent.getOutputStats().size(); i++) {
+                    MachineStat stat = machineComponent.getOutputStats().get(i);
+                    statsLines.add(Component.translatable(ModMachineComponents.MACHINE_STAT_TRANSLATION_KEYS.get(stat))
+                        .append(": ").append(machineComponent.getStatString(stat, itemData.getMaterial())));
+                }
+            }
+        }
+        return statsLines;
+    }
+    public int getContentHeight(ArrayList<Component> lines) {
+        int contentHeight = lines.size() > 0 ? padding * (lines.size() - 1) : 0;
+        for (Component line : lines) {
+            contentHeight += this.font.wordWrapHeight(line, boxWidth);
+        }
+        return contentHeight;
     }
 }

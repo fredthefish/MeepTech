@@ -1,5 +1,7 @@
 package com.minecraftmod.meeptech.ui;
 
+import java.util.List;
+
 import com.minecraftmod.meeptech.ModBlocks;
 import com.minecraftmod.meeptech.ModDataComponents;
 import com.minecraftmod.meeptech.ModItems;
@@ -43,11 +45,6 @@ public class DraftingStationMenu extends AbstractContainerMenu {
                 }
                 return false;
             }
-            @Override
-            public void setChanged() {
-                super.setChanged();
-                //TODO: UPDATE UI.
-            }
         });
 
         //Material slot.
@@ -64,7 +61,6 @@ public class DraftingStationMenu extends AbstractContainerMenu {
         }
 
         this.addDataSlot(selectedComponent);
-        //TODO: UPDATE UI.
     }
     @Override
     public boolean stillValid(Player player) {
@@ -77,15 +73,15 @@ public class DraftingStationMenu extends AbstractContainerMenu {
     }
     @Override
     public boolean clickMenuButton(Player player, int buttonId) {
-        ItemStack blueprintStack = this.inventory.getStackInSlot(0);
+        ItemStack blueprint = this.inventory.getStackInSlot(0);
         if (buttonId == 1000) {
-            if (blueprintStack.isEmpty()) return false;
-            BlueprintData data = blueprintStack.get(ModDataComponents.BLUEPRINT_DATA.get());
+            if (blueprint.isEmpty()) return false;
+            BlueprintData data = blueprint.get(ModDataComponents.BLUEPRINT_DATA.get());
             int selected = this.selectedComponent.get();
             ItemStack materialStack = this.inventory.getStackInSlot(1);
             if (data != null && selected >= 0) {
                 if (materialStack.isEmpty()) {
-                    //TODO: Set component to be empty.
+                    blueprint.set(ModDataComponents.BLUEPRINT_DATA.get(), new BlueprintData(data.getMachineType().getId(), List.of()));
                 } else {
                     ItemData itemData = new ItemData(materialStack.getItem());
                     itemData.getMaterial();
