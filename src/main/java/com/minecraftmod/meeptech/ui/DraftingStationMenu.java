@@ -71,8 +71,26 @@ public class DraftingStationMenu extends AbstractContainerMenu {
     }
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
-        //TODO: IMPLEMENT
-        return ItemStack.EMPTY;
+        ItemStack itemStack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(index);
+
+        if (slot != null && slot.hasItem()) {
+            ItemStack stackInSlot = slot.getItem();
+            itemStack = stackInSlot.copy();
+            if (index < 2) {
+                if (!this.moveItemStackTo(stackInSlot, 2, 38, true)) return ItemStack.EMPTY;
+            } else {
+                if (stackInSlot.is(ModItems.BLUEPRINT.get())) {
+                    if (!this.moveItemStackTo(stackInSlot, 0, 1, false)) return ItemStack.EMPTY;
+                } else {
+                    if (!this.moveItemStackTo(stackInSlot, 1, 2, false)) return ItemStack.EMPTY;
+                }
+            }
+            if (stackInSlot.isEmpty()) slot.setByPlayer(ItemStack.EMPTY);
+            if (stackInSlot.getCount() == itemStack.getCount()) return ItemStack.EMPTY;
+        }
+
+        return itemStack;
     }
     @Override
     public boolean clickMenuButton(Player player, int buttonId) {
@@ -84,40 +102,47 @@ public class DraftingStationMenu extends AbstractContainerMenu {
             ItemStack materialStack = this.inventory.getStackInSlot(1);
             if (data != null && selected >= 0) {
                 if (materialStack.isEmpty()) {
-                    List<String> materialIds = data.getMaterialList();
+                    List<String> materialIds = new ArrayList<String>(data.getMaterialList());
                     if (materialIds != null && !materialIds.isEmpty()) {
                         materialIds.set(selected, "");
                         boolean eachIsEmpty = true;
                         for (String eachMaterial : materialIds) {
                             eachIsEmpty &= eachMaterial.isEmpty();
                         }
-                        if (eachIsEmpty) materialIds = new ArrayList<>();
-                        data.setMaterialList(materialIds);
-                        blueprint.set(ModDataComponents.BLUEPRINT_DATA.get(), data);
+                        if (eachIsEmpty) materialIds.clear();
+                        MachineType machineType = data.getMachineType();
+                        ItemStack newBlueprint = new ItemStack(ModItems.BLUEPRINT.get(), blueprint.getCount());
+                        newBlueprint.set(ModDataComponents.BLUEPRINT_DATA.get(), new BlueprintData(machineType.getId(), materialIds));
+                        ((ItemStackHandler)this.inventory).setStackInSlot(0, newBlueprint);
                     }
                 } else {
                     MachineType machineType = data.getMachineType();
                     ItemData itemData = new ItemData(materialStack.getItem());
                     Material material = itemData.getMaterial();
                     if (material != null) {
-                        String materialId = material.getId();
-                        List<String> materialIds = data.getMaterialList();
-                        if (materialIds == null || materialIds.isEmpty()) {
-                            materialIds = new ArrayList<>();
-                            for (int i = 0; i < machineType.getComponents().size(); i++) {
-                                materialIds.add("");
+                        if (material.getId() != null) {
+                            List<String> materialIds = new ArrayList<String>(data.getMaterialList());
+                            if (materialIds.isEmpty()) {
+                                for (int i = 0; i < machineType.getComponents().size(); i++) {
+                                    materialIds.add("");
+                                }
                             }
+                            materialIds.set(selected, material.getId());
+                            ItemStack newBlueprint = new ItemStack(ModItems.BLUEPRINT.get(), blueprint.getCount());
+                            newBlueprint.set(ModDataComponents.BLUEPRINT_DATA.get(), new BlueprintData(machineType.getId(), materialIds));
+                            ((ItemStackHandler)this.inventory).setStackInSlot(0, newBlueprint);
                         }
-                        materialIds.set(selected, materialId);
-                        data.setMaterialList(materialIds);
-                        blueprint.set(ModDataComponents.BLUEPRINT_DATA.get(), data);
                     }
                 }
-                ((ItemStackHandler)this.inventory).setStackInSlot(0, blueprint);
             }
             return true;
         } else if (buttonId >= 0) {
-            this.selectedComponent.set(buttonId);
+            if (blueprint.isEmpty()) return false;
+            BlueprintData data = blueprint.get(ModDataComponents.BLUEPRINT_DATA.get());
+            MachineType type = data.getMachineType();
+            if (this.selectedComponent.get() >= type.getComponents().size()) return false;
+            if (this.selectedComponent.get() == buttonId) this.selectedComponent.set(-1);
+            else this.selectedComponent.set(buttonId);
             return true;
         }
         return false;
