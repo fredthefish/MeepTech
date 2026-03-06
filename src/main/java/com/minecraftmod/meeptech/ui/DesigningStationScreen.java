@@ -5,8 +5,10 @@ import com.minecraftmod.meeptech.logic.MachineType;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
 
 public class DesigningStationScreen extends AbstractContainerScreen<DesigningStationMenu> {
@@ -70,6 +72,7 @@ public class DesigningStationScreen extends AbstractContainerScreen<DesigningSta
                 int clickedIndex = this.startIndex + (clickedY / itemHeight);
                 if (clickedIndex >= 0 && clickedIndex < ModMachineTypes.MACHINE_TYPES.size()) {
                     this.minecraft.gameMode.handleInventoryButtonClick((this.menu).containerId, clickedIndex);
+                    this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                     return true;
                 }
             }

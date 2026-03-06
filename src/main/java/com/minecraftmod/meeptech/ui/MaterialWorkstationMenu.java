@@ -7,6 +7,8 @@ import com.minecraftmod.meeptech.logic.MaterialWorkstationRecipe;
 import com.minecraftmod.meeptech.logic.MaterialWorkstationRecipes;
 
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -91,6 +93,8 @@ public class MaterialWorkstationMenu extends AbstractContainerMenu {
                             if (hammer.getDamageValue() >= hammer.getMaxDamage()) {
                                 hammerSlot.set(ItemStack.EMPTY);
                             }
+                            serverLevel.playSound(null, player.blockPosition(), SoundEvents.SMITHING_TABLE_USE, SoundSource.BLOCKS, 0.5F, 1.5F);
+                            serverLevel.playSound(null, player.blockPosition(), SoundEvents.ITEM_BREAK, SoundSource.BLOCKS, 0.5F, 1.5F);
                         }
                     } else {
                         inputSlot.remove(recipe.getInputAmount());
@@ -101,6 +105,7 @@ public class MaterialWorkstationMenu extends AbstractContainerMenu {
                             if (hammer.getDamageValue() >= hammer.getMaxDamage()) {
                                 hammerSlot.set(ItemStack.EMPTY);
                             }
+                            serverLevel.playSound(null, player.blockPosition(), SoundEvents.SMITHING_TABLE_USE, SoundSource.BLOCKS, 0.5F, 1.5F);
                         }
                     }
                 }

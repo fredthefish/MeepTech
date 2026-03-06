@@ -14,8 +14,10 @@ import com.minecraftmod.meeptech.logic.MaterialStat;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
@@ -26,6 +28,7 @@ public class DraftingStationScreen extends AbstractContainerScreen<DraftingStati
         ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/scroll_thumb.png");
     private int startIndex;
     private double boxScroll;
+    private boolean isSaveButtonPressed = false;
     private final int listX = 43;
     private final int listY = 15;
     private final int statsY = 64;
@@ -60,7 +63,8 @@ public class DraftingStationScreen extends AbstractContainerScreen<DraftingStati
         guiGraphics.blit(TEXTURE, x, y, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
 
         if (mouseX >= x + buttonX && mouseX < x + buttonX + buttonSize && mouseY >= y + buttonY && mouseY < y + buttonY + buttonSize) {
-            guiGraphics.fill(x + buttonX, y + buttonY, x + buttonX + buttonSize, y + buttonY + buttonSize, 0x50FFFFFF);
+            if (this.isSaveButtonPressed) guiGraphics.fill(x + buttonX, y + buttonY, x + buttonX + buttonSize + 1, y + buttonY + buttonSize + 1, 0x60000000);
+            else guiGraphics.fill(x + buttonX, y + buttonY, x + buttonX + buttonSize + 1, y + buttonY + buttonSize + 1, 0x50FFFFFF);
         }
 
         ItemStack blueprintStack = this.menu.getSlot(0).getItem();  
@@ -123,14 +127,25 @@ public class DraftingStationScreen extends AbstractContainerScreen<DraftingStati
         }
         if (mouseX >= x + buttonX && mouseX < x + buttonX + buttonSize && mouseY >= y + buttonY && mouseY < y + buttonY + buttonSize) {
             this.minecraft.gameMode.handleInventoryButtonClick((this.menu).containerId, 1000);
+            this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            this.isSaveButtonPressed = true;
             return true;
         }
         if (mouseX >= x + listX && mouseX < x + listX + boxWidth && mouseY >= y + listY && mouseY < y + listY + boxHeight) {
+            ItemStack blueprintStack = this.menu.getSlot(0).getItem();
+            if (blueprintStack.isEmpty()) return super.mouseClicked(mouseX, mouseY, button);
+            BlueprintData data = blueprintStack.get(ModDataComponents.BLUEPRINT_DATA.get());
+            MachineType type = data.getMachineType();
+            if (type == null) return super.mouseClicked(mouseX, mouseY, button);
+            ArrayList<MachineComponent> components = type.getComponents();
             int clickedY = (int)mouseY - (y + listY);
             int clickedIndex = clickedY / itemHeight;
-            this.minecraft.gameMode.handleInventoryButtonClick((this.menu).containerId, clickedIndex);
-            this.boxScroll = 0;
-            return true;
+            if (clickedIndex < components.size()) {
+                this.minecraft.gameMode.handleInventoryButtonClick((this.menu).containerId, clickedIndex);
+                this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+                this.boxScroll = 0;
+                return true;
+            }
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }
@@ -150,6 +165,7 @@ public class DraftingStationScreen extends AbstractContainerScreen<DraftingStati
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         this.setDragging(false);
+        this.isSaveButtonPressed = false;
         return super.mouseReleased(mouseX, mouseY, button);
     }
     @Override
