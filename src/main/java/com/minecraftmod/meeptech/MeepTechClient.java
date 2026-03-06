@@ -28,10 +28,13 @@ public class MeepTechClient {
         ModMachineTypes.InitializeMachineTypes();
 
         event.enqueueWork(() -> 
-            ItemProperties.register(ModItems.BLUEPRINT.get(), ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "blueprint_has_machine_type"), 
+            ItemProperties.register(ModItems.BLUEPRINT.get(), ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "blueprint_status"), 
             (stack, level, entity, seed) -> {
                 BlueprintData data = stack.get(ModDataComponents.BLUEPRINT_DATA.get());
-                if (data != null && data.machineId() != null && !data.machineId().isEmpty()) return 1; //Machine assigned.
+                if (data != null && data.machineId() != null && !data.machineId().isEmpty()) {
+                    if (data.getMaterialList() != null && !data.getMaterialList().isEmpty()) return 2; //Full blueprint.
+                    return 1; //Empty machine blueprint.   
+                }
                 return 0; //No machine assigned.
             })
         );

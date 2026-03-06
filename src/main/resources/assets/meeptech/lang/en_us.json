@@ -7,6 +7,7 @@
   "item.meeptech.iron_plate": "Iron Plate",
   "item.meeptech.blueprint.blank": "Blank Blueprint",
   "item.meeptech.blueprint.empty": "Empty Machine Blueprint",
+  "item.meeptech.blueprint.full": "Machine Blueprint",
 
   "block.meeptech.material_workstation": "Material Workstation",
   "block.meeptech.designing_station": "Designing Station",

@@ -42,4 +42,10 @@ public class ModMaterials {
         MATERIALS.add(material);
         return material;
     }
+    public static Material getMaterial(String materialId) {
+        for (Material material : MATERIALS) {
+            if (material.getId().equals(materialId)) return material;
+        }
+        return null;
+    }
 }

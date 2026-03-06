@@ -1,5 +1,6 @@
 package com.minecraftmod.meeptech.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.minecraftmod.meeptech.ModBlocks;
@@ -8,6 +9,8 @@ import com.minecraftmod.meeptech.ModItems;
 import com.minecraftmod.meeptech.ModMenus;
 import com.minecraftmod.meeptech.logic.BlueprintData;
 import com.minecraftmod.meeptech.logic.ItemData;
+import com.minecraftmod.meeptech.logic.MachineType;
+import com.minecraftmod.meeptech.logic.Material;
 
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -81,12 +84,36 @@ public class DraftingStationMenu extends AbstractContainerMenu {
             ItemStack materialStack = this.inventory.getStackInSlot(1);
             if (data != null && selected >= 0) {
                 if (materialStack.isEmpty()) {
-                    blueprint.set(ModDataComponents.BLUEPRINT_DATA.get(), new BlueprintData(data.getMachineType().getId(), List.of()));
+                    List<String> materialIds = data.getMaterialList();
+                    if (materialIds != null && !materialIds.isEmpty()) {
+                        materialIds.set(selected, "");
+                        boolean eachIsEmpty = true;
+                        for (String eachMaterial : materialIds) {
+                            eachIsEmpty &= eachMaterial.isEmpty();
+                        }
+                        if (eachIsEmpty) materialIds = new ArrayList<>();
+                        data.setMaterialList(materialIds);
+                        blueprint.set(ModDataComponents.BLUEPRINT_DATA.get(), data);
+                    }
                 } else {
+                    MachineType machineType = data.getMachineType();
                     ItemData itemData = new ItemData(materialStack.getItem());
-                    itemData.getMaterial();
-                    //TODO: Set component to be material.
+                    Material material = itemData.getMaterial();
+                    if (material != null) {
+                        String materialId = material.getId();
+                        List<String> materialIds = data.getMaterialList();
+                        if (materialIds == null || materialIds.isEmpty()) {
+                            materialIds = new ArrayList<>();
+                            for (int i = 0; i < machineType.getComponents().size(); i++) {
+                                materialIds.add("");
+                            }
+                        }
+                        materialIds.set(selected, materialId);
+                        data.setMaterialList(materialIds);
+                        blueprint.set(ModDataComponents.BLUEPRINT_DATA.get(), data);
+                    }
                 }
+                ((ItemStackHandler)this.inventory).setStackInSlot(0, blueprint);
             }
             return true;
         } else if (buttonId >= 0) {

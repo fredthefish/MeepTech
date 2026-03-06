@@ -6,9 +6,15 @@
   "overrides": [
     {
       "predicate": {
-        "meeptech:blueprint_has_machine_type": 1
+        "meeptech:blueprint_status": 1
       },
       "model": "meeptech:item/blueprint_1"
+    },
+    {
+      "predicate": {
+        "meeptech:blueprint_status": 2
+      },
+      "model": "meeptech:item/blueprint_2"
     }
   ]
 }

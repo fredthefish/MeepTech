@@ -1,6 +1,6 @@
 package com.minecraftmod.meeptech.ui;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import com.minecraftmod.meeptech.ModBlocks;
 import com.minecraftmod.meeptech.ModDataComponents;
@@ -128,7 +128,7 @@ public class DesigningStationMenu extends AbstractContainerMenu {
             if (machineIndex >= 0) {
                 MachineType machineType = ModMachineTypes.MACHINE_TYPES.get(machineIndex);
                 ItemStack blueprint = new ItemStack(ModItems.BLUEPRINT.get(), 1);
-                blueprint.set(ModDataComponents.BLUEPRINT_DATA.get(), new BlueprintData(machineType.getId(), List.of()));
+                blueprint.set(ModDataComponents.BLUEPRINT_DATA.get(), new BlueprintData(machineType.getId(), new ArrayList<>()));
                 ((ItemStackHandler)this.inventory).setStackInSlot(1, blueprint);
             } else {
                 ItemStack blueprint = new ItemStack(ModItems.BLUEPRINT.get(), 1);
