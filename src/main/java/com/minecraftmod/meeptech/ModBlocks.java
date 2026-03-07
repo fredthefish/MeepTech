@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import com.minecraftmod.meeptech.blocks.DesigningStationBlock;
 import com.minecraftmod.meeptech.blocks.DraftingStationBlock;
 import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlock;
+import com.minecraftmod.meeptech.blocks.machines.PrimitiveSmelterBlock;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -35,6 +36,14 @@ public class ModBlocks {
         () -> new DraftingStationBlock(BlockBehaviour.Properties.of()
             .strength(2f, 6f)
             .destroyTime(1.5f)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.STONE)
+    ));
+
+    public static final DeferredBlock<Block> PRIMITIVE_SMELTER = registerBlock("primitive_smelter", 
+        () -> new PrimitiveSmelterBlock(BlockBehaviour.Properties.of()
+            .strength(2f, 6f)
+            .destroyTime(5)
             .requiresCorrectToolForDrops()
             .sound(SoundType.STONE)
     ));

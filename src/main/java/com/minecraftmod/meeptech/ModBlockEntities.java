@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import com.minecraftmod.meeptech.blocks.DesigningStationBlockEntity;
 import com.minecraftmod.meeptech.blocks.DraftingStationBlockEntity;
 import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlockEntity;
+import com.minecraftmod.meeptech.blocks.machines.PrimitiveSmelterBlockEntity;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -27,5 +28,10 @@ public class ModBlockEntities {
         BLOCK_ENTITY_TYPES.register("drafting_station_be", () -> BlockEntityType.Builder.of(
             DraftingStationBlockEntity::new,
             ModBlocks.DRAFTING_STATION.get()
+    ).build(null));
+    public static final Supplier<BlockEntityType<PrimitiveSmelterBlockEntity>> PRIMITIVE_SMELTER_BE =
+        BLOCK_ENTITY_TYPES.register("primitive_smelter_be", () -> BlockEntityType.Builder.of(
+            PrimitiveSmelterBlockEntity::new,
+            ModBlocks.PRIMITIVE_SMELTER.get()
     ).build(null));
 }

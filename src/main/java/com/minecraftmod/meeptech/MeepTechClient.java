@@ -1,5 +1,8 @@
 package com.minecraftmod.meeptech;
 
+import java.util.List;
+
+import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
 import com.minecraftmod.meeptech.logic.BlueprintData;
 import com.minecraftmod.meeptech.ui.DesigningStationScreen;
 import com.minecraftmod.meeptech.ui.DraftingStationScreen;
@@ -13,6 +16,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 @Mod(value = MeepTech.MODID, dist = Dist.CLIENT)
@@ -44,5 +48,18 @@ public class MeepTechClient {
         event.register(ModMenus.MATERIAL_WORKSTATION_MENU.get(), MaterialWorkstationScreen::new);
         event.register(ModMenus.DESIGNING_STATION_MENU.get(), DesigningStationScreen::new);
         event.register(ModMenus.DRAFTING_STATION_MENU.get(), DraftingStationScreen::new);
+    }
+    @SubscribeEvent
+    public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
+        event.register((state, level, pos, tintIndex) -> {
+            if (level != null && pos != null && level.getBlockEntity(pos) instanceof BaseMachineBlockEntity machine) {
+                List<String> materials = machine.getComponentMaterials();
+                if (tintIndex >= 0 && tintIndex < materials.size()) {
+                    String materialName = materials.get(tintIndex);
+                    if (materialName.equals(ModMaterials.IRON.getId())) return 0xFFBBBBBB;
+                }
+            }
+            return 0xFFFFFFFF;
+        }); //TODO: INSERT BLOCKS.
     }
 }

@@ -38,6 +38,7 @@ public class ModCreativeTabs {
             output.accept(ModBlocks.DESIGNING_STATION.get());
             output.accept(ModBlocks.DRAFTING_STATION.get());
             output.accept(ModItems.BLUEPRINT.get());
+            output.accept(ModBlocks.PRIMITIVE_SMELTER.get());
         })
         .build()
     );

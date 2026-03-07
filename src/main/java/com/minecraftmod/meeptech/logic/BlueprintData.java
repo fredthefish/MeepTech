@@ -1,6 +1,5 @@
 package com.minecraftmod.meeptech.logic;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.minecraftmod.meeptech.ModMachineTypes;
@@ -13,8 +12,8 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 
 public record BlueprintData(String machineId, List<String> materialIds) {
     public static final Codec<BlueprintData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-        Codec.STRING.optionalFieldOf("machine_id", "").forGetter(BlueprintData::machineId),
-        Codec.STRING.listOf().optionalFieldOf("materials", new ArrayList<>()).forGetter(BlueprintData::materialIds)
+        Codec.STRING.fieldOf("machine_id").forGetter(BlueprintData::machineId),
+        Codec.STRING.listOf().fieldOf("materials").forGetter(BlueprintData::materialIds)
     ).apply(instance, BlueprintData::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, BlueprintData> STREAM_CODEC = StreamCodec.composite(
