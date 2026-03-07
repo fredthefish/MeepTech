@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
 import com.minecraftmod.meeptech.logic.BlueprintData;
+import com.minecraftmod.meeptech.logic.Material;
 import com.minecraftmod.meeptech.ui.DesigningStationScreen;
 import com.minecraftmod.meeptech.ui.DraftingStationScreen;
 import com.minecraftmod.meeptech.ui.MaterialWorkstationScreen;
@@ -56,10 +57,11 @@ public class MeepTechClient {
                 List<String> materials = machine.getComponentMaterials();
                 if (tintIndex >= 0 && tintIndex < materials.size()) {
                     String materialName = materials.get(tintIndex);
-                    if (materialName.equals(ModMaterials.IRON.getId())) return 0xFFBBBBBB;
+                    Material material = ModMaterials.getMaterial(materialName);
+                    return material.getColor();
                 }
             }
             return 0xFFFFFFFF;
-        }); //TODO: INSERT BLOCKS.
+        }, ModBlocks.PRIMITIVE_SMELTER.get());
     }
 }

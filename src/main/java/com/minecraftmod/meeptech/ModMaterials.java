@@ -33,6 +33,7 @@ public class ModMaterials {
         //Iron
         IRON.addForm(MaterialForm.Base, Items.IRON_INGOT);
         IRON.addForm(MaterialForm.Plate, ModItems.IRON_PLATE.get());
+        IRON.setColor(0xFFFFFF);
         IRON.setThermalConductivity(60);
         IRON.setMeltingPoint(1100);
         IRON.setTensileStrength(600);

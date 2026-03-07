@@ -15,6 +15,7 @@ public class Material {
     private boolean flammable = false;
     private Double meltingPoint;
     private Double tensileStrength;
+    private int color;
 
     public Material(String id) {
         this.id = id;
@@ -118,8 +119,14 @@ public class Material {
         }
         return "ERROR";
     }
-    public String roundNumber(double num, int precision) {
+    private String roundNumber(double num, int precision) {
         BigDecimal bd = new BigDecimal(num);
         return String.format("%."+precision+"G", bd);
+    }
+    public int getColor() {
+        return color;
+    }
+    public void setColor(int color) {
+        this.color = 0xFF000000 + color;
     }
 }

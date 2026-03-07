@@ -1,0 +1,49 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "hull": "meeptech:block/hull",
+        "overlay": "meeptech:block/overlay/smelter_overlay"
+    },
+    "elements": [
+        {
+            "from": [0, 0, 0],
+            "to": [16, 16, 16],
+            "faces": {
+                "up": {
+                    "texture": "#hull",
+                    "tintindex": 0
+                },
+                "down": {
+                    "texture": "#hull",
+                    "tintindex": 0
+                },
+                "north": {
+                    "texture": "#hull",
+                    "tintindex": 0
+                },
+                "south": {
+                    "texture": "#hull",
+                    "tintindex": 0
+                },
+                "west": {
+                    "texture": "#hull",
+                    "tintindex": 0
+                },
+                "east": {
+                    "texture": "#hull",
+                    "tintindex": 0
+                }   
+            }
+        },
+        {
+            "from": [0, 0, 0],
+            "to": [16, 16, 16],
+            "faces": {
+                "north": {
+                    "texture": "#overlay"
+                }
+            }
+        }
+    ],
+    "render_type": "minecraft:cutout"
+}
