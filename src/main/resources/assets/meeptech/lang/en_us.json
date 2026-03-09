@@ -9,6 +9,10 @@
   "item.meeptech.blueprint.empty": "Empty Machine Blueprint",
   "item.meeptech.blueprint.full": "Machine Blueprint",
 
+  "item.meeptech.module_template_basic": "Basic Module Template",
+  "item.meeptech.module_machine_core_smelter": "Smelter Machine Core Module",
+  "item.meeptech.module_heating_core_solid_fuel": "Solid Fuel Heating Core Module",
+
   "block.meeptech.material_workstation": "Material Workstation",
   "block.meeptech.designing_station": "Designing Station",
   "block.meeptech.drafting_station": "Drafting Station",

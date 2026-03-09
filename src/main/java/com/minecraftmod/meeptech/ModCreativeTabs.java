@@ -9,6 +9,8 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.minecraft.world.item.ItemStack;
+
+import com.minecraftmod.meeptech.items.ModuleItems;
 import com.minecraftmod.meeptech.logic.Material;
 import com.minecraftmod.meeptech.logic.MaterialForm;
 
@@ -39,6 +41,7 @@ public class ModCreativeTabs {
             output.accept(ModBlocks.DRAFTING_STATION.get());
             output.accept(ModItems.BLUEPRINT.get());
             output.accept(ModBlocks.PRIMITIVE_SMELTER.get());
+            ModuleItems.MODULES.values().forEach(item -> output.accept(item.get()));
         })
         .build()
     );

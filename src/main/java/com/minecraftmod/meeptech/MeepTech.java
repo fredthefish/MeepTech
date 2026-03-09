@@ -1,5 +1,7 @@
 package com.minecraftmod.meeptech;
 
+import com.minecraftmod.meeptech.items.ModuleItems;
+
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
@@ -11,6 +13,7 @@ public class MeepTech {
     public static final String MODID = "meeptech";
 
     public MeepTech(IEventBus modEventBus, ModContainer modContainer) {
+        ModuleItems.registerModules();
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
