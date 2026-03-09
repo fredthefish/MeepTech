@@ -39,6 +39,7 @@ public class ModCreativeTabs {
             output.accept(ModBlocks.MATERIAL_WORKSTATION.get());
             output.accept(ModBlocks.DESIGNING_STATION.get());
             output.accept(ModBlocks.DRAFTING_STATION.get());
+            output.accept(ModBlocks.ENGINEERING_STATION.get());
             output.accept(ModItems.BLUEPRINT.get());
             output.accept(ModBlocks.PRIMITIVE_SMELTER.get());
             ModuleItems.MODULES.values().forEach(item -> output.accept(item.get()));

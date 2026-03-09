@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import com.minecraftmod.meeptech.blocks.DesigningStationBlockEntity;
 import com.minecraftmod.meeptech.blocks.DraftingStationBlockEntity;
+import com.minecraftmod.meeptech.blocks.EngineeringStationBlockEntity;
 import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlockEntity;
 import com.minecraftmod.meeptech.blocks.machines.PrimitiveSmelterBlockEntity;
 
@@ -33,5 +34,10 @@ public class ModBlockEntities {
         BLOCK_ENTITY_TYPES.register("primitive_smelter_be", () -> BlockEntityType.Builder.of(
             PrimitiveSmelterBlockEntity::new,
             ModBlocks.PRIMITIVE_SMELTER.get()
+    ).build(null));
+    public static final Supplier<BlockEntityType<EngineeringStationBlockEntity>> ENGINEERING_STATION_BE = 
+        BLOCK_ENTITY_TYPES.register("engineering_station_be", () -> BlockEntityType.Builder.of(
+            EngineeringStationBlockEntity::new,
+            ModBlocks.ENGINEERING_STATION.get()
     ).build(null));
 }

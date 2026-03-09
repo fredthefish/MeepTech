@@ -7,6 +7,7 @@ import com.minecraftmod.meeptech.logic.BlueprintData;
 import com.minecraftmod.meeptech.logic.Material;
 import com.minecraftmod.meeptech.ui.DesigningStationScreen;
 import com.minecraftmod.meeptech.ui.DraftingStationScreen;
+import com.minecraftmod.meeptech.ui.EngineeringStationScreen;
 import com.minecraftmod.meeptech.ui.MaterialWorkstationScreen;
 
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -49,6 +50,7 @@ public class MeepTechClient {
         event.register(ModMenus.MATERIAL_WORKSTATION_MENU.get(), MaterialWorkstationScreen::new);
         event.register(ModMenus.DESIGNING_STATION_MENU.get(), DesigningStationScreen::new);
         event.register(ModMenus.DRAFTING_STATION_MENU.get(), DraftingStationScreen::new);
+        event.register(ModMenus.ENGINEERING_STATION_MENU.get(), EngineeringStationScreen::new);
     }
     @SubscribeEvent
     public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {

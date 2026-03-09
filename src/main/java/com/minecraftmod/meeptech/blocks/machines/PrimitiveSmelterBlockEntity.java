@@ -23,7 +23,6 @@ public class PrimitiveSmelterBlockEntity extends BaseMachineBlockEntity {
     }
     @Override
     public AbstractContainerMenu createMenu(int windowId, Inventory playerInv, Player player) {
-        //TODO
         return null;
     }
     public static void tick(Level level, BlockPos pos, BlockState state, PrimitiveSmelterBlockEntity entity) {

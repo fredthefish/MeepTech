@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 import com.minecraftmod.meeptech.ui.DesigningStationMenu;
 import com.minecraftmod.meeptech.ui.DraftingStationMenu;
+import com.minecraftmod.meeptech.ui.EngineeringStationMenu;
 import com.minecraftmod.meeptech.ui.MaterialWorkstationMenu;
 
 public class ModMenus {
@@ -19,4 +20,6 @@ public class ModMenus {
         IMenuTypeExtension.create((windowId, inv, data) -> new DesigningStationMenu(windowId, inv)));
     public static final Supplier<MenuType<DraftingStationMenu>> DRAFTING_STATION_MENU = MENUS.register("drafting_station", () -> 
         IMenuTypeExtension.create((windowId, inv, data) -> new DraftingStationMenu(windowId, inv)));
+    public static final Supplier<MenuType<EngineeringStationMenu>> ENGINEERING_STATION_MENU = MENUS.register("engineering_station", () ->
+        IMenuTypeExtension.create((windowId, inv, data) -> new EngineeringStationMenu(windowId, inv)));
 }
