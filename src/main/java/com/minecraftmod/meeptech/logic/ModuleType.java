@@ -17,6 +17,7 @@ public class ModuleType {
     private final String id;
     private final ModuleSlotType type;
     private final List<ModuleSlot> subSlots;
+    private MaterialForm materialForm;
     public ModuleType(String id, ModuleSlotType type) {
         this.id = id;
         this.type = type;
@@ -29,6 +30,9 @@ public class ModuleType {
         return "module_" + id;
     }
     public Item getItem() {
+        if (!ModuleItems.MODULES.containsKey(id)) return null;
+        DeferredItem<Item> deferredItem = ModuleItems.MODULES.get(id);
+        if (deferredItem == null) return null;
         return ModuleItems.MODULES.get(id).get();
     }
     public ModuleSlotType getType() {
@@ -51,7 +55,7 @@ public class ModuleType {
         return new MachineConfigData(id, "", subModules);
     }
     public static MachineConfigData getMaterialMachineConfigData(String materialId) {
-        return new MachineConfigData("", materialId, List.of());
+        return new MachineConfigData("", materialId, new ArrayList<>());
     }
     public static boolean itemFitsSlotType(ItemStack item, ModuleSlotType type) {
         switch (type) {
@@ -61,6 +65,7 @@ public class ModuleType {
                 return false;
             default:
                 ModuleType moduleType = getModuleType(item);
+                if (moduleType == null) return false;
                 return moduleType.type == type;
         }
     }
@@ -69,5 +74,11 @@ public class ModuleType {
             if (item.is(pair.getValue())) return ModModuleTypes.getModuleType(pair.getKey());
         }
         return null;
+    }
+    public void setMaterialForm(MaterialForm form) {
+        this.materialForm = form;
+    }
+    public MaterialForm getMaterialForm() {
+        return materialForm;
     }
 }

@@ -9,6 +9,7 @@ import com.minecraftmod.meeptech.ModModuleTypes;
 import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.logic.ModuleType;
 import com.minecraftmod.meeptech.network.EngineeringActionPacket;
+import com.minecraftmod.meeptech.network.EngineeringActionPacket.EngineeringAction;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -29,7 +30,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
     private final int boxX = 12;
     private final int boxY = 21;
     private final int slotSize = 18;
-    private final int titleHeight = 12;
+    private final int titleHeight = 10;
     
     public EngineeringStationScreen(EngineeringStationMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
@@ -84,7 +85,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
 
         ItemStack hull = this.menu.getSlot(0).getItem();
         if (!hull.isEmpty()) {
-            guiGraphics.drawString(this.font, hull.getHoverName(), x + boxX, y + boxY, 0x404040);
+            guiGraphics.drawString(this.font, hull.getHoverName(), x + boxX, y + boxY, 0xFFFFFF, false);
             ModuleType type = ModModuleTypes.BASE_MODULE;
             MachineConfigData data;
             if (!hull.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) {
@@ -140,19 +141,26 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                     MachineConfigData subLayer = data.getSubLayer(i);
                     if (button == 0) {
                         if (!subLayer.isEmpty()) {
-                            PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringActionPacket.EngineeringAction.SELECT, List.of(i)));
+                            PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.SELECT, List.of(i)));
                             this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
                         } else {
                             ItemStack input = this.menu.getSlot(1).getItem();
                             if (!input.isEmpty()) {
                                 if (ModuleType.itemFitsSlotType(input, data.getModuleType().getSubSlot(i).getType())) {
-                                    PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringActionPacket.EngineeringAction.INSERT, List.of(i)));
+                                    PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.INSERT, List.of(i)));
                                     this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
                                 }
                             }
                         }
                     } else if (button == 1) {
-                        //Right Click.
+                        if (!subLayer.isEmpty()) {
+                            ItemStack output = this.menu.getSlot(2).getItem();
+                            ItemStack outputItem = subLayer.getItemStack(type);
+                            if (output.isEmpty() || (output.getCount() <= output.getMaxStackSize() + 1 && output.getItem().equals(outputItem.getItem()))) {
+                                PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.EXTRACT, List.of(i)));
+                                this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+                            }
+                        }
                     }
                 }
                 i++;

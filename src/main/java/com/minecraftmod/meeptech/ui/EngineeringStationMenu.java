@@ -89,24 +89,55 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                 int slotPath = path.get(0);
                 ModuleSlot slot = data.getModuleType().getSubSlot(slotPath);
                 ModuleSlotType slotType = slot.getType();
-                if (!input.isEmpty()) {
+                MachineConfigData slotData = data.getSubLayer(slotPath);
+                if (slotData.isEmpty() && !input.isEmpty()) {
                     if (ModuleType.itemFitsSlotType(input, slotType)) {
                         inputSlot.remove(1);
                         ModuleType inputModuleType = ModuleType.getModuleType(input);
                         if (inputModuleType != null) {
-                            data.setSubLayer(slotPath, inputModuleType.getEmptyMachineConfigData());
+                            data = data.changeSubLayer(slotPath, inputModuleType.getEmptyMachineConfigData());
                         } else {
                             //If it isn't a module, it must be a component. (Slot type check was already done.)
                             MaterialItemData itemData = new MaterialItemData(input.getItem());
-                            data.setSubLayer(slotPath, ModuleType.getMaterialMachineConfigData(itemData.getMaterial().getId()));
+                            data = data.changeSubLayer(slotPath, ModuleType.getMaterialMachineConfigData(itemData.getMaterial().getId()));
                         }
+                        hull = hull.copy();
                         hull.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), data);
                         hullSlot.set(hull);
+                        this.broadcastChanges();
                     }
                 }
                 break;
             case EngineeringActionPacket.EngineeringAction.EXTRACT:
-                break;
+                hullSlot = this.getSlot(0);
+                hull = hullSlot.getItem();
+                Slot outputSlot = this.getSlot(2);
+                ItemStack output = outputSlot.getItem();
+                type = ModModuleTypes.BASE_MODULE;
+                data = null;
+                if (hull.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) {
+                    data = hull.get(ModDataComponents.MACHINE_CONFIG_DATA.get());
+                } else {
+                    data = type.getEmptyMachineConfigData();
+                }
+                slotPath = path.get(0);
+                slotData = data.getSubLayer(slotPath);
+                
+                if (!slotData.isEmpty()) {
+                    if (!slotData.hasSubLayers()) {
+                        ItemStack outputItem = slotData.getItemStack(type);
+                        if (output.isEmpty() || (output.getCount() <= output.getMaxStackSize() + 1 && output.getItem().equals(outputItem.getItem()))) {
+                            if (!output.isEmpty()) output.grow(1);
+                            else outputSlot.set(outputItem);
+                            data = data.changeSubLayer(slotPath, MachineConfigData.EMPTY);
+                            hull = hull.copy();
+                            hull.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), data);
+                            hullSlot.set(hull);
+                            this.broadcastChanges();
+                        }
+                    }
+                }
+                
             case EngineeringActionPacket.EngineeringAction.SELECT:
                 break;
         }

@@ -3,6 +3,7 @@ package com.minecraftmod.meeptech;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.minecraftmod.meeptech.logic.MaterialForm;
 import com.minecraftmod.meeptech.logic.ModuleSlotType;
 import com.minecraftmod.meeptech.logic.ModuleType;
 
@@ -17,6 +18,7 @@ public class ModModuleTypes {
     public static final ModuleType BASE_MODULE = addModuleType(new ModuleType("hull", ModuleSlotType.Base));
     public static final ModuleType MACHINE_CORE_SMELTER = addModuleType(new ModuleType("machine_core_smelter", ModuleSlotType.MachineCore));
     public static final ModuleType HEATING_CORE_SOLID_FUEL = addModuleType(new ModuleType("heating_core_solid_fuel", ModuleSlotType.HeatingCore));
+    public static final ModuleType FIREBOX_SLOT = addModuleType(new ModuleType("firebox_slot", ModuleSlotType.FireboxSlot));
 
     public static ModuleType addModuleType(ModuleType type) {
         MODULE_TYPES.add(type);
@@ -28,10 +30,10 @@ public class ModModuleTypes {
         }
         return null;
     }
-    
     public static void InitializeModuleTypes() {
         BASE_MODULE.addSubSlot("machine_core", ModuleSlotType.MachineCore);
         MACHINE_CORE_SMELTER.addSubSlot("heating_core", ModuleSlotType.HeatingCore);
         HEATING_CORE_SOLID_FUEL.addSubSlot("firebox_slot", ModuleSlotType.FireboxSlot);
+        FIREBOX_SLOT.setMaterialForm(MaterialForm.Box);
     }
 }
