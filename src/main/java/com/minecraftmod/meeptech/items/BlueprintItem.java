@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.minecraftmod.meeptech.ModDataComponents;
 import com.minecraftmod.meeptech.ModMaterials;
-import com.minecraftmod.meeptech.logic.BlueprintData;
 import com.minecraftmod.meeptech.logic.MachineComponent;
 import com.minecraftmod.meeptech.logic.MachineType;
 import com.minecraftmod.meeptech.logic.Material;

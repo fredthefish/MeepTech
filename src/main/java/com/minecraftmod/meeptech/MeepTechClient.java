@@ -3,7 +3,7 @@ package com.minecraftmod.meeptech;
 import java.util.List;
 
 import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
-import com.minecraftmod.meeptech.logic.BlueprintData;
+import com.minecraftmod.meeptech.items.BlueprintData;
 import com.minecraftmod.meeptech.logic.Material;
 import com.minecraftmod.meeptech.ui.DesigningStationScreen;
 import com.minecraftmod.meeptech.ui.DraftingStationScreen;

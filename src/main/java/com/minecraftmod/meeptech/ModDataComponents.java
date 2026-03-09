@@ -2,8 +2,8 @@ package com.minecraftmod.meeptech;
 
 import java.util.function.Supplier;
 
-import com.minecraftmod.meeptech.logic.BlueprintData;
-import com.minecraftmod.meeptech.logic.MachineConfigData;
+import com.minecraftmod.meeptech.items.BlueprintData;
+import com.minecraftmod.meeptech.items.MachineConfigData;
 
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;

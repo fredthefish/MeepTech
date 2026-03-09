@@ -7,7 +7,7 @@ import com.minecraftmod.meeptech.ModDataComponents;
 import com.minecraftmod.meeptech.ModItems;
 import com.minecraftmod.meeptech.ModMachineTypes;
 import com.minecraftmod.meeptech.ModMenus;
-import com.minecraftmod.meeptech.logic.BlueprintData;
+import com.minecraftmod.meeptech.items.BlueprintData;
 import com.minecraftmod.meeptech.logic.MachineType;
 
 import net.minecraft.world.entity.player.Inventory;

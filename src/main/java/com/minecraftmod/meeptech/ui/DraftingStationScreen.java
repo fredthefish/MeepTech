@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import com.minecraftmod.meeptech.ModDataComponents;
 import com.minecraftmod.meeptech.ModMachineComponents;
 import com.minecraftmod.meeptech.ModMaterials;
-import com.minecraftmod.meeptech.logic.BlueprintData;
-import com.minecraftmod.meeptech.logic.MaterialItemData;
+import com.minecraftmod.meeptech.items.BlueprintData;
 import com.minecraftmod.meeptech.logic.MachineComponent;
 import com.minecraftmod.meeptech.logic.MachineStat;
 import com.minecraftmod.meeptech.logic.MachineType;
+import com.minecraftmod.meeptech.logic.MaterialItemData;
 import com.minecraftmod.meeptech.logic.MaterialStat;
 
 import net.minecraft.client.gui.GuiGraphics;

@@ -2,10 +2,16 @@ package com.minecraftmod.meeptech.logic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
+import com.minecraftmod.meeptech.ModModuleTypes;
+import com.minecraftmod.meeptech.ModTags;
+import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.items.ModuleItems;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.registries.DeferredItem;
 
 public class ModuleType {
     private final String id;
@@ -40,8 +46,28 @@ public class ModuleType {
     public MachineConfigData getEmptyMachineConfigData() {
         ArrayList<MachineConfigData> subModules = new ArrayList<>();
         for (int i = 0; i < getSubSlotCount(); i++) {
-            subModules.add(null);
+            subModules.add(MachineConfigData.EMPTY);
         }
-        return new MachineConfigData(id, subModules);
+        return new MachineConfigData(id, "", subModules);
+    }
+    public static MachineConfigData getMaterialMachineConfigData(String materialId) {
+        return new MachineConfigData("", materialId, List.of());
+    }
+    public static boolean itemFitsSlotType(ItemStack item, ModuleSlotType type) {
+        switch (type) {
+            case Base:
+                return item.is(ModTags.HULL_TAG);
+            case FireboxSlot:
+                return false;
+            default:
+                ModuleType moduleType = getModuleType(item);
+                return moduleType.type == type;
+        }
+    }
+    public static ModuleType getModuleType(ItemStack item) {
+        for (Entry<String, DeferredItem<Item>> pair : ModuleItems.MODULES.entrySet()) {
+            if (item.is(pair.getValue())) return ModModuleTypes.getModuleType(pair.getKey());
+        }
+        return null;
     }
 }

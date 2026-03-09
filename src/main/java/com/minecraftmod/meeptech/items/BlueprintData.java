@@ -1,8 +1,9 @@
-package com.minecraftmod.meeptech.logic;
+package com.minecraftmod.meeptech.items;
 
 import java.util.List;
 
 import com.minecraftmod.meeptech.ModMachineTypes;
+import com.minecraftmod.meeptech.logic.MachineType;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 

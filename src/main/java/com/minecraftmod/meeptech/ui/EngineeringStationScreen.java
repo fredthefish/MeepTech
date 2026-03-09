@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import com.minecraftmod.meeptech.ModDataComponents;
 import com.minecraftmod.meeptech.ModModuleTypes;
-import com.minecraftmod.meeptech.logic.MachineConfigData;
+import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.logic.ModuleType;
 import com.minecraftmod.meeptech.network.EngineeringActionPacket;
 
@@ -61,7 +61,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                 int slotY = startY;
                 if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
                     MachineConfigData subLayer = data.getSubLayer(i);
-                    if (subLayer != null) {
+                    if (!subLayer.isEmpty()) {
                         ItemStack preview = new ItemStack(subLayer.getModuleType().getItem());
                         List<Component> tooltip = new ArrayList<>();
                         tooltip.add(preview.getHoverName());
@@ -84,7 +84,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
 
         ItemStack hull = this.menu.getSlot(0).getItem();
         if (!hull.isEmpty()) {
-            guiGraphics.drawString(this.font, hull.getDisplayName(), x + boxX, y + boxY, 0x404040);
+            guiGraphics.drawString(this.font, hull.getHoverName(), x + boxX, y + boxY, 0x404040);
             ModuleType type = ModModuleTypes.BASE_MODULE;
             MachineConfigData data;
             if (!hull.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) {
@@ -104,7 +104,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                     guiGraphics.fill(slotX + 1, slotY + 1, slotX + slotSize - 1, slotY + slotSize - 1, 0x80FFFFFF); 
                 }
                 MachineConfigData subLayer = data.getSubLayer(i);
-                if (subLayer != null) {
+                if (!subLayer.isEmpty()) {
                     ItemStack preview = new ItemStack(subLayer.getModuleType().getItem());
                     guiGraphics.renderItem(preview, slotX + 1, slotY + 1);
                 }
@@ -119,10 +119,44 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
     }
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        boolean clickedInsert = false;
-        if (clickedInsert) {
-            PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringActionPacket.EngineeringAction.INSERT, List.of()));
-            this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+        int x = (this.width - this.imageWidth) / 2;
+        int y = (this.height - this.imageHeight) / 2;
+        ItemStack hull = this.menu.getSlot(0).getItem();
+        if (!hull.isEmpty()) {
+            ModuleType type = ModModuleTypes.BASE_MODULE;
+            MachineConfigData data;
+            if (!hull.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) {
+                data = type.getEmptyMachineConfigData();
+            } else {
+                data = hull.get(ModDataComponents.MACHINE_CONFIG_DATA.get());
+            }
+            int startX = x + boxX;
+            int startY = y + boxY + titleHeight;
+    
+            for (int i = 0; i < type.getSubSlotCount(); i++) {
+                int slotX = startX + i * (slotSize - 1);
+                int slotY = startY;
+                if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
+                    MachineConfigData subLayer = data.getSubLayer(i);
+                    if (button == 0) {
+                        if (!subLayer.isEmpty()) {
+                            PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringActionPacket.EngineeringAction.SELECT, List.of(i)));
+                            this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+                        } else {
+                            ItemStack input = this.menu.getSlot(1).getItem();
+                            if (!input.isEmpty()) {
+                                if (ModuleType.itemFitsSlotType(input, data.getModuleType().getSubSlot(i).getType())) {
+                                    PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringActionPacket.EngineeringAction.INSERT, List.of(i)));
+                                    this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+                                }
+                            }
+                        }
+                    } else if (button == 1) {
+                        //Right Click.
+                    }
+                }
+                i++;
+            }
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }

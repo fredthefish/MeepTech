@@ -3,8 +3,15 @@ package com.minecraftmod.meeptech.ui;
 import java.util.List;
 
 import com.minecraftmod.meeptech.ModBlocks;
+import com.minecraftmod.meeptech.ModDataComponents;
 import com.minecraftmod.meeptech.ModMenus;
+import com.minecraftmod.meeptech.ModModuleTypes;
 import com.minecraftmod.meeptech.ModTags;
+import com.minecraftmod.meeptech.items.MachineConfigData;
+import com.minecraftmod.meeptech.logic.MaterialItemData;
+import com.minecraftmod.meeptech.logic.ModuleSlot;
+import com.minecraftmod.meeptech.logic.ModuleSlotType;
+import com.minecraftmod.meeptech.logic.ModuleType;
 import com.minecraftmod.meeptech.network.EngineeringActionPacket;
 
 import net.minecraft.world.entity.player.Inventory;
@@ -13,7 +20,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-// import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 
@@ -66,7 +72,43 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
         //TODO: IMPLEMENT.
         return ItemStack.EMPTY;
     }
-    public void handleVirtualAction(EngineeringActionPacket.EngineeringAction action, List<String> path) {
-        
+    public void handleVirtualAction(EngineeringActionPacket.EngineeringAction action, List<Integer> path) {
+        switch (action) {
+            case EngineeringActionPacket.EngineeringAction.INSERT:
+                Slot hullSlot = this.getSlot(0);
+                Slot inputSlot = this.getSlot(1);
+                ItemStack hull = hullSlot.getItem();
+                ItemStack input = inputSlot.getItem();
+                ModuleType type = ModModuleTypes.BASE_MODULE;
+                MachineConfigData data;
+                if (hull.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) {
+                    data = hull.get(ModDataComponents.MACHINE_CONFIG_DATA.get());
+                } else {
+                    data = type.getEmptyMachineConfigData();
+                }
+                int slotPath = path.get(0);
+                ModuleSlot slot = data.getModuleType().getSubSlot(slotPath);
+                ModuleSlotType slotType = slot.getType();
+                if (!input.isEmpty()) {
+                    if (ModuleType.itemFitsSlotType(input, slotType)) {
+                        inputSlot.remove(1);
+                        ModuleType inputModuleType = ModuleType.getModuleType(input);
+                        if (inputModuleType != null) {
+                            data.setSubLayer(slotPath, inputModuleType.getEmptyMachineConfigData());
+                        } else {
+                            //If it isn't a module, it must be a component. (Slot type check was already done.)
+                            MaterialItemData itemData = new MaterialItemData(input.getItem());
+                            data.setSubLayer(slotPath, ModuleType.getMaterialMachineConfigData(itemData.getMaterial().getId()));
+                        }
+                        hull.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), data);
+                        hullSlot.set(hull);
+                    }
+                }
+                break;
+            case EngineeringActionPacket.EngineeringAction.EXTRACT:
+                break;
+            case EngineeringActionPacket.EngineeringAction.SELECT:
+                break;
+        }
     }
 }
