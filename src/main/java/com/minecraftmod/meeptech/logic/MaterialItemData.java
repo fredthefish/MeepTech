@@ -6,11 +6,11 @@ import com.minecraftmod.meeptech.ModMaterials;
 
 import net.minecraft.world.item.Item;
 
-public class ItemData {
+public class MaterialItemData {
     private Material material = null;
     private MaterialForm form = null;
 
-    public ItemData(Item item) {
+    public MaterialItemData(Item item) {
         for (Material material : ModMaterials.MATERIALS) {
             HashMap<MaterialForm, Item> forms = material.getForms();
             for (MaterialForm form : forms.keySet()) {

@@ -8,7 +8,7 @@ import com.minecraftmod.meeptech.ModDataComponents;
 import com.minecraftmod.meeptech.ModItems;
 import com.minecraftmod.meeptech.ModMenus;
 import com.minecraftmod.meeptech.logic.BlueprintData;
-import com.minecraftmod.meeptech.logic.ItemData;
+import com.minecraftmod.meeptech.logic.MaterialItemData;
 import com.minecraftmod.meeptech.logic.MachineType;
 import com.minecraftmod.meeptech.logic.Material;
 
@@ -117,7 +117,7 @@ public class DraftingStationMenu extends AbstractContainerMenu {
                     }
                 } else {
                     MachineType machineType = data.getMachineType();
-                    ItemData itemData = new ItemData(materialStack.getItem());
+                    MaterialItemData itemData = new MaterialItemData(materialStack.getItem());
                     Material material = itemData.getMaterial();
                     if (material != null) {
                         if (material.getId() != null) {

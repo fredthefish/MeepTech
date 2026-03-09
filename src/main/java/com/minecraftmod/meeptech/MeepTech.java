@@ -27,5 +27,6 @@ public class MeepTech {
         ModMaterials.InitializeMaterials();
         ModMachineComponents.InitializeMachineComponents();
         ModMachineTypes.InitializeMachineTypes();
+        ModModuleTypes.InitializeModuleTypes();
     }
 }

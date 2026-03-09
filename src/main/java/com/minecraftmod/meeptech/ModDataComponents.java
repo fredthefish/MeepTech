@@ -3,6 +3,8 @@ package com.minecraftmod.meeptech;
 import java.util.function.Supplier;
 
 import com.minecraftmod.meeptech.logic.BlueprintData;
+import com.minecraftmod.meeptech.logic.MachineConfigData;
+
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -12,4 +14,7 @@ public class ModDataComponents {
 
     public static final Supplier<DataComponentType<BlueprintData>> BLUEPRINT_DATA = 
         DATA_COMPONENTS.registerComponentType("blueprint_data", builder -> builder.persistent(BlueprintData.CODEC).networkSynchronized(BlueprintData.STREAM_CODEC));
+    public static final Supplier<DataComponentType<MachineConfigData>> MACHINE_CONFIG_DATA =
+        DATA_COMPONENTS.registerComponentType("machine_config_data", builder -> 
+        builder.persistent(MachineConfigData.CODEC).networkSynchronized(MachineConfigData.STREAM_CODEC));
 }

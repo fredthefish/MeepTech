@@ -6,7 +6,7 @@ import com.minecraftmod.meeptech.ModDataComponents;
 import com.minecraftmod.meeptech.ModMachineComponents;
 import com.minecraftmod.meeptech.ModMaterials;
 import com.minecraftmod.meeptech.logic.BlueprintData;
-import com.minecraftmod.meeptech.logic.ItemData;
+import com.minecraftmod.meeptech.logic.MaterialItemData;
 import com.minecraftmod.meeptech.logic.MachineComponent;
 import com.minecraftmod.meeptech.logic.MachineStat;
 import com.minecraftmod.meeptech.logic.MachineType;
@@ -225,7 +225,7 @@ public class DraftingStationScreen extends AbstractContainerScreen<DraftingStati
         statsLines.add(Component.translatable("meeptech.ui.machine_component_relevant_stat")
             .append(selectedComponent.getRelevantStatsString()));
         if (!materialStack.isEmpty()) {
-            ItemData itemData = new ItemData(materialStack.getItem());
+            MaterialItemData itemData = new MaterialItemData(materialStack.getItem());
             if (itemData.getMaterial() != null) {
                 statsLines.add(Component.translatable("meeptech.ui.inputted_material")
                     .append(Component.translatable(itemData.getMaterial().getTranslationKey())));

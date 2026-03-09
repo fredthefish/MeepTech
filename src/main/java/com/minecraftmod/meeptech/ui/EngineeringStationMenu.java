@@ -2,6 +2,7 @@ package com.minecraftmod.meeptech.ui;
 
 import com.minecraftmod.meeptech.ModBlocks;
 import com.minecraftmod.meeptech.ModMenus;
+import com.minecraftmod.meeptech.ModTags;
 
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -29,11 +30,7 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
         this.addSlot(new SlotItemHandler(handler, 0, 41, 148) {
             @Override
             public boolean mayPlace(ItemStack stack) {
-                // if (stack.is(ModItems.BLUEPRINT.get())) {
-                //     if (!stack.has(ModDataComponents.BLUEPRINT_DATA.get())) return false;
-                //     BlueprintData blueprintData = stack.get(ModDataComponents.BLUEPRINT_DATA.get());
-                //     return blueprintData.getMachineType() != null;
-                // }
+                if (stack.is(ModTags.HULL_TAG)) return true;
                 return false;
             }
         });

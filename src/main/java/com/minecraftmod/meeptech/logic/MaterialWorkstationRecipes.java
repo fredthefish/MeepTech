@@ -16,7 +16,7 @@ public class MaterialWorkstationRecipes {
     };
     
     public static final MaterialWorkstationRecipes getAvailableForms(ItemStack input) {
-        ItemData itemData = new ItemData(input.getItem());
+        MaterialItemData itemData = new MaterialItemData(input.getItem());
         if (itemData.getMaterial() == null) return null;
 
         MaterialWorkstationRecipes result = new MaterialWorkstationRecipes();
