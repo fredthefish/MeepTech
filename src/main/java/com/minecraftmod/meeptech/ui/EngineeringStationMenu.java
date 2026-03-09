@@ -1,8 +1,11 @@
 package com.minecraftmod.meeptech.ui;
 
+import java.util.List;
+
 import com.minecraftmod.meeptech.ModBlocks;
 import com.minecraftmod.meeptech.ModMenus;
 import com.minecraftmod.meeptech.ModTags;
+import com.minecraftmod.meeptech.network.EngineeringActionPacket;
 
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -62,5 +65,8 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
     public ItemStack quickMoveStack(Player player, int index) {
         //TODO: IMPLEMENT.
         return ItemStack.EMPTY;
+    }
+    public void handleVirtualAction(EngineeringActionPacket.EngineeringAction action, List<String> path) {
+        
     }
 }

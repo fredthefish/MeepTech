@@ -32,6 +32,7 @@ public class MeepTechClient {
         ModMaterials.InitializeMaterials();
         ModMachineComponents.InitializeMachineComponents();
         ModMachineTypes.InitializeMachineTypes();
+        ModModuleTypes.InitializeModuleTypes();
 
         event.enqueueWork(() -> 
             ItemProperties.register(ModItems.BLUEPRINT.get(), ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "blueprint_status"), 

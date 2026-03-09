@@ -53,5 +53,9 @@
 
   "meeptech.machineStat.speed": "Speed",
   "meeptech.machineStat.efficiency": "Efficiency",
-  "meeptech.machineStat.heat_decay": "Heat Decay"
+  "meeptech.machineStat.heat_decay": "Heat Decay",
+
+  "meeptech.moduleSlotType.machine_core": "Machine Core",
+  "meeptech.moduleSlotType.heating_core": "Heating Core",
+  "meeptech.moduleSlotType.firebox_slot": "Firebox Slot"
 }
