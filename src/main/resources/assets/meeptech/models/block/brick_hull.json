@@ -1,0 +1,12 @@
+{
+    "parent": "minecraft:block/cube",
+    "textures": {
+        "particle": "meeptech:block/brick_hull",
+        "down": "meeptech:block/brick_hull",
+        "up": "meeptech:block/brick_hull",
+        "north": "meeptech:block/brick_hull",
+        "south": "meeptech:block/brick_hull",
+        "west": "meeptech:block/brick_hull",
+        "east": "meeptech:block/brick_hull"
+    }
+}

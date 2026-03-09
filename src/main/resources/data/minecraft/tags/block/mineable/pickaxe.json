@@ -3,6 +3,7 @@
     "values": [
         "meeptech:material_workstation",
         "meeptech:designing_station",
-        "meeptech:drafting_station"
+        "meeptech:drafting_station",
+        "meeptech:brick_hull"
     ]
 }

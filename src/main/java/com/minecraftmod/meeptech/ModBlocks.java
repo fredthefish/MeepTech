@@ -51,9 +51,16 @@ public class ModBlocks {
     public static final DeferredBlock<Block> PRIMITIVE_SMELTER = registerBlock("primitive_smelter", 
         () -> new PrimitiveSmelterBlock(BlockBehaviour.Properties.of()
             .strength(2f, 6f)
-            .destroyTime(5)
+            .destroyTime(3)
             .requiresCorrectToolForDrops()
             .sound(SoundType.STONE)
+    ));
+
+    public static final DeferredBlock<Block> BRICK_HULL = registerBlock("brick_hull", () -> new Block(BlockBehaviour.Properties.of()
+        .strength(2f, 6f)
+        .destroyTime(3)
+        .requiresCorrectToolForDrops()
+        .sound(SoundType.STONE)
     ));
 
     private static DeferredBlock<Block> registerBlock(String name, Supplier<Block> block) {

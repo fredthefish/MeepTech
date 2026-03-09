@@ -16,6 +16,7 @@ public class ModMaterials {
     public static final ArrayList<Material> MATERIALS = new ArrayList<Material>();
 
     public static final Material IRON = addMaterial(new Material("iron"));
+    public static final Material BRICK = addMaterial(new Material("brick"));
     
     public static void InitializeMaterials() {
         FORM_TRANSLATION_KEYS.put(MaterialForm.Base, "meeptech.materialForm.base");
@@ -35,8 +36,16 @@ public class ModMaterials {
         IRON.addForm(MaterialForm.Plate, ModItems.IRON_PLATE.get());
         IRON.setColor(0xFFFFFF);
         IRON.setThermalConductivity(60);
-        IRON.setMeltingPoint(1100);
+        IRON.setMeltingPoint(1800);
         IRON.setTensileStrength(600);
+
+        BRICK.addForm(MaterialForm.Base, Items.BRICK);
+        BRICK.addForm(MaterialForm.Plate, ModItems.BRICK_PLATE.get());
+        BRICK.addForm(MaterialForm.Hull, ModBlocks.BRICK_HULL.asItem());
+        BRICK.setColor(0x5a2d0f);
+        BRICK.setThermalConductivity(1);
+        BRICK.setMeltingPoint(1800);
+        BRICK.setTensileStrength(5);
     }
 
     public static Material addMaterial(Material material) {
