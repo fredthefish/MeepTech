@@ -7,9 +7,6 @@
   "item.meeptech.iron_plate": "Iron Plate",
   "item.meeptech.brick_plate": "Brick Plate",
 
-  "item.meeptech.blueprint.blank": "Blank Blueprint",
-  "item.meeptech.blueprint.empty": "Empty Machine Blueprint",
-  "item.meeptech.blueprint.full": "Machine Blueprint",
   "item.meeptech.hull.empty": "Empty",
   "item.meeptech.hull.partial": "Incomplete",
 
@@ -20,25 +17,12 @@
   "block.meeptech.brick_hull": "Brick Hull",
 
   "block.meeptech.material_workstation": "Material Workstation",
-  "block.meeptech.designing_station": "Designing Station",
-  "block.meeptech.drafting_station": "Drafting Station",
   "block.meeptech.engineering_station": "Engineering Station",
-
-  "block.meeptech.primitive_smelter": "Primitive Smelter",
 
   "itemGroup.meeptech.materials_tab": "MeepTech Materials",
   "itemGroup.meeptech.general_tab": "MeepTech General",
 
-  "meeptech.ui.machine_type_tooltip": "Machine Type: ",
-  "meeptech.ui.machine_component_cost": "Cost: ",
-  "meeptech.ui.machine_component_relevant_stat": "Relevant Stat: ",
-  "meeptech.ui.inputted_material": "Inputted Material: ",
-
   "meeptech.machineType.primitive_smelter": "Primitive Smelter",
-
-  "meeptech.machineComponent.temperature_hull_casing": "Thermal Hull Casing",
-  "meeptech.machineComponent.insulative_firebox": "Insulative Firebox",
-  "meeptech.machineComponent.thermal_diffuser_rack": "Thermal Diffuser Rack",
 
   "meeptech.material.iron": "Iron",
   "meeptech.material.brick": "Brick",
