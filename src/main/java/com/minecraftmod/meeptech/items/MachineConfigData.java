@@ -34,13 +34,18 @@ public record MachineConfigData(String moduleId, String materialId, List<Machine
         }
         return null;
     }
-    public MachineConfigData changeSubLayer(int index, MachineConfigData subLayer) {
-        if (subLayers.size() > index) {
-            ArrayList<MachineConfigData> newSubLayers = new ArrayList<>(subLayers);
+    public static MachineConfigData changeSubLayer(MachineConfigData original, List<Integer> path, MachineConfigData subLayer) {
+        ArrayList<MachineConfigData> newSubLayers = new ArrayList<>(original.subLayers);
+        int index = path.get(0);
+        if (path.size() == 1) {
             newSubLayers.set(index, subLayer);
-            return new MachineConfigData(moduleId, materialId, newSubLayers);
+            return new MachineConfigData(original.moduleId, original.materialId, newSubLayers);
+        } else {
+            MachineConfigData oldSubLayer = original.getSubLayer(index);
+            MachineConfigData newSubLayer = changeSubLayer(oldSubLayer, path.subList(1, path.size()), subLayer);
+            newSubLayers.set(index, newSubLayer);
+            return new MachineConfigData(original.moduleId, original.materialId, newSubLayers);
         }
-        return this;
     }
     public void setSubLayerCount(int count) {
         subLayers.clear();

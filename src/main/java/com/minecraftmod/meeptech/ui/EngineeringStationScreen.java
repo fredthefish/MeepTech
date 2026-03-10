@@ -31,6 +31,9 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
     private final int boxY = 21;
     private final int slotSize = 18;
     private final int titleHeight = 10;
+
+    private List<Integer> selectionPath = new ArrayList<>(0);
+    //TODO: CLEAR SELECTION WHEN HULL IS REMOVED.
     
     public EngineeringStationScreen(EngineeringStationMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
@@ -43,37 +46,41 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         this.renderTooltip(guiGraphics, mouseX, mouseY); 
         
-        ItemStack hull = this.menu.getSlot(0).getItem();
-        if (!hull.isEmpty()) {
-            int x = (this.width - this.imageWidth) / 2;
-            int y = (this.height - this.imageHeight) / 2;
-            MachineConfigData data;
-            ModuleType type = ModModuleTypes.BASE_MODULE;
-            if (!hull.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) {
-                data = type.getEmptyMachineConfigData();
-            } else {
-                data = hull.get(ModDataComponents.MACHINE_CONFIG_DATA.get());
-            }
+        int x = (this.width - this.imageWidth) / 2;
+        int y = (this.height - this.imageHeight) / 2;
+        ItemStack editSlot = this.menu.getSlot(0).getItem();
+        if (!editSlot.isEmpty()) {
+            ModuleType type = ModuleType.getModuleType(editSlot);
+            MachineConfigData data = (editSlot.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) ? 
+                editSlot.get(ModDataComponents.MACHINE_CONFIG_DATA.get()) : type.getEmptyMachineConfigData();
+            int layer = 0;
             int startX = x + boxX;
             int startY = y + boxY + titleHeight;
-    
-            for (int i = 0; i < type.getSubSlotCount(); i++) {
-                int slotX = startX + i * (slotSize - 1);
-                int slotY = startY;
-                if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
-                    MachineConfigData subLayer = data.getSubLayer(i);
-                    if (!subLayer.isEmpty()) {
-                        ItemStack preview = new ItemStack(subLayer.getModuleType().getItem());
-                        List<Component> tooltip = new ArrayList<>();
-                        tooltip.add(preview.getHoverName());
-                        guiGraphics.renderTooltip(this.font, tooltip, Optional.empty(), mouseX, mouseY);
-                    } else {
-                        List<Component> tooltip = new ArrayList<>();
-                        tooltip.add(Component.translatable(ModModuleTypes.MODULE_SLOT_TRANSLATION_KEYS.get(type.getSubSlot(i).getType())));
-                        guiGraphics.renderTooltip(this.font, tooltip, Optional.empty(), mouseX, mouseY);
+            
+            while (selectionPath.size() >= layer) {
+                for (int i = 0; i < type.getSubSlotCount(); i++) {
+                    int slotX = startX + i * (slotSize - 1);
+                    int slotY = startY + layer * (slotSize + titleHeight);
+                    if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
+                        MachineConfigData subLayer = data.getSubLayer(i);
+                        if (!subLayer.isEmpty()) {
+                            ItemStack preview = new ItemStack(subLayer.getModuleType().getItem());
+                            List<Component> tooltip = new ArrayList<>();
+                            tooltip.add(preview.getHoverName());
+                            guiGraphics.renderTooltip(this.font, tooltip, Optional.empty(), mouseX, mouseY);
+                        } else {
+                            List<Component> tooltip = new ArrayList<>();
+                            tooltip.add(Component.translatable(ModModuleTypes.MODULE_SLOT_TRANSLATION_KEYS.get(type.getSubSlot(i).getType())));
+                            guiGraphics.renderTooltip(this.font, tooltip, Optional.empty(), mouseX, mouseY);
+                        }
                     }
+                    i++;
                 }
-                i++;
+                if (selectionPath.size() > layer) {
+                    data = data.getSubLayer(selectionPath.get(layer));
+                    type = data.getModuleType();
+                }
+                layer++;
             }
         }
     }
@@ -83,33 +90,39 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
         int y = (this.height - this.imageHeight) / 2;
         guiGraphics.blit(TEXTURE, x, y, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
 
-        ItemStack hull = this.menu.getSlot(0).getItem();
-        if (!hull.isEmpty()) {
-            guiGraphics.drawString(this.font, hull.getHoverName(), x + boxX, y + boxY, 0xFFFFFF, false);
-            ModuleType type = ModModuleTypes.BASE_MODULE;
-            MachineConfigData data;
-            if (!hull.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) {
-                data = type.getEmptyMachineConfigData();
-            } else {
-                data = hull.get(ModDataComponents.MACHINE_CONFIG_DATA.get());
-            }
+        ItemStack editSlot = this.menu.getSlot(0).getItem();
+        if (!editSlot.isEmpty()) {
+            guiGraphics.drawString(this.font, editSlot.getHoverName(), x + boxX, y + boxY, 0xFFFFFF, false);
+            ModuleType type = ModuleType.getModuleType(editSlot);
+            MachineConfigData data = (editSlot.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) ? 
+                editSlot.get(ModDataComponents.MACHINE_CONFIG_DATA.get()) : type.getEmptyMachineConfigData();
+            int layer = 0;
             int startX = x + boxX;
             int startY = y + boxY + titleHeight;
     
-            for (int i = 0; i < type.getSubSlotCount(); i++) {
-                int slotX = startX + i * (slotSize - 1);
-                int slotY = startY;
-                guiGraphics.fill(slotX, slotY, slotX + slotSize, slotY + slotSize, 0xFF373737);
-                guiGraphics.fill(slotX + 1, slotY + 1, slotX + slotSize - 1, slotY + slotSize - 1, 0xFF616161);
-                if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
-                    guiGraphics.fill(slotX + 1, slotY + 1, slotX + slotSize - 1, slotY + slotSize - 1, 0x80FFFFFF); 
+            while (selectionPath.size() >= layer) {
+                //TODO: DRAW TITLE FOR OTHER LAYERS
+                //TODO: SHOW SELECTED
+                for (int i = 0; i < type.getSubSlotCount(); i++) {
+                    int slotX = startX + i * (slotSize - 1);
+                    int slotY = startY + layer * (slotSize + titleHeight);
+                    guiGraphics.fill(slotX, slotY, slotX + slotSize, slotY + slotSize, 0xFF373737);
+                    guiGraphics.fill(slotX + 1, slotY + 1, slotX + slotSize - 1, slotY + slotSize - 1, 0xFF616161);
+                    if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
+                        guiGraphics.fill(slotX + 1, slotY + 1, slotX + slotSize - 1, slotY + slotSize - 1, 0x80FFFFFF); 
+                    }
+                    MachineConfigData subLayer = data.getSubLayer(i);
+                    if (!subLayer.isEmpty()) {
+                        ItemStack preview = new ItemStack(subLayer.getModuleType().getItem());
+                        guiGraphics.renderItem(preview, slotX + 1, slotY + 1);
+                    }
+                    i++;
                 }
-                MachineConfigData subLayer = data.getSubLayer(i);
-                if (!subLayer.isEmpty()) {
-                    ItemStack preview = new ItemStack(subLayer.getModuleType().getItem());
-                    guiGraphics.renderItem(preview, slotX + 1, slotY + 1);
+                if (selectionPath.size() > layer) {
+                    data = data.getSubLayer(selectionPath.get(layer));
+                    type = data.getModuleType();
                 }
-                i++;
+                layer++;
             }
         }
 
@@ -122,48 +135,58 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
-        ItemStack hull = this.menu.getSlot(0).getItem();
-        if (!hull.isEmpty()) {
-            ModuleType type = ModModuleTypes.BASE_MODULE;
-            MachineConfigData data;
-            if (!hull.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) {
-                data = type.getEmptyMachineConfigData();
-            } else {
-                data = hull.get(ModDataComponents.MACHINE_CONFIG_DATA.get());
-            }
+        ItemStack editSlot = this.menu.getSlot(0).getItem();
+        if (!editSlot.isEmpty()) {
+            ModuleType type = ModuleType.getModuleType(editSlot);
+            MachineConfigData data = (editSlot.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) ? 
+                editSlot.get(ModDataComponents.MACHINE_CONFIG_DATA.get()) : type.getEmptyMachineConfigData();
+            int layer = 0;
             int startX = x + boxX;
             int startY = y + boxY + titleHeight;
     
-            for (int i = 0; i < type.getSubSlotCount(); i++) {
-                int slotX = startX + i * (slotSize - 1);
-                int slotY = startY;
-                if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
-                    MachineConfigData subLayer = data.getSubLayer(i);
-                    if (button == 0) {
-                        if (!subLayer.isEmpty()) {
-                            PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.SELECT, List.of(i)));
-                            this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
-                        } else {
-                            ItemStack input = this.menu.getSlot(1).getItem();
-                            if (!input.isEmpty()) {
-                                if (ModuleType.itemFitsSlotType(input, data.getModuleType().getSubSlot(i).getType())) {
-                                    PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.INSERT, List.of(i)));
+            while (selectionPath.size() >= layer) {
+                for (int i = 0; i < type.getSubSlotCount(); i++) {
+                    int slotX = startX + i * (slotSize - 1);
+                    int slotY = startY + layer * (slotSize + titleHeight);
+                    if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
+                        MachineConfigData subLayer = data.getSubLayer(i);
+                        if (button == 0) {
+                            if (!subLayer.isEmpty()) {
+                                List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
+                                newList.add(i);
+                                selectionPath = newList;
+                                this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+                            } else {
+                                ItemStack input = this.menu.getSlot(1).getItem();
+                                if (!input.isEmpty()) {
+                                    if (ModuleType.itemFitsSlotType(input, data.getModuleType().getSubSlot(i).getType())) {
+                                        List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
+                                        newList.add(i);
+                                        PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.INSERT, newList));
+                                        this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+                                    }
+                                }
+                            }
+                        } else if (button == 1) {
+                            if (!subLayer.isEmpty()) {
+                                ItemStack output = this.menu.getSlot(2).getItem();
+                                ItemStack outputItem = subLayer.getItemStack(type);
+                                if (output.isEmpty() || (output.getCount() <= output.getMaxStackSize() + 1 && output.getItem().equals(outputItem.getItem()))) {
+                                    List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
+                                    newList.add(i);
+                                    PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.EXTRACT, newList));
                                     this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
                                 }
                             }
                         }
-                    } else if (button == 1) {
-                        if (!subLayer.isEmpty()) {
-                            ItemStack output = this.menu.getSlot(2).getItem();
-                            ItemStack outputItem = subLayer.getItemStack(type);
-                            if (output.isEmpty() || (output.getCount() <= output.getMaxStackSize() + 1 && output.getItem().equals(outputItem.getItem()))) {
-                                PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.EXTRACT, List.of(i)));
-                                this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
-                            }
-                        }
                     }
+                    i++;
                 }
-                i++;
+                if (selectionPath.size() > layer) {
+                    data = data.getSubLayer(selectionPath.get(layer));
+                    type = data.getModuleType();
+                }
+                layer++;
             }
         }
         return super.mouseClicked(mouseX, mouseY, button);

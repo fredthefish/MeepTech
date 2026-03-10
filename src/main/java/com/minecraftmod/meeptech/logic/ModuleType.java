@@ -26,9 +26,6 @@ public class ModuleType {
     public String getId() {
         return id;
     }
-    public String getModuleId() {
-        return "module_" + id;
-    }
     public Item getItem() {
         if (!ModuleItems.MODULES.containsKey(id)) return null;
         DeferredItem<Item> deferredItem = ModuleItems.MODULES.get(id);
@@ -59,7 +56,7 @@ public class ModuleType {
     }
     public static boolean itemFitsSlotType(ItemStack item, ModuleSlotType type) {
         switch (type) {
-            case Base:
+            case MachineBase:
                 return item.is(ModTags.HULL_TAG);
             case FireboxSlot:
                 return false;
@@ -80,5 +77,8 @@ public class ModuleType {
     }
     public MaterialForm getMaterialForm() {
         return materialForm;
+    }
+    public void setAssociatedItem(DeferredItem<Item> item) {
+        ModuleItems.MODULES.put(id, item);
     }
 }

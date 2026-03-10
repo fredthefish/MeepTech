@@ -23,7 +23,6 @@ public record EngineeringActionPacket(EngineeringAction action, List<Integer> pa
     }
     public enum EngineeringAction {
         INSERT,
-        EXTRACT,
-        SELECT
+        EXTRACT
     }
 }

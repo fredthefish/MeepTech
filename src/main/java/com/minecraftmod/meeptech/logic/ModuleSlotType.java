@@ -1,7 +1,7 @@
 package com.minecraftmod.meeptech.logic;
 
 public enum ModuleSlotType {
-    Base,
+    MachineBase,
     MachineCore,
     HeatingCore,
     FireboxSlot
