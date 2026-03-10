@@ -3,8 +3,13 @@ package com.minecraftmod.meeptech.items;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.minecraftmod.meeptech.ModDataComponents;
+import com.minecraftmod.meeptech.ModModuleTypes;
+import com.minecraftmod.meeptech.logic.MachineAttributes;
+import com.minecraftmod.meeptech.logic.MachineData;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -35,10 +40,22 @@ public class HullItem extends BlockItem {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag flag) {
         MachineConfigData data = stack.get(ModDataComponents.MACHINE_CONFIG_DATA.get());
-        HashMap<ArrayList<String>, String> hashMap = data.toHashMap();
-        for (ArrayList<String> type : hashMap.keySet()) {
-            hashMap.get(type);
-            //TODO
+        if (data == null) return;
+        MachineData machineData = data.toMachineData();
+        if (machineData == null) return;
+        tooltipComponents.add(Component.translatable(ModModuleTypes.SLOT_MACHINE_CORE.getTranslationKey())
+            .append(": ").append(Component.translatable("meeptech.moduleType." + machineData.getBase().getId())));
+        tooltipComponents.add(Component.translatable(ModModuleTypes.SLOT_MACHINE_CORE.getTranslationKey())
+            .append(": ").append(Component.translatable("meeptech.moduleType." + machineData.getType().getId())));
+        MachineAttributes.MachineAttribute energySource = machineData.getEnergySource();
+        if (energySource instanceof MachineAttributes.HeatSource heatSource) {
+            tooltipComponents.add(Component.translatable(ModModuleTypes.SLOT_HEATING_CORE.getTranslationKey())
+            .append(": ").append(Component.translatable("meeptech.moduleType." + heatSource.getId())));
+        }
+        HashMap<MachineAttributes.MachineComponent, String> components = machineData.getComponents();
+        for (Entry<MachineAttributes.MachineComponent, String> entry : components.entrySet()) {
+            tooltipComponents.add(Component.translatable("meeptech.moduleType." + entry.getKey().getId())
+                .append(": ").append(Component.translatable("meeptech.material." + entry.getValue())));
         }
     }
 }

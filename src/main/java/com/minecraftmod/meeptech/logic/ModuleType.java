@@ -16,11 +16,13 @@ import net.neoforged.neoforge.registries.DeferredItem;
 public class ModuleType {
     private final String id;
     private final ModuleSlotType type;
+    private final MachineAttributes.MachineAttribute attribute;
     private final List<ModuleSlot> subSlots;
     private MaterialForm materialForm = null;
-    public ModuleType(String id, ModuleSlotType type) {
+    public ModuleType(String id, ModuleSlotType type, MachineAttributes.MachineAttribute attribute) {
         this.id = id;
         this.type = type;
+        this.attribute = attribute;
         this.subSlots = new ArrayList<>();
     }
     public String getId() {
@@ -44,6 +46,9 @@ public class ModuleType {
     public int getSubSlotCount() {
         return subSlots.size();
     }
+    public MachineAttributes.MachineAttribute getAttribute() {
+        return attribute;
+    }
     public void addSubSlot(String subSlotId, ModuleSlotType subSlotType) {
         subSlots.add(new ModuleSlot(subSlotId, subSlotType));
     }
@@ -58,15 +63,12 @@ public class ModuleType {
         return new MachineConfigData("", materialId, new ArrayList<>());
     }
     public static boolean itemFitsSlotType(ItemStack item, ModuleSlotType type) {
-        switch (type) {
-            case MachineBase:
-                return item.is(ModTags.HULL_TAG);
-            case FireboxSlot:
-                return false;
-            default:
-                ModuleType moduleType = getModuleType(item);
-                if (moduleType == null) return false;
-                return moduleType.type == type;
+        if (type.getMaterialForm() != null) {
+            return item.is(ModTags.FORM_TAGS.get(type.getMaterialForm()));
+        } else {
+            ModuleType moduleType = getModuleType(item);
+            if (moduleType == null) return false;
+            return moduleType.type == type;
         }
     }
     public static ModuleType getModuleType(ItemStack item) {

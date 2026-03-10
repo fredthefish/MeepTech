@@ -33,14 +33,15 @@ public class ModMaterials {
 
         //Iron
         IRON.addForm(MaterialForm.Base, Items.IRON_INGOT);
-        IRON.addForm(MaterialForm.Plate, ModItems.IRON_PLATE.get());
+        IRON.addForm(MaterialForm.Plate, ModItems.IRON_PLATE.asItem());
+        IRON.addForm(MaterialForm.Box, ModItems.IRON_BOX.asItem());
         IRON.setColor(0xFFFFFF);
         IRON.setThermalConductivity(60);
         IRON.setMeltingPoint(1800);
         IRON.setTensileStrength(600);
 
         BRICK.addForm(MaterialForm.Base, Items.BRICK);
-        BRICK.addForm(MaterialForm.Plate, ModItems.BRICK_PLATE.get());
+        BRICK.addForm(MaterialForm.Plate, ModItems.BRICK_PLATE.asItem());
         BRICK.addForm(MaterialForm.Hull, ModBlocks.BRICK_HULL.asItem());
         BRICK.setColor(0x5a2d0f);
         BRICK.setThermalConductivity(1);

@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.minecraftmod.meeptech.ModMaterials;
 import com.minecraftmod.meeptech.ModModuleTypes;
+import com.minecraftmod.meeptech.logic.MachineData;
+import com.minecraftmod.meeptech.logic.ModuleSlotType;
 import com.minecraftmod.meeptech.logic.ModuleType;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -28,6 +30,9 @@ public record MachineConfigData(String moduleId, String materialId, List<Machine
     public static final StreamCodec<RegistryFriendlyByteBuf, MachineConfigData> STREAM_CODEC = ByteBufCodecs.fromCodecWithRegistries(CODEC);
     public ModuleType getModuleType() {
         return ModModuleTypes.getModuleType(moduleId);
+    }
+    public String getMaterial() {
+        return materialId;
     }
     public MachineConfigData getSubLayer(int index) {
         if (subLayers.size() > index) {
@@ -63,9 +68,12 @@ public record MachineConfigData(String moduleId, String materialId, List<Machine
         }
         return false;
     }
-    public ItemStack getItemStack(ModuleType type) {
+    public ItemStack getItemStack(ModuleSlotType type) {
         if (!moduleId.isEmpty()) return new ItemStack(ModModuleTypes.getModuleType(moduleId).getItem());
-        if (!materialId.isEmpty()) return new ItemStack(ModMaterials.getMaterial(materialId).getForm(type.getMaterialForm()));
+        System.out.println(materialId);
+        System.out.println(type.getMaterialForm());
+        //TODO: FIX THIS LINE.
+        if (!materialId.isEmpty() && type.getMaterialForm() != null) return new ItemStack(ModMaterials.getMaterial(materialId).getForm(type.getMaterialForm()));
         return ItemStack.EMPTY;
     }
     public MachineConfigData copy() {
@@ -91,6 +99,12 @@ public record MachineConfigData(String moduleId, String materialId, List<Machine
         }
         return hashMap;
     }
+    public MachineData toMachineData() {
+        if (allSlotsFilled()) {
+            return new MachineData(toHashMap());
+        }
+        return null;
+    }
     public boolean allSlotsFilled() {
         return allSlotsFilled(this);
     }
@@ -98,10 +112,14 @@ public record MachineConfigData(String moduleId, String materialId, List<Machine
         if (layer == null) return false;
         if (layer.isEmpty()) return false;
         ModuleType type = layer.getModuleType();
-        boolean allSlotsFilled = true;
-        for (int i = 0; i < type.getSubSlotCount(); i++) {
-            allSlotsFilled &= allSlotsFilled(layer.getSubLayer(i));
+        if (type != null) {
+            boolean allSlotsFilled = true;
+            for (int i = 0; i < type.getSubSlotCount(); i++) {
+                allSlotsFilled &= allSlotsFilled(layer.getSubLayer(i));
+            }
+            return allSlotsFilled;
+        } else {
+            return false;
         }
-        return allSlotsFilled;
     }
 }

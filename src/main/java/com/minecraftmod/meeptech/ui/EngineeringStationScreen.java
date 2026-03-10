@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import com.minecraftmod.meeptech.ModDataComponents;
-import com.minecraftmod.meeptech.ModModuleTypes;
+import com.minecraftmod.meeptech.ModMaterials;
 import com.minecraftmod.meeptech.items.MachineConfigData;
+import com.minecraftmod.meeptech.logic.ModuleSlotType;
 import com.minecraftmod.meeptech.logic.ModuleType;
 import com.minecraftmod.meeptech.network.EngineeringActionPacket;
 import com.minecraftmod.meeptech.network.EngineeringActionPacket.EngineeringAction;
@@ -66,13 +67,20 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                     if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
                         MachineConfigData subLayer = data.getSubLayer(i);
                         if (!subLayer.isEmpty()) {
-                            ItemStack preview = new ItemStack(subLayer.getModuleType().getItem());
+                            ModuleType moduleType = subLayer.getModuleType();
+                            ItemStack preview;
+                            if (moduleType != null) {
+                                preview = new ItemStack(subLayer.getModuleType().getItem());
+                            } else {
+                                ModuleSlotType slot = data.getModuleType().getSubSlot(i).getType();
+                                preview = new ItemStack(ModMaterials.getMaterial(subLayer.getMaterial()).getForm(slot.getMaterialForm()));
+                            }
                             List<Component> tooltip = new ArrayList<>();
                             tooltip.add(preview.getHoverName());
                             guiGraphics.renderTooltip(this.font, tooltip, Optional.empty(), mouseX, mouseY);
                         } else {
                             List<Component> tooltip = new ArrayList<>();
-                            tooltip.add(Component.translatable(ModModuleTypes.MODULE_SLOT_TRANSLATION_KEYS.get(type.getSubSlot(i).getType())));
+                            tooltip.add(Component.translatable(type.getSubSlot(i).getType().getTranslationKey()));
                             guiGraphics.renderTooltip(this.font, tooltip, Optional.empty(), mouseX, mouseY);
                         }
                     }
@@ -117,7 +125,14 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                     }
                     MachineConfigData subLayer = data.getSubLayer(i);
                     if (!subLayer.isEmpty()) {
-                        ItemStack preview = new ItemStack(subLayer.getModuleType().getItem());
+                        ModuleType moduleType = subLayer.getModuleType();
+                        ItemStack preview;
+                        if (moduleType != null) {
+                            preview = new ItemStack(subLayer.getModuleType().getItem());
+                        } else {
+                            ModuleSlotType slot = data.getModuleType().getSubSlot(i).getType();
+                            preview = new ItemStack(ModMaterials.getMaterial(subLayer.getMaterial()).getForm(slot.getMaterialForm()));
+                        }
                         guiGraphics.renderItem(preview, slotX + 1, slotY + 1);
                     }
                     i++;
@@ -125,7 +140,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                 if (selectionPath.size() > layer) {
                     data = data.getSubLayer(selectionPath.get(layer));
                     type = data.getModuleType();
-                    ItemStack itemStack = data.getItemStack(type);
+                    ItemStack itemStack = data.getItemStack(type.getType());
                     if (!itemStack.isEmpty()) guiGraphics.drawString(this.font, itemStack.getHoverName(), 
                         startX, startY + (layer + 1) * (slotSize + titleHeight) - titleHeight + titleMargin, 0xFFFFFFFF, false);
                 }
@@ -159,12 +174,15 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                         MachineConfigData subLayer = data.getSubLayer(i);
                         if (button == 0) {
                             if (!subLayer.isEmpty()) {
-                                List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
-                                if (selectionPath.size() > layer) {
-                                    if (selectionPath.get(layer) != i) newList.add(i);
-                                } else newList.add(i);
-                                selectionPath = newList;
-                                this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+                                ModuleType moduleType = subLayer.getModuleType();
+                                if (moduleType != null) {
+                                    List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
+                                    if (selectionPath.size() > layer) {
+                                        if (selectionPath.get(layer) != i) newList.add(i);
+                                    } else newList.add(i);
+                                    selectionPath = newList;
+                                    this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+                                }
                             } else {
                                 ItemStack input = this.menu.getSlot(1).getItem();
                                 if (!input.isEmpty()) {
@@ -179,7 +197,8 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                         } else if (button == 1) {
                             if (!subLayer.isEmpty()) {
                                 ItemStack output = this.menu.getSlot(2).getItem();
-                                ItemStack outputItem = subLayer.getItemStack(type);
+                                ModuleSlotType slotType = data.getModuleType().getSubSlot(i).getType();
+                                ItemStack outputItem = subLayer.getItemStack(slotType);
                                 if (!subLayer.hasSubLayers()) {
                                     if (output.isEmpty() 
                                         || (output.getCount() <= output.getMaxStackSize() + 1 && output.getItem().equals(outputItem.getItem()))) {

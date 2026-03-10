@@ -1,8 +1,21 @@
 package com.minecraftmod.meeptech.logic;
 
-public enum ModuleSlotType {
-    MachineBase,
-    MachineCore,
-    HeatingCore,
-    FireboxSlot
+public class ModuleSlotType {
+    private String id;
+    private MaterialForm form = null;
+    public ModuleSlotType(String id) {
+        this.id = id;
+    }
+    public String getId() {
+        return id;
+    }
+    public String getTranslationKey() {
+        return "meeptech.moduleSlotType." + id;
+    }
+    public void setMaterialForm(MaterialForm form) {
+        this.form = form;
+    }
+    public MaterialForm getMaterialForm() {
+        return form;
+    }
 }

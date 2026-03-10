@@ -5,6 +5,7 @@
 
   "item.meeptech.iron_hammer": "Iron Hammer",
   "item.meeptech.iron_plate": "Iron Plate",
+  "item.meeptech.iron_box": "Iron Box",
   "item.meeptech.brick_plate": "Brick Plate",
 
   "item.meeptech.hull.empty": "Empty",
@@ -21,8 +22,6 @@
 
   "itemGroup.meeptech.materials_tab": "MeepTech Materials",
   "itemGroup.meeptech.general_tab": "MeepTech General",
-
-  "meeptech.machineType.primitive_smelter": "Primitive Smelter",
 
   "meeptech.material.iron": "Iron",
   "meeptech.material.brick": "Brick",
