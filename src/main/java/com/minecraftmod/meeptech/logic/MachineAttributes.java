@@ -30,12 +30,18 @@ public class MachineAttributes {
         public MachineBase(String id) {
             super(id);
         }
+        public String getTranslationKey() {
+            return "meeptech.moduleType." + getId();
+        }
     }
     public static class MachineType extends MachineAttribute {
         EnergySourceType energySource;
         public MachineType(String id, EnergySourceType energySource) {
             super(id);
             this.energySource = energySource;
+        }
+        public String getTranslationKey() {
+            return "meeptech.moduleType." + getId();
         }
     }
     public static class HeatSource extends MachineAttribute {

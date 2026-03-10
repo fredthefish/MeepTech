@@ -47,8 +47,8 @@
   "meeptech.moduleSlotType.heating_core": "Heating Core",
   "meeptech.moduleSlotType.firebox_slot": "Firebox Slot",
 
-  "meeptech.moduleType.brick_hull": "Brick",
-  "meeptech.moduleType.machine_core_smelter": "Smelter",
-  "meeptech.moduleType.heating_core_solid_fuel": "Solid Fuel",
-  "meeptech.moduleType.firebox_slot": "Firebox"
+  "meeptech.moduleType.basic": "Basic",
+  "meeptech.moduleType.smelter": "Smelter",
+  "meeptech.moduleType.solid_fuel": "Solid Fuel",
+  "meeptech.moduleType.firebox": "Firebox"
 }

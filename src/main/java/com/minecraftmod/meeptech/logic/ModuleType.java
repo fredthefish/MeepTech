@@ -57,10 +57,10 @@ public class ModuleType {
         for (int i = 0; i < getSubSlotCount(); i++) {
             subModules.add(MachineConfigData.EMPTY);
         }
-        return new MachineConfigData(id, "", subModules);
+        return new MachineConfigData(type.getId(), id, "", subModules);
     }
-    public static MachineConfigData getMaterialMachineConfigData(String materialId) {
-        return new MachineConfigData("", materialId, new ArrayList<>());
+    public static MachineConfigData getMaterialMachineConfigData(ModuleSlotType slotType, String materialId) {
+        return new MachineConfigData(slotType.getId(), "", materialId, new ArrayList<>());
     }
     public static boolean itemFitsSlotType(ItemStack item, ModuleSlotType type) {
         if (type.getMaterialForm() != null) {

@@ -7,7 +7,7 @@ import java.util.List;
 import com.minecraftmod.meeptech.ModMaterials;
 import com.minecraftmod.meeptech.ModModuleTypes;
 import com.minecraftmod.meeptech.logic.MachineData;
-import com.minecraftmod.meeptech.logic.ModuleSlotType;
+import com.minecraftmod.meeptech.logic.MaterialForm;
 import com.minecraftmod.meeptech.logic.ModuleType;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -15,13 +15,14 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 
-public record MachineConfigData(String moduleId, String materialId, List<MachineConfigData> subLayers) {
-    public static final MachineConfigData EMPTY = new MachineConfigData("", "", new ArrayList<>());
+public record MachineConfigData(String moduleSlotType, String moduleId, String materialId, List<MachineConfigData> subLayers) {
+    public static final MachineConfigData EMPTY = new MachineConfigData("", "", "", new ArrayList<>());
 
     public static final Codec<MachineConfigData> CODEC = Codec.recursive("MachineConfigLayerData", self -> 
         RecordCodecBuilder.create(instance -> instance.group(
+            Codec.STRING.optionalFieldOf("moduleSlotType", "").forGetter(MachineConfigData::moduleSlotType),
             Codec.STRING.optionalFieldOf("itemId", "").forGetter(MachineConfigData::moduleId),
             Codec.STRING.optionalFieldOf("materialId", "").forGetter(MachineConfigData::materialId),
             self.listOf().fieldOf("subLayers").forGetter(MachineConfigData::subLayers)
@@ -45,12 +46,12 @@ public record MachineConfigData(String moduleId, String materialId, List<Machine
         int index = path.get(0);
         if (path.size() == 1) {
             newSubLayers.set(index, subLayer);
-            return new MachineConfigData(original.moduleId, original.materialId, newSubLayers);
+            return new MachineConfigData(original.moduleSlotType, original.moduleId, original.materialId, newSubLayers);
         } else {
             MachineConfigData oldSubLayer = original.getSubLayer(index);
             MachineConfigData newSubLayer = changeSubLayer(oldSubLayer, path.subList(1, path.size()), subLayer);
             newSubLayers.set(index, newSubLayer);
-            return new MachineConfigData(original.moduleId, original.materialId, newSubLayers);
+            return new MachineConfigData(original.moduleSlotType, original.moduleId, original.materialId, newSubLayers);
         }
     }
     public void setSubLayerCount(int count) {
@@ -68,16 +69,13 @@ public record MachineConfigData(String moduleId, String materialId, List<Machine
         }
         return false;
     }
-    public ItemStack getItemStack(ModuleSlotType type) {
-        if (!moduleId.isEmpty()) return new ItemStack(ModModuleTypes.getModuleType(moduleId).getItem());
-        System.out.println(materialId);
-        System.out.println(type.getMaterialForm());
-        //TODO: FIX THIS LINE.
-        if (!materialId.isEmpty() && type.getMaterialForm() != null) return new ItemStack(ModMaterials.getMaterial(materialId).getForm(type.getMaterialForm()));
-        return ItemStack.EMPTY;
-    }
-    public MachineConfigData copy() {
-        return new MachineConfigData(moduleId, materialId, new ArrayList<MachineConfigData>(subLayers));
+    public Item getItem() {
+        if (!moduleId.isEmpty()) return ModModuleTypes.getModuleType(moduleId).getItem();
+        if (!materialId.isEmpty() && !moduleSlotType.isEmpty()) {
+            MaterialForm form = ModModuleTypes.getModuleSlotType(moduleSlotType).getMaterialForm();
+            return ModMaterials.getMaterial(materialId).getForm(form);
+        }
+        return null;
     }
     public HashMap<ArrayList<String>, String> toHashMap() {
         return toHashMap(this, new ArrayList<>());
@@ -87,9 +85,11 @@ public record MachineConfigData(String moduleId, String materialId, List<Machine
         if (layer != null) {
             ModuleType type = layer.getModuleType();
             if (!layer.materialId.isEmpty()) {
-                hashMap.put(path, layer.materialId);
+                hashMap.put(new ArrayList<>(path), layer.moduleSlotType);
+                path.add(layer.moduleSlotType);
+                hashMap.put(new ArrayList<>(path), layer.materialId);
             } else if (!layer.moduleId.isEmpty()) {
-                hashMap.put(path, type.getId());
+                hashMap.put(new ArrayList<>(path), type.getId());
                 path.add(type.getId());
                 for (int i = 0; i < type.getSubSlotCount(); i++) {
                     HashMap<ArrayList<String>, String> subLayerHashMap = toHashMap(layer.getSubLayer(i), path);
@@ -118,6 +118,8 @@ public record MachineConfigData(String moduleId, String materialId, List<Machine
                 allSlotsFilled &= allSlotsFilled(layer.getSubLayer(i));
             }
             return allSlotsFilled;
+        } else if (layer.materialId != null && layer.moduleSlotType != null) {
+            return true;
         } else {
             return false;
         }

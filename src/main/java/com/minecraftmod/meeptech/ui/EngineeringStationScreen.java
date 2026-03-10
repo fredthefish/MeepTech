@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.minecraftmod.meeptech.ModDataComponents;
 import com.minecraftmod.meeptech.ModMaterials;
+import com.minecraftmod.meeptech.items.HullItem;
 import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.logic.ModuleSlotType;
 import com.minecraftmod.meeptech.logic.ModuleType;
@@ -21,6 +22,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -104,7 +107,11 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
 
         ItemStack editSlot = this.menu.getSlot(0).getItem();
         if (!editSlot.isEmpty()) {
-            guiGraphics.drawString(this.font, editSlot.getHoverName(), x + boxX, y + boxY, 0xFFFFFF, false);
+            Component titleText;
+            if (editSlot.getItem() instanceof HullItem hullItem) titleText = hullItem.getTranslation();
+            else if (editSlot.getItem() instanceof BlockItem blockItem) titleText = Component.translatable(blockItem.getDescriptionId());
+            else titleText = Component.translatable(editSlot.getItem().getDescriptionId());
+            guiGraphics.drawString(this.font, titleText, x + boxX, y + boxY, 0xFFFFFF, false);
             ModuleType type = ModuleType.getModuleType(editSlot);
             MachineConfigData data = (editSlot.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) ? 
                 editSlot.get(ModDataComponents.MACHINE_CONFIG_DATA.get()) : type.getEmptyMachineConfigData();
@@ -140,7 +147,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                 if (selectionPath.size() > layer) {
                     data = data.getSubLayer(selectionPath.get(layer));
                     type = data.getModuleType();
-                    ItemStack itemStack = data.getItemStack(type.getType());
+                    ItemStack itemStack = new ItemStack(data.getItem());
                     if (!itemStack.isEmpty()) guiGraphics.drawString(this.font, itemStack.getHoverName(), 
                         startX, startY + (layer + 1) * (slotSize + titleHeight) - titleHeight + titleMargin, 0xFFFFFFFF, false);
                 }
@@ -197,11 +204,10 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                         } else if (button == 1) {
                             if (!subLayer.isEmpty()) {
                                 ItemStack output = this.menu.getSlot(2).getItem();
-                                ModuleSlotType slotType = data.getModuleType().getSubSlot(i).getType();
-                                ItemStack outputItem = subLayer.getItemStack(slotType);
+                                Item outputItem = subLayer.getItem();
                                 if (!subLayer.hasSubLayers()) {
                                     if (output.isEmpty() 
-                                        || (output.getCount() <= output.getMaxStackSize() + 1 && output.getItem().equals(outputItem.getItem()))) {
+                                        || (output.getCount() <= output.getMaxStackSize() + 1 && output.getItem().equals(outputItem))) {
                                         List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
                                         newList.add(i);
                                         PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.EXTRACT, newList));

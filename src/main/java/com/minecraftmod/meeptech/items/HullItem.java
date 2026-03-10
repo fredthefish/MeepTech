@@ -1,6 +1,5 @@
 package com.minecraftmod.meeptech.items;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -24,18 +23,19 @@ public class HullItem extends BlockItem {
     @Override
     public Component getName(ItemStack stack) {
         MachineConfigData data = stack.get(ModDataComponents.MACHINE_CONFIG_DATA.get());
-        if (data != null && !data.isEmpty()) {
+        if (data != null && !data.isEmpty() && data.hasSubLayers()) {
             if (data.allSlotsFilled()) {
-                HashMap<ArrayList<String>, String> hashMap = data.toHashMap();
-                String machineBase = hashMap.get(List.of());
-                String machineCore = hashMap.get(List.of(machineBase));
-                return Component.translatable("meeptech.moduleType." + machineBase).append(" ")
-                    .append(Component.translatable("meeptech.moduleType." + machineCore));
+                MachineData machineData = data.toMachineData();
+                return Component.translatable(machineData.getBase().getTranslationKey()).append(" ")
+                    .append(Component.translatable(machineData.getType().getTranslationKey()));
             } else {
                 return Component.translatable("item.meeptech.hull.partial").append(" ").append(super.getName(stack));
             }
         }
         return Component.translatable("item.meeptech.hull.empty").append(" ").append(super.getName(stack));
+    }
+    public Component getTranslation() {
+        return Component.translatable(this.getDescriptionId());
     }
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag flag) {
@@ -43,7 +43,7 @@ public class HullItem extends BlockItem {
         if (data == null) return;
         MachineData machineData = data.toMachineData();
         if (machineData == null) return;
-        tooltipComponents.add(Component.translatable(ModModuleTypes.SLOT_MACHINE_CORE.getTranslationKey())
+        tooltipComponents.add(Component.translatable(ModModuleTypes.SLOT_MACHINE_BASE.getTranslationKey())
             .append(": ").append(Component.translatable("meeptech.moduleType." + machineData.getBase().getId())));
         tooltipComponents.add(Component.translatable(ModModuleTypes.SLOT_MACHINE_CORE.getTranslationKey())
             .append(": ").append(Component.translatable("meeptech.moduleType." + machineData.getType().getId())));

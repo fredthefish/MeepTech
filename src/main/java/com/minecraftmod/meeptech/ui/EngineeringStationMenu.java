@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
@@ -103,8 +104,6 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                         layer++;
                     } else {
                         if (data.isEmpty() && !input.isEmpty()) {
-                            System.out.println("MEAPEENATION");
-                            System.out.println(data);
                             if (ModuleType.itemFitsSlotType(input, slotType)) {
                                 ModuleType inputModuleType = ModuleType.getModuleType(input);
                                 inputSlot.remove(1);
@@ -113,7 +112,8 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                                 } else {
                                     //If it isn't a module, it must be a component.
                                     MaterialItemData itemData = new MaterialItemData(input.getItem());
-                                    mainData = MachineConfigData.changeSubLayer(mainData, path, ModuleType.getMaterialMachineConfigData(itemData.getMaterial().getId()));
+                                    mainData = MachineConfigData.changeSubLayer(mainData, path, 
+                                        ModuleType.getMaterialMachineConfigData(slotType, itemData.getMaterial().getId()));
                                 }
                                 edit = edit.copy();
                                 edit.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), mainData);
@@ -142,15 +142,14 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                     } else {
                         if (!data.isEmpty()) {
                             if (!data.hasSubLayers()) {
-                                ItemStack outputItem = data.getItemStack(type.getType());
-                                if (output.isEmpty() || (output.getCount() <= output.getMaxStackSize() + 1 && output.getItem().equals(outputItem.getItem()))) {
+                                Item outputItem = data.getItem();
+                                if (output.isEmpty() || (output.getCount() <= output.getMaxStackSize() + 1 && output.getItem().equals(outputItem))) {
                                     if (!output.isEmpty()) output.grow(1);
-                                    else outputSlot.set(outputItem);
+                                    else outputSlot.set(new ItemStack(outputItem));
                                     mainData = MachineConfigData.changeSubLayer(mainData, path, MachineConfigData.EMPTY);
                                     edit = edit.copy();
                                     edit.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), mainData);
                                     editSlot.set(edit);
-                                    //TODO: Remove data component from slot if empty.
                                     this.broadcastChanges();
                                     return;
                                 }

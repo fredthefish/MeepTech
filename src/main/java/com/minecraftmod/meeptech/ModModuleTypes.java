@@ -39,6 +39,12 @@ public class ModModuleTypes {
         }
         return null;
     }
+    public static ModuleSlotType getModuleSlotType(String slotTypeId) {
+        for (ModuleSlotType slot : MODULE_SLOT_TYPES) {
+            if (slot.getId().equals(slotTypeId)) return slot;
+        }
+        return null;
+    }
     public static void InitializeModuleTypes() {
         SLOT_MACHINE_BASE.setMaterialForm(MaterialForm.Hull);
         SLOT_FIREBOX.setMaterialForm(MaterialForm.Box);

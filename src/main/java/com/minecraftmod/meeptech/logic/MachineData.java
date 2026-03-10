@@ -31,10 +31,13 @@ public class MachineData {
                     type = machineType;
                 } else if (attribute instanceof HeatSource machineHeatSource) {
                     heatSource = machineHeatSource;
+                } else if (attribute instanceof MachineComponent component) {
+                    ArrayList<String> newPath = new ArrayList<>(path);
+                    newPath.add(id);
+                    String materialId = data.get(newPath);
+                    components.put(component, materialId);
                 }
             } else {
-                System.out.println(path);
-                System.out.println(id);
             }
         }
     }
