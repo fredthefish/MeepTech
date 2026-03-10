@@ -18,6 +18,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -30,10 +32,10 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
     private final int boxX = 12;
     private final int boxY = 21;
     private final int slotSize = 18;
-    private final int titleHeight = 10;
+    private final int titleHeight = 12;
+    private final int titleMargin = 2;
 
     private List<Integer> selectionPath = new ArrayList<>(0);
-    //TODO: CLEAR SELECTION WHEN HULL IS REMOVED.
     
     public EngineeringStationScreen(EngineeringStationMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
@@ -82,6 +84,8 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                 }
                 layer++;
             }
+        } else {
+            if (!this.selectionPath.isEmpty()) selectionPath.clear();
         }
     }
     @Override
@@ -101,12 +105,12 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
             int startY = y + boxY + titleHeight;
     
             while (selectionPath.size() >= layer) {
-                //TODO: DRAW TITLE FOR OTHER LAYERS
-                //TODO: SHOW SELECTED
                 for (int i = 0; i < type.getSubSlotCount(); i++) {
                     int slotX = startX + i * (slotSize - 1);
                     int slotY = startY + layer * (slotSize + titleHeight);
-                    guiGraphics.fill(slotX, slotY, slotX + slotSize, slotY + slotSize, 0xFF373737);
+                    int outlineColor = 0xFF373737;
+                    if (selectionPath.size() > layer) if (selectionPath.get(layer) == i) outlineColor = 0xFFBBFFFF;
+                    guiGraphics.fill(slotX, slotY, slotX + slotSize, slotY + slotSize, outlineColor);
                     guiGraphics.fill(slotX + 1, slotY + 1, slotX + slotSize - 1, slotY + slotSize - 1, 0xFF616161);
                     if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
                         guiGraphics.fill(slotX + 1, slotY + 1, slotX + slotSize - 1, slotY + slotSize - 1, 0x80FFFFFF); 
@@ -121,6 +125,9 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                 if (selectionPath.size() > layer) {
                     data = data.getSubLayer(selectionPath.get(layer));
                     type = data.getModuleType();
+                    ItemStack itemStack = data.getItemStack(type);
+                    if (!itemStack.isEmpty()) guiGraphics.drawString(this.font, itemStack.getHoverName(), 
+                        startX, startY + (layer + 1) * (slotSize + titleHeight) - titleHeight + titleMargin, 0xFFFFFFFF, false);
                 }
                 layer++;
             }
@@ -153,7 +160,9 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                         if (button == 0) {
                             if (!subLayer.isEmpty()) {
                                 List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
-                                newList.add(i);
+                                if (selectionPath.size() > layer) {
+                                    if (selectionPath.get(layer) != i) newList.add(i);
+                                } else newList.add(i);
                                 selectionPath = newList;
                                 this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
                             } else {
@@ -171,11 +180,15 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                             if (!subLayer.isEmpty()) {
                                 ItemStack output = this.menu.getSlot(2).getItem();
                                 ItemStack outputItem = subLayer.getItemStack(type);
-                                if (output.isEmpty() || (output.getCount() <= output.getMaxStackSize() + 1 && output.getItem().equals(outputItem.getItem()))) {
-                                    List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
-                                    newList.add(i);
-                                    PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.EXTRACT, newList));
-                                    this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+                                if (!subLayer.hasSubLayers()) {
+                                    if (output.isEmpty() 
+                                        || (output.getCount() <= output.getMaxStackSize() + 1 && output.getItem().equals(outputItem.getItem()))) {
+                                        List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
+                                        newList.add(i);
+                                        PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.EXTRACT, newList));
+                                        selectionPath = selectionPath.subList(0, layer);
+                                        this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+                                    }
                                 }
                             }
                         }
@@ -190,5 +203,17 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
             }
         }
         return super.mouseClicked(mouseX, mouseY, button);
+    }
+    @Override
+    public void onClose() {
+        selectionPath.clear();
+        super.onClose();
+    }
+    @Override
+    protected void slotClicked(Slot slot, int slotId, int mouseButton, ClickType type) {
+        super.slotClicked(slot, slotId, mouseButton, type);
+        if (slot != null && slot.index == 0) {
+            this.selectionPath.clear();
+        }
     }
 }

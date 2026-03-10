@@ -8,6 +8,7 @@ import com.minecraftmod.meeptech.blocks.DraftingStationBlock;
 import com.minecraftmod.meeptech.blocks.EngineeringStationBlock;
 import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlock;
 import com.minecraftmod.meeptech.blocks.machines.PrimitiveSmelterBlock;
+import com.minecraftmod.meeptech.items.HullItem;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -64,16 +65,25 @@ public class ModBlocks {
         .destroyTime(3)
         .requiresCorrectToolForDrops()
         .sound(SoundType.STONE)
-    ));
+    ), false);
+    public static final DeferredItem<Item> BRICK_HULL_ITEM = registerBlockHullItem("brick_hull", BRICK_HULL);
 
     private static DeferredBlock<Block> registerBlock(String name, Supplier<Block> block) {
+        return registerBlock(name, block, true);
+    }
+    private static DeferredBlock<Block> registerBlock(String name, Supplier<Block> block, boolean registerItem) {
         DeferredBlock<Block> returnBlock = BLOCKS.register(name, block);
-        registerBlockItem(name, returnBlock);
+        if (registerItem) registerBlockItem(name, returnBlock);
         return returnBlock;
     }
-
-    private static void registerBlockItem(String name, DeferredBlock<Block> block) {
+    private static DeferredItem<Item> registerBlockItem(String name, DeferredBlock<Block> block) {
         DeferredItem<Item> deferredItem = ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
         BLOCK_ITEMS.put(block, deferredItem);
+        return deferredItem;
+    }
+    private static DeferredItem<Item> registerBlockHullItem(String name, DeferredBlock<Block> block) {
+        DeferredItem<Item> deferredItem = ModItems.ITEMS.register(name, () -> new HullItem(block.get(), new Item.Properties()));
+        BLOCK_ITEMS.put(block, deferredItem);
+        return deferredItem;
     }
 }

@@ -65,8 +65,22 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
     }
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
-        //TODO: IMPLEMENT.
-        return ItemStack.EMPTY;
+        ItemStack itemStack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(index);
+
+        if (slot != null && slot.hasItem()) {
+            ItemStack stackInSlot = slot.getItem();
+            itemStack = stackInSlot.copy();
+            if (index < 3) {
+                if (!this.moveItemStackTo(stackInSlot, 3, 39, true)) return ItemStack.EMPTY;
+            } else {
+                if (!this.moveItemStackTo(stackInSlot, 0, 2, false)) return ItemStack.EMPTY;
+            }
+            if (stackInSlot.isEmpty()) slot.setByPlayer(ItemStack.EMPTY);
+            if (stackInSlot.getCount() == itemStack.getCount()) return ItemStack.EMPTY;
+        }
+
+        return itemStack;
     }
     public void handleVirtualAction(EngineeringActionPacket.EngineeringAction action, List<Integer> path) {
         switch (action) {

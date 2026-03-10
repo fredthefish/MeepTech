@@ -6,9 +6,12 @@
   "item.meeptech.iron_hammer": "Iron Hammer",
   "item.meeptech.iron_plate": "Iron Plate",
   "item.meeptech.brick_plate": "Brick Plate",
+
   "item.meeptech.blueprint.blank": "Blank Blueprint",
   "item.meeptech.blueprint.empty": "Empty Machine Blueprint",
   "item.meeptech.blueprint.full": "Machine Blueprint",
+
+  "item.meeptech.hull.empty": "Empty",
 
   "item.meeptech.module_template_basic": "Basic Module Template",
   "item.meeptech.module_machine_core_smelter": "Smelter Machine Core Module",

@@ -32,7 +32,7 @@ public class ModModuleTypes {
     }
     public static void InitializeModuleTypes() {
         BRICK_HULL.addSubSlot("machine_core", ModuleSlotType.MachineCore);
-        BRICK_HULL.setAssociatedItem(ModBlocks.BLOCK_ITEMS.get(ModBlocks.BRICK_HULL));
+        BRICK_HULL.setAssociatedItem(ModBlocks.BRICK_HULL_ITEM);
         MACHINE_CORE_SMELTER.addSubSlot("heating_core", ModuleSlotType.HeatingCore);
         HEATING_CORE_SOLID_FUEL.addSubSlot("firebox_slot", ModuleSlotType.FireboxSlot);
         FIREBOX_SLOT.setMaterialForm(MaterialForm.Box);

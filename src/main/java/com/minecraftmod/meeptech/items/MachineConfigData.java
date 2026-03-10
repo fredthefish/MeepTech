@@ -70,4 +70,5 @@ public record MachineConfigData(String moduleId, String materialId, List<Machine
     public MachineConfigData copy() {
         return new MachineConfigData(moduleId, materialId, new ArrayList<MachineConfigData>(subLayers));
     }
+    //TODO: IMPLEMENT SYSTEM TO READ ENTIRE DATA AND SEE IF THE MACHINE HAS ALL REQUIRED SLOTS FILLED.
 }

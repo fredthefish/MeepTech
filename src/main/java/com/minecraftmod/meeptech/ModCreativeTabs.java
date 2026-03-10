@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import com.minecraftmod.meeptech.items.ModuleItems;
 import com.minecraftmod.meeptech.logic.Material;
 import com.minecraftmod.meeptech.logic.MaterialForm;
+import com.minecraftmod.meeptech.logic.MaterialItemData;
 
 public class ModCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MeepTech.MODID);
@@ -42,7 +43,10 @@ public class ModCreativeTabs {
             output.accept(ModBlocks.ENGINEERING_STATION.get());
             output.accept(ModItems.BLUEPRINT.get());
             output.accept(ModBlocks.PRIMITIVE_SMELTER.get());
-            ModuleItems.MODULES.values().forEach(item -> output.accept(item.get()));
+            ModuleItems.MODULES.values().forEach(item -> {
+                //Materials have their own tab.
+                if (new MaterialItemData(item.get()).getMaterial() == null) output.accept(item.get());
+            });
         })
         .build()
     );
