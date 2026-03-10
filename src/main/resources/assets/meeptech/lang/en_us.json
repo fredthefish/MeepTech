@@ -10,8 +10,8 @@
   "item.meeptech.blueprint.blank": "Blank Blueprint",
   "item.meeptech.blueprint.empty": "Empty Machine Blueprint",
   "item.meeptech.blueprint.full": "Machine Blueprint",
-
   "item.meeptech.hull.empty": "Empty",
+  "item.meeptech.hull.partial": "Incomplete",
 
   "item.meeptech.module_template_basic": "Basic Module Template",
   "item.meeptech.module_machine_core_smelter": "Smelter Machine Core Module",
@@ -41,6 +41,7 @@
   "meeptech.machineComponent.thermal_diffuser_rack": "Thermal Diffuser Rack",
 
   "meeptech.material.iron": "Iron",
+  "meeptech.material.brick": "Brick",
 
   "meeptech.materialForm.base": "Base Form",
   "meeptech.materialForm.plate": "Plate",
@@ -58,7 +59,13 @@
   "meeptech.machineStat.efficiency": "Efficiency",
   "meeptech.machineStat.heat_decay": "Heat Decay",
 
+  "meeptech.moduleSlotType.machine_base": "Machine Base",
   "meeptech.moduleSlotType.machine_core": "Machine Core",
   "meeptech.moduleSlotType.heating_core": "Heating Core",
-  "meeptech.moduleSlotType.firebox_slot": "Firebox Slot"
+  "meeptech.moduleSlotType.firebox_slot": "Firebox Slot",
+
+  "meeptech.moduleType.brick_hull": "Brick",
+  "meeptech.moduleType.machine_core_smelter": "Smelter",
+  "meeptech.moduleType.heating_core_solid_fuel": "Solid Fuel",
+  "meeptech.moduleType.firebox_slot": "Firebox"
 }

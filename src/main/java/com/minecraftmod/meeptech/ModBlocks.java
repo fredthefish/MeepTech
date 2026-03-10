@@ -3,11 +3,8 @@ package com.minecraftmod.meeptech;
 import java.util.HashMap;
 import java.util.function.Supplier;
 
-import com.minecraftmod.meeptech.blocks.DesigningStationBlock;
-import com.minecraftmod.meeptech.blocks.DraftingStationBlock;
 import com.minecraftmod.meeptech.blocks.EngineeringStationBlock;
 import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlock;
-import com.minecraftmod.meeptech.blocks.machines.PrimitiveSmelterBlock;
 import com.minecraftmod.meeptech.items.HullItem;
 
 import net.minecraft.world.item.BlockItem;
@@ -30,32 +27,10 @@ public class ModBlocks {
             .requiresCorrectToolForDrops()
             .sound(SoundType.METAL)
     ));
-    public static final DeferredBlock<Block> DESIGNING_STATION = registerBlock("designing_station", 
-        () -> new DesigningStationBlock(BlockBehaviour.Properties.of()
-            .strength(2f, 6f)
-            .destroyTime(1.5f)
-            .requiresCorrectToolForDrops()
-            .sound(SoundType.STONE)
-    ));
-    public static final DeferredBlock<Block> DRAFTING_STATION = registerBlock("drafting_station", 
-        () -> new DraftingStationBlock(BlockBehaviour.Properties.of()
-            .strength(2f, 6f)
-            .destroyTime(1.5f)
-            .requiresCorrectToolForDrops()
-            .sound(SoundType.STONE)
-    ));
     public static final DeferredBlock<Block> ENGINEERING_STATION = registerBlock("engineering_station", 
         () -> new EngineeringStationBlock(BlockBehaviour.Properties.of()
             .strength(2f, 6f)
             .destroyTime(2f)
-            .requiresCorrectToolForDrops()
-            .sound(SoundType.STONE)
-    ));
-
-    public static final DeferredBlock<Block> PRIMITIVE_SMELTER = registerBlock("primitive_smelter", 
-        () -> new PrimitiveSmelterBlock(BlockBehaviour.Properties.of()
-            .strength(2f, 6f)
-            .destroyTime(3)
             .requiresCorrectToolForDrops()
             .sound(SoundType.STONE)
     ));

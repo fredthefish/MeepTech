@@ -1,6 +1,7 @@
 package com.minecraftmod.meeptech.items;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.minecraftmod.meeptech.ModMaterials;
@@ -70,5 +71,37 @@ public record MachineConfigData(String moduleId, String materialId, List<Machine
     public MachineConfigData copy() {
         return new MachineConfigData(moduleId, materialId, new ArrayList<MachineConfigData>(subLayers));
     }
-    //TODO: IMPLEMENT SYSTEM TO READ ENTIRE DATA AND SEE IF THE MACHINE HAS ALL REQUIRED SLOTS FILLED.
+    public HashMap<ArrayList<String>, String> toHashMap() {
+        return toHashMap(this, new ArrayList<>());
+    }
+    private static HashMap<ArrayList<String>, String> toHashMap(MachineConfigData layer, ArrayList<String> path) {
+        HashMap<ArrayList<String>, String> hashMap = new HashMap<>();
+        if (layer != null) {
+            ModuleType type = layer.getModuleType();
+            if (!layer.materialId.isEmpty()) {
+                hashMap.put(path, layer.materialId);
+            } else if (!layer.moduleId.isEmpty()) {
+                hashMap.put(path, type.getId());
+                path.add(type.getId());
+                for (int i = 0; i < type.getSubSlotCount(); i++) {
+                    HashMap<ArrayList<String>, String> subLayerHashMap = toHashMap(layer.getSubLayer(i), path);
+                    hashMap.putAll(subLayerHashMap);
+                }
+            }
+        }
+        return hashMap;
+    }
+    public boolean allSlotsFilled() {
+        return allSlotsFilled(this);
+    }
+    private static boolean allSlotsFilled(MachineConfigData layer) {
+        if (layer == null) return false;
+        if (layer.isEmpty()) return false;
+        ModuleType type = layer.getModuleType();
+        boolean allSlotsFilled = true;
+        for (int i = 0; i < type.getSubSlotCount(); i++) {
+            allSlotsFilled &= allSlotsFilled(layer.getSubLayer(i));
+        }
+        return allSlotsFilled;
+    }
 }

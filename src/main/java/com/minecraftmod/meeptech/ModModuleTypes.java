@@ -9,6 +9,7 @@ import com.minecraftmod.meeptech.logic.ModuleType;
 
 public class ModModuleTypes {
     public static final HashMap<ModuleSlotType, String> MODULE_SLOT_TRANSLATION_KEYS = new HashMap<>() {{
+        put(ModuleSlotType.MachineBase, "meeptech.moduleSlotType.machine_base");
         put(ModuleSlotType.MachineCore, "meeptech.moduleSlotType.machine_core");
         put(ModuleSlotType.HeatingCore, "meeptech.moduleSlotType.heating_core");
         put(ModuleSlotType.FireboxSlot, "meeptech.moduleSlotType.firebox_slot");

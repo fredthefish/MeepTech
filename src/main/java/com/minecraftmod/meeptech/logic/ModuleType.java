@@ -17,7 +17,7 @@ public class ModuleType {
     private final String id;
     private final ModuleSlotType type;
     private final List<ModuleSlot> subSlots;
-    private MaterialForm materialForm;
+    private MaterialForm materialForm = null;
     public ModuleType(String id, ModuleSlotType type) {
         this.id = id;
         this.type = type;
@@ -25,6 +25,9 @@ public class ModuleType {
     }
     public String getId() {
         return id;
+    }
+    public String getTranslationKey() {
+        return "meeptech.moduleType." + id;
     }
     public Item getItem() {
         if (!ModuleItems.MODULES.containsKey(id)) return null;

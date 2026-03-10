@@ -2,7 +2,7 @@ package com.minecraftmod.meeptech;
 
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import com.minecraftmod.meeptech.items.BlueprintItem;
+// import com.minecraftmod.meeptech.items.BlueprintItem;
 
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -15,5 +15,5 @@ public class ModItems {
     );
     public static final DeferredItem<Item> IRON_PLATE = ITEMS.registerSimpleItem("iron_plate");
     public static final DeferredItem<Item> BRICK_PLATE = ITEMS.registerSimpleItem("brick_plate");
-    public static final DeferredItem<Item> BLUEPRINT = ITEMS.register("blueprint", () -> new BlueprintItem(new Item.Properties()));
+    // public static final DeferredItem<Item> BLUEPRINT = ITEMS.register("blueprint", () -> new BlueprintItem(new Item.Properties()));
 }
