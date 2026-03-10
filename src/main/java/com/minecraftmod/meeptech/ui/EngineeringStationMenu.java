@@ -104,9 +104,9 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                         layer++;
                     } else {
                         if (data.isEmpty() && !input.isEmpty()) {
-                            if (ModuleType.itemFitsSlotType(input, slotType)) {
+                            if (ModuleType.itemFitsSlotType(input, slotType) && input.getCount() >= edit.getCount()) {
                                 ModuleType inputModuleType = ModuleType.getModuleType(input);
-                                inputSlot.remove(1);
+                                inputSlot.remove(edit.getCount());
                                 if (inputModuleType != null) {
                                     mainData = MachineConfigData.changeSubLayer(mainData, path, inputModuleType.getEmptyMachineConfigData());
                                 } else {
@@ -143,9 +143,9 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                         if (!data.isEmpty()) {
                             if (!data.hasSubLayers()) {
                                 Item outputItem = data.getItem();
-                                if (output.isEmpty() || (output.getCount() <= output.getMaxStackSize() + 1 && output.getItem().equals(outputItem))) {
-                                    if (!output.isEmpty()) output.grow(1);
-                                    else outputSlot.set(new ItemStack(outputItem));
+                                if (output.isEmpty() || (output.getCount() <= output.getMaxStackSize() + edit.getCount() && output.getItem().equals(outputItem))) {
+                                    if (!output.isEmpty()) output.grow(edit.getCount());
+                                    else outputSlot.set(new ItemStack(outputItem, edit.getCount()));
                                     mainData = MachineConfigData.changeSubLayer(mainData, path, MachineConfigData.EMPTY);
                                     edit = edit.copy();
                                     edit.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), mainData);

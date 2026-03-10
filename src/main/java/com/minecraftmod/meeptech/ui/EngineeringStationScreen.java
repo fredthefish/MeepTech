@@ -193,7 +193,8 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                             } else {
                                 ItemStack input = this.menu.getSlot(1).getItem();
                                 if (!input.isEmpty()) {
-                                    if (ModuleType.itemFitsSlotType(input, data.getModuleType().getSubSlot(i).getType())) {
+                                    if (input.getCount() >= editSlot.getCount() && 
+                                    ModuleType.itemFitsSlotType(input, data.getModuleType().getSubSlot(i).getType())) {
                                         List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
                                         newList.add(i);
                                         PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.INSERT, newList));
@@ -207,7 +208,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                                 Item outputItem = subLayer.getItem();
                                 if (!subLayer.hasSubLayers()) {
                                     if (output.isEmpty() 
-                                        || (output.getCount() <= output.getMaxStackSize() + 1 && output.getItem().equals(outputItem))) {
+                                    || (editSlot.getCount() <= output.getMaxStackSize() + 1 && output.getItem().equals(outputItem))) {
                                         List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
                                         newList.add(i);
                                         PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.EXTRACT, newList));
