@@ -1,24 +1,30 @@
 package com.minecraftmod.meeptech.logic.machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.minecraftmod.meeptech.logic.ui.UIElement;
+import com.minecraftmod.meeptech.logic.ui.UIModule;
 
 public class MachineType extends MachineAttribute {
-    EnergySourceType energySource;
-    List<UIElement> uiElements = new ArrayList<>();
-    public MachineType(String id, EnergySourceType energySource) {
+    @SuppressWarnings("unused")
+    private EnergySourceType energySource; //TODO: Improve it so that the MachineData reads things in order and thus this can be used.
+    private UIModule inputModule;
+    private UIModule outputModule;
+    private UIModule recipeModule;
+    public MachineType(String id, EnergySourceType energySource, UIModule inputModule, UIModule outputModule, UIModule recipeModule) {
         super(id);
         this.energySource = energySource;
+        this.inputModule = inputModule;
+        this.outputModule = outputModule;
+        this.recipeModule = recipeModule;
     }
     public String getTranslationKey() {
         return "meeptech.moduleType." + getId();
     }
-    public void addUIElement(UIElement element) {
-        uiElements.add(element);
+    public UIModule getInputUI() {
+        return inputModule;
     }
-    public List<UIElement> getUIElements() {
-        return uiElements;
+    public UIModule getOutputUI() {
+        return outputModule;
+    }
+    public UIModule getRecipeUI() {
+        return recipeModule;
     }
 }

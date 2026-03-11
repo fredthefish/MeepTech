@@ -1,17 +1,21 @@
 package com.minecraftmod.meeptech.logic.ui;
 
-public class SlotUIElement extends UIElement {
-    SlotType type;
-    String id;
-    public SlotUIElement(int x, int y, SlotType type, String id) {
-        super(x, y);
+public class SlotUIElement {
+    private SlotType type;
+    private int id;
+    private UIModule module;
+    public SlotUIElement(SlotType type, int id, UIModule module) {
         this.type = type;
         this.id = id;
+        this.module = module;
     }
-    public static int getX(int index) {
-        return 9;
+    public SlotType getType() {
+        return type;
     }
-    public static int getY(int index) {
-        return 16 + 17 * index;
+    public int getX() {
+        return module.getX() + 3 + 17 * id;
+    }
+    public int getY() {
+        return module.getY() + 9;
     }
 }

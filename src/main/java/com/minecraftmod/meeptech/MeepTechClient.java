@@ -22,7 +22,6 @@ public class MeepTechClient {
     static void onClientSetup(FMLClientSetupEvent event) {
         ModMaterials.initializeMaterials();
         ModModuleTypes.initializeModuleTypes();
-        ModModuleData.initializeModuleData();
     }
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {

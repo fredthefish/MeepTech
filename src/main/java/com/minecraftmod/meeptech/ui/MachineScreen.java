@@ -2,7 +2,6 @@ package com.minecraftmod.meeptech.ui;
 
 import com.minecraftmod.meeptech.logic.machine.MachineData;
 import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
-import com.minecraftmod.meeptech.logic.ui.UIElement;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -11,13 +10,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
-    private static final ResourceLocation BASE_UI = ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/blank_ui.png");
+    private static final ResourceLocation BASE_UI = ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/four_panel_ui.png");
     private static final ResourceLocation SLOT = ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/slot.png");
     private static final int slotSize = 18;
     public MachineScreen(MachineMenu menu, Inventory playerInv, Component title) {
         super(menu, playerInv, title);
         this.imageWidth = 176;
-        this.imageHeight = 166;
+        this.imageHeight = 206;
     }
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
@@ -32,10 +31,12 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
 
         guiGraphics.blit(BASE_UI, x, y, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
         MachineData machineData = this.menu.getMachineData();
-        for (UIElement element : machineData.getUIElements()) {
-            if (element instanceof SlotUIElement) {
-                guiGraphics.blit(SLOT, x + element.getX() - 1, y + element.getY() - 1, 0, 0, slotSize, slotSize, slotSize, slotSize);
-            }
+        for (SlotUIElement slot : machineData.getSlots()) {
+            guiGraphics.blit(SLOT, x + slot.getX() - 1, y + slot.getY() - 1, 0, 0, slotSize, slotSize, slotSize, slotSize);
         }
+    }
+    @Override
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.drawString(this.font, this.title, this.titleLabelX, this.titleLabelY, 0x404040, false);
     }
 }

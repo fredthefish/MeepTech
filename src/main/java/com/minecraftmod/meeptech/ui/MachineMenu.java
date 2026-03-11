@@ -6,8 +6,8 @@ import com.minecraftmod.meeptech.ModBlocks;
 import com.minecraftmod.meeptech.ModMenus;
 import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
+import com.minecraftmod.meeptech.logic.ui.SlotType;
 import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
-import com.minecraftmod.meeptech.logic.ui.UIElement;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -41,13 +41,17 @@ public class MachineMenu extends AbstractContainerMenu {
         if (blockEntity != null) {
             if (this.blockEntity.getMachineData() != null) {
                 MachineData machineData = this.blockEntity.getMachineData();
-                ArrayList<UIElement> uiElements = machineData.getUIElements();
+                ArrayList<SlotUIElement> uiSlots = machineData.getSlots();
                 int i = 0;
-                for (UIElement uiElement : uiElements) {
-                    if (uiElement instanceof SlotUIElement) {
-                        this.addSlot(new SlotItemHandler(blockEntity.getInventory(), i, uiElement.getX(), uiElement.getY()));
-                        i++;
-                    }
+                for (SlotUIElement slot : uiSlots) {
+                    SlotItemHandler newSlot = new SlotItemHandler(blockEntity.getInventory(), i, slot.getX(), slot.getY()) {
+                        @Override
+                        public boolean mayPlace(ItemStack stack) {
+                            return slot.getType() == SlotType.INPUT;
+                        }
+                    };
+                    this.addSlot(newSlot);
+                    i++;
                 }
             }
         }
@@ -55,11 +59,11 @@ public class MachineMenu extends AbstractContainerMenu {
         //Add inventory/hotbar.
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {
-                this.addSlot(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.addSlot(new Slot(playerInv, j + i * 9 + 9, 8 + j * 18, 124 + i * 18));
             }
         }
         for (int i = 0; i < 9; i++) {
-            this.addSlot(new Slot(playerInv, i, 8 + i * 18, 142));
+            this.addSlot(new Slot(playerInv, i, 8 + i * 18, 182));
         }
     }
     @Override

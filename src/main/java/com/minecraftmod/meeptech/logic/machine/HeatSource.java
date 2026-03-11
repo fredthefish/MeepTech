@@ -1,19 +1,14 @@
 package com.minecraftmod.meeptech.logic.machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.minecraftmod.meeptech.logic.ui.UIElement;
+import com.minecraftmod.meeptech.logic.ui.UIModule;
 
 public class HeatSource extends MachineAttribute {
-    List<UIElement> uiElements = new ArrayList<>();
-    public HeatSource(String id) {
+    private UIModule energyModule;
+    public HeatSource(String id, UIModule energyModule) {
         super(id);
+        this.energyModule = energyModule;
     }
-    public void addUIElement(UIElement element) {
-        uiElements.add(element);
-    }
-    public List<UIElement> getUIElements() {
-        return uiElements;
+    public UIModule getEnergyUI() {
+        return energyModule;
     }
 }
