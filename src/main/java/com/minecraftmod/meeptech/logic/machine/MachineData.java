@@ -68,4 +68,7 @@ public class MachineData {
         }
         return count;
     }
+    public ArrayList<UIElement> getUIElements() {
+        return uiElements;
+    }
 }

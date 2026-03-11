@@ -4,7 +4,9 @@ import com.minecraftmod.meeptech.ModDataComponents;
 import com.minecraftmod.meeptech.items.MachineConfigData;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -12,6 +14,7 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class BaseMachineBlock extends Block implements EntityBlock {
     //TODO: BLOCK ENTITY RENDER
@@ -44,5 +47,17 @@ public class BaseMachineBlock extends Block implements EntityBlock {
             }
         }
         super.onRemove(state, level, pos, newState, movedByPiston);
+    }
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult result) {
+        if (!level.isClientSide()) {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if (blockEntity instanceof BaseMachineBlockEntity menuProvider) {
+                if (menuProvider.getMachineData() != null) {
+                    player.openMenu(menuProvider, pos);
+                }
+            }
+        }
+        return InteractionResult.sidedSuccess(level.isClientSide());
     }
 }

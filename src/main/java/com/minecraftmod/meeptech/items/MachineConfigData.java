@@ -57,7 +57,7 @@ public record MachineConfigData(String moduleSlotType, String moduleId, String m
     public void setSubLayerCount(int count) {
         subLayers.clear();
         for (int i = 0; i < count; i++) {
-            subLayers.add(null);
+            subLayers.add(MachineConfigData.EMPTY);
         }
     }
     public boolean isEmpty() {

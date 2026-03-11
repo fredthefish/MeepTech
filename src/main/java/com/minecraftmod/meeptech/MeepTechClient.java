@@ -2,6 +2,7 @@ package com.minecraftmod.meeptech;
 
 import com.minecraftmod.meeptech.ui.EngineeringStationScreen;
 import com.minecraftmod.meeptech.ui.MaterialWorkstationScreen;
+import com.minecraftmod.meeptech.ui.MachineScreen;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -27,5 +28,6 @@ public class MeepTechClient {
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenus.MATERIAL_WORKSTATION_MENU.get(), MaterialWorkstationScreen::new);
         event.register(ModMenus.ENGINEERING_STATION_MENU.get(), EngineeringStationScreen::new);
+        event.register(ModMenus.MACHINE_MENU.get(), MachineScreen::new);
     }
 }
