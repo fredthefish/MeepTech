@@ -1,4 +1,4 @@
-package com.minecraftmod.meeptech.logic;
+package com.minecraftmod.meeptech.logic.module;
 
 public class ModuleSlot {
     private final String id;

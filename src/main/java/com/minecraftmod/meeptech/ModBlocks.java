@@ -3,6 +3,7 @@ package com.minecraftmod.meeptech;
 import java.util.HashMap;
 import java.util.function.Supplier;
 
+import com.minecraftmod.meeptech.blocks.BaseMachineBlock;
 import com.minecraftmod.meeptech.blocks.EngineeringStationBlock;
 import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlock;
 import com.minecraftmod.meeptech.items.HullItem;
@@ -35,7 +36,7 @@ public class ModBlocks {
             .sound(SoundType.STONE)
     ));
 
-    public static final DeferredBlock<Block> BRICK_HULL = registerBlock("brick_hull", () -> new Block(BlockBehaviour.Properties.of()
+    public static final DeferredBlock<Block> BRICK_HULL = registerBlock("brick_hull", () -> new BaseMachineBlock(BlockBehaviour.Properties.of()
         .strength(2f, 6f)
         .destroyTime(3)
         .requiresCorrectToolForDrops()

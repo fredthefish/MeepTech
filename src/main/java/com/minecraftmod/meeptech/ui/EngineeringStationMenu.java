@@ -7,9 +7,9 @@ import com.minecraftmod.meeptech.ModDataComponents;
 import com.minecraftmod.meeptech.ModMenus;
 import com.minecraftmod.meeptech.ModTags;
 import com.minecraftmod.meeptech.items.MachineConfigData;
-import com.minecraftmod.meeptech.logic.MaterialItemData;
-import com.minecraftmod.meeptech.logic.ModuleSlotType;
-import com.minecraftmod.meeptech.logic.ModuleType;
+import com.minecraftmod.meeptech.logic.material.MaterialItemData;
+import com.minecraftmod.meeptech.logic.module.ModuleSlotType;
+import com.minecraftmod.meeptech.logic.module.ModuleType;
 import com.minecraftmod.meeptech.network.EngineeringActionPacket;
 
 import net.minecraft.world.entity.player.Inventory;

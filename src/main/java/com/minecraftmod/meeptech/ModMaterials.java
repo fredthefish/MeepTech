@@ -3,9 +3,9 @@ package com.minecraftmod.meeptech;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.minecraftmod.meeptech.logic.Material;
-import com.minecraftmod.meeptech.logic.MaterialForm;
-import com.minecraftmod.meeptech.logic.MaterialStat;
+import com.minecraftmod.meeptech.logic.material.Material;
+import com.minecraftmod.meeptech.logic.material.MaterialForm;
+import com.minecraftmod.meeptech.logic.material.MaterialStat;
 
 import net.minecraft.world.item.Items;
 
@@ -18,7 +18,7 @@ public class ModMaterials {
     public static final Material IRON = addMaterial(new Material("iron"));
     public static final Material BRICK = addMaterial(new Material("brick"));
     
-    public static void InitializeMaterials() {
+    public static void initializeMaterials() {
         FORM_TRANSLATION_KEYS.put(MaterialForm.Base, "meeptech.materialForm.base");
         FORM_TRANSLATION_KEYS.put(MaterialForm.Plate, "meeptech.materialForm.plate");
         FORM_TRANSLATION_KEYS.put(MaterialForm.LargePlate, "meeptech.materialForm.large_plate");

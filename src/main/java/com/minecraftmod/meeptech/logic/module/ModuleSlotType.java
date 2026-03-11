@@ -1,4 +1,6 @@
-package com.minecraftmod.meeptech.logic;
+package com.minecraftmod.meeptech.logic.module;
+
+import com.minecraftmod.meeptech.logic.material.MaterialForm;
 
 public class ModuleSlotType {
     private String id;

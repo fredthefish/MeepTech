@@ -1,4 +1,4 @@
-package com.minecraftmod.meeptech.logic;
+package com.minecraftmod.meeptech.logic.material;
 
 import java.util.ArrayList;
 

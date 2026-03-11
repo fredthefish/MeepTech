@@ -1,4 +1,4 @@
-package com.minecraftmod.meeptech.logic;
+package com.minecraftmod.meeptech.logic.module;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,8 @@ import com.minecraftmod.meeptech.ModModuleTypes;
 import com.minecraftmod.meeptech.ModTags;
 import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.items.ModuleItems;
+import com.minecraftmod.meeptech.logic.machine.MachineAttribute;
+import com.minecraftmod.meeptech.logic.material.MaterialForm;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -16,10 +18,10 @@ import net.neoforged.neoforge.registries.DeferredItem;
 public class ModuleType {
     private final String id;
     private final ModuleSlotType type;
-    private final MachineAttributes.MachineAttribute attribute;
+    private final MachineAttribute attribute;
     private final List<ModuleSlot> subSlots;
     private MaterialForm materialForm = null;
-    public ModuleType(String id, ModuleSlotType type, MachineAttributes.MachineAttribute attribute) {
+    public ModuleType(String id, ModuleSlotType type, MachineAttribute attribute) {
         this.id = id;
         this.type = type;
         this.attribute = attribute;
@@ -46,7 +48,7 @@ public class ModuleType {
     public int getSubSlotCount() {
         return subSlots.size();
     }
-    public MachineAttributes.MachineAttribute getAttribute() {
+    public MachineAttribute getAttribute() {
         return attribute;
     }
     public void addSubSlot(String subSlotId, ModuleSlotType subSlotType) {

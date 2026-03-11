@@ -1,4 +1,4 @@
-package com.minecraftmod.meeptech.logic;
+package com.minecraftmod.meeptech.logic.machine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,18 +6,18 @@ import java.util.Map.Entry;
 
 import com.minecraftmod.meeptech.ModMaterials;
 import com.minecraftmod.meeptech.ModModuleTypes;
-import com.minecraftmod.meeptech.logic.MachineAttributes.HeatSource;
-import com.minecraftmod.meeptech.logic.MachineAttributes.MachineAttribute;
-import com.minecraftmod.meeptech.logic.MachineAttributes.MachineBase;
-import com.minecraftmod.meeptech.logic.MachineAttributes.MachineComponent;
-import com.minecraftmod.meeptech.logic.MachineAttributes.MachineStat;
-import com.minecraftmod.meeptech.logic.MachineAttributes.MachineType;
+import com.minecraftmod.meeptech.logic.material.Material;
+import com.minecraftmod.meeptech.logic.module.ModuleType;
+import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
+import com.minecraftmod.meeptech.logic.ui.UIElement;
 
 public class MachineData {
     private MachineBase base;
     private MachineType type;
-    private MachineAttributes.HeatSource heatSource;
+    private HeatSource heatSource;
     private HashMap<MachineComponent, String> components = new HashMap<>();
+    private HashMap<MachineStat, Object> stats = new HashMap<>();
+    private ArrayList<UIElement> uiElements = new ArrayList<>();
     public MachineData(HashMap<ArrayList<String>, String> data) {
         for (Entry<ArrayList<String>, String> entry : data.entrySet()) {
             ArrayList<String> path = entry.getKey();
@@ -37,9 +37,15 @@ public class MachineData {
                     String materialId = data.get(newPath);
                     components.put(component, materialId);
                 }
-            } else {
             }
         }
+        for (MachineComponent component : components.keySet()) {
+            Material material = ModMaterials.getMaterial(components.get(component));
+            Object statResult = component.performCalculations(material);
+            stats.put(component.getMachineStat(), statResult);
+        }
+        uiElements.addAll(type.getUIElements());
+        uiElements.addAll(heatSource.getUIElements());
     }
     public MachineBase getBase() {
         return base;
@@ -52,16 +58,14 @@ public class MachineData {
         return heatSource;
     }
     public double getMachineSpeed() {
-        for (MachineComponent component : components.keySet()) {
-            if (component.getMachineStat() == MachineStat.Speed) {
-                Material material = ModMaterials.getMaterial(components.get(component));
-                Object result = component.performCalculations(material);
-                return (double)result;
-            }
-        }
+        if (stats.containsKey(MachineStat.Speed)) return (double)stats.get(MachineStat.Speed);
         return Double.NaN;
     }
-    public HashMap<MachineComponent, String> getComponents() {
-        return components;
+    public int getSlotCount() {
+        int count = 0;
+        for (UIElement uiElement : uiElements) {
+            if (uiElement instanceof SlotUIElement) count++;
+        }
+        return count;
     }
 }

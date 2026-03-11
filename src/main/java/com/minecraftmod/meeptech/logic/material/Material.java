@@ -1,4 +1,4 @@
-package com.minecraftmod.meeptech.logic;
+package com.minecraftmod.meeptech.logic.material;
 
 import java.math.BigDecimal;
 import java.util.HashMap;

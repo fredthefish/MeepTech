@@ -6,9 +6,9 @@ import java.util.List;
 
 import com.minecraftmod.meeptech.ModMaterials;
 import com.minecraftmod.meeptech.ModModuleTypes;
-import com.minecraftmod.meeptech.logic.MachineData;
-import com.minecraftmod.meeptech.logic.MaterialForm;
-import com.minecraftmod.meeptech.logic.ModuleType;
+import com.minecraftmod.meeptech.logic.machine.MachineData;
+import com.minecraftmod.meeptech.logic.material.MaterialForm;
+import com.minecraftmod.meeptech.logic.module.ModuleType;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 

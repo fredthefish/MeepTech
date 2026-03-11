@@ -3,8 +3,8 @@ package com.minecraftmod.meeptech.ui;
 import com.minecraftmod.meeptech.ModBlocks;
 import com.minecraftmod.meeptech.ModItems;
 import com.minecraftmod.meeptech.ModMenus;
-import com.minecraftmod.meeptech.logic.MaterialWorkstationRecipe;
-import com.minecraftmod.meeptech.logic.MaterialWorkstationRecipes;
+import com.minecraftmod.meeptech.logic.material.MaterialWorkstationRecipe;
+import com.minecraftmod.meeptech.logic.material.MaterialWorkstationRecipes;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;

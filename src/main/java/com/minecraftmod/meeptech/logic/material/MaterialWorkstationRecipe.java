@@ -1,4 +1,4 @@
-package com.minecraftmod.meeptech.logic;
+package com.minecraftmod.meeptech.logic.material;
 
 public class MaterialWorkstationRecipe {
     private final MaterialForm inputForm;

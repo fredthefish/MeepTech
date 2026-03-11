@@ -2,10 +2,9 @@ package com.minecraftmod.meeptech;
 
 import java.util.ArrayList;
 
-import com.minecraftmod.meeptech.logic.MachineAttributes;
-import com.minecraftmod.meeptech.logic.MaterialForm;
-import com.minecraftmod.meeptech.logic.ModuleSlotType;
-import com.minecraftmod.meeptech.logic.ModuleType;
+import com.minecraftmod.meeptech.logic.material.MaterialForm;
+import com.minecraftmod.meeptech.logic.module.ModuleSlotType;
+import com.minecraftmod.meeptech.logic.module.ModuleType;
 
 public class ModModuleTypes {
     public static final ArrayList<ModuleSlotType> MODULE_SLOT_TYPES = new ArrayList<>();
@@ -17,13 +16,13 @@ public class ModModuleTypes {
     public static final ModuleSlotType SLOT_FIREBOX = addModuleSlotType(new ModuleSlotType("firebox_slot"));
 
     public static final ModuleType BRICK_HULL = addModuleType(
-        new ModuleType("brick_hull", SLOT_MACHINE_BASE, MachineAttributes.BASE_BASIC));
+        new ModuleType("brick_hull", SLOT_MACHINE_BASE, ModModuleData.BASE_BASIC));
     public static final ModuleType MACHINE_CORE_SMELTER = addModuleType(
-        new ModuleType("machine_core_smelter", SLOT_MACHINE_CORE, MachineAttributes.TYPE_SMELTER));
+        new ModuleType("machine_core_smelter", SLOT_MACHINE_CORE, ModModuleData.TYPE_SMELTER));
     public static final ModuleType HEATING_CORE_SOLID_FUEL = addModuleType(
-        new ModuleType("heating_core_solid_fuel", SLOT_HEATING_CORE, MachineAttributes.HEAT_SOURCE_SOLID_FUEL));
+        new ModuleType("heating_core_solid_fuel", SLOT_HEATING_CORE, ModModuleData.HEAT_SOURCE_SOLID_FUEL));
     public static final ModuleType FIREBOX_SLOT = addModuleType(
-        new ModuleType("firebox_slot", SLOT_FIREBOX, MachineAttributes.COMPONENT_FIREBOX));
+        new ModuleType("firebox_slot", SLOT_FIREBOX, ModModuleData.COMPONENT_FIREBOX));
 
     private static ModuleType addModuleType(ModuleType type) {
         MODULE_TYPES.add(type);
@@ -45,7 +44,7 @@ public class ModModuleTypes {
         }
         return null;
     }
-    public static void InitializeModuleTypes() {
+    public static void initializeModuleTypes() {
         SLOT_MACHINE_BASE.setMaterialForm(MaterialForm.Hull);
         SLOT_FIREBOX.setMaterialForm(MaterialForm.Box);
 

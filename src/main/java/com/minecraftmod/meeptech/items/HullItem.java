@@ -1,13 +1,12 @@
 package com.minecraftmod.meeptech.items;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 import com.minecraftmod.meeptech.ModDataComponents;
 import com.minecraftmod.meeptech.ModModuleTypes;
-import com.minecraftmod.meeptech.logic.MachineAttributes;
-import com.minecraftmod.meeptech.logic.MachineData;
+import com.minecraftmod.meeptech.logic.machine.HeatSource;
+import com.minecraftmod.meeptech.logic.machine.MachineAttribute;
+import com.minecraftmod.meeptech.logic.machine.MachineData;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
@@ -47,15 +46,10 @@ public class HullItem extends BlockItem {
             .append(": ").append(Component.translatable("meeptech.moduleType." + machineData.getBase().getId())));
         tooltipComponents.add(Component.translatable(ModModuleTypes.SLOT_MACHINE_CORE.getTranslationKey())
             .append(": ").append(Component.translatable("meeptech.moduleType." + machineData.getType().getId())));
-        MachineAttributes.MachineAttribute energySource = machineData.getEnergySource();
-        if (energySource instanceof MachineAttributes.HeatSource heatSource) {
+        MachineAttribute energySource = machineData.getEnergySource();
+        if (energySource instanceof HeatSource heatSource) {
             tooltipComponents.add(Component.translatable(ModModuleTypes.SLOT_HEATING_CORE.getTranslationKey())
             .append(": ").append(Component.translatable("meeptech.moduleType." + heatSource.getId())));
-        }
-        HashMap<MachineAttributes.MachineComponent, String> components = machineData.getComponents();
-        for (Entry<MachineAttributes.MachineComponent, String> entry : components.entrySet()) {
-            tooltipComponents.add(Component.translatable("meeptech.moduleType." + entry.getKey().getId())
-                .append(": ").append(Component.translatable("meeptech.material." + entry.getValue())));
         }
     }
 }

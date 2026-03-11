@@ -11,9 +11,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.minecraft.world.item.ItemStack;
 
 import com.minecraftmod.meeptech.items.ModuleItems;
-import com.minecraftmod.meeptech.logic.Material;
-import com.minecraftmod.meeptech.logic.MaterialForm;
-import com.minecraftmod.meeptech.logic.MaterialItemData;
+import com.minecraftmod.meeptech.logic.material.Material;
+import com.minecraftmod.meeptech.logic.material.MaterialForm;
+import com.minecraftmod.meeptech.logic.material.MaterialItemData;
 
 public class ModCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MeepTech.MODID);

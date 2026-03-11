@@ -24,7 +24,8 @@ public class MeepTech {
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        ModMaterials.InitializeMaterials();
-        ModModuleTypes.InitializeModuleTypes();
+        ModMaterials.initializeMaterials();
+        ModModuleTypes.initializeModuleTypes();
+        ModModuleData.initializeModuleData();
     }
 }

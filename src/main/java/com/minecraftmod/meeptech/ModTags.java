@@ -2,7 +2,7 @@ package com.minecraftmod.meeptech;
 
 import java.util.HashMap;
 
-import com.minecraftmod.meeptech.logic.MaterialForm;
+import com.minecraftmod.meeptech.logic.material.MaterialForm;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;

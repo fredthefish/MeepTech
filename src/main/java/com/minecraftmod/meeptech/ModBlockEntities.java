@@ -2,6 +2,7 @@ package com.minecraftmod.meeptech;
 
 import java.util.function.Supplier;
 
+import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
 import com.minecraftmod.meeptech.blocks.EngineeringStationBlockEntity;
 import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlockEntity;
 
@@ -16,10 +17,15 @@ public class ModBlockEntities {
         BLOCK_ENTITY_TYPES.register("primitive_workstation_be", () -> BlockEntityType.Builder.of(
             MaterialWorkstationBlockEntity::new,
             ModBlocks.MATERIAL_WORKSTATION.get()
-    ).build(null));
+        ).build(null));
     public static final Supplier<BlockEntityType<EngineeringStationBlockEntity>> ENGINEERING_STATION_BE = 
         BLOCK_ENTITY_TYPES.register("engineering_station_be", () -> BlockEntityType.Builder.of(
             EngineeringStationBlockEntity::new,
             ModBlocks.ENGINEERING_STATION.get()
-    ).build(null));
+        ).build(null));
+    public static final Supplier<BlockEntityType<BaseMachineBlockEntity>> BASE_MACHINE_BE =
+        BLOCK_ENTITY_TYPES.register("base_machine_be", () -> BlockEntityType.Builder.of(
+            BaseMachineBlockEntity::new,
+            ModBlocks.BRICK_HULL.get() //Additional valid blocks can be added here.
+        ).build(null));
 }
