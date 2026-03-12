@@ -42,7 +42,6 @@ public class MachineMenu extends AbstractContainerMenu {
         this.machineContainerData = blockEntity.getTrackedData();
         this.access = access;
 
-        machineContainerData.setup();
         this.addDataSlots(machineContainerData);
 
         if (blockEntity != null) {

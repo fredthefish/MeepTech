@@ -7,8 +7,7 @@ import com.minecraftmod.meeptech.logic.ui.TrackedStat;
 import com.minecraftmod.meeptech.logic.ui.UIModule;
 
 public class MachineType extends MachineAttribute {
-    @SuppressWarnings("unused")
-    private EnergySourceType energySource; //TODO: Improve it so that the MachineData reads things in order and thus this can be used.
+    private EnergySourceType energySource;
     private UIModule inputModule;
     private UIModule outputModule;
     private UIModule recipeModule;
@@ -36,5 +35,8 @@ public class MachineType extends MachineAttribute {
     }
     public List<TrackedStat> getTrackedStats() {
         return trackedStats;
+    }
+    public EnergySourceType getEnergySource() {
+        return energySource;
     }
 }

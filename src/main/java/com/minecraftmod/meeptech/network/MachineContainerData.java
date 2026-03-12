@@ -55,12 +55,4 @@ public class MachineContainerData implements ContainerData {
     public void setFromStat(TrackedStat stat, int value) {
         machineInts.put(stat, value);
     }
-    public void setup() {
-        MachineData machineData = entity.getMachineData();
-        if (machineData != null) {
-            for (TrackedStat stat : machineData.getTrackedStats()) {
-                setFromStat(stat, 0);
-            }
-        }
-    }
 }

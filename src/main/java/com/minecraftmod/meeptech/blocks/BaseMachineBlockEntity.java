@@ -63,6 +63,11 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
             MachineConfigData.CODEC.encodeStart(registries.createSerializationContext(NbtOps.INSTANCE), machineConfigData)
                 .ifSuccess(encoded -> tag.put("MachineConfig", encoded));
         }
+        CompoundTag intsTag = new CompoundTag();
+        for (TrackedStat stat : machineInts.keySet()) {
+            intsTag.putInt(stat.toString(), machineInts.get(stat));
+        }
+        tag.put("MachineInts", intsTag);
     }
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
@@ -75,6 +80,12 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                 .ifSuccess(parsed -> {
                     this.setConfigData(parsed);
                 });
+        }
+        if (tag.contains("MachineInts")) {
+            CompoundTag intsTag = tag.getCompound("MachineInts");
+            for (String key : intsTag.getAllKeys()) {
+                this.machineInts.put(TrackedStat.valueOf(key), intsTag.getInt(key));
+            }
         }
     }
     @Override
