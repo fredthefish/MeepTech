@@ -1,8 +1,14 @@
 package com.minecraftmod.meeptech.blocks;
 
+import java.util.HashMap;
+
 import com.minecraftmod.meeptech.ModBlockEntities;
+import com.minecraftmod.meeptech.ModModuleData;
 import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
+import com.minecraftmod.meeptech.logic.ui.TrackedStat;
+import com.minecraftmod.meeptech.logic.ui.UIModuleType;
+import com.minecraftmod.meeptech.network.MachineContainerData;
 import com.minecraftmod.meeptech.ui.MachineMenu;
 
 import net.minecraft.core.BlockPos;
@@ -18,6 +24,9 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
@@ -31,8 +40,9 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
             setChanged();
         }
     };
-    //TODO: OTHER STUFF (RECIPES/PROGRESS/MAX PROGRESS/HEAT/ETC)
-    
+    protected final HashMap<TrackedStat, Integer> machineInts = new HashMap<>();
+    protected final MachineContainerData trackedData = new MachineContainerData(machineInts, this);
+
     public BaseMachineBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.BASE_MACHINE_BE.get(), pos, state);
     }
@@ -109,5 +119,74 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
     }
     public ItemStackHandler getInventory() {
         return inventory;
+    }
+    public void setMachineInt(TrackedStat key, int value) {
+        trackedData.setFromStat(key, value);
+    }
+    public Integer getMachineInt(TrackedStat key) {
+        return trackedData.getFromStat(key);
+    }
+    public MachineContainerData getTrackedData() {
+        return trackedData;
+    }
+    public static void tick(Level level, BlockPos pos, BlockState state, BaseMachineBlockEntity entity) {
+        if (level.isClientSide()) return; //The rest is server-sided logic.
+
+        MachineData data = entity.getMachineData();
+        if (data == null) return;
+        boolean updated = false;
+        if (data.getType() == ModModuleData.TYPE_SMELTER) {
+            int heat = entity.getMachineInt(TrackedStat.HeatLeft);
+            int progress = entity.getMachineInt(TrackedStat.RecipeProgress);
+            int maxProgress = entity.getMachineInt(TrackedStat.RecipeMaxProgress);
+            int inputSlot = data.getStartSlot(UIModuleType.Input);
+            int outputSlot = data.getStartSlot(UIModuleType.Output);
+            int fuelSlot = data.getStartSlot(UIModuleType.Energy);
+            if (heat > 0) {
+                heat--;
+                updated = true;
+            }
+            ItemStack fuelStack = entity.inventory.getStackInSlot(fuelSlot);
+            if (heat == 0 && !fuelStack.isEmpty()) {
+                if (fuelStack.getItem() == Items.COAL) {
+                    entity.inventory.extractItem(fuelSlot, 1, false);
+                    heat += 1600;
+                    updated = true;
+                }
+            }
+            if (heat > 0 && progress == 0 && maxProgress == 0) {
+                ItemStack input = entity.inventory.getStackInSlot(inputSlot);
+                if (input.getItem() == Items.RAW_IRON) {
+                    ItemStack output = entity.inventory.getStackInSlot(outputSlot);
+                    if (output.isEmpty() || (output.getItem() == Items.IRON_INGOT && output.getCount() < output.getMaxStackSize())) {
+                        entity.inventory.extractItem(inputSlot, 1, false);
+                        maxProgress = 200;
+                        updated = true;
+                    }
+                }
+            }
+            if (maxProgress > 0) {
+                if (heat > 0) {
+                    progress++;
+                    updated = true;
+                } else if (progress > 0) {
+                    progress -= 10;
+                    if (progress < 0) progress = 0;
+                    updated = true;
+                }
+            }
+            if (progress >= maxProgress && maxProgress > 0) {
+                entity.inventory.insertItem(outputSlot, new ItemStack(Items.IRON_INGOT), false);
+                progress = 0;
+                maxProgress = 0;
+                updated = true;
+            }
+            if (updated) {
+                entity.setMachineInt(TrackedStat.HeatLeft, heat);
+                entity.setMachineInt(TrackedStat.RecipeProgress, progress);
+                entity.setMachineInt(TrackedStat.RecipeMaxProgress, maxProgress);
+                entity.setChanged();
+            }
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.minecraftmod.meeptech;
 
+import java.util.List;
+
 import com.minecraftmod.meeptech.logic.machine.EnergySourceType;
 import com.minecraftmod.meeptech.logic.machine.HeatSource;
 import com.minecraftmod.meeptech.logic.machine.MachineBase;
@@ -7,6 +9,8 @@ import com.minecraftmod.meeptech.logic.machine.MachineComponent;
 import com.minecraftmod.meeptech.logic.machine.MachineStat;
 import com.minecraftmod.meeptech.logic.machine.MachineType;
 import com.minecraftmod.meeptech.logic.material.MaterialStat;
+import com.minecraftmod.meeptech.logic.ui.RecipeUIModule;
+import com.minecraftmod.meeptech.logic.ui.TrackedStat;
 import com.minecraftmod.meeptech.logic.ui.UIModule;
 import com.minecraftmod.meeptech.logic.ui.UIModuleType;
 
@@ -16,11 +20,13 @@ public class ModModuleData {
     public static MachineType TYPE_SMELTER = new MachineType("smelter", EnergySourceType.Heat,
         new UIModule(UIModuleType.Input, "Input", 1),
         new UIModule(UIModuleType.Output, "Output", 1),
-        new UIModule(UIModuleType.Recipe, "Recipe", 0)
+        new RecipeUIModule("Recipe", true),
+        List.of(TrackedStat.RecipeProgress, TrackedStat.RecipeMaxProgress)
     );
 
     public static HeatSource HEAT_SOURCE_SOLID_FUEL = new HeatSource("solid_fuel",
-        new UIModule(UIModuleType.Energy, "Heat", 1)
+        new UIModule(UIModuleType.Energy, "Heat", 1),
+        List.of(TrackedStat.HeatLeft)
     );
 
     public static MachineComponent COMPONENT_FIREBOX = new MachineComponent("firebox", MachineStat.Speed, MaterialStat.MeltingPoint, 

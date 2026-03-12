@@ -1,7 +1,9 @@
 package com.minecraftmod.meeptech.ui;
 
 import com.minecraftmod.meeptech.logic.machine.MachineData;
+import com.minecraftmod.meeptech.logic.ui.RecipeUIModule;
 import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
+import com.minecraftmod.meeptech.logic.ui.UIModule;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -12,6 +14,8 @@ import net.minecraft.world.entity.player.Inventory;
 public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
     private static final ResourceLocation BASE_UI = ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/four_panel_ui.png");
     private static final ResourceLocation SLOT = ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/slot.png");
+    private static final ResourceLocation PROGRESS_BAR_EMPTY = ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/progress_empty.png");
+    private static final ResourceLocation PROGRESS_BAR_FULL = ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/progress_full.png");
     private static final int slotSize = 18;
     public MachineScreen(MachineMenu menu, Inventory playerInv, Component title) {
         super(menu, playerInv, title);
@@ -31,8 +35,24 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
 
         guiGraphics.blit(BASE_UI, x, y, 0, 0, this.imageWidth, this.imageHeight, this.imageWidth, this.imageHeight);
         MachineData machineData = this.menu.getMachineData();
-        for (SlotUIElement slot : machineData.getSlots()) {
-            guiGraphics.blit(SLOT, x + slot.getX() - 1, y + slot.getY() - 1, 0, 0, slotSize, slotSize, slotSize, slotSize);
+        for (UIModule uiModule : machineData.getUiModules()) {
+            guiGraphics.drawString(this.font, uiModule.getTitle(), x + uiModule.getX() + 1, y + uiModule.getY() + 1, 0x404040, false);
+            for (SlotUIElement slot : uiModule.getSlots()) {
+                guiGraphics.blit(SLOT, x + slot.getX(), y + slot.getY(), 0, 0, slotSize, slotSize, slotSize, slotSize);
+            }
+            if (uiModule instanceof RecipeUIModule recipeUIModule) {
+                if (recipeUIModule.hasProgressBar()) {
+                    guiGraphics.blit(PROGRESS_BAR_EMPTY, x + recipeUIModule.getX() + 3, y + recipeUIModule.getY() + 13,
+                        0, 0, 50, 13, 50, 13);
+                    int progress = this.menu.getProgress();
+                    int maxProgress = this.menu.getMaxProgress();
+                    if (progress > 0 && maxProgress > 0) {
+                        int fillWidth = (int)(50.0 * ((double)progress / (double)maxProgress));
+                        guiGraphics.blit(PROGRESS_BAR_FULL, x + recipeUIModule.getX() + 3, y + recipeUIModule.getY() + 13,
+                        0, 0, fillWidth, 13, 50, 13);
+                    }
+                }
+            }
         }
     }
     @Override

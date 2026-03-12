@@ -1,6 +1,6 @@
 package com.minecraftmod.meeptech.ui;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.minecraftmod.meeptech.ModBlocks;
 import com.minecraftmod.meeptech.ModMenus;
@@ -8,6 +8,8 @@ import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
 import com.minecraftmod.meeptech.logic.ui.SlotType;
 import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
+import com.minecraftmod.meeptech.logic.ui.TrackedStat;
+import com.minecraftmod.meeptech.network.MachineContainerData;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -23,6 +25,7 @@ import net.neoforged.neoforge.items.SlotItemHandler;
 public class MachineMenu extends AbstractContainerMenu {
     private final ContainerLevelAccess access;
     private final BaseMachineBlockEntity blockEntity;
+    private final MachineContainerData machineContainerData;
 
     public MachineMenu(int windowId, Inventory playerInv, RegistryFriendlyByteBuf buf) {
         this(windowId, playerInv, getClientBlockEntity(playerInv, buf), ContainerLevelAccess.NULL);
@@ -36,15 +39,19 @@ public class MachineMenu extends AbstractContainerMenu {
     public MachineMenu(int windowId, Inventory playerInv, BaseMachineBlockEntity blockEntity, ContainerLevelAccess access) {
         super(ModMenus.MACHINE_MENU.get(), windowId);
         this.blockEntity = blockEntity;
+        this.machineContainerData = blockEntity.getTrackedData();
         this.access = access;
+
+        machineContainerData.setup();
+        this.addDataSlots(machineContainerData);
 
         if (blockEntity != null) {
             if (this.blockEntity.getMachineData() != null) {
                 MachineData machineData = this.blockEntity.getMachineData();
-                ArrayList<SlotUIElement> uiSlots = machineData.getSlots();
+                List<SlotUIElement> uiSlots = machineData.getSlots();
                 int i = 0;
                 for (SlotUIElement slot : uiSlots) {
-                    SlotItemHandler newSlot = new SlotItemHandler(blockEntity.getInventory(), i, slot.getX(), slot.getY()) {
+                    SlotItemHandler newSlot = new SlotItemHandler(blockEntity.getInventory(), i, slot.getX() + 1, slot.getY() + 1) {
                         @Override
                         public boolean mayPlace(ItemStack stack) {
                             return slot.getType() == SlotType.INPUT;
@@ -72,10 +79,32 @@ public class MachineMenu extends AbstractContainerMenu {
     }
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
-        //TODO
-        return ItemStack.EMPTY;
+        ItemStack itemStack = ItemStack.EMPTY;
+        Slot slot = this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            ItemStack stackInSlot = slot.getItem();
+            itemStack = stackInSlot.copy();
+            MachineData machineData = this.blockEntity.getMachineData();
+            int slotCount = machineData.getSlotCount();
+            if (index < slotCount) {
+                if (!this.moveItemStackTo(stackInSlot, slotCount, slotCount + 36, true)) return ItemStack.EMPTY;
+            } else {
+                if (!this.moveItemStackTo(stackInSlot, 0, slotCount, false)) return ItemStack.EMPTY;
+            }
+            if (stackInSlot.isEmpty()) slot.setByPlayer(ItemStack.EMPTY);
+            else slot.setChanged();
+            if (stackInSlot.getCount() == itemStack.getCount()) return ItemStack.EMPTY;
+            slot.onTake(player, stackInSlot);
+        }
+        return itemStack;
     }
     public MachineData getMachineData() {
         return blockEntity.getMachineData();
+    }
+    public int getProgress() {
+        return machineContainerData.getFromStat(TrackedStat.RecipeProgress);
+    }
+    public int getMaxProgress() {
+        return machineContainerData.getFromStat(TrackedStat.RecipeMaxProgress);
     }
 }
