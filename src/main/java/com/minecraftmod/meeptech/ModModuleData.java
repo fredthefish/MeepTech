@@ -9,6 +9,7 @@ import com.minecraftmod.meeptech.logic.machine.MachineComponent;
 import com.minecraftmod.meeptech.logic.machine.MachineStat;
 import com.minecraftmod.meeptech.logic.machine.MachineType;
 import com.minecraftmod.meeptech.logic.material.MaterialStat;
+import com.minecraftmod.meeptech.logic.ui.EnergyUIModule;
 import com.minecraftmod.meeptech.logic.ui.RecipeUIModule;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
 import com.minecraftmod.meeptech.logic.ui.UIModule;
@@ -25,7 +26,7 @@ public class ModModuleData {
     );
 
     public static HeatSource HEAT_SOURCE_SOLID_FUEL = new HeatSource("solid_fuel",
-        new UIModule(UIModuleType.Energy, "Heat", 1),
+        new EnergyUIModule("Heat", 1, true),
         List.of(TrackedStat.HeatLeft)
     );
 

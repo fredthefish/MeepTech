@@ -106,4 +106,7 @@ public class MachineMenu extends AbstractContainerMenu {
     public int getMaxProgress() {
         return machineContainerData.getFromStat(TrackedStat.RecipeMaxProgress);
     }
+    public int getHeat() {
+        return machineContainerData.getFromStat(TrackedStat.HeatLeft);
+    }
 }
