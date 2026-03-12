@@ -30,11 +30,8 @@ public class MachineContainerData implements ContainerData {
     }
     @Override
     public int getCount() {
-        MachineData machineData = entity.getMachineData();
-        if (machineData != null) {
-            return machineInts.size();
-        }
-        return 0;
+        //Hard coded size to prevent sync issues.
+        return 16;
     }
     private TrackedStat getVariableKey(int index) {
         MachineData machineData = entity.getMachineData();
@@ -47,7 +44,6 @@ public class MachineContainerData implements ContainerData {
     public int getFromStat(TrackedStat stat) {
         Integer result = machineInts.get(stat);
         if (result == null) {
-            setFromStat(stat, 0);
             return 0;
         }
         return result;

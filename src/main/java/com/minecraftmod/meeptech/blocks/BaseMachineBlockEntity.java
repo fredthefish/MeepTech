@@ -19,6 +19,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -65,7 +67,9 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
         }
         CompoundTag intsTag = new CompoundTag();
         for (TrackedStat stat : machineInts.keySet()) {
-            intsTag.putInt(stat.toString(), machineInts.get(stat));
+            if (stat != null) {
+                intsTag.putInt(stat.toString(), machineInts.get(stat));
+            }
         }
         tag.put("MachineInts", intsTag);
     }
@@ -118,12 +122,15 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                 }
                 setChanged();
             }
+            if (this.level != null && this.level.isClientSide()) {
+                this.level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+            }
         }
     }
     public MachineData getMachineData() {
         if (machineData == null) {
             if (getConfigData() != null) {
-                setMachineData(machineConfigData);
+                this.machineData = machineConfigData.toMachineData();
             }
         }
         return machineData;
@@ -141,62 +148,69 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
         return trackedData;
     }
     public static void tick(Level level, BlockPos pos, BlockState state, BaseMachineBlockEntity entity) {
-        if (level.isClientSide()) return; //The rest is server-sided logic.
-
-        MachineData data = entity.getMachineData();
-        if (data == null) return;
-        boolean updated = false;
-        if (data.getType() == ModModuleData.TYPE_SMELTER) {
-            int heat = entity.getMachineInt(TrackedStat.HeatLeft);
-            int progress = entity.getMachineInt(TrackedStat.RecipeProgress);
-            int maxProgress = entity.getMachineInt(TrackedStat.RecipeMaxProgress);
-            int inputSlot = data.getStartSlot(UIModuleType.Input);
-            int outputSlot = data.getStartSlot(UIModuleType.Output);
-            int fuelSlot = data.getStartSlot(UIModuleType.Energy);
-            if (heat > 0) {
-                heat--;
-                updated = true;
-            }
-            ItemStack fuelStack = entity.inventory.getStackInSlot(fuelSlot);
-            if (heat == 0 && !fuelStack.isEmpty()) {
-                if (fuelStack.getItem() == Items.COAL) {
-                    entity.inventory.extractItem(fuelSlot, 1, false);
-                    heat += 1600;
-                    updated = true;
+        if (level.isClientSide()) {
+            if (entity.getMachineInt(TrackedStat.HeatLeft) > 0) {
+                if (level.random.nextDouble() < 0.1) {
+                    level.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+                        SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1, 1, false);
                 }
             }
-            if (heat > 0 && progress == 0 && maxProgress == 0) {
-                ItemStack input = entity.inventory.getStackInSlot(inputSlot);
-                if (input.getItem() == Items.RAW_IRON) {
-                    ItemStack output = entity.inventory.getStackInSlot(outputSlot);
-                    if (output.isEmpty() || (output.getItem() == Items.IRON_INGOT && output.getCount() < output.getMaxStackSize())) {
-                        entity.inventory.extractItem(inputSlot, 1, false);
-                        maxProgress = 200;
+        } else {
+            MachineData data = entity.getMachineData();
+            if (data == null) return;
+            boolean updated = false;
+            if (data.getType() == ModModuleData.TYPE_SMELTER) {
+                int heat = entity.getMachineInt(TrackedStat.HeatLeft);
+                int progress = entity.getMachineInt(TrackedStat.RecipeProgress);
+                int maxProgress = entity.getMachineInt(TrackedStat.RecipeMaxProgress);
+                int inputSlot = data.getStartSlot(UIModuleType.Input);
+                int outputSlot = data.getStartSlot(UIModuleType.Output);
+                int fuelSlot = data.getStartSlot(UIModuleType.Energy);
+                if (heat > 0) {
+                    heat--;
+                    updated = true;
+                }
+                ItemStack fuelStack = entity.inventory.getStackInSlot(fuelSlot);
+                if (heat == 0 && !fuelStack.isEmpty()) {
+                    if (fuelStack.getItem() == Items.COAL) {
+                        entity.inventory.extractItem(fuelSlot, 1, false);
+                        heat += 1600;
                         updated = true;
                     }
                 }
-            }
-            if (maxProgress > 0) {
-                if (heat > 0) {
-                    progress++;
-                    updated = true;
-                } else if (progress > 0) {
-                    progress -= 10;
-                    if (progress < 0) progress = 0;
+                if (heat > 0 && progress == 0 && maxProgress == 0) {
+                    ItemStack input = entity.inventory.getStackInSlot(inputSlot);
+                    if (input.getItem() == Items.RAW_IRON) {
+                        ItemStack output = entity.inventory.getStackInSlot(outputSlot);
+                        if (output.isEmpty() || (output.getItem() == Items.IRON_INGOT && output.getCount() < output.getMaxStackSize())) {
+                            entity.inventory.extractItem(inputSlot, 1, false);
+                            maxProgress = 200;
+                            updated = true;
+                        }
+                    }
+                }
+                if (maxProgress > 0) {
+                    if (heat > 0) {
+                        progress++;
+                        updated = true;
+                    } else if (progress > 0) {
+                        progress -= 10;
+                        if (progress < 0) progress = 0;
+                        updated = true;
+                    }
+                }
+                if (progress >= maxProgress && maxProgress > 0) {
+                    entity.inventory.insertItem(outputSlot, new ItemStack(Items.IRON_INGOT), false);
+                    progress = 0;
+                    maxProgress = 0;
                     updated = true;
                 }
-            }
-            if (progress >= maxProgress && maxProgress > 0) {
-                entity.inventory.insertItem(outputSlot, new ItemStack(Items.IRON_INGOT), false);
-                progress = 0;
-                maxProgress = 0;
-                updated = true;
-            }
-            if (updated) {
-                entity.setMachineInt(TrackedStat.HeatLeft, heat);
-                entity.setMachineInt(TrackedStat.RecipeProgress, progress);
-                entity.setMachineInt(TrackedStat.RecipeMaxProgress, maxProgress);
-                entity.setChanged();
+                if (updated) {
+                    entity.setMachineInt(TrackedStat.HeatLeft, heat);
+                    entity.setMachineInt(TrackedStat.RecipeProgress, progress);
+                    entity.setMachineInt(TrackedStat.RecipeMaxProgress, maxProgress);
+                    entity.setChanged();
+                }
             }
         }
     }
