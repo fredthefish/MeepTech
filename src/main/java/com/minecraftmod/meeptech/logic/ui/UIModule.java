@@ -11,7 +11,21 @@ public class UIModule {
         this.type = type;
         this.title = title;
         this.slots = new ArrayList<>();
-        SlotType slotType = (type == UIModuleType.Output) ? SlotType.OUTPUT : SlotType.INPUT;
+        SlotType slotType;
+        switch (type) {
+            case UIModuleType.Input:
+                slotType = SlotType.INPUT;
+                break;
+            case UIModuleType.Energy:
+                slotType = SlotType.INPUT_FUEL;
+                break;
+            case UIModuleType.Output:
+                slotType = SlotType.OUTPUT;
+                break;
+            default:
+                slotType = null;
+                break;
+        }
         for (int i = 0; i < slotCount; i++) {
             slots.add(new SlotUIElement(slotType, i, this));
         }

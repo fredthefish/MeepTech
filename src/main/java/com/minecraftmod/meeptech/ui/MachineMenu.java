@@ -9,6 +9,7 @@ import com.minecraftmod.meeptech.logic.machine.MachineData;
 import com.minecraftmod.meeptech.logic.ui.SlotType;
 import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
+import com.minecraftmod.meeptech.logic.ui.UIModuleType;
 import com.minecraftmod.meeptech.network.MachineContainerData;
 
 import net.minecraft.core.BlockPos;
@@ -19,6 +20,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.SlotItemHandler;
 
@@ -53,7 +55,12 @@ public class MachineMenu extends AbstractContainerMenu {
                     SlotItemHandler newSlot = new SlotItemHandler(blockEntity.getInventory(), i, slot.getX() + 1, slot.getY() + 1) {
                         @Override
                         public boolean mayPlace(ItemStack stack) {
-                            return slot.getType() == SlotType.INPUT;
+                            if (slot.getType() == SlotType.INPUT) {
+                                return true;
+                            } else if (slot.getType() == SlotType.INPUT_FUEL) {
+                                return stack.is(Items.COAL);
+                            }
+                            return false;
                         }
                     };
                     this.addSlot(newSlot);
@@ -88,7 +95,13 @@ public class MachineMenu extends AbstractContainerMenu {
             if (index < slotCount) {
                 if (!this.moveItemStackTo(stackInSlot, slotCount, slotCount + 36, true)) return ItemStack.EMPTY;
             } else {
-                if (!this.moveItemStackTo(stackInSlot, 0, slotCount, false)) return ItemStack.EMPTY;
+                int start = machineData.getStartSlot(UIModuleType.Energy);
+                int end = machineData.getStartSlot(UIModuleType.Recipe);
+                if (!this.moveItemStackTo(stackInSlot, start, end, false)) {
+                    start = machineData.getStartSlot(UIModuleType.Input);
+                    end = machineData.getStartSlot(UIModuleType.Output);
+                    if (!this.moveItemStackTo(stackInSlot, start, end, false)) return ItemStack.EMPTY;
+                }
             }
             if (stackInSlot.isEmpty()) slot.setByPlayer(ItemStack.EMPTY);
             else slot.setChanged();

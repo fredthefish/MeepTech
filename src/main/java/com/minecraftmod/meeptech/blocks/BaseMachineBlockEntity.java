@@ -1,11 +1,14 @@
 package com.minecraftmod.meeptech.blocks;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.minecraftmod.meeptech.ModBlockEntities;
 import com.minecraftmod.meeptech.ModModuleData;
 import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
+import com.minecraftmod.meeptech.logic.ui.SlotType;
+import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
 import com.minecraftmod.meeptech.logic.ui.UIModuleType;
 import com.minecraftmod.meeptech.network.MachineContainerData;
@@ -44,6 +47,7 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
     };
     protected final HashMap<TrackedStat, Integer> machineInts = new HashMap<>();
     protected final MachineContainerData trackedData = new MachineContainerData(machineInts, this);
+    private final MachineAutomationHandler automationHandler = new MachineAutomationHandler(this);
 
     public BaseMachineBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.BASE_MACHINE_BE.get(), pos, state);
@@ -213,5 +217,14 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                 }
             }
         }
+    }
+    public SlotType getSlotType(int slotIndex) {
+        machineData = getMachineData();
+        List<SlotUIElement> slots = machineData.getSlots();
+        if (slots.size() > slotIndex) return slots.get(slotIndex).getType();
+        return null;
+    }
+    public MachineAutomationHandler getAutomationHandler() {
+        return this.automationHandler;
     }
 }
