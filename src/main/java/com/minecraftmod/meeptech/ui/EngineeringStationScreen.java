@@ -80,10 +80,17 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                             }
                             List<Component> tooltip = new ArrayList<>();
                             tooltip.add(preview.getHoverName());
+                            if (selectionPath.size() > layer && selectionPath.get(layer) == i)
+                                tooltip.add(Component.translatable("meeptech.ui.engineering_station.deselect"));
+                            else if (moduleType != null) 
+                                tooltip.add(Component.translatable("meeptech.ui.engineering_station.select"));
+                            if (!subLayer.hasSubLayers())
+                                tooltip.add(Component.translatable("meeptech.ui.engineering_station.extract"));
                             guiGraphics.renderTooltip(this.font, tooltip, Optional.empty(), mouseX, mouseY);
                         } else {
                             List<Component> tooltip = new ArrayList<>();
                             tooltip.add(Component.translatable(type.getSubSlot(i).getType().getTranslationKey()));
+                            tooltip.add(Component.translatable("meeptech.ui.engineering_station.insert"));
                             guiGraphics.renderTooltip(this.font, tooltip, Optional.empty(), mouseX, mouseY);
                         }
                     }
