@@ -3,23 +3,29 @@ package com.minecraftmod.meeptech.logic.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.minecraftmod.meeptech.logic.recipe.MachineRecipeType;
+import com.minecraftmod.meeptech.logic.ui.RecipeUIModule;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
 import com.minecraftmod.meeptech.logic.ui.UIModule;
+import com.minecraftmod.meeptech.logic.ui.UIModuleType;
 
 public class MachineType extends MachineAttribute {
     private EnergySourceType energySource;
+    private MachineRecipeType recipeType;
     private UIModule inputModule;
     private UIModule outputModule;
     private UIModule recipeModule;
     private ArrayList<TrackedStat> trackedStats = new ArrayList<>();
-    public MachineType(String id, EnergySourceType energySource, UIModule inputModule, UIModule outputModule,
-        UIModule recipeModule, List<TrackedStat> trackedStats) {
+    public MachineType(String id, EnergySourceType energySource, MachineRecipeType recipeType) {
         super(id);
         this.energySource = energySource;
-        this.inputModule = inputModule;
-        this.outputModule = outputModule;
-        this.recipeModule = recipeModule;
-        if (trackedStats != null) this.trackedStats.addAll(trackedStats);
+        this.recipeType = recipeType;
+        if (recipeType != null) {
+            this.inputModule = new UIModule(UIModuleType.Input, "Input", recipeType.getInputSlots());
+            this.outputModule = new UIModule(UIModuleType.Output, "Output", recipeType.getOutputSlots());
+            this.recipeModule = new RecipeUIModule("Recipe", true);
+            this.trackedStats.addAll(List.of(TrackedStat.RecipeProgress, TrackedStat.RecipeMaxProgress));
+        }
     }
     public String getTranslationKey() {
         return "meeptech.moduleType." + getId();
@@ -38,5 +44,8 @@ public class MachineType extends MachineAttribute {
     }
     public EnergySourceType getEnergySource() {
         return energySource;
+    }
+    public MachineRecipeType getRecipeType() {
+        return recipeType;
     }
 }

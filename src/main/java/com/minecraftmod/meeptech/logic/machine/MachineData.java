@@ -38,8 +38,10 @@ public class MachineData {
         return type;
     }
     public MachineAttribute getEnergySource() {
-        //Temporary until other energy sources are added.
-        return heatSource;
+        if (type.getEnergySource() == EnergySourceType.Heat) {
+            return heatSource;
+        }
+        return null;
     }
     public double getMachineSpeed() {
         if (stats.containsKey(MachineStat.Speed)) return (double)stats.get(MachineStat.Speed);

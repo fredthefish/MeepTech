@@ -21,13 +21,13 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 @Mod(value = MeepTech.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = MeepTech.MODID, value = Dist.CLIENT)
 public class MeepTechClient {
-    public MeepTechClient(ModContainer container) {
-    }
+    public MeepTechClient(ModContainer container) {}
 
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
         ModMaterials.initializeMaterials();
         ModModuleTypes.initializeModuleTypes();
+        ModMachineRecipes.initializeRecipes();
     }
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {

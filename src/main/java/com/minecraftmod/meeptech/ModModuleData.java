@@ -10,20 +10,12 @@ import com.minecraftmod.meeptech.logic.machine.MachineStat;
 import com.minecraftmod.meeptech.logic.machine.MachineType;
 import com.minecraftmod.meeptech.logic.material.MaterialStat;
 import com.minecraftmod.meeptech.logic.ui.EnergyUIModule;
-import com.minecraftmod.meeptech.logic.ui.RecipeUIModule;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
-import com.minecraftmod.meeptech.logic.ui.UIModule;
-import com.minecraftmod.meeptech.logic.ui.UIModuleType;
 
 public class ModModuleData {
     public static MachineBase BASE_BASIC = new MachineBase("basic");
-
-    public static MachineType TYPE_SMELTER = new MachineType("smelter", EnergySourceType.Heat,
-        new UIModule(UIModuleType.Input, "Input", 1),
-        new UIModule(UIModuleType.Output, "Output", 1),
-        new RecipeUIModule("Recipe", true),
-        List.of(TrackedStat.RecipeProgress, TrackedStat.RecipeMaxProgress)
-    );
+    
+    public static MachineType TYPE_SMELTER = new MachineType("smelter", EnergySourceType.Heat, ModMachineRecipeTypes.SMELTER);
 
     public static HeatSource HEAT_SOURCE_SOLID_FUEL = new HeatSource("solid_fuel",
         new EnergyUIModule("Heat", 1, true),

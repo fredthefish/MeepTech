@@ -26,5 +26,6 @@ public class MeepTech {
     public void onServerStarting(ServerStartingEvent event) {
         ModMaterials.initializeMaterials();
         ModModuleTypes.initializeModuleTypes();
+        ModMachineRecipes.initializeRecipes();
     }
 }
