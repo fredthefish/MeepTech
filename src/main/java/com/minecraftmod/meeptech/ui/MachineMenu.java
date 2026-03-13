@@ -5,6 +5,8 @@ import java.util.List;
 import com.minecraftmod.meeptech.ModBlocks;
 import com.minecraftmod.meeptech.ModMenus;
 import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
+import com.minecraftmod.meeptech.logic.machine.HeatSource;
+import com.minecraftmod.meeptech.logic.machine.MachineAttribute;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
 import com.minecraftmod.meeptech.logic.ui.SlotType;
 import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
@@ -20,7 +22,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.SlotItemHandler;
 
@@ -58,7 +59,11 @@ public class MachineMenu extends AbstractContainerMenu {
                             if (slot.getType() == SlotType.INPUT) {
                                 return true;
                             } else if (slot.getType() == SlotType.INPUT_FUEL) {
-                                return stack.is(Items.COAL);
+                                MachineAttribute energySource = machineData.getEnergySource();
+                                if (energySource instanceof HeatSource heatSource) {
+                                    return heatSource.getHeatType().validInput(stack);
+                                }
+                                return false;
                             }
                             return false;
                         }

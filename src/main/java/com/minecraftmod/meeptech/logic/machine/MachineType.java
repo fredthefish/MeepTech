@@ -3,6 +3,7 @@ package com.minecraftmod.meeptech.logic.machine;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.minecraftmod.meeptech.logic.recipe.MachineRecipeStandardType;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipeType;
 import com.minecraftmod.meeptech.logic.ui.RecipeUIModule;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
@@ -21,8 +22,10 @@ public class MachineType extends MachineAttribute {
         this.energySource = energySource;
         this.recipeType = recipeType;
         if (recipeType != null) {
-            this.inputModule = new UIModule(UIModuleType.Input, "Input", recipeType.getInputSlots());
-            this.outputModule = new UIModule(UIModuleType.Output, "Output", recipeType.getOutputSlots());
+            if (recipeType instanceof MachineRecipeStandardType standardRecipeType) {
+                this.inputModule = new UIModule(UIModuleType.Input, "Input", standardRecipeType.getInputSlots());
+                this.outputModule = new UIModule(UIModuleType.Output, "Output", standardRecipeType.getOutputSlots());
+            }
             this.recipeModule = new RecipeUIModule("Recipe", true);
             this.trackedStats.addAll(List.of(TrackedStat.RecipeProgress, TrackedStat.RecipeMaxProgress));
         }

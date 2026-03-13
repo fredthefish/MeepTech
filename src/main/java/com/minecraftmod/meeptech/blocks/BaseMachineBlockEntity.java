@@ -4,11 +4,18 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.minecraftmod.meeptech.ModBlockEntities;
+import com.minecraftmod.meeptech.ModMachineRecipeTypes;
 import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.logic.machine.EnergySourceType;
+import com.minecraftmod.meeptech.logic.machine.HeatSource;
+import com.minecraftmod.meeptech.logic.machine.MachineAttribute;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
+import com.minecraftmod.meeptech.logic.recipe.MachineHeatRecipe;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipe;
+import com.minecraftmod.meeptech.logic.recipe.MachineRecipeHeatType;
+import com.minecraftmod.meeptech.logic.recipe.MachineRecipeStandardType;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipeType;
+import com.minecraftmod.meeptech.logic.recipe.MachineStandardRecipe;
 import com.minecraftmod.meeptech.logic.ui.SlotType;
 import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
@@ -32,7 +39,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -177,23 +183,28 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                 if (heat > 0) {
                     heat--;
                     updated = true;
-                }
-                ItemStack fuelStack = entity.inventory.getStackInSlot(fuelSlot);
-                if (heat == 0 && !fuelStack.isEmpty()) {
-                    //TODO: MAKE IT ANOTHER RECIPE TYPE.
-                    if (fuelStack.getItem() == Items.COAL) {
-                        entity.inventory.extractItem(fuelSlot, 1, false);
-                        heat += 1600;
-                        updated = true;
+                } else if (heat == 0) {
+                    MachineAttribute energyType = data.getEnergySource();
+                    if (energyType instanceof HeatSource heatSource) {
+                        MachineRecipeHeatType heatType = heatSource.getHeatType();
+                        if (heatType == ModMachineRecipeTypes.SOLID_FUEL) {
+                            ItemStack fuelStack = entity.inventory.getStackInSlot(fuelSlot);
+                            if (!fuelStack.isEmpty() && heatType.validInput(fuelStack)) {
+                                MachineHeatRecipe recipe = heatType.getRecipe(fuelStack);
+                                entity.inventory.extractItem(fuelSlot, 1, false);
+                                heat += recipe.getHeat();
+                                updated = true;
+                            }
+                        }
                     }
                 }
                 int inputSlot = data.getStartSlot(UIModuleType.Input);
                 MachineRecipeType recipeType = data.getType().getRecipeType();
-                if (recipeType != null) {
+                if (recipeType != null && recipeType instanceof MachineRecipeStandardType standardType) {
                     ItemStack input = entity.getInventory().getStackInSlot(inputSlot);
                     int outputSlot = data.getStartSlot(UIModuleType.Output);
-                    if (maxProgress == 0 && recipeType.validInput(input)) {
-                        MachineRecipe recipe = recipeType.getRecipe(List.of(input));
+                    if (maxProgress == 0 && standardType.validInput(input)) {
+                        MachineStandardRecipe recipe = standardType.getRecipe(List.of(input));
                         ItemStack output = entity.inventory.getStackInSlot(outputSlot);
                         ItemStack recipeOutput = recipe.getOutputItems().getFirst();
                         int inputCount = recipe.inputsForConsumption(List.of(input)).get(input.getItem());
@@ -217,12 +228,14 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                     }
                     if (progress >= maxProgress && maxProgress > 0) {
                         MachineRecipe recipe = entity.getCurrentRecipe();
-                        ItemStack recipeOutput = recipe.getOutputItems().getFirst();
-                        entity.inventory.insertItem(outputSlot, recipeOutput, false);
-                        progress = 0;
-                        maxProgress = 0;
-                        entity.setCurrentRecipe(null);
-                        updated = true;
+                        if (recipe instanceof MachineStandardRecipe standardRecipe) {
+                            ItemStack recipeOutput = standardRecipe.getOutputItems().getFirst();
+                            entity.inventory.insertItem(outputSlot, recipeOutput, false);
+                            progress = 0;
+                            maxProgress = 0;
+                            entity.setCurrentRecipe(null);
+                            updated = true;
+                        }
                     }
                 }
                 if (updated) {

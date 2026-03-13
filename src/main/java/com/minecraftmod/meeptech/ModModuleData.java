@@ -17,7 +17,7 @@ public class ModModuleData {
     
     public static MachineType TYPE_SMELTER = new MachineType("smelter", EnergySourceType.Heat, ModMachineRecipeTypes.SMELTER);
 
-    public static HeatSource HEAT_SOURCE_SOLID_FUEL = new HeatSource("solid_fuel",
+    public static HeatSource HEAT_SOURCE_SOLID_FUEL = new HeatSource("solid_fuel", ModMachineRecipeTypes.SOLID_FUEL,
         new EnergyUIModule("Heat", 1, true),
         List.of(TrackedStat.HeatLeft)
     );
