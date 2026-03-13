@@ -1,13 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "III",
-    "IRI",
-    "III"
+    "SSS",
+    "SHS",
+    "SSS"
   ],
   "key": {
-    "I": {"item": "minecraft:iron_ingot"},
-    "R": {"item": "minecraft:redstone"}
+    "S": {"item": "minecraft:stone"},
+    "H": {"item": "meeptech:stone_hammer"}
   },
   "result": {
     "id": "meeptech:material_workstation"

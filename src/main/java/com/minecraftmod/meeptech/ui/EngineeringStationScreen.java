@@ -154,7 +154,9 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                 layer++;
             }
         }
-
+        guiGraphics.drawString(this.font, "Edit", x + 20, y + 152, 0x404040, false);
+        guiGraphics.drawString(this.font, "In", x + 82, y + 152, 0x404040, false);
+        guiGraphics.drawString(this.font, "Out", x + 130, y + 152, 0x404040, false);
     }
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {

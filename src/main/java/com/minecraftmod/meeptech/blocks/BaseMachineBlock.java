@@ -54,11 +54,14 @@ public class BaseMachineBlock extends Block implements EntityBlock {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof BaseMachineBlockEntity machine) {
                 ItemStack thisDrop = new ItemStack(this);
-                thisDrop.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), machine.getConfigData());
-                Block.popResource(level, pos, thisDrop);
-                for (int i = 0; i < machine.getInventory().getSlots(); i++) {
-                    ItemStack stack = machine.getInventory().getStackInSlot(i);
-                    if (!stack.isEmpty()) Block.popResource(level, pos, stack);
+                MachineConfigData machineConfigData = machine.getConfigData();
+                if (machineConfigData != null) {
+                    thisDrop.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), machineConfigData);
+                    Block.popResource(level, pos, thisDrop);
+                    for (int i = 0; i < machine.getInventory().getSlots(); i++) {
+                        ItemStack stack = machine.getInventory().getStackInSlot(i);
+                        if (!stack.isEmpty()) Block.popResource(level, pos, stack);
+                    }
                 }
             }
         }

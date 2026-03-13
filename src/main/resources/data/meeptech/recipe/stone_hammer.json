@@ -6,10 +6,10 @@
     " II"
   ],
   "key": {
-    "I": {"item": "minecraft:iron_ingot"},
+    "I": {"tag": "minecraft:stone_tool_materials"},
     "S": {"item": "minecraft:stick"}
   },
   "result": {
-    "id": "meeptech:iron_hammer"
+    "id": "meeptech:stone_hammer"
   }
 }

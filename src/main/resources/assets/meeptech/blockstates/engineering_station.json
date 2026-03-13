@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "": {
+            "model": "meeptech:block/engineering_station"
+        }
+    }
+}

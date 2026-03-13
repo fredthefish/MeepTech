@@ -3,7 +3,8 @@
   "meeptech.configuration.section.meeptech.common.toml": "MeepTech Configs",
   "meeptech.configuration.section.meeptech.common.toml.title": "MeepTech Configs",
 
-  "item.meeptech.iron_hammer": "Iron Hammer",
+  "item.meeptech.stone_hammer": "Stone Hammer",
+  
   "item.meeptech.iron_plate": "Iron Plate",
   "item.meeptech.iron_box": "Iron Box",
   "item.meeptech.brick_plate": "Brick Plate",

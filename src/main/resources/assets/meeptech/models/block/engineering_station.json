@@ -1,0 +1,12 @@
+{
+    "parent": "minecraft:block/cube",
+    "textures": {
+        "particle": "meeptech:block/engineering_station/side",
+        "down": "meeptech:block/engineering_station/down",
+        "up": "meeptech:block/engineering_station/up",
+        "north": "meeptech:block/engineering_station/side",
+        "south": "meeptech:block/engineering_station/side",
+        "west": "meeptech:block/engineering_station/side",
+        "east": "meeptech:block/engineering_station/side"
+    }
+}

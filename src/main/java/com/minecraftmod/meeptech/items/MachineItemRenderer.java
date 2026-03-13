@@ -29,7 +29,10 @@ public class MachineItemRenderer extends BlockEntityWithoutLevelRenderer {
     public void renderByItem(ItemStack stack, ItemDisplayContext context, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
         poseStack.pushPose();
         BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
-        BlockState hullState = ModBlocks.BRICK_HULL.get().defaultBlockState(); //TODO: Make it find the hull based on the itemstack.
+        BlockState hullState = null;
+        if (stack.is(ModBlocks.BRICK_HULL.get().asItem())) {
+            hullState = ModBlocks.BRICK_HULL.get().defaultBlockState();
+        }
         blockRenderer.renderSingleBlock(hullState, poseStack, buffer, packedLight, packedOverlay, ModelData.EMPTY, null);
         MachineConfigData config = stack.getOrDefault(ModDataComponents.MACHINE_CONFIG_DATA.get(), MachineConfigData.EMPTY);
         MachineData data = config.toMachineData();

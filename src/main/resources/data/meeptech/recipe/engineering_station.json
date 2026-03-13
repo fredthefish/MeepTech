@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BMB",
+    "MBM",
+    "BMB"
+  ],
+  "key": {
+    "B": {"item": "minecraft:brick"},
+    "M": {"item": "meeptech:module_template_basic"}
+  },
+  "result": {
+    "id": "meeptech:engineering_station"
+  }
+}
