@@ -64,7 +64,9 @@
   "tag.item.meeptech.boxes": "Boxes",
   "tag.item.meeptech.hulls": "Hulls",
   "tag.item.meeptech.plates": "Plates",
+  "tag.item.meeptech.hammers": "Hammers",
 
   "emi.category.meeptech.smelter": "Smelter",
-  "emi.category.meeptech.solid_fuel": "Solid Fuel Heating Core"
+  "emi.category.meeptech.solid_fuel": "Solid Fuel Heating Core",
+  "emi.category.meeptech.material_workstation": "Material Workstation"
 }
