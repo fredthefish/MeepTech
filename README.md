@@ -12,8 +12,13 @@ This is a Minecraft technology mod for 1.21.1 Neoforge. The goal of the mod will
 - Various other minor features.
 ## Images
 Basic Smelter:
-![Basic Smelter](images/basic-smelter.png)
+
+![Basic Smelter](images/basic_smelter.png)
+
 Engineering Station:
+
 ![Engineering Station](images/engineering_station.png)
+
 Material Workstation:
+
 ![Material Workstation](images/material_workstation.png)
