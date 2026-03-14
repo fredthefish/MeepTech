@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.minecraftmod.meeptech.ModBlockEntities;
-import com.minecraftmod.meeptech.ModMachineRecipeTypes;
+import com.minecraftmod.meeptech.ModMachineRecipes;
 import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.logic.machine.EnergySourceType;
 import com.minecraftmod.meeptech.logic.machine.HeatSource;
@@ -187,7 +187,7 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                     MachineAttribute energyType = data.getEnergySource();
                     if (energyType instanceof HeatSource heatSource) {
                         MachineRecipeHeatType heatType = heatSource.getHeatType();
-                        if (heatType == ModMachineRecipeTypes.SOLID_FUEL) {
+                        if (heatType == ModMachineRecipes.SOLID_FUEL) {
                             ItemStack fuelStack = entity.inventory.getStackInSlot(fuelSlot);
                             if (!fuelStack.isEmpty() && heatType.validInput(fuelStack)) {
                                 MachineHeatRecipe recipe = heatType.getRecipe(fuelStack);

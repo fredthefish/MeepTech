@@ -10,10 +10,13 @@ import net.neoforged.neoforge.registries.DeferredItem;
 
 public class ModuleItems {
     public static final Map<String, DeferredItem<Item>> MODULES = new HashMap<>();
-    public static void registerModules() {
-        addModuleItem("template_basic");
-        addModuleItem("machine_core_smelter");
-        addModuleItem("heating_core_solid_fuel");
+    public static DeferredItem<Item> BASIC_TEMPLATE;
+    public static DeferredItem<Item> SMELTER_CORE;
+    public static DeferredItem<Item> SOLID_FUEL_CORE;
+    public static void registerModuleItems() {
+        BASIC_TEMPLATE = addModuleItem("template_basic");
+        SMELTER_CORE = addModuleItem("machine_core_smelter");
+        SOLID_FUEL_CORE = addModuleItem("heating_core_solid_fuel");
     }
     private static DeferredItem<Item> addModuleItem(String id) {
         DeferredItem<Item> item = ModItems.ITEMS.registerSimpleItem("module_" + id);

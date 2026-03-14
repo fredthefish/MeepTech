@@ -5,17 +5,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.minecraftmod.meeptech.emi.MachineEmiRecipe;
+import com.minecraftmod.meeptech.emi.MachineEmiStandardRecipe;
+
+import dev.emi.emi.api.recipe.EmiRecipeCategory;
+import dev.emi.emi.api.stack.EmiIngredient;
+import dev.emi.emi.api.stack.EmiStack;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 public class MachineStandardRecipe extends MachineRecipe {
     private String id;
+    private MachineRecipeStandardType type;
     private Map<Ingredient, Integer> inputItems = new HashMap<>();
     private List<ItemStack> outputItems = new ArrayList<>();
     private int time;
-    public MachineStandardRecipe(String id, Map<Ingredient, Integer> inputs, List<ItemStack> outputs, int time) {
+    public MachineStandardRecipe(String id, MachineRecipeStandardType type, Map<Ingredient, Integer> inputs, List<ItemStack> outputs, int time) {
         super(id);
+        this.type = type;
         this.inputItems.putAll(inputs);
         this.outputItems.addAll(outputs);
         this.time = time;
@@ -96,5 +105,21 @@ public class MachineStandardRecipe extends MachineRecipe {
             }
         }
         return itemsConsumed;
+    }
+    @Override
+    public List<EmiIngredient> getEmiInputs() {
+        List<EmiIngredient> emiIngredients = new ArrayList<>();
+        for (Ingredient ingredient : inputItems.keySet()) emiIngredients.add(EmiIngredient.of(ingredient));
+        return emiIngredients;
+    }
+    @Override
+    public List<EmiStack> getEmiOutputs() {
+        List<EmiStack> emiStacks = new ArrayList<>();
+        for (ItemStack stack : outputItems) emiStacks.add(EmiStack.of(stack));
+        return emiStacks;
+    }
+    @Override
+    public MachineEmiRecipe getEmiRecipe(ResourceLocation syntheticId, EmiRecipeCategory category) {
+        return new MachineEmiStandardRecipe(syntheticId, category, this, type);
     }
 }

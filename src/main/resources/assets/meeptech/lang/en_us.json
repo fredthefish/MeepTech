@@ -56,5 +56,13 @@
   "meeptech.ui.engineering_station.insert": "Left click to insert from the in slot.",
   "meeptech.ui.engineering_station.extract": "Right click to extract to the out slot.",
   "meeptech.ui.engineering_station.select": "Left click to select.",
-  "meeptech.ui.engineering_station.deselect": "Left click to deselect."
+  "meeptech.ui.engineering_station.deselect": "Left click to deselect.",
+
+  "tag.item.meeptech.base_materials": "Base Materials",
+  "tag.item.meeptech.boxes": "Boxes",
+  "tag.item.meeptech.hulls": "Hulls",
+  "tag.item.meeptech.plates": "Plates",
+
+  "emi.category.meeptech.smelter": "Smelter",
+  "emi.category.meeptech.solid_fuel": "Solid Fuel Heating Core"
 }
