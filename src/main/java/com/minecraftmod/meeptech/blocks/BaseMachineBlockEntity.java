@@ -214,10 +214,10 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                                 MachineHeatRecipe recipe = heatType.getRecipe(fuelStack);
                                 if (recipe != null) {
                                     entity.inventory.extractItem(fuelSlot, 1, false);
-                                    heat += recipe.getHeat();
+                                    heat += (int)((double)recipe.getHeat() / data.getMachineSpeed());
                                     updated = true;
                                 } else if (fuelStack.getBurnTime(RecipeType.SMELTING) > 0) {
-                                    heat += fuelStack.getBurnTime(RecipeType.SMELTING);
+                                    heat += (int)((double)fuelStack.getBurnTime(RecipeType.SMELTING) / data.getMachineSpeed());
                                     entity.inventory.extractItem(fuelSlot, 1, false);
                                     updated = true;
                                 }
@@ -240,7 +240,7 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                             || (output.getItem().equals(recipeOutput.getItem()) && output.getCount() <= output.getMaxStackSize() + recipeOutput.getCount())) {
                                 entity.inventory.extractItem(inputSlot, inputCount, false);
                                 entity.setCurrentRecipe(recipe);
-                                maxProgress = recipe.getTime();
+                                maxProgress = (int)((double)recipe.getTime() / data.getMachineSpeed());
                                 updated = true;
                             }
                         } else if (maxProgress == 0 && standardType == ModMachineRecipes.SMELTER) {
@@ -254,7 +254,7 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                                 || (output.getItem().equals(recipeOutput.getItem()) && output.getCount() <= output.getMaxStackSize() + recipeOutput.getCount())) {
                                     entity.inventory.extractItem(inputSlot, 1, false);
                                     entity.setCurrentVanillaRecipe(furnaceRecipe.get());
-                                    maxProgress = recipe.getCookingTime();
+                                    maxProgress = (int)((double)recipe.getCookingTime() / data.getMachineSpeed());
                                     updated = true;
                                 }
                             }

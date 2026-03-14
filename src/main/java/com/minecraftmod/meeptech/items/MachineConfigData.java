@@ -29,7 +29,9 @@ public record MachineConfigData(String moduleSlotType, String moduleId, String m
 
     public static final StreamCodec<RegistryFriendlyByteBuf, MachineConfigData> STREAM_CODEC = ByteBufCodecs.fromCodecWithRegistries(CODEC);
     public ModuleType getModuleType() {
-        return ModModuleTypes.getModuleType(moduleId);
+        if (!moduleId.isEmpty()) return ModModuleTypes.getModuleType(moduleId);
+        else if (!moduleSlotType.isEmpty() && !materialId.isEmpty()) return ModModuleTypes.getModuleType(moduleSlotType);
+        return null;
     }
     public String getMaterial() {
         return materialId;

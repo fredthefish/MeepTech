@@ -45,7 +45,7 @@ public class MachineData {
     }
     public double getMachineSpeed() {
         if (stats.containsKey(MachineStat.Speed)) return (double)stats.get(MachineStat.Speed);
-        return Double.NaN;
+        return 1;
     }
     public int getSlotCount() {
         int count = 0;
