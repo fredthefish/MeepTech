@@ -5,6 +5,7 @@ import com.minecraftmod.meeptech.items.ModuleItems;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.ModContainer;
+import net.minecraft.resources.ResourceLocation;
 
 @Mod(MeepTech.MODID)
 public class MeepTech {
@@ -18,5 +19,6 @@ public class MeepTech {
         ModMenus.MENUS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         ModDataComponents.DATA_COMPONENTS.register(modEventBus);
+        guideme.Guide.builder(ResourceLocation.fromNamespaceAndPath(MODID, "manual")).build();
     }
 }

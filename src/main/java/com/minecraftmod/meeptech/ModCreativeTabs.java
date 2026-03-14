@@ -36,6 +36,7 @@ public class ModCreativeTabs {
         .title(Component.translatable("itemGroup." + MeepTech.MODID + ".general_tab"))
         .icon(() -> new ItemStack(ModItems.HAMMER.get()))
         .displayItems((params, output) -> {
+            output.accept(ModItems.MANUAL.get());
             output.accept(ModItems.HAMMER.get());
             output.accept(ModBlocks.MATERIAL_WORKSTATION.get());
             output.accept(ModBlocks.ENGINEERING_STATION.get());
