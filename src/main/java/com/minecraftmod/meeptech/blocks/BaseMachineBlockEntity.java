@@ -2,6 +2,7 @@ package com.minecraftmod.meeptech.blocks;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import com.minecraftmod.meeptech.ModBlockEntities;
 import com.minecraftmod.meeptech.ModMachineRecipes;
@@ -31,6 +32,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.MenuProvider;
@@ -39,6 +41,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -57,6 +64,7 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
     protected final MachineContainerData trackedData = new MachineContainerData(machineInts, this);
     private final MachineAutomationHandler automationHandler = new MachineAutomationHandler(this);
     private MachineRecipe currentRecipe = null;
+    private String currentVanillaRecipe = null;
 
     public BaseMachineBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.BASE_MACHINE_BE.get(), pos, state);
@@ -89,6 +97,9 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
             tag.putString("CurrentRecipeType", currentRecipe.getType().getId());
             tag.putString("CurrentRecipe", currentRecipe.getId());
         }
+        if (currentVanillaRecipe != null) {
+            tag.putString("CurrentVanillaRecipe", currentVanillaRecipe);
+        }
     }
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
@@ -113,6 +124,9 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
             MachineRecipeType recipeType = ModMachineRecipes.getRecipeType(recipeTypeId);
             String recipeId = tag.getString("CurrentRecipe");
             this.currentRecipe = recipeType.getRecipe(recipeId);
+        }
+        if (tag.contains("CurrentVanillaRecipe")) {
+            currentVanillaRecipe = tag.getString("CurrentVanillaRecipe");
         }
     }
     @Override
@@ -198,9 +212,15 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                             ItemStack fuelStack = entity.inventory.getStackInSlot(fuelSlot);
                             if (!fuelStack.isEmpty() && heatType.validInput(fuelStack)) {
                                 MachineHeatRecipe recipe = heatType.getRecipe(fuelStack);
-                                entity.inventory.extractItem(fuelSlot, 1, false);
-                                heat += recipe.getHeat();
-                                updated = true;
+                                if (recipe != null) {
+                                    entity.inventory.extractItem(fuelSlot, 1, false);
+                                    heat += recipe.getHeat();
+                                    updated = true;
+                                } else if (fuelStack.getBurnTime(RecipeType.SMELTING) > 0) {
+                                    heat += fuelStack.getBurnTime(RecipeType.SMELTING);
+                                    entity.inventory.extractItem(fuelSlot, 1, false);
+                                    updated = true;
+                                }
                             }
                         }
                     }
@@ -208,19 +228,36 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                 int inputSlot = data.getStartSlot(UIModuleType.Input);
                 MachineRecipeType recipeType = data.getType().getRecipeType();
                 if (recipeType != null && recipeType instanceof MachineRecipeStandardType standardType) {
-                    ItemStack input = entity.getInventory().getStackInSlot(inputSlot);
                     int outputSlot = data.getStartSlot(UIModuleType.Output);
-                    if (maxProgress == 0 && standardType.validInput(input)) {
-                        MachineStandardRecipe recipe = standardType.getRecipe(List.of(input));
-                        ItemStack output = entity.inventory.getStackInSlot(outputSlot);
-                        ItemStack recipeOutput = recipe.getOutputItems().getFirst();
-                        int inputCount = recipe.inputsForConsumption(List.of(input)).get(input.getItem());
-                        if (output.isEmpty() 
-                        || (output.getItem().equals(recipeOutput.getItem()) && output.getCount() <= output.getMaxStackSize() + recipeOutput.getCount())) {
-                            entity.inventory.extractItem(inputSlot, inputCount, false);
-                            entity.setCurrentRecipe(recipe);
-                            maxProgress = recipe.getTime();
-                            updated = true;
+                    if (heat > 0) {
+                        ItemStack input = entity.getInventory().getStackInSlot(inputSlot);
+                        if (maxProgress == 0 && standardType.validInput(input)) {
+                            MachineStandardRecipe recipe = standardType.getRecipe(List.of(input));
+                            ItemStack output = entity.inventory.getStackInSlot(outputSlot);
+                            ItemStack recipeOutput = recipe.getOutputItems().getFirst();
+                            int inputCount = recipe.inputsForConsumption(List.of(input)).get(input.getItem());
+                            if (output.isEmpty() 
+                            || (output.getItem().equals(recipeOutput.getItem()) && output.getCount() <= output.getMaxStackSize() + recipeOutput.getCount())) {
+                                entity.inventory.extractItem(inputSlot, inputCount, false);
+                                entity.setCurrentRecipe(recipe);
+                                maxProgress = recipe.getTime();
+                                updated = true;
+                            }
+                        } else if (maxProgress == 0 && standardType == ModMachineRecipes.SMELTER) {
+                            SingleRecipeInput recipeInput = new SingleRecipeInput(input);
+                            Optional<RecipeHolder<SmeltingRecipe>> furnaceRecipe = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, recipeInput, level);
+                            if (furnaceRecipe.isPresent()) {
+                                SmeltingRecipe recipe = furnaceRecipe.get().value();
+                                ItemStack output = entity.inventory.getStackInSlot(outputSlot);
+                                ItemStack recipeOutput = recipe.getResultItem(level.registryAccess());
+                                if (output.isEmpty() 
+                                || (output.getItem().equals(recipeOutput.getItem()) && output.getCount() <= output.getMaxStackSize() + recipeOutput.getCount())) {
+                                    entity.inventory.extractItem(inputSlot, 1, false);
+                                    entity.setCurrentVanillaRecipe(furnaceRecipe.get());
+                                    maxProgress = recipe.getCookingTime();
+                                    updated = true;
+                                }
+                            }
                         }
                     }
                     if (maxProgress > 0) {
@@ -235,13 +272,29 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                     }
                     if (progress >= maxProgress && maxProgress > 0) {
                         MachineRecipe recipe = entity.getCurrentRecipe();
-                        if (recipe instanceof MachineStandardRecipe standardRecipe) {
-                            ItemStack recipeOutput = standardRecipe.getOutputItems().getFirst();
-                            entity.inventory.insertItem(outputSlot, recipeOutput, false);
-                            progress = 0;
-                            maxProgress = 0;
-                            entity.setCurrentRecipe(null);
-                            updated = true;
+                        if (recipe != null) {
+                            if (recipe instanceof MachineStandardRecipe standardRecipe) {
+                                ItemStack recipeOutput = standardRecipe.getOutputItems().getFirst();
+                                entity.inventory.insertItem(outputSlot, recipeOutput, false);
+                                progress = 0;
+                                maxProgress = 0;
+                                entity.setCurrentRecipe(null);
+                                updated = true;
+                            }
+                        } else {
+                            String vanillaRecipeId = entity.getCurrentVanillaRecipe();
+                            Optional<RecipeHolder<?>> vanillaRecipeHolder = level.getRecipeManager().byKey(ResourceLocation.parse(vanillaRecipeId));
+                            if (vanillaRecipeHolder.isPresent()) {
+                                Recipe<?> vanillaRecipe = vanillaRecipeHolder.get().value();
+                                if (vanillaRecipe.getType() == RecipeType.SMELTING) {
+                                    ItemStack recipeOutput = vanillaRecipe.getResultItem(level.registryAccess());
+                                    entity.inventory.insertItem(outputSlot, recipeOutput, false);
+                                    progress = 0;
+                                    maxProgress = 0;
+                                    entity.setCurrentVanillaRecipe(null);
+                                    updated = true;
+                                }
+                            }
                         }
                     }
                 }
@@ -266,7 +319,14 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
     public MachineRecipe getCurrentRecipe() {
         return currentRecipe;
     }
+    public String getCurrentVanillaRecipe() {
+        return currentVanillaRecipe;
+    }
     public void setCurrentRecipe(MachineRecipe recipe) {
         currentRecipe = recipe;
+    }
+    public void setCurrentVanillaRecipe(RecipeHolder<?> recipe) {
+        if (recipe == null) currentVanillaRecipe = null;
+        else currentVanillaRecipe = recipe.id().getNamespace() + ":" + recipe.id().getPath();
     }
 }

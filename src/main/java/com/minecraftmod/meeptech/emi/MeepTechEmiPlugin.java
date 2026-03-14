@@ -6,6 +6,7 @@ import com.minecraftmod.meeptech.MeepTech;
 import com.minecraftmod.meeptech.ModBlocks;
 import com.minecraftmod.meeptech.ModMachineRecipes;
 import com.minecraftmod.meeptech.ModMaterials;
+import com.minecraftmod.meeptech.items.ModuleItems;
 import com.minecraftmod.meeptech.logic.material.Material;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
 import com.minecraftmod.meeptech.logic.material.MaterialWorkstationRecipe;
@@ -17,11 +18,14 @@ import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
+import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
+import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 
 @EmiEntrypoint
 public class MeepTechEmiPlugin implements EmiPlugin {
@@ -58,5 +62,6 @@ public class MeepTechEmiPlugin implements EmiPlugin {
                 }
             }
         }
+        registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, EmiIngredient.of(Ingredient.of(ModuleItems.SMELTER_CORE.get())));
     }
 }

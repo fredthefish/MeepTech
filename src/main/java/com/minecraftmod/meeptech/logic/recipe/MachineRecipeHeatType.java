@@ -7,6 +7,8 @@ import java.util.Map;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 public class MachineRecipeHeatType extends MachineRecipeType implements IRecipeItemInput {
@@ -38,6 +40,7 @@ public class MachineRecipeHeatType extends MachineRecipeType implements IRecipeI
         for (MachineHeatRecipe recipe : recipes.values()) {
             if (recipe.validInput(stack)) return true;
         }
+        if (stack.getBurnTime(RecipeType.SMELTING) > 0 && stack.getItem() != Items.LAVA_BUCKET) return true;
         return false;
     }
     public MachineHeatRecipe getRecipe(ItemStack input) {

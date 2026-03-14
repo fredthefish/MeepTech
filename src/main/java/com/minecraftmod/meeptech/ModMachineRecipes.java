@@ -1,7 +1,6 @@
 package com.minecraftmod.meeptech;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.minecraftmod.meeptech.items.ModuleItems;
@@ -9,10 +8,8 @@ import com.minecraftmod.meeptech.logic.recipe.MachineHeatRecipe;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipeHeatType;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipeStandardType;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipeType;
-import com.minecraftmod.meeptech.logic.recipe.MachineStandardRecipe;
 
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -27,12 +24,11 @@ public class ModMachineRecipes {
         RECIPES.put(SMELTER.getId(), SMELTER);
         RECIPES.put(SOLID_FUEL.getId(), SOLID_FUEL);
 
-        SMELTER.addRecipe(new MachineStandardRecipe(
-            "smelt_raw_iron", SMELTER,
-            Map.of(Ingredient.of(Items.RAW_IRON), 1), 
-            List.of(new ItemStack(Items.IRON_INGOT)), 
-            200));
         SOLID_FUEL.addRecipe(new MachineHeatRecipe("burn_coal", SOLID_FUEL, Ingredient.of(ItemTags.COALS), 1600));
+        SOLID_FUEL.addRecipe(new MachineHeatRecipe("burn_coal_block", SOLID_FUEL, Ingredient.of(Items.COAL_BLOCK), 16000));
+        SOLID_FUEL.addRecipe(new MachineHeatRecipe("burn_dried_kelp_block", SOLID_FUEL, Ingredient.of(Items.DRIED_KELP_BLOCK), 4000));
+        SOLID_FUEL.addRecipe(new MachineHeatRecipe("burn_blaze_rod", SOLID_FUEL, Ingredient.of(Items.BLAZE_ROD), 2400));
+        SOLID_FUEL.addRecipe(new MachineHeatRecipe("burn_sugar_canae", SOLID_FUEL, Ingredient.of(Items.SUGAR_CANE), 300));
 
         isInitialized = true;
     }
