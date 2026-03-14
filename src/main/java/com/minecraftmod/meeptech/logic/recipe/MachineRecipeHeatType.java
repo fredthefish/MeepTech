@@ -1,7 +1,9 @@
 package com.minecraftmod.meeptech.logic.recipe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -9,7 +11,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 
 public class MachineRecipeHeatType extends MachineRecipeType implements IRecipeItemInput {
     private int inputSlots;
-    private List<MachineHeatRecipe> recipes = new ArrayList<>();
+    private Map<String, MachineHeatRecipe> recipes = new HashMap<>();
     public MachineRecipeHeatType(String id, DeferredItem<Item> icon, int inputSlots) {
         super(id, icon);
         this.inputSlots = inputSlots;
@@ -20,22 +22,26 @@ public class MachineRecipeHeatType extends MachineRecipeType implements IRecipeI
     }
     @Override
     public void addRecipe(MachineRecipe recipe) {
-        if (recipe instanceof MachineHeatRecipe heatRecipe) recipes.add(heatRecipe);
+        if (recipe instanceof MachineHeatRecipe heatRecipe) recipes.put(heatRecipe.getId(), heatRecipe);
     }
     @Override
     public List<MachineRecipe> getRecipes() {
         List<MachineRecipe> newRecipes = new ArrayList<>();
-        for (MachineRecipe recipe : recipes) newRecipes.add(recipe);
+        for (MachineRecipe recipe : recipes.values()) newRecipes.add(recipe);
         return newRecipes;
     }
+    @Override
+    public MachineRecipe getRecipe(String recipe) {
+        return recipes.get(recipe);
+    }
     public boolean validInput(ItemStack stack) {
-        for (MachineHeatRecipe recipe : recipes) {
+        for (MachineHeatRecipe recipe : recipes.values()) {
             if (recipe.validInput(stack)) return true;
         }
         return false;
     }
     public MachineHeatRecipe getRecipe(ItemStack input) {
-        for (MachineHeatRecipe recipe : recipes) {
+        for (MachineHeatRecipe recipe : recipes.values()) {
             if (recipe.validInput(input)) return recipe;
         }
         return null;

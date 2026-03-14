@@ -27,7 +27,7 @@ import net.minecraft.world.item.Items;
 public class MeepTechEmiPlugin implements EmiPlugin {
     @Override
     public void register(EmiRegistry registry) {
-        for (MachineRecipeType recipeType : ModMachineRecipes.getRecipeTypes()) {
+        for (MachineRecipeType recipeType : ModMachineRecipes.getRecipeTypes().values()) {
             String typeId = recipeType.getId();
             ResourceLocation categoryId = ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, typeId);
             Item iconItem = recipeType.getIcon();

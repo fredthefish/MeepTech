@@ -17,7 +17,7 @@ public class MachineHeatRecipe extends MachineRecipe {
     private Ingredient ingredient;
     private int heat;
     public MachineHeatRecipe(String id, MachineRecipeHeatType type, Ingredient ingredient, int heat) {
-        super(id);
+        super(id, type);
         this.type = type;
         this.ingredient = ingredient;
         this.heat = heat;

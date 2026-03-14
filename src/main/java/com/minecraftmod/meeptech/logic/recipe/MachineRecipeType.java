@@ -20,4 +20,5 @@ public abstract class MachineRecipeType {
     }
     public abstract void addRecipe(MachineRecipe recipe);
     public abstract List<MachineRecipe> getRecipes();
+    public abstract MachineRecipe getRecipe(String recipe);
 }

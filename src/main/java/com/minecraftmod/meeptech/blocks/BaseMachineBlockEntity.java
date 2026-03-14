@@ -86,7 +86,8 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
         }
         tag.put("MachineInts", intsTag);
         if (currentRecipe != null) {
-            tag.putString("MachineRecipe", currentRecipe.getId());
+            tag.putString("CurrentRecipeType", currentRecipe.getType().getId());
+            tag.putString("CurrentRecipe", currentRecipe.getId());
         }
     }
     @Override
@@ -106,6 +107,12 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
             for (String key : intsTag.getAllKeys()) {
                 this.machineInts.put(TrackedStat.valueOf(key), intsTag.getInt(key));
             }
+        }
+        if (tag.contains("CurrentRecipe")) {
+            String recipeTypeId = tag.getString("CurrentRecipeType");
+            MachineRecipeType recipeType = ModMachineRecipes.getRecipeType(recipeTypeId);
+            String recipeId = tag.getString("CurrentRecipe");
+            this.currentRecipe = recipeType.getRecipe(recipeId);
         }
     }
     @Override

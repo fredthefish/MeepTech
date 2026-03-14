@@ -1,6 +1,6 @@
 package com.minecraftmod.meeptech;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,15 +17,15 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
 public class ModMachineRecipes {
-    private static List<MachineRecipeType> RECIPES = new ArrayList<>();
+    private static Map<String, MachineRecipeType> RECIPES = new HashMap<>();
     private static boolean isInitialized = false;
 
     public static MachineRecipeStandardType SMELTER = new MachineRecipeStandardType("smelter", ModuleItems.SMELTER_CORE, 1, 1);
     public static MachineRecipeHeatType SOLID_FUEL = new MachineRecipeHeatType("solid_fuel", ModuleItems.SOLID_FUEL_CORE, 1);
 
     public static void registerRecipes() {
-        RECIPES.add(SMELTER);
-        RECIPES.add(SOLID_FUEL);
+        RECIPES.put(SMELTER.getId(), SMELTER);
+        RECIPES.put(SOLID_FUEL.getId(), SOLID_FUEL);
 
         SMELTER.addRecipe(new MachineStandardRecipe(
             "smelt_raw_iron", SMELTER,
@@ -36,8 +36,12 @@ public class ModMachineRecipes {
 
         isInitialized = true;
     }
-    public static List<MachineRecipeType> getRecipeTypes() {
+    public static Map<String, MachineRecipeType> getRecipeTypes() {
         if (!isInitialized) registerRecipes();
         return RECIPES;
+    }
+    public static MachineRecipeType getRecipeType(String id) {
+        if (!isInitialized) registerRecipes();
+        return RECIPES.get(id);
     }
 }

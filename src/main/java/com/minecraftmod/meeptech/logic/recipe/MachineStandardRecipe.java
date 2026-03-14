@@ -17,20 +17,16 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 public class MachineStandardRecipe extends MachineRecipe {
-    private String id;
     private MachineRecipeStandardType type;
     private Map<Ingredient, Integer> inputItems = new HashMap<>();
     private List<ItemStack> outputItems = new ArrayList<>();
     private int time;
     public MachineStandardRecipe(String id, MachineRecipeStandardType type, Map<Ingredient, Integer> inputs, List<ItemStack> outputs, int time) {
-        super(id);
+        super(id, type);
         this.type = type;
         this.inputItems.putAll(inputs);
         this.outputItems.addAll(outputs);
         this.time = time;
-    }
-    public String getId() {
-        return id;
     }
     public Map<Ingredient, Integer> getInputItems() {
         return inputItems;
