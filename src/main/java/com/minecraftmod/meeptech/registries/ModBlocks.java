@@ -1,14 +1,13 @@
 package com.minecraftmod.meeptech.registries;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.function.Supplier;
 
 import com.minecraftmod.meeptech.MeepTech;
 import com.minecraftmod.meeptech.blocks.EngineeringStationBlock;
 import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlock;
 import com.minecraftmod.meeptech.items.HullItem;
+import com.minecraftmod.meeptech.logic.material.Material;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -23,7 +22,7 @@ public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MeepTech.MODID);
     public static final HashMap<DeferredBlock<Block>, DeferredItem<Item>> BLOCK_ITEMS = new HashMap<>();
 
-    public static final List<DeferredBlock<Block>> HULL_BLOCKS = new ArrayList<>();
+    public static final HashMap<Material, DeferredBlock<Block>> HULL_BLOCKS = new HashMap<>();
 
     public static final DeferredBlock<Block> MATERIAL_WORKSTATION = registerBlock("material_workstation",
         () -> new MaterialWorkstationBlock(BlockBehaviour.Properties.of()

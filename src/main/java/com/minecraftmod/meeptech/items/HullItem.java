@@ -5,6 +5,7 @@ import java.util.List;
 import com.minecraftmod.meeptech.logic.machine.HeatSource;
 import com.minecraftmod.meeptech.logic.machine.MachineAttribute;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
+import com.minecraftmod.meeptech.logic.material.MaterialItemData;
 import com.minecraftmod.meeptech.logic.module.ModModuleTypes;
 import com.minecraftmod.meeptech.registries.ModDataComponents;
 
@@ -28,13 +29,15 @@ public class HullItem extends BlockItem {
                 return Component.translatable(machineData.getBase().getTranslationKey()).append(" ")
                     .append(Component.translatable(machineData.getType().getTranslationKey()));
             } else {
-                return Component.translatable("item.meeptech.hull.partial").append(" ").append(super.getName(stack));
+                return Component.translatable("item.meeptech.hull.partial").append(" ").append(getTranslation(stack));
             }
         }
-        return Component.translatable("item.meeptech.hull.empty").append(" ").append(super.getName(stack));
+        return Component.translatable("item.meeptech.hull.empty").append(" ").append(getTranslation(stack));
     }
-    public Component getTranslation() {
-        return Component.translatable(this.getDescriptionId());
+    public Component getTranslation(ItemStack stack) {
+        MaterialItemData itemData = new MaterialItemData(stack.getItem());
+        return Component.translatable(itemData.getMaterial().getTranslationKey())
+            .append(" ").append(Component.translatable(itemData.getForm().getTranslationKey()));
     }
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag flag) {

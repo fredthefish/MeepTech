@@ -48,7 +48,7 @@ public class MeepTechClient {
     }
     @SubscribeEvent
     public static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
-        for (DeferredBlock<Block> block : ModBlocks.HULL_BLOCKS) {
+        for (DeferredBlock<Block> block : ModBlocks.HULL_BLOCKS.values()) {
             event.registerItem(new MachineItemClientExtension(), block.get().asItem());
         }
     }

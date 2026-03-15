@@ -2,6 +2,7 @@
   "values": [
     "meeptech:material_workstation",
     "meeptech:engineering_station",
-    "meeptech:brick_hull"
+    "meeptech:brick_hull",
+    "meeptech:iron_hull"
   ]
 }

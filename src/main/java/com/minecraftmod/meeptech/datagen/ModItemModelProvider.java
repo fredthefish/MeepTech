@@ -12,8 +12,12 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(PackOutput output, ExistingFileHelper fileHelper) {
@@ -22,8 +26,6 @@ public class ModItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         basicItem(ModItems.MANUAL.get());
-        withExistingParent(ModBlocks.MATERIAL_WORKSTATION.getId().getPath(), modLoc("block/material_workstation"));
-        withExistingParent(ModBlocks.ENGINEERING_STATION.getId().getPath(), modLoc("block/engineering_station"));
         for (Material material : ModMaterials.MATERIALS) {
             for (MaterialForm form : material.getGeneratedForms()) {
                 if (form != ModMaterials.HULL) {
@@ -38,5 +40,25 @@ public class ModItemModelProvider extends ItemModelProvider {
             withExistingParent(ModuleItems.MODULE_ITEMS.get(modulePath).getId().getPath(), mcLoc("item/generated"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "item/module/" + modulePath));
         }
+        for (DeferredBlock<Block> hullBlock : ModBlocks.HULL_BLOCKS.values()) {
+            getBuilder(hullBlock.getId().getPath())
+                .parent(new ModelFile.UncheckedModelFile("minecraft:builtin/entity")).transforms()
+                .transform(ItemDisplayContext.GUI)
+                    .rotation(30, 225, 0).translation(0, 0, 0).scale(0.625f, 0.625f, 0.625f).end()
+                .transform(ItemDisplayContext.GROUND)
+                    .rotation(0, 0, 0).translation(0, 3, 0).scale(0.25f, 0.25f, 0.25f).end()
+                .transform(ItemDisplayContext.FIXED)
+                    .rotation(0, 0, 0).translation(0, 0, 0).scale(0.5f, 0.5f, 0.5f).end()
+                .transform(ItemDisplayContext.THIRD_PERSON_RIGHT_HAND)
+                    .rotation(75, 45, 0).translation(0, 2.5f, 0).scale(0.375f, 0.375f, 0.375f).end()
+                .transform(ItemDisplayContext.FIRST_PERSON_RIGHT_HAND)
+                    .rotation(0, 45, 0).translation(0, 0, 0).scale(0.4f, 0.4f, 0.4f).end()
+                .transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND)
+                    .rotation(0, 225, 0).translation(0, 0, 0).scale(0.4f, 0.4f, 0.4f).end()
+            .end();
+        }
+        withExistingParent(ModItems.HAMMER.getId().getPath(), mcLoc("item/generated"))
+            .texture("layer0", ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "item/handle_hammer"))
+            .texture("layer1", ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "item/base_hammer"));
     }
 }

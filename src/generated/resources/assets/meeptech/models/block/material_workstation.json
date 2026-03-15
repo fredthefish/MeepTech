@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "meeptech:block/material_workstation/bottom",
+    "side": "meeptech:block/material_workstation/side",
+    "top": "meeptech:block/material_workstation/top"
+  }
+}

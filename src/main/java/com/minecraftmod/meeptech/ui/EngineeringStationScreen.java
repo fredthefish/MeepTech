@@ -106,7 +106,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
         ItemStack editSlot = this.menu.getSlot(0).getItem();
         if (!editSlot.isEmpty()) {
             Component titleText;
-            if (editSlot.getItem() instanceof HullItem hullItem) titleText = hullItem.getTranslation();
+            if (editSlot.getItem() instanceof HullItem hullItem) titleText = hullItem.getTranslation(editSlot);
             else if (editSlot.getItem() instanceof BlockItem blockItem) titleText = Component.translatable(blockItem.getDescriptionId());
             else titleText = Component.translatable(editSlot.getItem().getDescriptionId());
             guiGraphics.drawString(this.font, titleText, x + boxX, y + boxY, 0xFFFFFF, false);

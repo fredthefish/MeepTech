@@ -30,7 +30,7 @@ public class ModBlockEntities {
             ModBlocks.ENGINEERING_STATION.get()
         ).build(null));
     static {
-        for (DeferredBlock<Block> block : ModBlocks.HULL_BLOCKS) {
+        for (DeferredBlock<Block> block : ModBlocks.HULL_BLOCKS.values()) {
             Supplier<BlockEntityType<BaseMachineBlockEntity>> hullBlockEntity = BLOCK_ENTITY_TYPES.register(block.getId().getPath() + "_be", 
                 () -> BlockEntityType.Builder.of((pos, state) -> new BaseMachineBlockEntity(pos, state, block.get()), block.get()).build(null));
             HULL_BLOCK_ENTITIES.put(block, hullBlockEntity);

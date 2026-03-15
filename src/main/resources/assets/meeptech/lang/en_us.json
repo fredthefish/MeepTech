@@ -7,18 +7,12 @@
   
   "item.meeptech.stone_hammer": "Stone Hammer",
   
-  "item.meeptech.iron_plate": "Iron Plate",
-  "item.meeptech.iron_box": "Iron Box",
-  "item.meeptech.brick_plate": "Brick Plate",
-
   "item.meeptech.hull.empty": "Empty",
   "item.meeptech.hull.partial": "Incomplete",
 
   "item.meeptech.module_template_basic": "Basic Module Template",
   "item.meeptech.module_machine_core_smelter": "Smelter Machine Core Module",
   "item.meeptech.module_heating_core_solid_fuel": "Solid Fuel Heating Core Module",
-
-  "block.meeptech.brick_hull": "Brick Hull",
 
   "block.meeptech.material_workstation": "Material Workstation",
   "block.meeptech.engineering_station": "Engineering Station",

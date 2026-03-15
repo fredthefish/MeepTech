@@ -31,7 +31,7 @@ public class MaterialItems {
                         .destroyTime(3)
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE)), false);
-                    ModBlocks.HULL_BLOCKS.add(hullBlock);
+                    ModBlocks.HULL_BLOCKS.put(material, hullBlock);
                     generatedItem = ModBlocks.registerBlockHullItem(generatedId, hullBlock);
                     ModuleType hullModule = ModModuleTypes.addModuleType(new ModuleType(generatedId, ModModuleTypes.SLOT_MACHINE_BASE, ModModuleData.BASE_BASIC));
                     hullModule.addSubSlot("machine_core", ModModuleTypes.SLOT_MACHINE_CORE);

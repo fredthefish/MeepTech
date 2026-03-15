@@ -22,7 +22,7 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .add(ModBlocks.MATERIAL_WORKSTATION.get())
             .add(ModBlocks.ENGINEERING_STATION.get());
-        for (DeferredBlock<Block> hullBlock : ModBlocks.HULL_BLOCKS) {
+        for (DeferredBlock<Block> hullBlock : ModBlocks.HULL_BLOCKS.values()) {
             tag(BlockTags.MINEABLE_WITH_PICKAXE).add(hullBlock.get());
         }
     }

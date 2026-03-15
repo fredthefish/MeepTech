@@ -29,16 +29,18 @@ public class ModMaterials {
 
         //Iron
         IRON.setForm(BASE, Items.IRON_INGOT);
-        IRON.setGeneratedForms(List.of(PLATE, BOX));
+        IRON.setGeneratedForms(List.of(PLATE, BOX, HULL));
+        IRON.setFormTexture(HULL, "metal");
         IRON.setColor(0xFFFFFFFF);
         IRON.setThermalConductivity(60);
         IRON.setMeltingPoint(1800);
         IRON.setTensileStrength(600);
 
         BRICK.setForm(BASE, Items.BRICK);
-        BRICK.setGeneratedForms(List.of(PLATE, HULL));
+        BRICK.setGeneratedForms(List.of(PLATE, BOX, HULL));
         BRICK.setFormTexture(PLATE, "rough_plate");
-        BRICK.setColor(0xFF5a2d0f);
+        BRICK.setFormTexture(HULL, "brick");
+        BRICK.setColor(0xFFb75a40);
         BRICK.setThermalConductivity(1);
         BRICK.setMeltingPoint(1800);
         BRICK.setTensileStrength(5);
