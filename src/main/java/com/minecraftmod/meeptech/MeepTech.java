@@ -2,6 +2,13 @@ package com.minecraftmod.meeptech;
 
 import com.minecraftmod.meeptech.items.MaterialItems;
 import com.minecraftmod.meeptech.items.ModuleItems;
+import com.minecraftmod.meeptech.logic.material.ModMaterials;
+import com.minecraftmod.meeptech.registries.ModBlockEntities;
+import com.minecraftmod.meeptech.registries.ModBlocks;
+import com.minecraftmod.meeptech.registries.ModCreativeTabs;
+import com.minecraftmod.meeptech.registries.ModDataComponents;
+import com.minecraftmod.meeptech.registries.ModItems;
+import com.minecraftmod.meeptech.registries.ModMenus;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;

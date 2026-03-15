@@ -1,14 +1,14 @@
 package com.minecraftmod.meeptech.items;
 
-import com.minecraftmod.meeptech.ModBlocks;
-import com.minecraftmod.meeptech.ModItems;
-import com.minecraftmod.meeptech.ModMaterials;
-import com.minecraftmod.meeptech.ModModuleData;
-import com.minecraftmod.meeptech.ModModuleTypes;
 import com.minecraftmod.meeptech.blocks.BaseMachineBlock;
 import com.minecraftmod.meeptech.logic.material.Material;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
+import com.minecraftmod.meeptech.logic.material.ModMaterials;
+import com.minecraftmod.meeptech.logic.module.ModModuleData;
+import com.minecraftmod.meeptech.logic.module.ModModuleTypes;
 import com.minecraftmod.meeptech.logic.module.ModuleType;
+import com.minecraftmod.meeptech.registries.ModBlocks;
+import com.minecraftmod.meeptech.registries.ModItems;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;

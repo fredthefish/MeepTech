@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import com.minecraftmod.meeptech.ModBlockEntities;
-import com.minecraftmod.meeptech.ModMachineRecipes;
 import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.logic.machine.EnergySourceType;
 import com.minecraftmod.meeptech.logic.machine.HeatSource;
@@ -17,11 +15,13 @@ import com.minecraftmod.meeptech.logic.recipe.MachineRecipeHeatType;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipeStandardType;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipeType;
 import com.minecraftmod.meeptech.logic.recipe.MachineStandardRecipe;
+import com.minecraftmod.meeptech.logic.recipe.ModMachineRecipes;
 import com.minecraftmod.meeptech.logic.ui.SlotType;
 import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
 import com.minecraftmod.meeptech.logic.ui.UIModuleType;
 import com.minecraftmod.meeptech.network.MachineContainerData;
+import com.minecraftmod.meeptech.registries.ModBlockEntities;
 import com.minecraftmod.meeptech.ui.MachineMenu;
 
 import net.minecraft.core.BlockPos;

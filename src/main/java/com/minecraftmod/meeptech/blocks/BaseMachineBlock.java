@@ -1,8 +1,8 @@
 package com.minecraftmod.meeptech.blocks;
 
-import com.minecraftmod.meeptech.ModBlockEntities;
-import com.minecraftmod.meeptech.ModDataComponents;
 import com.minecraftmod.meeptech.items.MachineConfigData;
+import com.minecraftmod.meeptech.registries.ModBlockEntities;
+import com.minecraftmod.meeptech.registries.ModDataComponents;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -58,12 +58,12 @@ public class BaseMachineBlock extends Block implements EntityBlock {
                 MachineConfigData machineConfigData = machine.getConfigData();
                 if (machineConfigData != null) {
                     thisDrop.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), machineConfigData);
-                    Block.popResource(level, pos, thisDrop);
                     for (int i = 0; i < machine.getInventory().getSlots(); i++) {
                         ItemStack stack = machine.getInventory().getStackInSlot(i);
                         if (!stack.isEmpty()) Block.popResource(level, pos, stack);
                     }
                 }
+                Block.popResource(level, pos, thisDrop);
             }
         }
         super.onRemove(state, level, pos, newState, movedByPiston);

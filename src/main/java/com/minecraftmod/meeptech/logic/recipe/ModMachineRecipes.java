@@ -1,13 +1,9 @@
-package com.minecraftmod.meeptech;
+package com.minecraftmod.meeptech.logic.recipe;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.minecraftmod.meeptech.items.ModuleItems;
-import com.minecraftmod.meeptech.logic.recipe.MachineHeatRecipe;
-import com.minecraftmod.meeptech.logic.recipe.MachineRecipeHeatType;
-import com.minecraftmod.meeptech.logic.recipe.MachineRecipeStandardType;
-import com.minecraftmod.meeptech.logic.recipe.MachineRecipeType;
 
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;

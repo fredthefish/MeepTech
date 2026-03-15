@@ -1,7 +1,8 @@
-package com.minecraftmod.meeptech;
+package com.minecraftmod.meeptech.registries;
 
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import com.minecraftmod.meeptech.MeepTech;
 import com.minecraftmod.meeptech.items.GuideItem;
 import com.minecraftmod.meeptech.items.HammerItem;
 

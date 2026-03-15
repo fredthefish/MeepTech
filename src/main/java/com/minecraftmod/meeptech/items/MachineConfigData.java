@@ -3,10 +3,10 @@ package com.minecraftmod.meeptech.items;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.minecraftmod.meeptech.ModMaterials;
-import com.minecraftmod.meeptech.ModModuleTypes;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
+import com.minecraftmod.meeptech.logic.material.ModMaterials;
+import com.minecraftmod.meeptech.logic.module.ModModuleTypes;
 import com.minecraftmod.meeptech.logic.module.ModuleType;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

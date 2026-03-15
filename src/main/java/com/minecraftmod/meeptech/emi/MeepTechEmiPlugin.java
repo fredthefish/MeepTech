@@ -3,16 +3,16 @@ package com.minecraftmod.meeptech.emi;
 import java.util.Map;
 
 import com.minecraftmod.meeptech.MeepTech;
-import com.minecraftmod.meeptech.ModBlocks;
-import com.minecraftmod.meeptech.ModMachineRecipes;
-import com.minecraftmod.meeptech.ModMaterials;
 import com.minecraftmod.meeptech.items.ModuleItems;
 import com.minecraftmod.meeptech.logic.material.Material;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
 import com.minecraftmod.meeptech.logic.material.MaterialWorkstationRecipe;
 import com.minecraftmod.meeptech.logic.material.MaterialWorkstationRecipes;
+import com.minecraftmod.meeptech.logic.material.ModMaterials;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipe;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipeType;
+import com.minecraftmod.meeptech.logic.recipe.ModMachineRecipes;
+import com.minecraftmod.meeptech.registries.ModBlocks;
 
 import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;

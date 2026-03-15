@@ -1,4 +1,4 @@
-package com.minecraftmod.meeptech;
+package com.minecraftmod.meeptech.logic.module;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import com.minecraftmod.meeptech.logic.machine.MachineComponent;
 import com.minecraftmod.meeptech.logic.machine.MachineStat;
 import com.minecraftmod.meeptech.logic.machine.MachineType;
 import com.minecraftmod.meeptech.logic.material.MaterialStat;
+import com.minecraftmod.meeptech.logic.recipe.ModMachineRecipes;
 import com.minecraftmod.meeptech.logic.ui.EnergyUIModule;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
 

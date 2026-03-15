@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.minecraftmod.meeptech.ModDataComponents;
 import com.minecraftmod.meeptech.items.HullItem;
 import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.logic.module.ModuleType;
 import com.minecraftmod.meeptech.network.EngineeringActionPacket;
 import com.minecraftmod.meeptech.network.EngineeringActionPacket.EngineeringAction;
+import com.minecraftmod.meeptech.registries.ModDataComponents;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;

@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.minecraftmod.meeptech.ModModuleTypes;
-import com.minecraftmod.meeptech.ModTags;
 import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.items.ModuleItems;
 import com.minecraftmod.meeptech.logic.machine.MachineAttribute;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
+import com.minecraftmod.meeptech.registries.ModTags;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

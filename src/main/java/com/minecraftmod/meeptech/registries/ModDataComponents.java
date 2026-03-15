@@ -1,7 +1,8 @@
-package com.minecraftmod.meeptech;
+package com.minecraftmod.meeptech.registries;
 
 import java.util.function.Supplier;
 
+import com.minecraftmod.meeptech.MeepTech;
 // import com.minecraftmod.meeptech.items.BlueprintData;
 import com.minecraftmod.meeptech.items.MachineConfigData;
 

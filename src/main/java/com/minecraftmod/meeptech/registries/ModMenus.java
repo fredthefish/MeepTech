@@ -1,4 +1,4 @@
-package com.minecraftmod.meeptech;
+package com.minecraftmod.meeptech.registries;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.MenuType;
@@ -6,6 +6,7 @@ import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
 
+import com.minecraftmod.meeptech.MeepTech;
 import com.minecraftmod.meeptech.ui.EngineeringStationMenu;
 import com.minecraftmod.meeptech.ui.MachineMenu;
 import com.minecraftmod.meeptech.ui.MaterialWorkstationMenu;

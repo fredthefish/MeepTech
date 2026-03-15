@@ -2,11 +2,11 @@ package com.minecraftmod.meeptech.items;
 
 import java.util.List;
 
-import com.minecraftmod.meeptech.ModDataComponents;
-import com.minecraftmod.meeptech.ModModuleTypes;
 import com.minecraftmod.meeptech.logic.machine.HeatSource;
 import com.minecraftmod.meeptech.logic.machine.MachineAttribute;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
+import com.minecraftmod.meeptech.logic.module.ModModuleTypes;
+import com.minecraftmod.meeptech.registries.ModDataComponents;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;

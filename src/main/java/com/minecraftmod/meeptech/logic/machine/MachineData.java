@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.minecraftmod.meeptech.ModMaterials;
 import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.logic.material.Material;
+import com.minecraftmod.meeptech.logic.material.ModMaterials;
 import com.minecraftmod.meeptech.logic.module.ModuleType;
 import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;

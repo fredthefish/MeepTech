@@ -1,9 +1,8 @@
-package com.minecraftmod.meeptech;
+package com.minecraftmod.meeptech.logic.module;
 
 import java.util.ArrayList;
 
-import com.minecraftmod.meeptech.logic.module.ModuleSlotType;
-import com.minecraftmod.meeptech.logic.module.ModuleType;
+import com.minecraftmod.meeptech.logic.material.ModMaterials;
 
 public class ModModuleTypes {
     public static final ArrayList<ModuleSlotType> MODULE_SLOT_TYPES = new ArrayList<>();

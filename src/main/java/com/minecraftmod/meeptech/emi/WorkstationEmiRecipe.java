@@ -3,9 +3,9 @@ package com.minecraftmod.meeptech.emi;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.minecraftmod.meeptech.ModTags;
 import com.minecraftmod.meeptech.logic.material.Material;
 import com.minecraftmod.meeptech.logic.material.MaterialWorkstationRecipe;
+import com.minecraftmod.meeptech.registries.ModTags;
 
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;

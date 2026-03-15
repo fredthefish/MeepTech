@@ -1,6 +1,6 @@
 package com.minecraftmod.meeptech.blocks;
 
-import com.minecraftmod.meeptech.ModBlockEntities;
+import com.minecraftmod.meeptech.registries.ModBlockEntities;
 import com.minecraftmod.meeptech.ui.MaterialWorkstationMenu;
 
 import net.minecraft.core.BlockPos;

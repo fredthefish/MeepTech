@@ -2,8 +2,6 @@ package com.minecraftmod.meeptech.logic.material;
 
 import java.util.ArrayList;
 
-import com.minecraftmod.meeptech.ModMaterials;
-
 import net.minecraft.world.item.ItemStack;
 
 public class MaterialWorkstationRecipes {

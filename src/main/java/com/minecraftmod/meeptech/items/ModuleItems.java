@@ -3,7 +3,7 @@ package com.minecraftmod.meeptech.items;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.minecraftmod.meeptech.ModItems;
+import com.minecraftmod.meeptech.registries.ModItems;
 
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredItem;

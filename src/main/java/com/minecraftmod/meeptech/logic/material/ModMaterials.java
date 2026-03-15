@@ -1,12 +1,8 @@
-package com.minecraftmod.meeptech;
+package com.minecraftmod.meeptech.logic.material;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import com.minecraftmod.meeptech.logic.material.Material;
-import com.minecraftmod.meeptech.logic.material.MaterialForm;
-import com.minecraftmod.meeptech.logic.material.MaterialStat;
 
 import net.minecraft.world.item.Items;
 

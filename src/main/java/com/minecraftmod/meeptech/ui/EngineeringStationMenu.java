@@ -2,15 +2,15 @@ package com.minecraftmod.meeptech.ui;
 
 import java.util.List;
 
-import com.minecraftmod.meeptech.ModBlocks;
-import com.minecraftmod.meeptech.ModDataComponents;
-import com.minecraftmod.meeptech.ModMenus;
-import com.minecraftmod.meeptech.ModTags;
 import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.logic.material.MaterialItemData;
 import com.minecraftmod.meeptech.logic.module.ModuleSlotType;
 import com.minecraftmod.meeptech.logic.module.ModuleType;
 import com.minecraftmod.meeptech.network.EngineeringActionPacket;
+import com.minecraftmod.meeptech.registries.ModBlocks;
+import com.minecraftmod.meeptech.registries.ModDataComponents;
+import com.minecraftmod.meeptech.registries.ModMenus;
+import com.minecraftmod.meeptech.registries.ModTags;
 
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;

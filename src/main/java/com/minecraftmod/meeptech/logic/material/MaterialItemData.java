@@ -2,8 +2,6 @@ package com.minecraftmod.meeptech.logic.material;
 
 import java.util.HashMap;
 
-import com.minecraftmod.meeptech.ModMaterials;
-
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 

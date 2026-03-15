@@ -1,10 +1,11 @@
-package com.minecraftmod.meeptech;
+package com.minecraftmod.meeptech.registries;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Supplier;
 
+import com.minecraftmod.meeptech.MeepTech;
 import com.minecraftmod.meeptech.blocks.EngineeringStationBlock;
 import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlock;
 import com.minecraftmod.meeptech.items.HullItem;

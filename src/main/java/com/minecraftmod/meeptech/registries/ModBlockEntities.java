@@ -1,9 +1,10 @@
-package com.minecraftmod.meeptech;
+package com.minecraftmod.meeptech.registries;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import com.minecraftmod.meeptech.MeepTech;
 import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
 import com.minecraftmod.meeptech.blocks.EngineeringStationBlockEntity;
 import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlockEntity;

@@ -2,7 +2,6 @@ package com.minecraftmod.meeptech.ui;
 
 import java.util.List;
 
-import com.minecraftmod.meeptech.ModMenus;
 import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
 import com.minecraftmod.meeptech.logic.machine.HeatSource;
 import com.minecraftmod.meeptech.logic.machine.MachineAttribute;
@@ -12,6 +11,7 @@ import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
 import com.minecraftmod.meeptech.logic.ui.UIModuleType;
 import com.minecraftmod.meeptech.network.MachineContainerData;
+import com.minecraftmod.meeptech.registries.ModMenus;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
