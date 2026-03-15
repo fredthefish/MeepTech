@@ -16,9 +16,12 @@ import com.minecraftmod.meeptech.ui.EngineeringStationScreen;
 import com.minecraftmod.meeptech.ui.MaterialWorkstationScreen;
 import com.minecraftmod.meeptech.ui.MachineScreen;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -50,6 +53,19 @@ public class MeepTechClient {
     public static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
         for (DeferredBlock<Block> block : ModBlocks.HULL_BLOCKS.values()) {
             event.registerItem(new MachineItemClientExtension(), block.get().asItem());
+        }
+    }
+    @SubscribeEvent
+    public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
+        for (Material material : ModMaterials.MATERIALS) {
+            if (material.hasForm(ModMaterials.HULL)) {
+                event.register((BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) -> {
+                    if (tintIndex == 0) {
+                        return material.getColor();
+                    }
+                    return 0xFFFFFFFF;
+                }, ModBlocks.HULL_BLOCKS.get(material).get());
+            }
         }
     }
     @SubscribeEvent

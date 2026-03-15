@@ -8,6 +8,7 @@ import com.minecraftmod.meeptech.registries.ModBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -21,8 +22,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         for (Material hullMaterial : ModBlocks.HULL_BLOCKS.keySet()) {
             DeferredBlock<Block> hullBlock = ModBlocks.HULL_BLOCKS.get(hullMaterial);
-            ModelFile model = models().cubeAll(hullBlock.getId().getPath(), 
-                ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/hull/" + hullMaterial.getFormTexture(ModMaterials.HULL)));
+            ResourceLocation textureLocation = ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/hull/" + hullMaterial.getFormTexture(ModMaterials.HULL));
+            BlockModelBuilder model = models().withExistingParent(hullBlock.getId().getPath(), mcLoc("block/block"))
+                .texture("all", textureLocation)
+                .texture("particle", textureLocation);
+            model.element()
+                .from(0, 0, 0).to(16, 16, 16)
+                .allFaces((direction, faceBuilder) -> faceBuilder.texture("#all").cullface(direction).tintindex(0)).end();
             simpleBlock(hullBlock.get(), model);
         }
         customTopBottomBlock(ModBlocks.MATERIAL_WORKSTATION, "material_workstation");

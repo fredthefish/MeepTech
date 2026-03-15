@@ -14,8 +14,9 @@ public class ModMaterials {
 
     public static final Material IRON = addMaterial("iron");
     public static final Material BRICK = addMaterial("brick");
+    public static final Material COPPER = addMaterial("copper");
 
-    public static final MaterialForm BASE = addMaterialForm("base");
+    public static final MaterialForm INGOT = addMaterialForm("ingot");
     public static final MaterialForm PLATE = addMaterialForm("plate");
     public static final MaterialForm BOX = addMaterialForm("box");
     public static final MaterialForm HULL = addMaterialForm("hull");
@@ -28,15 +29,15 @@ public class ModMaterials {
         MATERIAL_STAT_TRANSLATION_KEYS.put(MaterialStat.TensileStrength, "meeptech.materialStat.tensile_strength");
 
         //Iron
-        IRON.setForm(BASE, Items.IRON_INGOT);
+        IRON.setForm(INGOT, Items.IRON_INGOT);
         IRON.setGeneratedForms(List.of(PLATE, BOX, HULL));
         IRON.setFormTexture(HULL, "metal");
-        IRON.setColor(0xFFFFFFFF);
+        IRON.setColor(0xFFd8d8d8);
         IRON.setThermalConductivity(60);
         IRON.setMeltingPoint(1800);
         IRON.setTensileStrength(600);
 
-        BRICK.setForm(BASE, Items.BRICK);
+        BRICK.setForm(INGOT, Items.BRICK);
         BRICK.setGeneratedForms(List.of(PLATE, BOX, HULL));
         BRICK.setFormTexture(PLATE, "rough_plate");
         BRICK.setFormTexture(HULL, "brick");
@@ -44,6 +45,14 @@ public class ModMaterials {
         BRICK.setThermalConductivity(1);
         BRICK.setMeltingPoint(1800);
         BRICK.setTensileStrength(5);
+
+        COPPER.setForm(INGOT, Items.COPPER_INGOT);
+        COPPER.setGeneratedForms(List.of(PLATE, BOX, HULL));
+        COPPER.setFormTexture(HULL, "metal");
+        COPPER.setColor(0xFFe77c56);
+        COPPER.setThermalConductivity(400);
+        COPPER.setMeltingPoint(1350);
+        COPPER.setTensileStrength(400);
     }
 
     public static Material addMaterial(String materialId) {

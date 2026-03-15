@@ -1,6 +1,7 @@
 {
   "values": [
     "meeptech:iron_box",
-    "meeptech:brick_box"
+    "meeptech:brick_box",
+    "meeptech:copper_box"
   ]
 }
