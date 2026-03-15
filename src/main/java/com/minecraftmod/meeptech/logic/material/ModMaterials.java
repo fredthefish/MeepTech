@@ -37,6 +37,7 @@ public class ModMaterials {
 
         BRICK.setForm(BASE, Items.BRICK);
         BRICK.setGeneratedForms(List.of(PLATE, HULL));
+        BRICK.setFormTexture(PLATE, "rough_plate");
         BRICK.setColor(0xFF5a2d0f);
         BRICK.setThermalConductivity(1);
         BRICK.setMeltingPoint(1800);

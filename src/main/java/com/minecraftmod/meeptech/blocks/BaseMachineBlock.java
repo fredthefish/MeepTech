@@ -54,16 +54,13 @@ public class BaseMachineBlock extends Block implements EntityBlock {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof BaseMachineBlockEntity machine) {
-                ItemStack thisDrop = new ItemStack(this);
                 MachineConfigData machineConfigData = machine.getConfigData();
                 if (machineConfigData != null) {
-                    thisDrop.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), machineConfigData);
                     for (int i = 0; i < machine.getInventory().getSlots(); i++) {
                         ItemStack stack = machine.getInventory().getStackInSlot(i);
                         if (!stack.isEmpty()) Block.popResource(level, pos, stack);
                     }
                 }
-                Block.popResource(level, pos, thisDrop);
             }
         }
         super.onRemove(state, level, pos, newState, movedByPiston);
@@ -79,6 +76,18 @@ public class BaseMachineBlock extends Block implements EntityBlock {
             }
         }
         return InteractionResult.sidedSuccess(level.isClientSide());
+    }
+    @Override
+    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof BaseMachineBlockEntity machineEntity) {
+            if (!level.isClientSide() && player.isCreative() && machineEntity.getConfigData() != null) {
+                ItemStack stack = new ItemStack(this);
+                stack.applyComponents(blockEntity.collectComponents());
+                Block.popResource(level, pos, stack);
+            }
+        }
+        return super.playerWillDestroy(level, pos, state, player);
     }
     @SuppressWarnings("unchecked")
     private static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(

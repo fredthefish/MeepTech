@@ -24,7 +24,7 @@ public class MaterialItems {
                 String generatedId = material.getId() + "_" + form.getId();
                 DeferredItem<Item> generatedItem;
                 if (form != ModMaterials.HULL) {
-                    generatedItem = ModItems.ITEMS.register(generatedId, () -> new Item(new Item.Properties()));
+                    generatedItem = ModItems.ITEMS.register(generatedId, () -> new MaterialItem(new Item.Properties()));
                 } else {
                     DeferredBlock<Block> hullBlock = ModBlocks.registerBlock(generatedId, () -> new BaseMachineBlock(BlockBehaviour.Properties.of()
                         .strength(2f, 6f)

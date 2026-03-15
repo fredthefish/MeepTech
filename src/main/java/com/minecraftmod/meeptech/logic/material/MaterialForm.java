@@ -8,4 +8,7 @@ public class MaterialForm {
     public String getId() {
         return id;
     }
+    public String getTranslationKey() {
+        return "meeptech.materialForm." + id;
+    }
 }

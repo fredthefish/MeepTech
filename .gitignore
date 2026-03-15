@@ -25,3 +25,5 @@ run-data
 .vscode
 
 repo
+
+src/generated/resources/.cache

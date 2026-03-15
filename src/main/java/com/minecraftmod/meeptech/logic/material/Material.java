@@ -10,6 +10,7 @@ import net.minecraft.world.level.ItemLike;
 public class Material {
     private String id;
     private HashMap<MaterialForm, ItemLike> forms = new HashMap<>();
+    private HashMap<MaterialForm, String> formTextures = new HashMap<>();
     private List<MaterialForm> generatedForms;
 
     private Double thermalConductivity;
@@ -26,8 +27,15 @@ public class Material {
     public void setForm(MaterialForm form, ItemLike item) {
         forms.put(form, item);
     }
+    public void setFormTexture(MaterialForm form, String texture) {
+        formTextures.put(form, texture);
+    }
     public Item getForm(MaterialForm form) {
         return forms.get(form).asItem();
+    }
+    public String getFormTexture(MaterialForm form) {
+        if (formTextures.containsKey(form)) return formTextures.get(form);
+        return form.getId();
     }
     public void setGeneratedForms(List<MaterialForm> generatedForms) {
         this.generatedForms = generatedForms;

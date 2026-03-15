@@ -1,8 +1,0 @@
-{
-    "replace": false,
-    "values": [
-        "meeptech:material_workstation",
-        "meeptech:engineering_station",
-        "meeptech:brick_hull"
-    ]
-}
