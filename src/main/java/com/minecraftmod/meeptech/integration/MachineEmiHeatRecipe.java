@@ -1,4 +1,4 @@
-package com.minecraftmod.meeptech.emi;
+package com.minecraftmod.meeptech.integration;
 
 import com.minecraftmod.meeptech.helpers.Formatting;
 import com.minecraftmod.meeptech.logic.recipe.MachineHeatRecipe;
@@ -41,7 +41,7 @@ public class MachineEmiHeatRecipe extends MachineEmiRecipe {
             int x = 2;
             int y = 52;
             widgets.addText(Component.literal("Heat"), x + 1, y + 1, 0x404040, false);
-            String heatString = Formatting.doubleSigFigFormat((double)recipe.getHeat() / 20.0, 3, 2);
+            String heatString = Formatting.doubleFormatting((double)recipe.getHeat() / 20.0);
             widgets.addText(Component.literal(heatString + "s"), x + 1, y + 15, 0x404040, false);
         }
     }

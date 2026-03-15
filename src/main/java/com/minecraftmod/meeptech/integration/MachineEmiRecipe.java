@@ -1,4 +1,4 @@
-package com.minecraftmod.meeptech.emi;
+package com.minecraftmod.meeptech.integration;
 
 import java.util.List;
 

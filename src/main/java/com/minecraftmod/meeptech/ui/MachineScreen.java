@@ -54,8 +54,8 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
                         int fillWidth = (int)(49.0 * ((double)progress / (double)maxProgress));
                         guiGraphics.blit(PROGRESS_BAR_FULL, x + recipeUIModule.getX() + 3, y + recipeUIModule.getY() + 13,
                         0, 0, fillWidth, 13, 49, 13);
-                        String progressString = Formatting.doubleSigFigFormat((double)progress / 20.0, 3, 2) + "s / " + 
-                            Formatting.doubleSigFigFormat((double)maxProgress / 20.0, 3, 2) + "s";
+                        String progressString = Formatting.doubleFormatting((double)progress / 20.0) + "s / " + 
+                            Formatting.doubleFormatting((double)maxProgress / 20.0) + "s";
                         guiGraphics.drawString(font, progressString, x + recipeUIModule.getX() + 3, y + recipeUIModule.getY() + 32,
                             0x404040, false);
                     }
@@ -68,7 +68,7 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
                     if (this.menu.getHeat() > 0) {
                         guiGraphics.blit(HEAT_ON, x + energyUIModule.getX() + 4, y + energyUIModule.getY() + 32,
                         0, 0, 13, 13, 13, 13);
-                        guiGraphics.drawString(font, Formatting.doubleSigFigFormat((double)heat / 20.0, 3, 2) + "s",
+                        guiGraphics.drawString(font, Formatting.doubleFormatting((double)heat / 20.0) + "s",
                             x + energyUIModule.getX() + 25, y + energyUIModule.getY() + 15, 0x404040, false);
                     }
                 }

@@ -3,7 +3,9 @@ package com.minecraftmod.meeptech.helpers;
 import java.util.Locale;
 
 public class Formatting {
-    public static String doubleSigFigFormat(double value, int sigFigs, int maxDecimals) {
+    public static String doubleFormatting(double value) {
+        int sigFigs = 3;
+        int maxDecimals = 2;
         if (value == 0) {
             return String.format(Locale.US, "%." + Math.min(Math.max(0, sigFigs - 1), maxDecimals) + "f", value);
         }

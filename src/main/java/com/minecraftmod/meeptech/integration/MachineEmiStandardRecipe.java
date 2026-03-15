@@ -1,4 +1,4 @@
-package com.minecraftmod.meeptech.emi;
+package com.minecraftmod.meeptech.integration;
 
 import com.minecraftmod.meeptech.helpers.Formatting;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipeStandardType;
@@ -49,7 +49,7 @@ public class MachineEmiStandardRecipe extends MachineEmiRecipe {
             int x = 83;
             int y = 52;
             widgets.addText(Component.literal("Recipe"), x + 1, y + 1, 0x404040, false);
-            String timeString = Formatting.doubleSigFigFormat((double)recipe.getTime() / 20.0, 3, 2);
+            String timeString = Formatting.doubleFormatting((double)recipe.getTime() / 20.0);
             widgets.addText(Component.literal(timeString + "s"), x + 1, y + 15, 0x404040, false);
         }
     }

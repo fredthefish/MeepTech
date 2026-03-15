@@ -63,5 +63,7 @@
 
   "emi.category.meeptech.smelter": "Smelter",
   "emi.category.meeptech.solid_fuel": "Solid Fuel Heating Core",
-  "emi.category.meeptech.material_workstation": "Material Workstation"
+  "emi.category.meeptech.material_workstation": "Material Workstation",
+
+  "config.jade.plugin_meeptech.machine_info": "Machine Info"
 }

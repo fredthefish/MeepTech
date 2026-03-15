@@ -2,7 +2,7 @@ package com.minecraftmod.meeptech.logic.recipe;
 
 import java.util.List;
 
-import com.minecraftmod.meeptech.emi.MachineEmiRecipe;
+import com.minecraftmod.meeptech.integration.MachineEmiRecipe;
 
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;

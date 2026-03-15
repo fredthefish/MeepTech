@@ -241,11 +241,11 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                 if (recipeType != null && recipeType instanceof MachineRecipeStandardType standardType) {
                     int outputSlot = data.getStartSlot(UIModuleType.Output);
                     if (heat > 0) {
-                        ItemStack input = entity.getInventory().getStackInSlot(inputSlot);
+                        ItemStack input = entity.getInventory().getStackInSlot(inputSlot).copy();
                         if (maxProgress == 0 && standardType.validInput(input)) {
                             MachineStandardRecipe recipe = standardType.getRecipe(List.of(input));
-                            ItemStack output = entity.inventory.getStackInSlot(outputSlot);
-                            ItemStack recipeOutput = recipe.getOutputItems().getFirst();
+                            ItemStack output = entity.inventory.getStackInSlot(outputSlot).copy();
+                            ItemStack recipeOutput = recipe.getOutputItems().getFirst().copy();
                             int inputCount = recipe.inputsForConsumption(List.of(input)).get(input.getItem());
                             if (output.isEmpty() 
                             || (output.getItem().equals(recipeOutput.getItem()) && output.getCount() <= output.getMaxStackSize() + recipeOutput.getCount())) {
@@ -259,8 +259,8 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                             Optional<RecipeHolder<SmeltingRecipe>> furnaceRecipe = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, recipeInput, level);
                             if (furnaceRecipe.isPresent()) {
                                 SmeltingRecipe recipe = furnaceRecipe.get().value();
-                                ItemStack output = entity.inventory.getStackInSlot(outputSlot);
-                                ItemStack recipeOutput = recipe.getResultItem(level.registryAccess());
+                                ItemStack output = entity.inventory.getStackInSlot(outputSlot).copy();
+                                ItemStack recipeOutput = recipe.getResultItem(level.registryAccess()).copy();
                                 if (output.isEmpty() 
                                 || (output.getItem().equals(recipeOutput.getItem()) && output.getCount() <= output.getMaxStackSize() + recipeOutput.getCount())) {
                                     entity.inventory.extractItem(inputSlot, 1, false);
@@ -285,7 +285,7 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                         MachineRecipe recipe = entity.getCurrentRecipe();
                         if (recipe != null) {
                             if (recipe instanceof MachineStandardRecipe standardRecipe) {
-                                ItemStack recipeOutput = standardRecipe.getOutputItems().getFirst();
+                                ItemStack recipeOutput = standardRecipe.getOutputItems().getFirst().copy();
                                 entity.inventory.insertItem(outputSlot, recipeOutput, false);
                                 progress = 0;
                                 maxProgress = 0;
@@ -298,7 +298,7 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                             if (vanillaRecipeHolder.isPresent()) {
                                 Recipe<?> vanillaRecipe = vanillaRecipeHolder.get().value();
                                 if (vanillaRecipe.getType() == RecipeType.SMELTING) {
-                                    ItemStack recipeOutput = vanillaRecipe.getResultItem(level.registryAccess());
+                                    ItemStack recipeOutput = vanillaRecipe.getResultItem(level.registryAccess()).copy();
                                     entity.inventory.insertItem(outputSlot, recipeOutput, false);
                                     progress = 0;
                                     maxProgress = 0;

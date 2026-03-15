@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.minecraftmod.meeptech.emi.MachineEmiRecipe;
-import com.minecraftmod.meeptech.emi.MachineEmiStandardRecipe;
+import com.minecraftmod.meeptech.integration.MachineEmiRecipe;
+import com.minecraftmod.meeptech.integration.MachineEmiStandardRecipe;
 
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
