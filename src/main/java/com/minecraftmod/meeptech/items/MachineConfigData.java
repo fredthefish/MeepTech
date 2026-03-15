@@ -70,6 +70,9 @@ public record MachineConfigData(String moduleSlotType, String moduleId, String m
         }
         return false;
     }
+    public boolean isComponent() {
+        return !moduleSlotType.isEmpty() && !materialId.isEmpty();
+    }
     public Item getItem() {
         if (!moduleId.isEmpty()) return ModModuleTypes.getModuleType(moduleId).getItem();
         if (!materialId.isEmpty() && !moduleSlotType.isEmpty()) {

@@ -15,7 +15,4 @@ public class ModItems {
         .stacksTo(1)));
     public static final DeferredItem<Item> HAMMER = ITEMS.register("stone_hammer", () -> new HammerItem(new Item.Properties()
         .durability(64)));
-    public static final DeferredItem<Item> IRON_PLATE = ITEMS.registerSimpleItem("iron_plate");
-    public static final DeferredItem<Item> IRON_BOX = ITEMS.registerSimpleItem("iron_box");
-    public static final DeferredItem<Item> BRICK_PLATE = ITEMS.registerSimpleItem("brick_plate");
 }

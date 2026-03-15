@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.minecraftmod.meeptech.ModMaterials;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
 
 public class MaterialItemData {
     private Material material = null;
@@ -12,9 +13,9 @@ public class MaterialItemData {
 
     public MaterialItemData(Item item) {
         for (Material material : ModMaterials.MATERIALS) {
-            HashMap<MaterialForm, Item> forms = material.getForms();
+            HashMap<MaterialForm, ItemLike> forms = material.getForms();
             for (MaterialForm form : forms.keySet()) {
-                if (forms.get(form).equals(item)) {
+                if (forms.get(form).asItem().equals(item)) {
                     this.material = material;
                     this.form = form;
                     return;

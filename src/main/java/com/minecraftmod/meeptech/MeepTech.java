@@ -1,5 +1,6 @@
 package com.minecraftmod.meeptech;
 
+import com.minecraftmod.meeptech.items.MaterialItems;
 import com.minecraftmod.meeptech.items.ModuleItems;
 
 import net.neoforged.bus.api.IEventBus;
@@ -13,6 +14,8 @@ public class MeepTech {
 
     public MeepTech(IEventBus modEventBus, ModContainer modContainer) {
         ModuleItems.registerModuleItems();
+        ModMaterials.initializeMaterials();
+        MaterialItems.registerMaterialItems();
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);

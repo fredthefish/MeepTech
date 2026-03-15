@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.minecraftmod.meeptech.ModDataComponents;
-import com.minecraftmod.meeptech.ModMaterials;
 import com.minecraftmod.meeptech.items.HullItem;
 import com.minecraftmod.meeptech.items.MachineConfigData;
-import com.minecraftmod.meeptech.logic.module.ModuleSlotType;
 import com.minecraftmod.meeptech.logic.module.ModuleType;
 import com.minecraftmod.meeptech.network.EngineeringActionPacket;
 import com.minecraftmod.meeptech.network.EngineeringActionPacket.EngineeringAction;
@@ -70,19 +68,12 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                     if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
                         MachineConfigData subLayer = data.getSubLayer(i);
                         if (!subLayer.isEmpty()) {
-                            ModuleType moduleType = subLayer.getModuleType();
-                            ItemStack preview;
-                            if (moduleType != null) {
-                                preview = new ItemStack(subLayer.getModuleType().getItem());
-                            } else {
-                                ModuleSlotType slot = data.getModuleType().getSubSlot(i).getType();
-                                preview = new ItemStack(ModMaterials.getMaterial(subLayer.getMaterial()).getForm(slot.getMaterialForm()));
-                            }
+                            ItemStack preview = new ItemStack(subLayer.getItem());
                             List<Component> tooltip = new ArrayList<>();
                             tooltip.add(preview.getHoverName());
                             if (selectionPath.size() > layer && selectionPath.get(layer) == i)
                                 tooltip.add(Component.translatable("meeptech.ui.engineering_station.deselect"));
-                            else if (moduleType != null) 
+                            else if (!subLayer.isComponent()) 
                                 tooltip.add(Component.translatable("meeptech.ui.engineering_station.select"));
                             if (!subLayer.hasSubLayers())
                                 tooltip.add(Component.translatable("meeptech.ui.engineering_station.extract"));
@@ -139,14 +130,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                     }
                     MachineConfigData subLayer = data.getSubLayer(i);
                     if (!subLayer.isEmpty()) {
-                        ModuleType moduleType = subLayer.getModuleType();
-                        ItemStack preview;
-                        if (moduleType != null) {
-                            preview = new ItemStack(subLayer.getModuleType().getItem());
-                        } else {
-                            ModuleSlotType slot = data.getModuleType().getSubSlot(i).getType();
-                            preview = new ItemStack(ModMaterials.getMaterial(subLayer.getMaterial()).getForm(slot.getMaterialForm()));
-                        }
+                        ItemStack preview = new ItemStack(subLayer.getItem());
                         guiGraphics.renderItem(preview, slotX + 1, slotY + 1);
                     }
                     i++;
@@ -190,8 +174,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                         MachineConfigData subLayer = data.getSubLayer(i);
                         if (button == 0) {
                             if (!subLayer.isEmpty()) {
-                                ModuleType moduleType = subLayer.getModuleType();
-                                if (moduleType != null) {
+                                if (!subLayer.isComponent()) {
                                     List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
                                     if (selectionPath.size() > layer) {
                                         if (selectionPath.get(layer) != i) newList.add(i);

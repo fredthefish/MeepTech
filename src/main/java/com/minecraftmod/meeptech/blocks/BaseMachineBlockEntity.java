@@ -47,9 +47,12 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider {
     private MachineConfigData machineConfigData;
@@ -65,9 +68,17 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
     private final MachineAutomationHandler automationHandler = new MachineAutomationHandler(this);
     private MachineRecipe currentRecipe = null;
     private String currentVanillaRecipe = null;
+    private final Block block;
 
-    public BaseMachineBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.BASE_MACHINE_BE.get(), pos, state);
+    public BaseMachineBlockEntity(BlockPos pos, BlockState state, Block block) {
+        super(getBlockEntityType(block), pos, state);
+        this.block = block;
+    }
+    private static BlockEntityType<BaseMachineBlockEntity> getBlockEntityType(Block block) {
+        for (DeferredBlock<Block> deferredBlock : ModBlockEntities.HULL_BLOCK_ENTITIES.keySet()) {
+            if (deferredBlock.get() == block) return ModBlockEntities.HULL_BLOCK_ENTITIES.get(deferredBlock).get();
+        }
+        return null;
     }
     @Override
     public Component getDisplayName() {
@@ -328,5 +339,8 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
     public void setCurrentVanillaRecipe(RecipeHolder<?> recipe) {
         if (recipe == null) currentVanillaRecipe = null;
         else currentVanillaRecipe = recipe.id().getNamespace() + ":" + recipe.id().getPath();
+    }
+    public Block getBlock() {
+        return block;
     }
 }

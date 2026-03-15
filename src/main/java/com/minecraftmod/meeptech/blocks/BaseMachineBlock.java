@@ -25,6 +25,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class BaseMachineBlock extends Block implements EntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -34,7 +35,7 @@ public class BaseMachineBlock extends Block implements EntityBlock {
     }
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new BaseMachineBlockEntity(pos, state);
+        return new BaseMachineBlockEntity(pos, state, this);
     }
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
@@ -86,7 +87,7 @@ public class BaseMachineBlock extends Block implements EntityBlock {
     }
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, ModBlockEntities.BASE_MACHINE_BE.get(), BaseMachineBlockEntity::tick);
+        return createTickerHelper(blockEntityType, getBlockEntityType(), BaseMachineBlockEntity::tick);
     }
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -99,5 +100,11 @@ public class BaseMachineBlock extends Block implements EntityBlock {
     @Override
     public BlockState mirror(BlockState state, Mirror mirror) {
         return state.setValue(FACING, mirror.mirror(state.getValue(FACING)));
+    }
+    private BlockEntityType<BaseMachineBlockEntity> getBlockEntityType() {
+        for (DeferredBlock<Block> deferredBlock : ModBlockEntities.HULL_BLOCK_ENTITIES.keySet()) {
+            if (deferredBlock.get() == this) return ModBlockEntities.HULL_BLOCK_ENTITIES.get(deferredBlock).get();
+        }
+        return null;
     }
 }

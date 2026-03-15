@@ -2,6 +2,7 @@ package com.minecraftmod.meeptech;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.minecraftmod.meeptech.logic.material.Material;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
@@ -10,21 +11,20 @@ import com.minecraftmod.meeptech.logic.material.MaterialStat;
 import net.minecraft.world.item.Items;
 
 public class ModMaterials {
-    public static final HashMap<MaterialForm, String> FORM_TRANSLATION_KEYS = new HashMap<>();
     public static final HashMap<MaterialStat, String> MATERIAL_STAT_TRANSLATION_KEYS = new HashMap<>();
 
-    public static final ArrayList<Material> MATERIALS = new ArrayList<Material>();
+    public static final ArrayList<Material> MATERIALS = new ArrayList<>();
+    public static final ArrayList<MaterialForm> MATERIAL_FORMS = new ArrayList<>();
 
-    public static final Material IRON = addMaterial(new Material("iron"));
-    public static final Material BRICK = addMaterial(new Material("brick"));
-    
+    public static final Material IRON = addMaterial("iron");
+    public static final Material BRICK = addMaterial("brick");
+
+    public static final MaterialForm BASE = addMaterialForm("base");
+    public static final MaterialForm PLATE = addMaterialForm("plate");
+    public static final MaterialForm BOX = addMaterialForm("box");
+    public static final MaterialForm HULL = addMaterialForm("hull");
+
     public static void initializeMaterials() {
-        FORM_TRANSLATION_KEYS.put(MaterialForm.Base, "meeptech.materialForm.base");
-        FORM_TRANSLATION_KEYS.put(MaterialForm.Plate, "meeptech.materialForm.plate");
-        FORM_TRANSLATION_KEYS.put(MaterialForm.LargePlate, "meeptech.materialForm.large_plate");
-        FORM_TRANSLATION_KEYS.put(MaterialForm.Box, "meeptech.materialForm.box");
-        FORM_TRANSLATION_KEYS.put(MaterialForm.Hull, "meeptech.materialForm.hull");
-
         MATERIAL_STAT_TRANSLATION_KEYS.put(MaterialStat.ThermalConductivity, "meeptech.materialStat.thermal_conductivity");
         MATERIAL_STAT_TRANSLATION_KEYS.put(MaterialStat.ThermalResistance, "meeptech.materialStat.thermal_resistance");
         MATERIAL_STAT_TRANSLATION_KEYS.put(MaterialStat.Flammability, "meeptech.materialStat.flammability");
@@ -32,26 +32,30 @@ public class ModMaterials {
         MATERIAL_STAT_TRANSLATION_KEYS.put(MaterialStat.TensileStrength, "meeptech.materialStat.tensile_strength");
 
         //Iron
-        IRON.addForm(MaterialForm.Base, Items.IRON_INGOT);
-        IRON.addForm(MaterialForm.Plate, ModItems.IRON_PLATE.asItem());
-        IRON.addForm(MaterialForm.Box, ModItems.IRON_BOX.asItem());
-        IRON.setColor(0xFFFFFF);
+        IRON.setForm(BASE, Items.IRON_INGOT);
+        IRON.setGeneratedForms(List.of(PLATE, BOX));
+        IRON.setColor(0xFFFFFFFF);
         IRON.setThermalConductivity(60);
         IRON.setMeltingPoint(1800);
         IRON.setTensileStrength(600);
 
-        BRICK.addForm(MaterialForm.Base, Items.BRICK);
-        BRICK.addForm(MaterialForm.Plate, ModItems.BRICK_PLATE.asItem());
-        BRICK.addForm(MaterialForm.Hull, ModBlocks.BRICK_HULL.asItem());
-        BRICK.setColor(0x5a2d0f);
+        BRICK.setForm(BASE, Items.BRICK);
+        BRICK.setGeneratedForms(List.of(PLATE, HULL));
+        BRICK.setColor(0xFF5a2d0f);
         BRICK.setThermalConductivity(1);
         BRICK.setMeltingPoint(1800);
         BRICK.setTensileStrength(5);
     }
 
-    public static Material addMaterial(Material material) {
+    public static Material addMaterial(String materialId) {
+        Material material = new Material(materialId);
         MATERIALS.add(material);
         return material;
+    }
+    public static MaterialForm addMaterialForm(String materialFormId) {
+        MaterialForm materialForm = new MaterialForm(materialFormId);
+        MATERIAL_FORMS.add(materialForm);
+        return materialForm;
     }
     public static Material getMaterial(String materialId) {
         for (Material material : MATERIALS) {

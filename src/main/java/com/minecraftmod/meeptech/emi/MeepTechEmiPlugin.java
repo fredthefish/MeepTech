@@ -26,6 +26,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 
 @EmiEntrypoint
 public class MeepTechEmiPlugin implements EmiPlugin {
@@ -50,15 +51,18 @@ public class MeepTechEmiPlugin implements EmiPlugin {
         registry.addCategory(workstationCategory);
         registry.addWorkstation(workstationCategory, workstationIcon);
         for (Material material : ModMaterials.MATERIALS) {
-            Map<MaterialForm, Item> forms = material.getForms();
+            Map<MaterialForm, ItemLike> forms = material.getForms();
             for (MaterialForm form : forms.keySet()) {
-                ResourceLocation recipeId = 
-                    ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "/material_workstation/" + material.getId() + "/" + form.name().toLowerCase());
                 MaterialWorkstationRecipes recipes = 
-                    MaterialWorkstationRecipes.getAvailableForms(new ItemStack(forms.get(form), forms.get(form).getDefaultMaxStackSize()));
-                for (MaterialWorkstationRecipe recipe : recipes.getRecipes()) {
-                    WorkstationEmiRecipe emiRecipe = new WorkstationEmiRecipe(recipeId, workstationCategory, material, recipe);
-                    registry.addRecipe(emiRecipe);
+                    MaterialWorkstationRecipes.getAvailableForms(new ItemStack(forms.get(form), material.getForm(form).getDefaultMaxStackSize()));
+                if (recipes != null) {
+                    for (MaterialWorkstationRecipe recipe : recipes.getRecipes()) {
+                        ResourceLocation recipeId = 
+                            ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, 
+                            "/material_workstation/" + material.getId() + "/" + form.getId() + "/" + recipe.getOutputForm().getId());
+                        WorkstationEmiRecipe emiRecipe = new WorkstationEmiRecipe(recipeId, workstationCategory, material, recipe);
+                        registry.addRecipe(emiRecipe);
+                    }
                 }
             }
         }

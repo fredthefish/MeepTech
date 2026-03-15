@@ -6,9 +6,9 @@ import java.util.function.Supplier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 
 import com.minecraftmod.meeptech.items.ModuleItems;
 import com.minecraftmod.meeptech.logic.material.Material;
@@ -20,12 +20,12 @@ public class ModCreativeTabs {
 
     public static final Supplier<CreativeModeTab> MATERIALS_TAB = CREATIVE_MODE_TABS.register("meeptech_materials", () -> CreativeModeTab.builder()
         .title(Component.translatable("itemGroup." + MeepTech.MODID + ".materials_tab"))
-        .icon(() -> new ItemStack(ModItems.IRON_PLATE.get()))
+        .icon(() -> new ItemStack(ModMaterials.getMaterial("iron").getForm(ModMaterials.PLATE)))
         .displayItems((params, output) -> {
             for (Material material : ModMaterials.MATERIALS) {
-                HashMap<MaterialForm, Item> forms = material.getForms();
-                for (Item item : forms.values()) {
-                    output.accept(item);
+                HashMap<MaterialForm, ItemLike> forms = material.getForms();
+                for (ItemLike item : forms.values()) {
+                    output.accept(item.asItem());
                 }
             }
         })

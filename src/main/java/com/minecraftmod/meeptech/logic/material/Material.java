@@ -2,13 +2,15 @@ package com.minecraftmod.meeptech.logic.material;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
 
 public class Material {
     private String id;
-    private String translationKey;
-    private HashMap<MaterialForm, Item> forms = new HashMap<>();
+    private HashMap<MaterialForm, ItemLike> forms = new HashMap<>();
+    private List<MaterialForm> generatedForms;
 
     private Double thermalConductivity;
     private Double thermalResistance;
@@ -19,26 +21,31 @@ public class Material {
 
     public Material(String id) {
         this.id = id;
-        this.translationKey = "meeptech.material." + id;
     }
 
-    public void addForm(MaterialForm form, Item item) {
+    public void setForm(MaterialForm form, ItemLike item) {
         forms.put(form, item);
     }
     public Item getForm(MaterialForm form) {
-        return forms.get(form);
+        return forms.get(form).asItem();
+    }
+    public void setGeneratedForms(List<MaterialForm> generatedForms) {
+        this.generatedForms = generatedForms;
+    }
+    public List<MaterialForm> getGeneratedForms() {
+        return generatedForms;
     }
     public boolean hasForm(MaterialForm form) {
         return forms.containsKey(form);
     }
-    public HashMap<MaterialForm, Item> getForms() {
-        return new HashMap<MaterialForm, Item>(forms);
+    public HashMap<MaterialForm, ItemLike> getForms() {
+        return new HashMap<MaterialForm, ItemLike>(forms);
     }
     public String getId() {
         return id;
     }
     public String getTranslationKey() {
-        return translationKey;
+        return "meeptech.material." + id;
     }
 
     public Double getThermalConductivity() {

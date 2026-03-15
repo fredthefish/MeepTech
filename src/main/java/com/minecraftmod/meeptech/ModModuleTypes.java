@@ -2,7 +2,6 @@ package com.minecraftmod.meeptech;
 
 import java.util.ArrayList;
 
-import com.minecraftmod.meeptech.logic.material.MaterialForm;
 import com.minecraftmod.meeptech.logic.module.ModuleSlotType;
 import com.minecraftmod.meeptech.logic.module.ModuleType;
 
@@ -15,8 +14,6 @@ public class ModModuleTypes {
     public static final ModuleSlotType SLOT_HEATING_CORE = addModuleSlotType(new ModuleSlotType("heating_core"));
     public static final ModuleSlotType SLOT_FIREBOX = addModuleSlotType(new ModuleSlotType("firebox_slot"));
 
-    public static final ModuleType BRICK_HULL = addModuleType(
-        new ModuleType("brick_hull", SLOT_MACHINE_BASE, ModModuleData.BASE_BASIC));
     public static final ModuleType MACHINE_CORE_SMELTER = addModuleType(
         new ModuleType("machine_core_smelter", SLOT_MACHINE_CORE, ModModuleData.TYPE_SMELTER));
     public static final ModuleType HEATING_CORE_SOLID_FUEL = addModuleType(
@@ -24,7 +21,7 @@ public class ModModuleTypes {
     public static final ModuleType FIREBOX_SLOT = addModuleType(
         new ModuleType("firebox_slot", SLOT_FIREBOX, ModModuleData.COMPONENT_FIREBOX));
 
-    private static ModuleType addModuleType(ModuleType type) {
+    public static ModuleType addModuleType(ModuleType type) {
         MODULE_TYPES.add(type);
         return type;
     }
@@ -45,13 +42,11 @@ public class ModModuleTypes {
         return null;
     }
     public static void initializeModuleTypes() {
-        SLOT_MACHINE_BASE.setMaterialForm(MaterialForm.Hull);
-        SLOT_FIREBOX.setMaterialForm(MaterialForm.Box);
+        SLOT_MACHINE_BASE.setMaterialForm(ModMaterials.HULL);
+        SLOT_FIREBOX.setMaterialForm(ModMaterials.BOX);
 
-        BRICK_HULL.addSubSlot("machine_core", SLOT_MACHINE_CORE);
-        BRICK_HULL.setAssociatedItem(ModBlocks.BRICK_HULL_ITEM);
         MACHINE_CORE_SMELTER.addSubSlot("heating_core", SLOT_HEATING_CORE);
         HEATING_CORE_SOLID_FUEL.addSubSlot("firebox_slot", SLOT_FIREBOX);
-        FIREBOX_SLOT.setMaterialForm(MaterialForm.Box);
+        FIREBOX_SLOT.setMaterialForm(ModMaterials.BOX);
     }
 }

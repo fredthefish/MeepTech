@@ -2,6 +2,8 @@ package com.minecraftmod.meeptech.logic.material;
 
 import java.util.ArrayList;
 
+import com.minecraftmod.meeptech.ModMaterials;
+
 import net.minecraft.world.item.ItemStack;
 
 public class MaterialWorkstationRecipes {
@@ -9,10 +11,9 @@ public class MaterialWorkstationRecipes {
     private Material material;
 
     public static final MaterialWorkstationRecipe[] RECIPES = new MaterialWorkstationRecipe[] {
-        new MaterialWorkstationRecipe(MaterialForm.Base, MaterialForm.Plate, 1, 1),
-        new MaterialWorkstationRecipe(MaterialForm.Plate, MaterialForm.LargePlate, 4, 1),
-        new MaterialWorkstationRecipe(MaterialForm.Plate, MaterialForm.Box, 6, 1),
-        new MaterialWorkstationRecipe(MaterialForm.Plate, MaterialForm.Hull, 8, 1)
+        new MaterialWorkstationRecipe(ModMaterials.BASE, ModMaterials.PLATE, 1, 1),
+        new MaterialWorkstationRecipe(ModMaterials.PLATE, ModMaterials.BOX, 6, 1),
+        new MaterialWorkstationRecipe(ModMaterials.PLATE, ModMaterials.HULL, 8, 1)
     };
     
     public static final MaterialWorkstationRecipes getAvailableForms(ItemStack input) {

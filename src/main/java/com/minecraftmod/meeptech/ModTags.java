@@ -18,9 +18,9 @@ public class ModTags {
     public static final TagKey<Item> HAMMER_TAG = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "hammers"));
 
     public static final HashMap<MaterialForm, TagKey<Item>> FORM_TAGS = new HashMap<>() {{
-        put(MaterialForm.Base, BASE_MATERIAL_TAG);
-        put(MaterialForm.Plate, PLATE_TAG);
-        put(MaterialForm.Hull, HULL_TAG);
-        put(MaterialForm.Box, BOX_TAG);
+        put(ModMaterials.BASE, BASE_MATERIAL_TAG);
+        put(ModMaterials.PLATE, PLATE_TAG);
+        put(ModMaterials.HULL, HULL_TAG);
+        put(ModMaterials.BOX, BOX_TAG);
     }};
 }

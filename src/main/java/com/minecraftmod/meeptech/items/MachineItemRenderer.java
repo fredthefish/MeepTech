@@ -3,8 +3,8 @@ package com.minecraftmod.meeptech.items;
 import org.joml.Matrix4f;
 
 import com.minecraftmod.meeptech.MeepTech;
-import com.minecraftmod.meeptech.ModBlocks;
 import com.minecraftmod.meeptech.ModDataComponents;
+import com.minecraftmod.meeptech.ModTags;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -30,8 +30,8 @@ public class MachineItemRenderer extends BlockEntityWithoutLevelRenderer {
         poseStack.pushPose();
         BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
         BlockState hullState = null;
-        if (stack.is(ModBlocks.BRICK_HULL.get().asItem())) {
-            hullState = ModBlocks.BRICK_HULL.get().defaultBlockState();
+        if (stack.is(ModTags.HULL_TAG)) {
+            hullState = ((HullItem)stack.getItem()).getBlock().defaultBlockState();
         }
         blockRenderer.renderSingleBlock(hullState, poseStack, buffer, packedLight, packedOverlay, ModelData.EMPTY, null);
         MachineConfigData config = stack.getOrDefault(ModDataComponents.MACHINE_CONFIG_DATA.get(), MachineConfigData.EMPTY);

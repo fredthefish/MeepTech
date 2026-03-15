@@ -2,7 +2,6 @@ package com.minecraftmod.meeptech.ui;
 
 import java.util.List;
 
-import com.minecraftmod.meeptech.ModBlocks;
 import com.minecraftmod.meeptech.ModMenus;
 import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
 import com.minecraftmod.meeptech.logic.machine.HeatSource;
@@ -86,7 +85,7 @@ public class MachineMenu extends AbstractContainerMenu {
     }
     @Override
     public boolean stillValid(Player player) {
-        return stillValid(this.access, player, ModBlocks.BRICK_HULL.get());
+        return stillValid(this.access, player, this.blockEntity.getBlock());
     }
     @Override
     public ItemStack quickMoveStack(Player player, int index) {

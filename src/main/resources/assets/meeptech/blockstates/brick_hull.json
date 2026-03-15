@@ -1,7 +1,7 @@
 {
     "variants": {
         "": {
-            "model": "meeptech:block/brick_hull"
+            "model": "meeptech:block/hull"
         }
     }
 }

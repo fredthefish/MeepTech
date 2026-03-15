@@ -1,9 +1,11 @@
 package com.minecraftmod.meeptech.logic.material;
 
-public enum MaterialForm {
-    Base,
-    Plate,
-    LargePlate,
-    Box,
-    Hull
+public class MaterialForm {
+    private String id;
+    public MaterialForm(String id) {
+        this.id = id;
+    }
+    public String getId() {
+        return id;
+    }
 }
