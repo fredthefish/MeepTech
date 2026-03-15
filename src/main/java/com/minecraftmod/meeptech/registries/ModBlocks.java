@@ -29,7 +29,7 @@ public class ModBlocks {
             .strength(5f, 6f)
             .destroyTime(5)
             .requiresCorrectToolForDrops()
-            .sound(SoundType.METAL)
+            .sound(SoundType.STONE)
     ));
     public static final DeferredBlock<Block> ENGINEERING_STATION = registerBlock("engineering_station", 
         () -> new EngineeringStationBlock(BlockBehaviour.Properties.of()
