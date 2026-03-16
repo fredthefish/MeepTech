@@ -11,8 +11,9 @@
   "item.meeptech.hull.partial": "Incomplete",
 
   "item.meeptech.module_template_basic": "Basic Module Template",
-  "item.meeptech.module_machine_core_smelter": "Smelter Machine Core Module",
-  "item.meeptech.module_heating_core_solid_fuel": "Solid Fuel Heating Core Module",
+  "item.meeptech.module_machine_core_smelter": "Smelter Module (Machine Core)",
+  "item.meeptech.module_heating_core_solid_fuel": "Solid Fuel Module (Heating Core)",
+  "item.meeptech.module_upgrade_smelter_blasting": "Blasting Module (Smelter Upgrade)",
 
   "block.meeptech.material_workstation": "Material Workstation",
   "block.meeptech.engineering_station": "Engineering Station",

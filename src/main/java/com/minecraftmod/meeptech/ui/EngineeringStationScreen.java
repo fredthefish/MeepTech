@@ -68,7 +68,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
             int startY = y + boxY + titleHeight;
             
             while (selectionPath.size() >= layer) {
-                for (int i = 0; i < type.getSubSlotCount(); i++) {
+                if (type != null) for (int i = 0; i < type.getSubSlotCount(); i++) {
                     int slotX = startX + i * (slotSize + 1);
                     int slotY = startY + layer * (slotSize + titleHeight);
                     if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
@@ -99,7 +99,8 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                         int slotY = startY + layer * (slotSize + titleHeight);
                         if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
                             List<Component> tooltip = new ArrayList<>();
-                            if (data.getSubLayer(type.getSubSlotCount() + i) == null) {
+                            MachineConfigData subLayer = data.getSubLayer(type.getSubSlotCount() + i);
+                            if (subLayer == null || subLayer.isEmpty()) {
                                 tooltip.add(Component.translatable("meeptech.ui.engineering_station.insert_upgrade"));
                                 tooltip.add(Component.translatable("meeptech.ui.engineering_station.remove_upgrade_slot"));
                             }
@@ -158,7 +159,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                             startX + 2, stringY, 0xFFFFFFFF, false);
                     }
                 } else {
-                    for (int i = 0; i < type.getSubSlotCount(); i++) {
+                    if (type != null) for (int i = 0; i < type.getSubSlotCount(); i++) {
                         int slotX = startX + i * (slotSize + 1);
                         int slotY = startY + layer * (slotSize + titleHeight);
                         int outlineColor = 0xFF373737;
@@ -185,7 +186,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                                 guiGraphics.fill(slotX + 1, slotY + 1, slotX + slotSize - 1, slotY + slotSize - 1, 0x80FFFFFF); 
                             }
                             MachineConfigData subLayer = data.getSubLayer(type.getSubSlotCount() + i);
-                            if (subLayer != null) {
+                            if (subLayer != null && !subLayer.isEmpty()) {
                                 ItemStack preview = new ItemStack(subLayer.getItem());
                                 guiGraphics.renderItem(preview, slotX + 1, slotY + 1);
                             }
@@ -205,9 +206,12 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                 if (selectionPath.size() > layer) {
                     data = data.getSubLayer(selectionPath.get(layer));
                     type = data.getModuleType();
-                    ItemStack itemStack = new ItemStack(data.getItem());
-                    if (!itemStack.isEmpty()) guiGraphics.drawString(this.font, itemStack.getHoverName(), 
-                        startX, startY + (layer + 1) * (slotSize + titleHeight) - titleHeight + titleMargin, 0xFFFFFFFF, false);
+                    Item item = data.getItem();
+                    if (item != null) {
+                        ItemStack itemStack = new ItemStack(item);
+                        if (!itemStack.isEmpty()) guiGraphics.drawString(this.font, itemStack.getHoverName(), 
+                            startX, startY + (layer + 1) * (slotSize + titleHeight) - titleHeight + titleMargin, 0xFFFFFFFF, false);
+                    }
                 }
                 layer++;
             }
@@ -235,7 +239,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
             int startY = y + boxY + titleHeight;
     
             while (selectionPath.size() >= layer) {
-                for (int i = 0; i < type.getSubSlotCount(); i++) {
+                if (type != null) for (int i = 0; i < type.getSubSlotCount(); i++) {
                     int slotX = startX + i * (slotSize - 1);
                     int slotY = startY + layer * (slotSize + titleHeight);
                     if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
@@ -252,7 +256,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                                 ItemStack input = this.menu.getSlot(1).getItem();
                                 if (!input.isEmpty()) {
                                     if (input.getCount() >= editSlot.getCount() && 
-                                    ModuleType.itemFitsSlotType(input, data.getModuleType().getSubSlot(i).getType())) {
+                                    data.getModuleType().getSubSlot(i).getType().itemFitsSlotType(input)) {
                                         List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
                                         newList.add(i);
                                         PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.INSERT, newList));
@@ -287,9 +291,9 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                         if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
                             if (button == 0) {
                                 MachineConfigData subLayer = data.getSubLayer(type.getSubSlotCount() + i);
-                                if (subLayer != null) {
+                                if (subLayer != null && !subLayer.isEmpty()) {
                                     List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
-                                    int selection = data.subLayers().size() + i;
+                                    int selection = type.getSubSlotCount() + i;
                                     if (selectionPath.size() > layer) {
                                         if (selectionPath.get(layer) != selection) newList.add(selection);
                                     } else newList.add(selection);
@@ -299,9 +303,9 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                                     ItemStack input = this.menu.getSlot(1).getItem();
                                     if (!input.isEmpty()) {
                                         if (input.getCount() >= editSlot.getCount() && 
-                                        ModuleType.itemFitsSlotType(input, data.getModuleType().getUpgradeType())) {
+                                        data.getModuleType().getUpgradeType().itemFitsSlotType(input)) {
                                             List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
-                                            newList.add(i + data.subLayers().size());
+                                            newList.add(i + type.getSubSlotCount());
                                             PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.INSERT_UPGRADE, newList));
                                             this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
                                         }
@@ -309,9 +313,15 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                                 }
                             } else if (button == 1) {
                                 MachineConfigData subLayer = data.getSubLayer(type.getSubSlotCount() + i);
-                                if (subLayer == null) {
+                                if (subLayer == null || subLayer.isEmpty()) {
                                     List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
                                     PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.REMOVE_UPGRADE_SLOT, newList));
+                                    this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
+                                } else {
+                                    List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
+                                    newList.add(i + type.getSubSlotCount());
+                                    PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.EXTRACT_UPGRADE, newList));
+                                    selectionPath = selectionPath.subList(0, layer);
                                     this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
                                 }
                             }

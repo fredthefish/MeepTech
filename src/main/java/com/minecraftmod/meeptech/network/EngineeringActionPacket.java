@@ -26,6 +26,7 @@ public record EngineeringActionPacket(EngineeringAction action, List<Integer> pa
         EXTRACT,
         ADD_UPGRADE_SLOT,
         REMOVE_UPGRADE_SLOT,
-        INSERT_UPGRADE
+        INSERT_UPGRADE,
+        EXTRACT_UPGRADE
     }
 }

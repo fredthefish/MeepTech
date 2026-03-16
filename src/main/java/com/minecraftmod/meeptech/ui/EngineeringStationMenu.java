@@ -104,7 +104,7 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                         layer++;
                     } else {
                         if (data.isEmpty() && !input.isEmpty()) {
-                            if (ModuleType.itemFitsSlotType(input, slotType) && input.getCount() >= edit.getCount()) {
+                            if (slotType.itemFitsSlotType(input) && input.getCount() >= edit.getCount()) {
                                 ModuleType inputModuleType = ModuleType.getModuleType(input);
                                 inputSlot.remove(edit.getCount());
                                 if (inputModuleType != null) {
@@ -194,9 +194,9 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                         data = data.getSubLayer(path.get(layer));
                         layer++;
                     } else {
-                        if (data == null && !input.isEmpty()) {
+                        if ((data == null || data.isEmpty()) && !input.isEmpty()) {
                             slotType = type.getUpgradeType();
-                            if (ModuleType.itemFitsSlotType(input, slotType) && input.getCount() >= edit.getCount()) {
+                            if (slotType.itemFitsSlotType(input) && input.getCount() >= edit.getCount()) {
                                 ModuleType inputModuleType = ModuleType.getModuleType(input);
                                 inputSlot.remove(edit.getCount());
                                 if (inputModuleType != null) {
@@ -207,6 +207,39 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                                 editSlot.set(edit);
                                 this.broadcastChanges();
                                 return;
+                            }
+                        }
+                    }
+                }
+                break;
+            case EngineeringActionPacket.EngineeringAction.EXTRACT_UPGRADE:
+                editSlot = this.getSlot(0);
+                edit = editSlot.getItem();
+                outputSlot = this.getSlot(2);
+                output = outputSlot.getItem();
+                type = ModuleType.getModuleType(edit);
+                mainData = (edit.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) ? 
+                    edit.get(ModDataComponents.MACHINE_CONFIG_DATA.get()) : type.getEmptyMachineConfigData();
+                data = mainData;
+                layer = 0;
+                while (path.size() >= layer) {
+                    if (path.size() > layer) {
+                        data = data.getSubLayer(path.get(layer));
+                        layer++;
+                    } else {
+                        if (!data.isEmpty()) {
+                            if (!data.hasSubLayers()) {
+                                Item outputItem = data.getItem();
+                                if (output.isEmpty() || (output.getCount() <= output.getMaxStackSize() + edit.getCount() && output.getItem().equals(outputItem))) {
+                                    if (!output.isEmpty()) output.grow(edit.getCount());
+                                    else outputSlot.set(new ItemStack(outputItem, edit.getCount()));
+                                    mainData = MachineConfigData.changeSubLayer(mainData, path, MachineConfigData.EMPTY);
+                                    edit = edit.copy();
+                                    edit.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), mainData);
+                                    editSlot.set(edit);
+                                    this.broadcastChanges();
+                                    return;
+                                }
                             }
                         }
                     }

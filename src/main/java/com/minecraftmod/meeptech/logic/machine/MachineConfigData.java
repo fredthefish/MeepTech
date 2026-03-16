@@ -15,13 +15,13 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
 
-public record MachineConfigData(String moduleSlotType, String moduleId, String materialId, int upgradeSlots, List<MachineConfigData> subLayers) {
+public record MachineConfigData(String moduleSlotType, String itemId, String materialId, int upgradeSlots, List<MachineConfigData> subLayers) {
     public static final MachineConfigData EMPTY = new MachineConfigData("", "", "", 0, new ArrayList<>());
 
     public static final Codec<MachineConfigData> CODEC = Codec.recursive("MachineConfigLayerData", self -> 
         RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.optionalFieldOf("moduleSlotType", "").forGetter(MachineConfigData::moduleSlotType),
-            Codec.STRING.optionalFieldOf("itemId", "").forGetter(MachineConfigData::moduleId),
+            Codec.STRING.optionalFieldOf("itemId", "").forGetter(MachineConfigData::itemId),
             Codec.STRING.optionalFieldOf("materialId", "").forGetter(MachineConfigData::materialId),
             Codec.INT.optionalFieldOf("upgradeSlots", 0).forGetter(MachineConfigData::upgradeSlots),
             self.listOf().optionalFieldOf("subLayers", new ArrayList<>()).forGetter(MachineConfigData::subLayers)
@@ -29,7 +29,7 @@ public record MachineConfigData(String moduleSlotType, String moduleId, String m
 
     public static final StreamCodec<RegistryFriendlyByteBuf, MachineConfigData> STREAM_CODEC = ByteBufCodecs.fromCodecWithRegistries(CODEC);
     public ModuleType getModuleType() {
-        if (!moduleId.isEmpty()) return ModModuleTypes.getModuleType(moduleId);
+        if (!itemId.isEmpty()) return ModModuleTypes.getModuleType(itemId);
         else if (!moduleSlotType.isEmpty() && !materialId.isEmpty()) return ModModuleTypes.getModuleType(moduleSlotType);
         return null;
     }
@@ -45,17 +45,17 @@ public record MachineConfigData(String moduleSlotType, String moduleId, String m
         if (path.size() == 1) {
             if (newSubLayers.size() > index) newSubLayers.set(index, subLayer);
             else newSubLayers.add(subLayer);
-            return new MachineConfigData(original.moduleSlotType, original.moduleId, original.materialId, original.upgradeSlots, newSubLayers);
+            return new MachineConfigData(original.moduleSlotType, original.itemId, original.materialId, original.upgradeSlots, newSubLayers);
         } else {
             MachineConfigData oldSubLayer = original.getSubLayer(index);
             MachineConfigData newSubLayer = changeSubLayer(oldSubLayer, path.subList(1, path.size()), subLayer);
             newSubLayers.set(index, newSubLayer);
-            return new MachineConfigData(original.moduleSlotType, original.moduleId, original.materialId, original.upgradeSlots, newSubLayers);
+            return new MachineConfigData(original.moduleSlotType, original.itemId, original.materialId, original.upgradeSlots, newSubLayers);
         }
     }
     public static MachineConfigData moveUpgradeSlot(MachineConfigData original, List<Integer> path, boolean add) {
         MachineConfigData updated = moveUpgradeSlotRecursive(original, path, add);
-        return new MachineConfigData(updated.moduleSlotType, updated.moduleId, updated.materialId, updated.upgradeSlots + (add ? -1 : 1), updated.subLayers);
+        return new MachineConfigData(updated.moduleSlotType, updated.itemId, updated.materialId, updated.upgradeSlots + (add ? -1 : 1), updated.subLayers);
     }
     private static MachineConfigData moveUpgradeSlotRecursive(MachineConfigData original, List<Integer> path, boolean add) {
         ArrayList<MachineConfigData> newSubLayers = new ArrayList<>(original.subLayers);
@@ -63,13 +63,13 @@ public record MachineConfigData(String moduleSlotType, String moduleId, String m
         if (path.size() == 1) {
             MachineConfigData subLayer = newSubLayers.get(index);
             newSubLayers.set(index, 
-                new MachineConfigData(subLayer.moduleSlotType, subLayer.moduleId, subLayer.materialId, subLayer.upgradeSlots + (add ? 1 : -1), subLayer.subLayers));
-            return new MachineConfigData(original.moduleSlotType, original.moduleId, original.materialId, original.upgradeSlots, newSubLayers);
+                new MachineConfigData(subLayer.moduleSlotType, subLayer.itemId, subLayer.materialId, subLayer.upgradeSlots + (add ? 1 : -1), subLayer.subLayers));
+            return new MachineConfigData(original.moduleSlotType, original.itemId, original.materialId, original.upgradeSlots, newSubLayers);
         } else {
             MachineConfigData oldSubLayer = original.getSubLayer(index);
             MachineConfigData newSubLayer = moveUpgradeSlotRecursive(oldSubLayer, path.subList(1, path.size()), add);
             newSubLayers.set(index, newSubLayer);
-            return new MachineConfigData(original.moduleSlotType, original.moduleId, original.materialId, original.upgradeSlots, newSubLayers);
+            return new MachineConfigData(original.moduleSlotType, original.itemId, original.materialId, original.upgradeSlots, newSubLayers);
         }
     }
     public void setSubLayerCount(int count) {
@@ -79,7 +79,7 @@ public record MachineConfigData(String moduleSlotType, String moduleId, String m
         }
     }
     public boolean isEmpty() {
-        return this.moduleId.isEmpty() && this.materialId.isEmpty() && this.subLayers.isEmpty();
+        return this.itemId.isEmpty() && this.materialId.isEmpty() && this.subLayers.isEmpty();
     }
     public boolean hasSubLayers() {
         for (MachineConfigData subLayer : subLayers) {
@@ -91,7 +91,7 @@ public record MachineConfigData(String moduleSlotType, String moduleId, String m
         return !moduleSlotType.isEmpty() && !materialId.isEmpty();
     }
     public Item getItem() {
-        if (!moduleId.isEmpty()) return ModModuleTypes.getModuleType(moduleId).getItem();
+        if (!itemId.isEmpty()) return ModModuleTypes.getModuleType(itemId).getItem();
         if (!materialId.isEmpty() && !moduleSlotType.isEmpty()) {
             MaterialForm form = ModModuleTypes.getModuleSlotType(moduleSlotType).getMaterialForm();
             return ModMaterials.getMaterial(materialId).getForm(form);

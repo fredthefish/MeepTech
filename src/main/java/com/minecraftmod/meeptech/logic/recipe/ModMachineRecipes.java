@@ -13,8 +13,10 @@ public class ModMachineRecipes {
     private static Map<String, MachineRecipeType> RECIPES = new HashMap<>();
     private static boolean isInitialized = false;
 
-    public static MachineRecipeStandardType SMELTER = new MachineRecipeStandardType("smelter", ModuleItems.SMELTER_CORE, 1, 1);
-    public static MachineRecipeHeatType SOLID_FUEL = new MachineRecipeHeatType("solid_fuel", ModuleItems.SOLID_FUEL_CORE, 1);
+    public static MachineRecipeStandardType SMELTER = new MachineRecipeStandardType("smelter", 
+        ModuleItems.SMELTER_CORE, 1, 1);
+    public static MachineRecipeHeatType SOLID_FUEL = new MachineRecipeHeatType("solid_fuel", 
+        ModuleItems.SOLID_FUEL_CORE, 1);
 
     public static void registerRecipes() {
         RECIPES.put(SMELTER.getId(), SMELTER);

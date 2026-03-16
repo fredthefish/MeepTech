@@ -9,6 +9,7 @@ import com.minecraftmod.meeptech.logic.material.MaterialForm;
 import com.minecraftmod.meeptech.logic.material.MaterialWorkstationRecipe;
 import com.minecraftmod.meeptech.logic.material.MaterialWorkstationRecipes;
 import com.minecraftmod.meeptech.logic.material.ModMaterials;
+import com.minecraftmod.meeptech.logic.module.ModModuleTypes;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipe;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipeType;
 import com.minecraftmod.meeptech.logic.recipe.ModMachineRecipes;
@@ -66,6 +67,7 @@ public class MeepTechEmiPlugin implements EmiPlugin {
                 }
             }
         }
-        registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, EmiIngredient.of(Ingredient.of(ModuleItems.SMELTER_CORE.get())));
+        registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, 
+            EmiIngredient.of(Ingredient.of(ModuleItems.MODULES.get(ModModuleTypes.MACHINE_CORE_SMELTER.getId()))));
     }
 }

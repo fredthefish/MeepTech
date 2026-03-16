@@ -14,16 +14,16 @@ public class ModModuleTypes {
     public static final ModuleSlotType SLOT_FIREBOX = addModuleSlotType(new ModuleSlotType("firebox_slot"));
 
     public static final ModuleSlotType UPGRADE_SLOT_MACHINE_CORE = addModuleSlotType(new ModuleSlotType("upgrade_machine_core"));
-    public static final ModuleSlotType UPGRADE_SLOT_HEATING_CORE = addModuleSlotType(new ModuleSlotType("upgrade_machine_core"));
+    public static final ModuleSlotType UPGRADE_SLOT_SMELTER = addModuleSlotType(new ModuleSlotType("upgrade_machine_core_smelter"));
 
     public static final ModuleType MACHINE_CORE_SMELTER = addModuleType(
-        new ModuleType("machine_core_smelter", SLOT_MACHINE_CORE, ModModuleData.TYPE_SMELTER, UPGRADE_SLOT_MACHINE_CORE));
+        new ModuleType("machine_core_smelter", SLOT_MACHINE_CORE, ModModuleData.TYPE_SMELTER, UPGRADE_SLOT_SMELTER));
     public static final ModuleType HEATING_CORE_SOLID_FUEL = addModuleType(
-        new ModuleType("heating_core_solid_fuel", SLOT_HEATING_CORE, ModModuleData.HEAT_SOURCE_SOLID_FUEL, UPGRADE_SLOT_HEATING_CORE));
+        new ModuleType("heating_core_solid_fuel", SLOT_HEATING_CORE, ModModuleData.HEAT_SOURCE_SOLID_FUEL, null));
     public static final ModuleType FIREBOX_SLOT = addModuleType(
         new ModuleType("firebox_slot", SLOT_FIREBOX, ModModuleData.COMPONENT_FIREBOX, null));
     public static final ModuleType MACHINE_CORE_UPGRADE_EXAMPLE = 
-        addModuleType(new ModuleType("upgrade_machine_core_example", UPGRADE_SLOT_MACHINE_CORE, null, null)); //TODO
+        addModuleType(new ModuleType("upgrade_smelter_blasting", UPGRADE_SLOT_SMELTER, null, null));
 
     public static ModuleType addModuleType(ModuleType type) {
         MODULE_TYPES.add(type);
@@ -48,6 +48,7 @@ public class ModModuleTypes {
     public static void initializeModuleTypes() {
         SLOT_MACHINE_BASE.setMaterialForm(ModMaterials.HULL);
         SLOT_FIREBOX.setMaterialForm(ModMaterials.BOX);
+        UPGRADE_SLOT_SMELTER.addSubType(UPGRADE_SLOT_MACHINE_CORE);
 
         MACHINE_CORE_SMELTER.addSubSlot("heating_core", SLOT_HEATING_CORE);
         HEATING_CORE_SOLID_FUEL.addSubSlot("firebox_slot", SLOT_FIREBOX);

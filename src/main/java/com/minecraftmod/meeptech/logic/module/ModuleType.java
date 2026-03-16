@@ -9,7 +9,6 @@ import com.minecraftmod.meeptech.logic.machine.MachineAttribute;
 import com.minecraftmod.meeptech.logic.machine.MachineBase;
 import com.minecraftmod.meeptech.logic.machine.MachineConfigData;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
-import com.minecraftmod.meeptech.registries.ModTags;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -70,15 +69,6 @@ public class ModuleType {
     }
     public static MachineConfigData getMaterialMachineConfigData(ModuleSlotType slotType, String materialId) {
         return new MachineConfigData(slotType.getId(), "", materialId, 0, new ArrayList<>());
-    }
-    public static boolean itemFitsSlotType(ItemStack item, ModuleSlotType type) {
-        if (type.getMaterialForm() != null) {
-            return item.is(ModTags.FORM_TAGS.get(type.getMaterialForm()));
-        } else {
-            ModuleType moduleType = getModuleType(item);
-            if (moduleType == null) return false;
-            return moduleType.type == type;
-        }
     }
     public static ModuleType getModuleType(ItemStack item) {
         for (Entry<String, DeferredItem<Item>> pair : ModuleItems.MODULES.entrySet()) {
