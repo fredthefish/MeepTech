@@ -23,7 +23,7 @@ public class ModModuleData {
         List.of(TrackedStat.HeatLeft)
     );
 
-    public static MachineComponent COMPONENT_FIREBOX = new MachineComponent("firebox", MachineStat.Speed, MaterialStat.MeltingPoint, 
+    public static MachineComponent COMPONENT_FIREBOX = new MachineComponent("firebox", MachineStat.SPEED, MaterialStat.MeltingPoint, 
         (stat) -> {
             if (stat instanceof Double meltingPoint) {
                 double baseTemperature = 1000;

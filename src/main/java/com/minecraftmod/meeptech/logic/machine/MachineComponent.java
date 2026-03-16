@@ -1,7 +1,10 @@
 package com.minecraftmod.meeptech.logic.machine;
 
+import com.minecraftmod.meeptech.helpers.Formatting;
 import com.minecraftmod.meeptech.logic.material.Material;
 import com.minecraftmod.meeptech.logic.material.MaterialStat;
+
+import net.minecraft.network.chat.Component;
 
 public class MachineComponent extends MachineAttribute {
     private MachineStat machineStat;
@@ -20,5 +23,13 @@ public class MachineComponent extends MachineAttribute {
     public Object performCalculations(Material material) {
         Object stat = material.getStat(materialStat);
         return calculations.calculations(stat);
+    }
+    public Component getString(Material material) {
+        Object result = performCalculations(material);
+        if (result instanceof Double doubleResult) {
+            return Component.literal("- ").append(Component.translatable(machineStat.getTranslationKey()))
+            .append(": " + Formatting.doubleFormatting(doubleResult) + "x");
+        }
+        return Component.literal("Placeholder");
     }
 }

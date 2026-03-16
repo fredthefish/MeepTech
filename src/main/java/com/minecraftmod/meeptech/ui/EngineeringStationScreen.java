@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import com.minecraftmod.meeptech.items.HullItem;
 import com.minecraftmod.meeptech.items.MachineConfigData;
+import com.minecraftmod.meeptech.logic.machine.MachineComponent;
+import com.minecraftmod.meeptech.logic.material.ModMaterials;
 import com.minecraftmod.meeptech.logic.module.ModuleType;
 import com.minecraftmod.meeptech.network.EngineeringActionPacket;
 import com.minecraftmod.meeptech.network.EngineeringActionPacket.EngineeringAction;
@@ -73,8 +75,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                             tooltip.add(preview.getHoverName());
                             if (selectionPath.size() > layer && selectionPath.get(layer) == i)
                                 tooltip.add(Component.translatable("meeptech.ui.engineering_station.deselect"));
-                            else if (!subLayer.isComponent()) 
-                                tooltip.add(Component.translatable("meeptech.ui.engineering_station.select"));
+                            else tooltip.add(Component.translatable("meeptech.ui.engineering_station.select"));
                             if (!subLayer.hasSubLayers())
                                 tooltip.add(Component.translatable("meeptech.ui.engineering_station.extract"));
                             guiGraphics.renderTooltip(this.font, tooltip, Optional.empty(), mouseX, mouseY);
@@ -118,22 +119,30 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
             int startY = y + boxY + titleHeight;
     
             while (selectionPath.size() >= layer) {
-                for (int i = 0; i < type.getSubSlotCount(); i++) {
-                    int slotX = startX + i * (slotSize - 1);
-                    int slotY = startY + layer * (slotSize + titleHeight);
-                    int outlineColor = 0xFF373737;
-                    if (selectionPath.size() > layer) if (selectionPath.get(layer) == i) outlineColor = 0xFFBBFFFF;
-                    guiGraphics.fill(slotX, slotY, slotX + slotSize, slotY + slotSize, outlineColor);
-                    guiGraphics.fill(slotX + 1, slotY + 1, slotX + slotSize - 1, slotY + slotSize - 1, 0xFF616161);
-                    if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
-                        guiGraphics.fill(slotX + 1, slotY + 1, slotX + slotSize - 1, slotY + slotSize - 1, 0x80FFFFFF); 
+                if (data.isComponent()) {
+                    int stringY = startY + layer * (slotSize + titleHeight);
+                    if (type.getAttribute() instanceof MachineComponent component) {
+                        guiGraphics.drawString(this.font, component.getString(ModMaterials.getMaterial(data.getMaterial())), 
+                            startX + 2, stringY, 0xFFFFFFFF, false);
                     }
-                    MachineConfigData subLayer = data.getSubLayer(i);
-                    if (!subLayer.isEmpty()) {
-                        ItemStack preview = new ItemStack(subLayer.getItem());
-                        guiGraphics.renderItem(preview, slotX + 1, slotY + 1);
+                } else {
+                    for (int i = 0; i < type.getSubSlotCount(); i++) {
+                        int slotX = startX + i * (slotSize - 1);
+                        int slotY = startY + layer * (slotSize + titleHeight);
+                        int outlineColor = 0xFF373737;
+                        if (selectionPath.size() > layer) if (selectionPath.get(layer) == i) outlineColor = 0xFFBBFFFF;
+                        guiGraphics.fill(slotX, slotY, slotX + slotSize, slotY + slotSize, outlineColor);
+                        guiGraphics.fill(slotX + 1, slotY + 1, slotX + slotSize - 1, slotY + slotSize - 1, 0xFF616161);
+                        if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
+                            guiGraphics.fill(slotX + 1, slotY + 1, slotX + slotSize - 1, slotY + slotSize - 1, 0x80FFFFFF); 
+                        }
+                        MachineConfigData subLayer = data.getSubLayer(i);
+                        if (!subLayer.isEmpty()) {
+                            ItemStack preview = new ItemStack(subLayer.getItem());
+                            guiGraphics.renderItem(preview, slotX + 1, slotY + 1);
+                        }
+                        i++;
                     }
-                    i++;
                 }
                 if (selectionPath.size() > layer) {
                     data = data.getSubLayer(selectionPath.get(layer));
@@ -174,14 +183,12 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                         MachineConfigData subLayer = data.getSubLayer(i);
                         if (button == 0) {
                             if (!subLayer.isEmpty()) {
-                                if (!subLayer.isComponent()) {
-                                    List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
-                                    if (selectionPath.size() > layer) {
-                                        if (selectionPath.get(layer) != i) newList.add(i);
-                                    } else newList.add(i);
-                                    selectionPath = newList;
-                                    this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
-                                }
+                                List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
+                                if (selectionPath.size() > layer) {
+                                    if (selectionPath.get(layer) != i) newList.add(i);
+                                } else newList.add(i);
+                                selectionPath = newList;
+                                this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
                             } else {
                                 ItemStack input = this.menu.getSlot(1).getItem();
                                 if (!input.isEmpty()) {

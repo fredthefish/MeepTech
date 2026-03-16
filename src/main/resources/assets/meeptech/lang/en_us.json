@@ -50,8 +50,8 @@
   "meeptech.moduleType.solid_fuel": "Solid Fuel",
   "meeptech.moduleType.firebox": "Firebox",
 
-  "meeptech.ui.engineering_station.insert": "Left click to insert from the in slot.",
-  "meeptech.ui.engineering_station.extract": "Right click to extract to the out slot.",
+  "meeptech.ui.engineering_station.insert": "Left click to insert.",
+  "meeptech.ui.engineering_station.extract": "Right click to extract.",
   "meeptech.ui.engineering_station.select": "Left click to select.",
   "meeptech.ui.engineering_station.deselect": "Left click to deselect.",
 

@@ -44,7 +44,7 @@ public class MachineData {
         return null;
     }
     public double getMachineSpeed() {
-        if (stats.containsKey(MachineStat.Speed)) return (double)stats.get(MachineStat.Speed);
+        if (stats.containsKey(MachineStat.SPEED)) return (double)stats.get(MachineStat.SPEED);
         return 1;
     }
     public int getSlotCount() {
