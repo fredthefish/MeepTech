@@ -3,7 +3,7 @@ navigation:
     title: Smelter
     icon: meeptech:module_machine_core_smelter
     parent: machine_cores.md
-item-ids:
+item_ids:
 - meeptech:module_machine_core_smelter
 categories:
 - MachineCores

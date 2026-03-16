@@ -3,6 +3,7 @@ package com.minecraftmod.meeptech.items;
 import org.joml.Matrix4f;
 
 import com.minecraftmod.meeptech.MeepTech;
+import com.minecraftmod.meeptech.logic.machine.MachineConfigData;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
 import com.minecraftmod.meeptech.registries.ModDataComponents;
 import com.minecraftmod.meeptech.registries.ModTags;

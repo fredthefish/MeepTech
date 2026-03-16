@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.items.ModuleItems;
 import com.minecraftmod.meeptech.logic.machine.MachineAttribute;
+import com.minecraftmod.meeptech.logic.machine.MachineBase;
+import com.minecraftmod.meeptech.logic.machine.MachineConfigData;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
 import com.minecraftmod.meeptech.registries.ModTags;
 
@@ -19,11 +20,13 @@ public class ModuleType {
     private final ModuleSlotType type;
     private final MachineAttribute attribute;
     private final List<ModuleSlot> subSlots;
+    private final ModuleSlotType upgradeType;
     private MaterialForm materialForm = null;
-    public ModuleType(String id, ModuleSlotType type, MachineAttribute attribute) {
+    public ModuleType(String id, ModuleSlotType type, MachineAttribute attribute, ModuleSlotType upgradeType) {
         this.id = id;
         this.type = type;
         this.attribute = attribute;
+        this.upgradeType = upgradeType;
         this.subSlots = new ArrayList<>();
     }
     public String getId() {
@@ -50,6 +53,9 @@ public class ModuleType {
     public MachineAttribute getAttribute() {
         return attribute;
     }
+    public ModuleSlotType getUpgradeType() {
+        return upgradeType;
+    }
     public void addSubSlot(String subSlotId, ModuleSlotType subSlotType) {
         subSlots.add(new ModuleSlot(subSlotId, subSlotType));
     }
@@ -58,10 +64,12 @@ public class ModuleType {
         for (int i = 0; i < getSubSlotCount(); i++) {
             subModules.add(MachineConfigData.EMPTY);
         }
-        return new MachineConfigData(type.getId(), id, "", subModules);
+        int upgradeSlots = 0;
+        if (attribute instanceof MachineBase machineBase) upgradeSlots = machineBase.getUpgradeSlots();
+        return new MachineConfigData(type.getId(), id, "", upgradeSlots, subModules);
     }
     public static MachineConfigData getMaterialMachineConfigData(ModuleSlotType slotType, String materialId) {
-        return new MachineConfigData(slotType.getId(), "", materialId, new ArrayList<>());
+        return new MachineConfigData(slotType.getId(), "", materialId, 0, new ArrayList<>());
     }
     public static boolean itemFitsSlotType(ItemStack item, ModuleSlotType type) {
         if (type.getMaterialForm() != null) {

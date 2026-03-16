@@ -1,6 +1,6 @@
 package com.minecraftmod.meeptech.blocks;
 
-import com.minecraftmod.meeptech.items.MachineConfigData;
+import com.minecraftmod.meeptech.logic.machine.MachineConfigData;
 import com.minecraftmod.meeptech.registries.ModBlockEntities;
 import com.minecraftmod.meeptech.registries.ModDataComponents;
 
@@ -73,10 +73,11 @@ public class BaseMachineBlock extends Block implements EntityBlock {
             if (blockEntity instanceof BaseMachineBlockEntity menuProvider) {
                 if (menuProvider.getMachineData() != null) {
                     player.openMenu(menuProvider, pos);
+                    return InteractionResult.sidedSuccess(level.isClientSide());
                 }
             }
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return super.useWithoutItem(state, level, pos, player, result);
     }
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.logic.material.Material;
 import com.minecraftmod.meeptech.logic.material.ModMaterials;
 import com.minecraftmod.meeptech.logic.module.ModuleType;
@@ -94,7 +93,7 @@ public class MachineData {
                 uiModules.put(UIModuleType.Energy, heatSource.getEnergyUI());
                 trackedStats.addAll(machineHeatSource.getTrackedStats());
             } else if (attribute instanceof MachineComponent component) {
-                components.put(component, layer.getMaterial());
+                components.put(component, layer.materialId());
             }
             for (int i = 0; i < module.getSubSlotCount(); i++) {
                 constructFromLayer(layer.getSubLayer(i));

@@ -14,7 +14,7 @@ import com.minecraftmod.meeptech.logic.ui.EnergyUIModule;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
 
 public class ModModuleData {
-    public static MachineBase BASE_BASIC = new MachineBase("basic");
+    public static MachineBase BASE_BASIC = new MachineBase("basic", 1);
     
     public static MachineType TYPE_SMELTER = new MachineType("smelter", EnergySourceType.Heat, ModMachineRecipes.SMELTER);
 

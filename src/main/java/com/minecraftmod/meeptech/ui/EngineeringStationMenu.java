@@ -2,7 +2,7 @@ package com.minecraftmod.meeptech.ui;
 
 import java.util.List;
 
-import com.minecraftmod.meeptech.items.MachineConfigData;
+import com.minecraftmod.meeptech.logic.machine.MachineConfigData;
 import com.minecraftmod.meeptech.logic.material.MaterialItemData;
 import com.minecraftmod.meeptech.logic.module.ModuleSlotType;
 import com.minecraftmod.meeptech.logic.module.ModuleType;
@@ -92,7 +92,7 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                 ItemStack input = inputSlot.getItem();
                 ModuleType type = ModuleType.getModuleType(edit);
                 MachineConfigData mainData = (edit.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) ? 
-                edit.get(ModDataComponents.MACHINE_CONFIG_DATA.get()) : type.getEmptyMachineConfigData();
+                    edit.get(ModDataComponents.MACHINE_CONFIG_DATA.get()) : type.getEmptyMachineConfigData();
                 MachineConfigData data = mainData;
                 ModuleSlotType slotType = null;
                 int layer = 0;
@@ -153,6 +153,60 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                                     this.broadcastChanges();
                                     return;
                                 }
+                            }
+                        }
+                    }
+                }
+                break;
+            case EngineeringActionPacket.EngineeringAction.ADD_UPGRADE_SLOT:
+                editSlot = this.getSlot(0);
+                edit = editSlot.getItem();
+                data = edit.get(ModDataComponents.MACHINE_CONFIG_DATA.get());
+                data = MachineConfigData.moveUpgradeSlot(data, path, true);
+                edit = edit.copy();
+                edit.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), data);
+                editSlot.set(edit);
+                this.broadcastChanges();
+                break;
+            case EngineeringActionPacket.EngineeringAction.REMOVE_UPGRADE_SLOT:
+                editSlot = this.getSlot(0);
+                edit = editSlot.getItem();
+                data = edit.get(ModDataComponents.MACHINE_CONFIG_DATA.get());
+                data = MachineConfigData.moveUpgradeSlot(data, path, false);
+                edit = edit.copy();
+                edit.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), data);
+                editSlot.set(edit);
+                this.broadcastChanges();
+                break;
+            case EngineeringActionPacket.EngineeringAction.INSERT_UPGRADE:
+                editSlot = this.getSlot(0);
+                inputSlot = this.getSlot(1);
+                edit = editSlot.getItem();
+                input = inputSlot.getItem();
+                type = ModuleType.getModuleType(edit);
+                mainData = (edit.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) ? 
+                    edit.get(ModDataComponents.MACHINE_CONFIG_DATA.get()) : type.getEmptyMachineConfigData();
+                data = mainData;
+                layer = 0;
+                while (path.size() >= layer) {
+                    if (path.size() > layer) {
+                        type = data.getModuleType();
+                        data = data.getSubLayer(path.get(layer));
+                        layer++;
+                    } else {
+                        if (data == null && !input.isEmpty()) {
+                            slotType = type.getUpgradeType();
+                            if (ModuleType.itemFitsSlotType(input, slotType) && input.getCount() >= edit.getCount()) {
+                                ModuleType inputModuleType = ModuleType.getModuleType(input);
+                                inputSlot.remove(edit.getCount());
+                                if (inputModuleType != null) {
+                                    mainData = MachineConfigData.changeSubLayer(mainData, path, inputModuleType.getEmptyMachineConfigData());
+                                }
+                                edit = edit.copy();
+                                edit.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), mainData);
+                                editSlot.set(edit);
+                                this.broadcastChanges();
+                                return;
                             }
                         }
                     }

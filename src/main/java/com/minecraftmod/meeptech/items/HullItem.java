@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.minecraftmod.meeptech.logic.machine.HeatSource;
 import com.minecraftmod.meeptech.logic.machine.MachineAttribute;
+import com.minecraftmod.meeptech.logic.machine.MachineConfigData;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
 import com.minecraftmod.meeptech.logic.material.MaterialItemData;
 import com.minecraftmod.meeptech.logic.module.ModModuleTypes;

@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
+import com.minecraftmod.meeptech.logic.machine.MachineBase;
+
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 
@@ -12,6 +14,7 @@ public class Material {
     private HashMap<MaterialForm, ItemLike> forms = new HashMap<>();
     private HashMap<MaterialForm, String> formTextures = new HashMap<>();
     private List<MaterialForm> generatedForms;
+    private MachineBase hullBase;
 
     private Double thermalConductivity;
     private Double thermalResistance;
@@ -55,7 +58,12 @@ public class Material {
     public String getTranslationKey() {
         return "meeptech.material." + id;
     }
-
+    public void setHullBase(MachineBase base) {
+        this.hullBase = base;
+    }
+    public MachineBase getHullBase() {
+        return hullBase;
+    }
     public Double getThermalConductivity() {
         if (thermalConductivity != null) return thermalConductivity;
         if (thermalResistance != null) return 1 / thermalResistance;

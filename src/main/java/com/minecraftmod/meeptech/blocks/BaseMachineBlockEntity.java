@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-import com.minecraftmod.meeptech.items.MachineConfigData;
 import com.minecraftmod.meeptech.logic.machine.EnergySourceType;
 import com.minecraftmod.meeptech.logic.machine.HeatSource;
 import com.minecraftmod.meeptech.logic.machine.MachineAttribute;
+import com.minecraftmod.meeptech.logic.machine.MachineConfigData;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
 import com.minecraftmod.meeptech.logic.recipe.MachineHeatRecipe;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipe;

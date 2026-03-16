@@ -23,6 +23,9 @@ public record EngineeringActionPacket(EngineeringAction action, List<Integer> pa
     }
     public enum EngineeringAction {
         INSERT,
-        EXTRACT
+        EXTRACT,
+        ADD_UPGRADE_SLOT,
+        REMOVE_UPGRADE_SLOT,
+        INSERT_UPGRADE
     }
 }

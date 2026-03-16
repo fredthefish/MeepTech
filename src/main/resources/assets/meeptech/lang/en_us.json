@@ -54,6 +54,11 @@
   "meeptech.ui.engineering_station.extract": "Right click to extract.",
   "meeptech.ui.engineering_station.select": "Left click to select.",
   "meeptech.ui.engineering_station.deselect": "Left click to deselect.",
+  "meeptech.ui.engineering_station.insert_upgrade": "Left click to insert upgrade.",
+  "meeptech.ui.engineering_station.extract_upgrade": "Right click to extract upgrade.",
+  "meeptech.ui.engineering_station.add_upgrade_slot": "Left click to add upgrade slot.",
+  "meeptech.ui.engineering_station.remove_upgrade_slot": "Right click to remove upgrade slot.",
+  "meeptech.ui.engineering_station.upgrade_slots_left": "Upgrade slots left: ",
 
   "tag.item.meeptech.ingots": "Ingots",
   "tag.item.meeptech.boxes": "Boxes",

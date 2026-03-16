@@ -3,8 +3,7 @@ package com.minecraftmod.meeptech.registries;
 import java.util.function.Supplier;
 
 import com.minecraftmod.meeptech.MeepTech;
-// import com.minecraftmod.meeptech.items.BlueprintData;
-import com.minecraftmod.meeptech.items.MachineConfigData;
+import com.minecraftmod.meeptech.logic.machine.MachineConfigData;
 
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;

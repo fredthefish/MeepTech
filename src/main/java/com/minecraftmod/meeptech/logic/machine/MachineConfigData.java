@@ -1,9 +1,8 @@
-package com.minecraftmod.meeptech.items;
+package com.minecraftmod.meeptech.logic.machine;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.minecraftmod.meeptech.logic.machine.MachineData;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
 import com.minecraftmod.meeptech.logic.material.ModMaterials;
 import com.minecraftmod.meeptech.logic.module.ModModuleTypes;
@@ -16,15 +15,16 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
 
-public record MachineConfigData(String moduleSlotType, String moduleId, String materialId, List<MachineConfigData> subLayers) {
-    public static final MachineConfigData EMPTY = new MachineConfigData("", "", "", new ArrayList<>());
+public record MachineConfigData(String moduleSlotType, String moduleId, String materialId, int upgradeSlots, List<MachineConfigData> subLayers) {
+    public static final MachineConfigData EMPTY = new MachineConfigData("", "", "", 0, new ArrayList<>());
 
     public static final Codec<MachineConfigData> CODEC = Codec.recursive("MachineConfigLayerData", self -> 
         RecordCodecBuilder.create(instance -> instance.group(
             Codec.STRING.optionalFieldOf("moduleSlotType", "").forGetter(MachineConfigData::moduleSlotType),
             Codec.STRING.optionalFieldOf("itemId", "").forGetter(MachineConfigData::moduleId),
             Codec.STRING.optionalFieldOf("materialId", "").forGetter(MachineConfigData::materialId),
-            self.listOf().fieldOf("subLayers").forGetter(MachineConfigData::subLayers)
+            Codec.INT.optionalFieldOf("upgradeSlots", 0).forGetter(MachineConfigData::upgradeSlots),
+            self.listOf().optionalFieldOf("subLayers", new ArrayList<>()).forGetter(MachineConfigData::subLayers)
         ).apply(instance, MachineConfigData::new)));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, MachineConfigData> STREAM_CODEC = ByteBufCodecs.fromCodecWithRegistries(CODEC);
@@ -32,9 +32,6 @@ public record MachineConfigData(String moduleSlotType, String moduleId, String m
         if (!moduleId.isEmpty()) return ModModuleTypes.getModuleType(moduleId);
         else if (!moduleSlotType.isEmpty() && !materialId.isEmpty()) return ModModuleTypes.getModuleType(moduleSlotType);
         return null;
-    }
-    public String getMaterial() {
-        return materialId;
     }
     public MachineConfigData getSubLayer(int index) {
         if (subLayers.size() > index) {
@@ -46,13 +43,33 @@ public record MachineConfigData(String moduleSlotType, String moduleId, String m
         ArrayList<MachineConfigData> newSubLayers = new ArrayList<>(original.subLayers);
         int index = path.get(0);
         if (path.size() == 1) {
-            newSubLayers.set(index, subLayer);
-            return new MachineConfigData(original.moduleSlotType, original.moduleId, original.materialId, newSubLayers);
+            if (newSubLayers.size() > index) newSubLayers.set(index, subLayer);
+            else newSubLayers.add(subLayer);
+            return new MachineConfigData(original.moduleSlotType, original.moduleId, original.materialId, original.upgradeSlots, newSubLayers);
         } else {
             MachineConfigData oldSubLayer = original.getSubLayer(index);
             MachineConfigData newSubLayer = changeSubLayer(oldSubLayer, path.subList(1, path.size()), subLayer);
             newSubLayers.set(index, newSubLayer);
-            return new MachineConfigData(original.moduleSlotType, original.moduleId, original.materialId, newSubLayers);
+            return new MachineConfigData(original.moduleSlotType, original.moduleId, original.materialId, original.upgradeSlots, newSubLayers);
+        }
+    }
+    public static MachineConfigData moveUpgradeSlot(MachineConfigData original, List<Integer> path, boolean add) {
+        MachineConfigData updated = moveUpgradeSlotRecursive(original, path, add);
+        return new MachineConfigData(updated.moduleSlotType, updated.moduleId, updated.materialId, updated.upgradeSlots + (add ? -1 : 1), updated.subLayers);
+    }
+    private static MachineConfigData moveUpgradeSlotRecursive(MachineConfigData original, List<Integer> path, boolean add) {
+        ArrayList<MachineConfigData> newSubLayers = new ArrayList<>(original.subLayers);
+        int index = path.get(0);
+        if (path.size() == 1) {
+            MachineConfigData subLayer = newSubLayers.get(index);
+            newSubLayers.set(index, 
+                new MachineConfigData(subLayer.moduleSlotType, subLayer.moduleId, subLayer.materialId, subLayer.upgradeSlots + (add ? 1 : -1), subLayer.subLayers));
+            return new MachineConfigData(original.moduleSlotType, original.moduleId, original.materialId, original.upgradeSlots, newSubLayers);
+        } else {
+            MachineConfigData oldSubLayer = original.getSubLayer(index);
+            MachineConfigData newSubLayer = moveUpgradeSlotRecursive(oldSubLayer, path.subList(1, path.size()), add);
+            newSubLayers.set(index, newSubLayer);
+            return new MachineConfigData(original.moduleSlotType, original.moduleId, original.materialId, original.upgradeSlots, newSubLayers);
         }
     }
     public void setSubLayerCount(int count) {

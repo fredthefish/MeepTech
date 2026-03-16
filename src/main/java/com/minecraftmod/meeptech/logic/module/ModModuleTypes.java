@@ -13,12 +13,17 @@ public class ModModuleTypes {
     public static final ModuleSlotType SLOT_HEATING_CORE = addModuleSlotType(new ModuleSlotType("heating_core"));
     public static final ModuleSlotType SLOT_FIREBOX = addModuleSlotType(new ModuleSlotType("firebox_slot"));
 
+    public static final ModuleSlotType UPGRADE_SLOT_MACHINE_CORE = addModuleSlotType(new ModuleSlotType("upgrade_machine_core"));
+    public static final ModuleSlotType UPGRADE_SLOT_HEATING_CORE = addModuleSlotType(new ModuleSlotType("upgrade_machine_core"));
+
     public static final ModuleType MACHINE_CORE_SMELTER = addModuleType(
-        new ModuleType("machine_core_smelter", SLOT_MACHINE_CORE, ModModuleData.TYPE_SMELTER));
+        new ModuleType("machine_core_smelter", SLOT_MACHINE_CORE, ModModuleData.TYPE_SMELTER, UPGRADE_SLOT_MACHINE_CORE));
     public static final ModuleType HEATING_CORE_SOLID_FUEL = addModuleType(
-        new ModuleType("heating_core_solid_fuel", SLOT_HEATING_CORE, ModModuleData.HEAT_SOURCE_SOLID_FUEL));
+        new ModuleType("heating_core_solid_fuel", SLOT_HEATING_CORE, ModModuleData.HEAT_SOURCE_SOLID_FUEL, UPGRADE_SLOT_HEATING_CORE));
     public static final ModuleType FIREBOX_SLOT = addModuleType(
-        new ModuleType("firebox_slot", SLOT_FIREBOX, ModModuleData.COMPONENT_FIREBOX));
+        new ModuleType("firebox_slot", SLOT_FIREBOX, ModModuleData.COMPONENT_FIREBOX, null));
+    public static final ModuleType MACHINE_CORE_UPGRADE_EXAMPLE = 
+        addModuleType(new ModuleType("upgrade_machine_core_example", UPGRADE_SLOT_MACHINE_CORE, null, null)); //TODO
 
     public static ModuleType addModuleType(ModuleType type) {
         MODULE_TYPES.add(type);

@@ -4,7 +4,6 @@ import com.minecraftmod.meeptech.blocks.BaseMachineBlock;
 import com.minecraftmod.meeptech.logic.material.Material;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
 import com.minecraftmod.meeptech.logic.material.ModMaterials;
-import com.minecraftmod.meeptech.logic.module.ModModuleData;
 import com.minecraftmod.meeptech.logic.module.ModModuleTypes;
 import com.minecraftmod.meeptech.logic.module.ModuleType;
 import com.minecraftmod.meeptech.registries.ModBlocks;
@@ -33,7 +32,7 @@ public class MaterialItems {
                         .sound(SoundType.METAL)), false);
                     ModBlocks.HULL_BLOCKS.put(material, hullBlock);
                     generatedItem = ModBlocks.registerBlockHullItem(generatedId, hullBlock);
-                    ModuleType hullModule = ModModuleTypes.addModuleType(new ModuleType(generatedId, ModModuleTypes.SLOT_MACHINE_BASE, ModModuleData.BASE_BASIC));
+                    ModuleType hullModule = ModModuleTypes.addModuleType(new ModuleType(generatedId, ModModuleTypes.SLOT_MACHINE_BASE, material.getHullBase(), null));
                     hullModule.addSubSlot("machine_core", ModModuleTypes.SLOT_MACHINE_CORE);
                     hullModule.setAssociatedItem(generatedItem);
                 }

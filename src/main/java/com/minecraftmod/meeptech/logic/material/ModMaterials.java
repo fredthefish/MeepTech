@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.minecraftmod.meeptech.logic.module.ModModuleData;
+
 import net.minecraft.world.item.Items;
 
 public class ModMaterials {
@@ -32,6 +34,7 @@ public class ModMaterials {
         IRON.setForm(INGOT, Items.IRON_INGOT);
         IRON.setGeneratedForms(List.of(PLATE, BOX, HULL));
         IRON.setFormTexture(HULL, "metal");
+        IRON.setHullBase(ModModuleData.BASE_BASIC);
         IRON.setColor(0xFFd8d8d8);
         IRON.setThermalConductivity(60);
         IRON.setMeltingPoint(1800);
@@ -41,6 +44,7 @@ public class ModMaterials {
         BRICK.setGeneratedForms(List.of(PLATE, BOX, HULL));
         BRICK.setFormTexture(PLATE, "rough_plate");
         BRICK.setFormTexture(HULL, "brick");
+        BRICK.setHullBase(ModModuleData.BASE_BASIC);
         BRICK.setColor(0xFFb75a40);
         BRICK.setThermalConductivity(1);
         BRICK.setMeltingPoint(1800);
@@ -49,6 +53,7 @@ public class ModMaterials {
         COPPER.setForm(INGOT, Items.COPPER_INGOT);
         COPPER.setGeneratedForms(List.of(PLATE, BOX, HULL));
         COPPER.setFormTexture(HULL, "metal");
+        COPPER.setHullBase(ModModuleData.BASE_BASIC);
         COPPER.setColor(0xFFe77c56);
         COPPER.setThermalConductivity(400);
         COPPER.setMeltingPoint(1350);
