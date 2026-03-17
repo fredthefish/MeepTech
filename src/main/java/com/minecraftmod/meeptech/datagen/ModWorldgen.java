@@ -8,6 +8,7 @@ import com.minecraftmod.meeptech.blocks.OreStoneType;
 import com.minecraftmod.meeptech.features.ModOreVeins;
 import com.minecraftmod.meeptech.features.OreVein;
 import com.minecraftmod.meeptech.features.OreVeinConfig;
+import com.minecraftmod.meeptech.features.VeinCountPlacement;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
 import com.minecraftmod.meeptech.registries.ModFeatures;
 
@@ -68,11 +69,13 @@ public class ModWorldgen {
     public static void bootstrapPlacedFeatures(BootstrapContext<PlacedFeature> context) {
         HolderGetter<ConfiguredFeature<?, ?>> configured = context.lookup(Registries.CONFIGURED_FEATURE);
 
-        for (OreVein vein : ModOreVeins.ORE_VEINS) {
+        for (int i = 0; i < ModOreVeins.ORE_VEINS.size(); i++) {
+            OreVein vein = ModOreVeins.ORE_VEINS.get(i);
             context.register(placedOreKey(vein), new PlacedFeature(configured.getOrThrow(configuredOreKey(vein)), List.of(
                 CountPlacement.of(1), 
                 InSquarePlacement.spread(),
                 HeightRangePlacement.uniform(VerticalAnchor.absolute(vein.getMinY()), VerticalAnchor.absolute(vein.getMaxY())),
+                new VeinCountPlacement(i),
                 BiomeFilter.biome()))
             );
         }

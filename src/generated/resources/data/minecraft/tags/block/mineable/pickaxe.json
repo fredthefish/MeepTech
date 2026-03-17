@@ -2,11 +2,11 @@
   "values": [
     "meeptech:material_workstation",
     "meeptech:engineering_station",
+    "meeptech:copper_hull",
     "meeptech:iron_hull",
     "meeptech:brick_hull",
-    "meeptech:copper_hull",
-    "meeptech:iron_ore",
+    "meeptech:coal_ore",
     "meeptech:copper_ore",
-    "meeptech:coal_ore"
+    "meeptech:iron_ore"
   ]
 }

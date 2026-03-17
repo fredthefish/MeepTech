@@ -16,9 +16,13 @@
           "absolute": 128
         },
         "min_inclusive": {
-          "absolute": -48
+          "absolute": -64
         }
       }
+    },
+    {
+      "type": "meeptech:vein_count",
+      "vein_index": 0
     },
     {
       "type": "minecraft:biome"

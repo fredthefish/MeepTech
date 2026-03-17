@@ -10,6 +10,7 @@ import com.minecraftmod.meeptech.registries.ModDataComponents;
 import com.minecraftmod.meeptech.registries.ModFeatures;
 import com.minecraftmod.meeptech.registries.ModItems;
 import com.minecraftmod.meeptech.registries.ModMenus;
+import com.minecraftmod.meeptech.registries.ModPlacementModifiers;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
@@ -31,6 +32,7 @@ public class MeepTech {
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         ModFeatures.FEATURES.register(modEventBus);
         ModDataComponents.DATA_COMPONENTS.register(modEventBus);
+        ModPlacementModifiers.PLACEMENT_MODIFIERS.register(modEventBus);
         guideme.Guide.builder(ResourceLocation.fromNamespaceAndPath(MODID, "manual")).build();
     }
 }
