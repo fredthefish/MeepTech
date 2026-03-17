@@ -3,10 +3,12 @@ package com.minecraftmod.meeptech.registries;
 import java.util.function.Supplier;
 
 import com.minecraftmod.meeptech.MeepTech;
+import com.minecraftmod.meeptech.blocks.OreStoneType;
 import com.minecraftmod.meeptech.logic.machine.MachineConfigData;
 
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModDataComponents {
@@ -17,4 +19,8 @@ public class ModDataComponents {
     public static final Supplier<DataComponentType<MachineConfigData>> MACHINE_CONFIG_DATA =
         DATA_COMPONENTS.registerComponentType("machine_config_data", builder -> 
         builder.persistent(MachineConfigData.CODEC).networkSynchronized(MachineConfigData.STREAM_CODEC));
+
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<OreStoneType>> STONE_TYPE = 
+        DATA_COMPONENTS.register("stone_type", () -> 
+        DataComponentType.<OreStoneType>builder().persistent(OreStoneType.CODEC).networkSynchronized(OreStoneType.STREAM_CODEC).build());
 }

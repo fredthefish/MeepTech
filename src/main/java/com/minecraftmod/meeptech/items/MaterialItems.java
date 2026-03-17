@@ -10,7 +10,6 @@ import com.minecraftmod.meeptech.logic.module.ModuleType;
 import com.minecraftmod.meeptech.registries.ModBlocks;
 import com.minecraftmod.meeptech.registries.ModItems;
 
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -39,7 +38,7 @@ public class MaterialItems {
                         .strength(3f, 3f)
                         .requiresCorrectToolForDrops()
                         .sound(SoundType.STONE)), false);
-                    generatedItem = ModItems.ITEMS.register(generatedId, () -> new BlockItem(oreBlock.get(), new Item.Properties()));
+                    generatedItem = ModItems.ITEMS.register(generatedId, () -> new OreItem(oreBlock.get(), new Item.Properties()));
                     ModBlocks.ORE_BLOCKS.put(material, oreBlock);
                 } else {
                     generatedItem = ModItems.ITEMS.register(generatedId, () -> new MaterialItem(new Item.Properties()));

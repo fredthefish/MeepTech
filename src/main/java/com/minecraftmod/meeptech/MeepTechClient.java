@@ -4,19 +4,23 @@ import java.util.function.Supplier;
 
 import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
 import com.minecraftmod.meeptech.blocks.MachineBlockEntityRenderer;
+import com.minecraftmod.meeptech.blocks.OreStoneType;
 import com.minecraftmod.meeptech.items.MachineItemClientExtension;
 import com.minecraftmod.meeptech.logic.material.Material;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
 import com.minecraftmod.meeptech.logic.material.ModMaterials;
 import com.minecraftmod.meeptech.registries.ModBlockEntities;
 import com.minecraftmod.meeptech.registries.ModBlocks;
+import com.minecraftmod.meeptech.registries.ModDataComponents;
 import com.minecraftmod.meeptech.registries.ModItems;
 import com.minecraftmod.meeptech.registries.ModMenus;
 import com.minecraftmod.meeptech.ui.EngineeringStationScreen;
 import com.minecraftmod.meeptech.ui.MaterialWorkstationScreen;
 import com.minecraftmod.meeptech.ui.MachineScreen;
 
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
@@ -27,6 +31,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
@@ -66,6 +71,14 @@ public class MeepTechClient {
                     return 0xFFFFFFFF;
                 }, ModBlocks.HULL_BLOCKS.get(material).get());
             }
+            if (material.hasForm(MaterialForm.ORE)) {
+                event.register((BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) -> {
+                    if (tintIndex == 0) {
+                        return material.getColor();
+                    }
+                    return 0xFFFFFFFF;
+                }, ModBlocks.ORE_BLOCKS.get(material).get());
+            }
         }
     }
     @SubscribeEvent
@@ -82,5 +95,21 @@ public class MeepTechClient {
             if (tintIndex == 1) return 0xFFBBBBBB;
             return 0xFFFFFFFF;
         }, ModItems.HAMMER.get());
+    }
+    @SubscribeEvent
+    public static void registerItemProperties(FMLClientSetupEvent event) {
+        for (DeferredBlock<Block> oreBlock : ModBlocks.ORE_BLOCKS.values()) {
+            ItemProperties.register(oreBlock.get().asItem(),
+                ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "stone_type"),
+                (stack, level, entity, seed) -> {
+                    OreStoneType stoneType = stack.get(ModDataComponents.STONE_TYPE.get());
+                    if (stoneType == null) return 0f;
+                    return switch (stoneType) {
+                        case STONE     -> 0f;
+                        case DEEPSLATE -> 1f;
+                    };
+                }
+            );
+        }
     }
 }

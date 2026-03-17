@@ -48,6 +48,7 @@ public class ModMaterials {
         COPPER.setForm(MaterialForm.RAW, Items.RAW_COPPER);
         COPPER.setGeneratedForms(List.of(MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL, MaterialForm.ORE));
         COPPER.setFormTexture(MaterialForm.HULL, "metal");
+        COPPER.setFormTexture(MaterialForm.ORE, "copper");
         COPPER.setHullBase(ModModuleData.BASE_BASIC);
         COPPER.setColor(0xFFe77c56);
         COPPER.setThermalConductivity(400);

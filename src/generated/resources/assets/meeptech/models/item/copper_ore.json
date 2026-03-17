@@ -1,0 +1,11 @@
+{
+  "parent": "meeptech:block/copper_ore_stone",
+  "overrides": [
+    {
+      "model": "meeptech:block/copper_ore_deepslate",
+      "predicate": {
+        "meeptech:stone_type": 1.0
+      }
+    }
+  ]
+}

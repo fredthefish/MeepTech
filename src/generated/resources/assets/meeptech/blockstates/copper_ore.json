@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "stone_type=deepslate": {
+      "model": "meeptech:block/copper_ore_deepslate"
+    },
+    "stone_type=stone": {
+      "model": "meeptech:block/copper_ore_stone"
+    }
+  }
+}

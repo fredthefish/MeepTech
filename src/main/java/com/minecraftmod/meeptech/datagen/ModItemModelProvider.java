@@ -1,6 +1,7 @@
 package com.minecraftmod.meeptech.datagen;
 
 import com.minecraftmod.meeptech.MeepTech;
+import com.minecraftmod.meeptech.blocks.OreStoneType;
 import com.minecraftmod.meeptech.items.ModuleItems;
 import com.minecraftmod.meeptech.logic.material.Material;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
@@ -14,8 +15,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.ModelFile.UncheckedModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
@@ -56,6 +59,15 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .transform(ItemDisplayContext.FIRST_PERSON_LEFT_HAND)
                     .rotation(0, 225, 0).translation(0, 0, 0).scale(0.4f, 0.4f, 0.4f).end()
             .end();
+        }
+        for (DeferredBlock<Block> oreBlock : ModBlocks.ORE_BLOCKS.values()) {
+            String id = oreBlock.getId().getPath();
+            ItemModelBuilder builder = getBuilder(id).parent(new UncheckedModelFile(modLoc("block/" + id + "_stone")));
+            for (OreStoneType stoneType : OreStoneType.values()) {
+                if (stoneType == OreStoneType.STONE) continue;
+                builder.override().predicate(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "stone_type"), stoneType.ordinal())
+                    .model(new UncheckedModelFile(modLoc("block/" + id + "_" + stoneType.getSerializedName()))).end();
+            }
         }
         withExistingParent(ModItems.HAMMER.getId().getPath(), mcLoc("item/generated"))
             .texture("layer0", ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "item/handle_hammer"))

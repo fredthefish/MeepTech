@@ -8,7 +8,7 @@ import com.minecraftmod.meeptech.blocks.OreStoneType;
 import com.minecraftmod.meeptech.features.ModOreVeins;
 import com.minecraftmod.meeptech.features.OreVein;
 import com.minecraftmod.meeptech.features.OreVeinConfig;
-import com.minecraftmod.meeptech.registries.ModBlocks;
+import com.minecraftmod.meeptech.logic.material.MaterialForm;
 import com.minecraftmod.meeptech.registries.ModFeatures;
 
 import net.minecraft.core.HolderGetter;
@@ -21,6 +21,7 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -47,12 +48,16 @@ public class ModWorldgen {
     public static void bootstrapConfiguredFeatures(BootstrapContext<ConfiguredFeature<?,?>> context) {
         for (OreVein vein : ModOreVeins.ORE_VEINS) {
             List<OreVeinConfig.WeightedTarget> targets = vein.getEntries().stream().map(entry -> {
-                Block oreBlock = ModBlocks.ORE_BLOCKS.get(entry.material()).get();
+                HolderGetter<Block> blocks = context.lookup(Registries.BLOCK);
+                BlockState oreStoneState = blocks
+                    .getOrThrow(ResourceKey.create(Registries.BLOCK, 
+                        ResourceLocation.fromNamespaceAndPath(MeepTech.MODID,entry.material().getId() + "_" + MaterialForm.ORE.getId())))
+                    .value().defaultBlockState().setValue(OreBlock.STONE_TYPE, OreStoneType.STONE);
                 return new OreVeinConfig.WeightedTarget(entry.weight(), List.of(
                     new OreVeinConfig.TargetOreBlockState(Blocks.STONE.defaultBlockState(), 
-                        oreBlock.defaultBlockState().setValue(OreBlock.STONE_TYPE, OreStoneType.STONE)),
+                        oreStoneState.setValue(OreBlock.STONE_TYPE, OreStoneType.STONE)),
                     new OreVeinConfig.TargetOreBlockState(Blocks.DEEPSLATE.defaultBlockState(),
-                        oreBlock.defaultBlockState().setValue(OreBlock.STONE_TYPE, OreStoneType.DEEPSLATE))));
+                        oreStoneState.setValue(OreBlock.STONE_TYPE, OreStoneType.DEEPSLATE))));
             }).toList();
             context.register(configuredOreKey(vein), new ConfiguredFeature<>(ModFeatures.ORE_VEIN.get(), 
                 new OreVeinConfig(targets, vein.getHorizontalRadius(), vein.getVerticalRadius(), vein.getDensity())));

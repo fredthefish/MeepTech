@@ -1,6 +1,11 @@
 package com.minecraftmod.meeptech.datagen;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.minecraftmod.meeptech.MeepTech;
+import com.minecraftmod.meeptech.blocks.OreBlock;
+import com.minecraftmod.meeptech.blocks.OreStoneType;
 import com.minecraftmod.meeptech.logic.material.Material;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
 import com.minecraftmod.meeptech.registries.ModBlocks;
@@ -10,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -33,6 +39,24 @@ public class ModBlockStateProvider extends BlockStateProvider {
         }
         customTopBottomBlock(ModBlocks.MATERIAL_WORKSTATION, "material_workstation");
         customTopBottomBlock(ModBlocks.ENGINEERING_STATION, "engineering_station");
+        for (Material oreMaterial : ModBlocks.ORE_BLOCKS.keySet()) {
+            DeferredBlock<Block> oreBlock = ModBlocks.ORE_BLOCKS.get(oreMaterial);
+            ResourceLocation textureLocation = ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/ore/" + oreMaterial.getFormTexture(MaterialForm.ORE));
+            Map<OreStoneType, ModelFile> models = new HashMap<>();
+            for (OreStoneType stoneType : OreStoneType.values()) {
+                ResourceLocation stoneTexture = switch (stoneType) {
+                    case STONE -> mcLoc("block/stone");
+                    case DEEPSLATE -> mcLoc("block/deepslate");
+                };
+                ModelFile model = models().withExistingParent(oreBlock.getId().getPath() + "_" + stoneType.getSerializedName(), modLoc("block/ore_template"))
+                    .texture("stone", stoneTexture).texture("overlay", textureLocation);
+                models.put(stoneType, model);
+            }
+            getVariantBuilder(oreBlock.get()).forAllStates(state -> {
+                OreStoneType stoneType = state.getValue(OreBlock.STONE_TYPE);
+                return ConfiguredModel.builder().modelFile(models.get(stoneType)).build();
+            });
+        }
     }
     private void customTopBottomBlock(DeferredBlock<Block> block, String path) {
         String name = block.getId().getPath();
