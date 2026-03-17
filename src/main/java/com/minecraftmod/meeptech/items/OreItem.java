@@ -19,7 +19,7 @@ public class OreItem extends BlockItem {
         OreStoneType stoneType = stack.get(ModDataComponents.STONE_TYPE.get());
         MaterialItemData itemData = new MaterialItemData(stack.getItem());
         MutableComponent component = Component.translatable(itemData.getMaterial().getTranslationKey());
-        if (stoneType != OreStoneType.STONE) 
+        if (stoneType != OreStoneType.STONE && stoneType != null) 
             component.append(Component.literal(" ").append(Component.translatable("meeptech.stoneType." + stoneType.getSerializedName())));
         component.append(" Ore");
         return component;

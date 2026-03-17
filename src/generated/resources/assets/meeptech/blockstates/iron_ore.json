@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "stone_type=andesite": {
+      "model": "meeptech:block/iron_ore_andesite"
+    },
+    "stone_type=deepslate": {
+      "model": "meeptech:block/iron_ore_deepslate"
+    },
+    "stone_type=diorite": {
+      "model": "meeptech:block/iron_ore_diorite"
+    },
+    "stone_type=granite": {
+      "model": "meeptech:block/iron_ore_granite"
+    },
+    "stone_type=stone": {
+      "model": "meeptech:block/iron_ore_stone"
+    },
+    "stone_type=tuff": {
+      "model": "meeptech:block/iron_ore_tuff"
+    }
+  }
+}

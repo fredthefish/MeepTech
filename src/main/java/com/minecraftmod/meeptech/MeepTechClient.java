@@ -104,10 +104,7 @@ public class MeepTechClient {
                 (stack, level, entity, seed) -> {
                     OreStoneType stoneType = stack.get(ModDataComponents.STONE_TYPE.get());
                     if (stoneType == null) return 0f;
-                    return switch (stoneType) {
-                        case STONE     -> 0f;
-                        case DEEPSLATE -> 1f;
-                    };
+                    return stoneType.ordinal();
                 }
             );
         }

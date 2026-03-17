@@ -26,8 +26,10 @@ public class ModMaterials {
 
         //Iron
         IRON.setForm(MaterialForm.INGOT, Items.IRON_INGOT);
-        IRON.setGeneratedForms(List.of(MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL));
+        IRON.setForm(MaterialForm.RAW, Items.RAW_IRON);
+        IRON.setGeneratedForms(List.of(MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL, MaterialForm.ORE));
         IRON.setFormTexture(MaterialForm.HULL, "metal");
+        IRON.setFormTexture(MaterialForm.ORE, "iron");
         IRON.setHullBase(ModModuleData.BASE_BASIC);
         IRON.setColor(0xFFe8e8e8);
         IRON.setThermalConductivity(60);

@@ -1,5 +1,5 @@
 {
-  "feature": "meeptech:copper_vein_ore_vein",
+  "feature": "meeptech:iron_ore_vein",
   "placement": [
     {
       "type": "minecraft:count",
@@ -16,7 +16,7 @@
           "absolute": 128
         },
         "min_inclusive": {
-          "absolute": 0
+          "absolute": -48
         }
       }
     },

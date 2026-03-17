@@ -9,7 +9,11 @@ import net.minecraft.util.StringRepresentable;
 
 public enum OreStoneType implements StringRepresentable {
     STONE("stone"),
-    DEEPSLATE("deepslate");
+    DEEPSLATE("deepslate"),
+    GRANITE("granite"),
+    DIORITE("diorite"),
+    ANDESITE("andesite"),
+    TUFF("tuff");
 
     private final String name;
     OreStoneType(String name) {

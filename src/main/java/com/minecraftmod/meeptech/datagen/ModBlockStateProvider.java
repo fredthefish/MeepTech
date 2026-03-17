@@ -47,6 +47,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 ResourceLocation stoneTexture = switch (stoneType) {
                     case STONE -> mcLoc("block/stone");
                     case DEEPSLATE -> mcLoc("block/deepslate");
+                    case GRANITE -> mcLoc("block/granite");
+                    case DIORITE -> mcLoc("block/diorite");
+                    case ANDESITE -> mcLoc("block/andesite");
+                    case TUFF -> mcLoc("block/tuff");
                 };
                 ModelFile model = models().withExistingParent(oreBlock.getId().getPath() + "_" + stoneType.getSerializedName(), modLoc("block/ore_template"))
                     .texture("stone", stoneTexture).texture("overlay", textureLocation);

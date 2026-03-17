@@ -54,10 +54,12 @@ public class ModWorldgen {
                         ResourceLocation.fromNamespaceAndPath(MeepTech.MODID,entry.material().getId() + "_" + MaterialForm.ORE.getId())))
                     .value().defaultBlockState().setValue(OreBlock.STONE_TYPE, OreStoneType.STONE);
                 return new OreVeinConfig.WeightedTarget(entry.weight(), List.of(
-                    new OreVeinConfig.TargetOreBlockState(Blocks.STONE.defaultBlockState(), 
-                        oreStoneState.setValue(OreBlock.STONE_TYPE, OreStoneType.STONE)),
-                    new OreVeinConfig.TargetOreBlockState(Blocks.DEEPSLATE.defaultBlockState(),
-                        oreStoneState.setValue(OreBlock.STONE_TYPE, OreStoneType.DEEPSLATE))));
+                    new OreVeinConfig.TargetOreBlockState(Blocks.STONE.defaultBlockState(), oreStoneState.setValue(OreBlock.STONE_TYPE, OreStoneType.STONE)),
+                    new OreVeinConfig.TargetOreBlockState(Blocks.DEEPSLATE.defaultBlockState(), oreStoneState.setValue(OreBlock.STONE_TYPE, OreStoneType.DEEPSLATE)),
+                    new OreVeinConfig.TargetOreBlockState(Blocks.GRANITE.defaultBlockState(), oreStoneState.setValue(OreBlock.STONE_TYPE, OreStoneType.GRANITE)),
+                    new OreVeinConfig.TargetOreBlockState(Blocks.DIORITE.defaultBlockState(), oreStoneState.setValue(OreBlock.STONE_TYPE, OreStoneType.DIORITE)),
+                    new OreVeinConfig.TargetOreBlockState(Blocks.ANDESITE.defaultBlockState(), oreStoneState.setValue(OreBlock.STONE_TYPE, OreStoneType.ANDESITE)),
+                    new OreVeinConfig.TargetOreBlockState(Blocks.TUFF.defaultBlockState(), oreStoneState.setValue(OreBlock.STONE_TYPE, OreStoneType.TUFF))));
             }).toList();
             context.register(configuredOreKey(vein), new ConfiguredFeature<>(ModFeatures.ORE_VEIN.get(), 
                 new OreVeinConfig(targets, vein.getHorizontalRadius(), vein.getVerticalRadius(), vein.getDensity())));

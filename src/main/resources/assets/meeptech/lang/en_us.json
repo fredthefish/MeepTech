@@ -62,6 +62,10 @@
   "meeptech.ui.engineering_station.upgrade_slots_left": "Upgrade slots left: ",
 
   "meeptech.stoneType.deepslate": "Deepslate",
+  "meeptech.stoneType.granite": "Granite",
+  "meeptech.stoneType.diorite": "Diorite",
+  "meeptech.stoneType.andesite": "Andesite",
+  "meeptech.stoneType.tuff": "Tuff",
 
   "tag.item.meeptech.ingots": "Ingots",
   "tag.item.meeptech.boxes": "Boxes",

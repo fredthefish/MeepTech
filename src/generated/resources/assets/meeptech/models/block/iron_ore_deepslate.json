@@ -1,0 +1,7 @@
+{
+  "parent": "meeptech:block/ore_template",
+  "textures": {
+    "overlay": "meeptech:block/ore/iron",
+    "stone": "minecraft:block/deepslate"
+  }
+}

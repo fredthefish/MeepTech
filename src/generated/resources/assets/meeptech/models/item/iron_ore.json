@@ -1,32 +1,32 @@
 {
-  "parent": "meeptech:block/copper_ore_stone",
+  "parent": "meeptech:block/iron_ore_stone",
   "overrides": [
     {
-      "model": "meeptech:block/copper_ore_deepslate",
+      "model": "meeptech:block/iron_ore_deepslate",
       "predicate": {
         "meeptech:stone_type": 1.0
       }
     },
     {
-      "model": "meeptech:block/copper_ore_granite",
+      "model": "meeptech:block/iron_ore_granite",
       "predicate": {
         "meeptech:stone_type": 2.0
       }
     },
     {
-      "model": "meeptech:block/copper_ore_diorite",
+      "model": "meeptech:block/iron_ore_diorite",
       "predicate": {
         "meeptech:stone_type": 3.0
       }
     },
     {
-      "model": "meeptech:block/copper_ore_andesite",
+      "model": "meeptech:block/iron_ore_andesite",
       "predicate": {
         "meeptech:stone_type": 4.0
       }
     },
     {
-      "model": "meeptech:block/copper_ore_tuff",
+      "model": "meeptech:block/iron_ore_tuff",
       "predicate": {
         "meeptech:stone_type": 5.0
       }
