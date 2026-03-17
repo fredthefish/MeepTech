@@ -3,6 +3,8 @@ package com.minecraftmod.meeptech.datagen;
 import java.util.Set;
 
 import com.minecraftmod.meeptech.MeepTech;
+import com.minecraftmod.meeptech.logic.material.Material;
+import com.minecraftmod.meeptech.logic.material.MaterialForm;
 import com.minecraftmod.meeptech.registries.ModBlocks;
 import com.minecraftmod.meeptech.registries.ModDataComponents;
 
@@ -26,6 +28,10 @@ public class ModBlockLootTables extends BlockLootSubProvider {
             this.add(hullBlock.get(), block -> this.createSingleItemTable(block)
                 .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
                 .include(ModDataComponents.MACHINE_CONFIG_DATA.get())));
+        }
+        for (Material material : ModBlocks.ORE_BLOCKS.keySet()) {
+            DeferredBlock<Block> oreBlock = ModBlocks.ORE_BLOCKS.get(material);
+            this.add(oreBlock.get(), block -> this.createOreDrop(block, material.getForm(MaterialForm.RAW)));
         }
     }
     @Override

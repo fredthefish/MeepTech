@@ -9,9 +9,9 @@ public class MaterialWorkstationRecipes {
     private Material material;
 
     public static final MaterialWorkstationRecipe[] RECIPES = new MaterialWorkstationRecipe[] {
-        new MaterialWorkstationRecipe(ModMaterials.INGOT, ModMaterials.PLATE, 1, 1),
-        new MaterialWorkstationRecipe(ModMaterials.PLATE, ModMaterials.BOX, 6, 1),
-        new MaterialWorkstationRecipe(ModMaterials.PLATE, ModMaterials.HULL, 8, 1)
+        new MaterialWorkstationRecipe(MaterialForm.INGOT, MaterialForm.PLATE, 1, 1),
+        new MaterialWorkstationRecipe(MaterialForm.PLATE, MaterialForm.BOX, 6, 1),
+        new MaterialWorkstationRecipe(MaterialForm.PLATE, MaterialForm.HULL, 8, 1)
     };
     
     public static final MaterialWorkstationRecipes getAvailableForms(ItemStack input) {

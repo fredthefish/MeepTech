@@ -25,5 +25,8 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
         for (DeferredBlock<Block> hullBlock : ModBlocks.HULL_BLOCKS.values()) {
             tag(BlockTags.MINEABLE_WITH_PICKAXE).add(hullBlock.get());
         }
+        for (DeferredBlock<Block> oreBlock : ModBlocks.ORE_BLOCKS.values()) {
+            tag(BlockTags.MINEABLE_WITH_PICKAXE).add(oreBlock.get());
+        }
     }
 }

@@ -23,18 +23,17 @@ public class ModBlocks {
     public static final HashMap<DeferredBlock<Block>, DeferredItem<Item>> BLOCK_ITEMS = new HashMap<>();
 
     public static final HashMap<Material, DeferredBlock<Block>> HULL_BLOCKS = new HashMap<>();
+    public static final HashMap<Material, DeferredBlock<Block>> ORE_BLOCKS = new HashMap<>();
 
     public static final DeferredBlock<Block> MATERIAL_WORKSTATION = registerBlock("material_workstation",
         () -> new MaterialWorkstationBlock(BlockBehaviour.Properties.of()
             .strength(5f, 6f)
-            .destroyTime(5)
             .requiresCorrectToolForDrops()
             .sound(SoundType.STONE)
     ));
     public static final DeferredBlock<Block> ENGINEERING_STATION = registerBlock("engineering_station", 
         () -> new EngineeringStationBlock(BlockBehaviour.Properties.of()
             .strength(2f, 6f)
-            .destroyTime(2f)
             .requiresCorrectToolForDrops()
             .sound(SoundType.STONE)
     ));

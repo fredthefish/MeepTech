@@ -58,7 +58,7 @@ public class MeepTechClient {
     @SubscribeEvent
     public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
         for (Material material : ModMaterials.MATERIALS) {
-            if (material.hasForm(ModMaterials.HULL)) {
+            if (material.hasForm(MaterialForm.HULL)) {
                 event.register((BlockState state, BlockAndTintGetter level, BlockPos pos, int tintIndex) -> {
                     if (tintIndex == 0) {
                         return material.getColor();

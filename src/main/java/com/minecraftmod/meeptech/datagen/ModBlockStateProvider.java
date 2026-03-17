@@ -2,7 +2,7 @@ package com.minecraftmod.meeptech.datagen;
 
 import com.minecraftmod.meeptech.MeepTech;
 import com.minecraftmod.meeptech.logic.material.Material;
-import com.minecraftmod.meeptech.logic.material.ModMaterials;
+import com.minecraftmod.meeptech.logic.material.MaterialForm;
 import com.minecraftmod.meeptech.registries.ModBlocks;
 
 import net.minecraft.data.PackOutput;
@@ -22,7 +22,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         for (Material hullMaterial : ModBlocks.HULL_BLOCKS.keySet()) {
             DeferredBlock<Block> hullBlock = ModBlocks.HULL_BLOCKS.get(hullMaterial);
-            ResourceLocation textureLocation = ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/hull/" + hullMaterial.getFormTexture(ModMaterials.HULL));
+            ResourceLocation textureLocation = ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/hull/" + hullMaterial.getFormTexture(MaterialForm.HULL));
             BlockModelBuilder model = models().withExistingParent(hullBlock.getId().getPath(), mcLoc("block/block"))
                 .texture("all", textureLocation)
                 .texture("particle", textureLocation);

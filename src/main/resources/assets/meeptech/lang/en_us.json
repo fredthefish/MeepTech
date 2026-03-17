@@ -66,6 +66,8 @@
   "tag.item.meeptech.hulls": "Hulls",
   "tag.item.meeptech.plates": "Plates",
   "tag.item.meeptech.hammers": "Hammers",
+  "tag.item.meeptech.ores": "Ores",
+  "tag.item.meeptech.raw_ores": "Raw Ores",
 
   "emi.category.meeptech.smelter": "Smelter",
   "emi.category.meeptech.solid_fuel": "Solid Fuel Heating Core",

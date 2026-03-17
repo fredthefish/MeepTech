@@ -2,7 +2,7 @@ package com.minecraftmod.meeptech.logic.module;
 
 import java.util.ArrayList;
 
-import com.minecraftmod.meeptech.logic.material.ModMaterials;
+import com.minecraftmod.meeptech.logic.material.MaterialForm;
 
 public class ModModuleTypes {
     public static final ArrayList<ModuleSlotType> MODULE_SLOT_TYPES = new ArrayList<>();
@@ -46,12 +46,12 @@ public class ModModuleTypes {
         return null;
     }
     public static void initializeModuleTypes() {
-        SLOT_MACHINE_BASE.setMaterialForm(ModMaterials.HULL);
-        SLOT_FIREBOX.setMaterialForm(ModMaterials.BOX);
+        SLOT_MACHINE_BASE.setMaterialForm(MaterialForm.HULL);
+        SLOT_FIREBOX.setMaterialForm(MaterialForm.BOX);
         UPGRADE_SLOT_SMELTER.addSubType(UPGRADE_SLOT_MACHINE_CORE);
 
         MACHINE_CORE_SMELTER.addSubSlot("heating_core", SLOT_HEATING_CORE);
         HEATING_CORE_SOLID_FUEL.addSubSlot("firebox_slot", SLOT_FIREBOX);
-        FIREBOX_SLOT.setMaterialForm(ModMaterials.BOX);
+        FIREBOX_SLOT.setMaterialForm(MaterialForm.BOX);
     }
 }

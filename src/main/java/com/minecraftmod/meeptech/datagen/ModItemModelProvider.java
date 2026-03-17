@@ -28,12 +28,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.MANUAL.get());
         for (Material material : ModMaterials.MATERIALS) {
             for (MaterialForm form : material.getGeneratedForms()) {
-                if (form != ModMaterials.HULL) {
-                    Item item = material.getForm(form);
-                    String itemName = BuiltInRegistries.ITEM.getKey(item).getPath();
-                    withExistingParent(itemName, mcLoc("item/generated"))
-                        .texture("layer0", ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "item/material/" + material.getFormTexture(form)));
-                }
+                if (form == MaterialForm.HULL) continue;
+                if (form == MaterialForm.ORE) continue;
+                Item item = material.getForm(form);
+                String itemName = BuiltInRegistries.ITEM.getKey(item).getPath();
+                withExistingParent(itemName, mcLoc("item/generated"))
+                    .texture("layer0", ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "item/material/" + material.getFormTexture(form)));
             }
         }
         for (String modulePath : ModuleItems.MODULE_ITEMS.keySet()) {

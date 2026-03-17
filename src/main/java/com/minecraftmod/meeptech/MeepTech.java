@@ -7,6 +7,7 @@ import com.minecraftmod.meeptech.registries.ModBlockEntities;
 import com.minecraftmod.meeptech.registries.ModBlocks;
 import com.minecraftmod.meeptech.registries.ModCreativeTabs;
 import com.minecraftmod.meeptech.registries.ModDataComponents;
+import com.minecraftmod.meeptech.registries.ModFeatures;
 import com.minecraftmod.meeptech.registries.ModItems;
 import com.minecraftmod.meeptech.registries.ModMenus;
 
@@ -28,6 +29,7 @@ public class MeepTech {
         ModBlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
         ModMenus.MENUS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
+        ModFeatures.FEATURES.register(modEventBus);
         ModDataComponents.DATA_COMPONENTS.register(modEventBus);
         guideme.Guide.builder(ResourceLocation.fromNamespaceAndPath(MODID, "manual")).build();
     }
