@@ -15,6 +15,7 @@ public class Material {
     private HashMap<MaterialForm, String> formTextures = new HashMap<>();
     private List<MaterialForm> generatedForms;
     private MachineBase hullBase;
+    private int oreMultiplier = 1;
 
     private Double thermalConductivity;
     private Double thermalResistance;
@@ -49,6 +50,9 @@ public class Material {
     public boolean hasForm(MaterialForm form) {
         return forms.containsKey(form);
     }
+    public boolean hasGeneratedForm(MaterialForm form) {
+        return generatedForms.contains(form);
+    }
     public HashMap<MaterialForm, ItemLike> getForms() {
         return new HashMap<MaterialForm, ItemLike>(forms);
     }
@@ -63,6 +67,12 @@ public class Material {
     }
     public MachineBase getHullBase() {
         return hullBase;
+    }
+    public void setOreMultiplier(int multiplier) {
+        oreMultiplier = multiplier;
+    }
+    public int getOreMultiplier() {
+        return oreMultiplier;
     }
     public Double getThermalConductivity() {
         if (thermalConductivity != null) return thermalConductivity;

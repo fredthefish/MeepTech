@@ -63,6 +63,7 @@ public class ModMaterials {
         COAL.setFormTexture(MaterialForm.ORE, "coal");
         COAL.setFormTexture(MaterialForm.RAW, "fine_raw_ore");
         COAL.setColor(0xFF2d2d2d);
+        COAL.setOreMultiplier(2);
     }
 
     public static Material addMaterial(String materialId) {
