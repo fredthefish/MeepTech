@@ -8,6 +8,7 @@ import com.minecraftmod.meeptech.logic.machine.MachineBase;
 import com.minecraftmod.meeptech.logic.machine.MachineComponent;
 import com.minecraftmod.meeptech.logic.machine.MachineStat;
 import com.minecraftmod.meeptech.logic.machine.MachineType;
+import com.minecraftmod.meeptech.logic.machine.MachineUpgrade;
 import com.minecraftmod.meeptech.logic.material.MaterialStat;
 import com.minecraftmod.meeptech.logic.recipe.ModMachineRecipes;
 import com.minecraftmod.meeptech.logic.ui.EnergyUIModule;
@@ -27,9 +28,11 @@ public class ModModuleData {
         (stat) -> {
             if (stat instanceof Double meltingPoint) {
                 double baseTemperature = 1000;
-                double rate = (meltingPoint * meltingPoint) / (baseTemperature * baseTemperature);
+                double rate = meltingPoint / baseTemperature;
                 return rate;
             }
             return null;
     });
+
+    public static MachineUpgrade UPGRADE_BLASTING = new MachineUpgrade("blasting");
 }

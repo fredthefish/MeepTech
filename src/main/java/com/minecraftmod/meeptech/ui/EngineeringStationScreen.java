@@ -181,7 +181,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                             int slotX = startX + (type.getSubSlotCount() + i) * (slotSize + 1);
                             int slotY = startY + layer * (slotSize + titleHeight);
                             guiGraphics.fill(slotX, slotY, slotX + slotSize, slotY + slotSize, 0xFF373737);
-                            guiGraphics.fill(slotX + 1, slotY + 1, slotX + slotSize - 1, slotY + slotSize - 1, 0xFF618161);
+                            guiGraphics.fill(slotX + 1, slotY + 1, slotX + slotSize - 1, slotY + slotSize - 1, 0xFF617161);
                             if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
                                 guiGraphics.fill(slotX + 1, slotY + 1, slotX + slotSize - 1, slotY + slotSize - 1, 0x80FFFFFF); 
                             }

@@ -35,7 +35,7 @@ public class ModMaterials {
         IRON.setGeneratedForms(List.of(PLATE, BOX, HULL));
         IRON.setFormTexture(HULL, "metal");
         IRON.setHullBase(ModModuleData.BASE_BASIC);
-        IRON.setColor(0xFFd8d8d8);
+        IRON.setColor(0xFFe8e8e8);
         IRON.setThermalConductivity(60);
         IRON.setMeltingPoint(1800);
         IRON.setTensileStrength(600);

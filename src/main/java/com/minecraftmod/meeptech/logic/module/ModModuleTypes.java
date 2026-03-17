@@ -22,8 +22,8 @@ public class ModModuleTypes {
         new ModuleType("heating_core_solid_fuel", SLOT_HEATING_CORE, ModModuleData.HEAT_SOURCE_SOLID_FUEL, null));
     public static final ModuleType FIREBOX_SLOT = addModuleType(
         new ModuleType("firebox_slot", SLOT_FIREBOX, ModModuleData.COMPONENT_FIREBOX, null));
-    public static final ModuleType MACHINE_CORE_UPGRADE_EXAMPLE = 
-        addModuleType(new ModuleType("upgrade_smelter_blasting", UPGRADE_SLOT_SMELTER, null, null));
+    public static final ModuleType UPGRADE_SMELTER_BLASTING = 
+        addModuleType(new ModuleType("upgrade_smelter_blasting", UPGRADE_SLOT_SMELTER, ModModuleData.UPGRADE_BLASTING, null));
 
     public static ModuleType addModuleType(ModuleType type) {
         MODULE_TYPES.add(type);

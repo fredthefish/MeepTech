@@ -2,24 +2,16 @@ package com.minecraftmod.meeptech.blocks;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
-import com.minecraftmod.meeptech.logic.machine.EnergySourceType;
-import com.minecraftmod.meeptech.logic.machine.HeatSource;
-import com.minecraftmod.meeptech.logic.machine.MachineAttribute;
 import com.minecraftmod.meeptech.logic.machine.MachineConfigData;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
-import com.minecraftmod.meeptech.logic.recipe.MachineHeatRecipe;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipe;
-import com.minecraftmod.meeptech.logic.recipe.MachineRecipeHeatType;
-import com.minecraftmod.meeptech.logic.recipe.MachineRecipeStandardType;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipeType;
-import com.minecraftmod.meeptech.logic.recipe.MachineStandardRecipe;
 import com.minecraftmod.meeptech.logic.recipe.ModMachineRecipes;
 import com.minecraftmod.meeptech.logic.ui.SlotType;
 import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
-import com.minecraftmod.meeptech.logic.ui.UIModuleType;
+import com.minecraftmod.meeptech.machines.MachineProcessor;
 import com.minecraftmod.meeptech.network.MachineContainerData;
 import com.minecraftmod.meeptech.registries.ModBlockEntities;
 import com.minecraftmod.meeptech.ui.MachineMenu;
@@ -32,7 +24,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.MenuProvider;
@@ -40,12 +31,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
-import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -204,118 +190,7 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
                 }
             }
         } else {
-            MachineData data = entity.getMachineData();
-            if (data == null) return;
-            boolean updated = false;
-            if (data.getType().getEnergySource() == EnergySourceType.Heat) {
-                int progress = entity.getMachineInt(TrackedStat.RecipeProgress);
-                int maxProgress = entity.getMachineInt(TrackedStat.RecipeMaxProgress);
-                int heat = entity.getMachineInt(TrackedStat.HeatLeft);
-                int fuelSlot = data.getStartSlot(UIModuleType.Energy);
-                if (heat > 0) {
-                    heat--;
-                    updated = true;
-                } else if (heat == 0) {
-                    MachineAttribute energyType = data.getEnergySource();
-                    if (energyType instanceof HeatSource heatSource) {
-                        MachineRecipeHeatType heatType = heatSource.getHeatType();
-                        if (heatType == ModMachineRecipes.SOLID_FUEL) {
-                            ItemStack fuelStack = entity.inventory.getStackInSlot(fuelSlot);
-                            if (!fuelStack.isEmpty() && heatType.validInput(fuelStack)) {
-                                MachineHeatRecipe recipe = heatType.getRecipe(fuelStack);
-                                if (recipe != null) {
-                                    entity.inventory.extractItem(fuelSlot, 1, false);
-                                    heat += (int)((double)recipe.getHeat() / data.getMachineSpeed());
-                                    updated = true;
-                                } else if (fuelStack.getBurnTime(RecipeType.SMELTING) > 0) {
-                                    heat += (int)((double)fuelStack.getBurnTime(RecipeType.SMELTING) / data.getMachineSpeed());
-                                    entity.inventory.extractItem(fuelSlot, 1, false);
-                                    updated = true;
-                                }
-                            }
-                        }
-                    }
-                }
-                int inputSlot = data.getStartSlot(UIModuleType.Input);
-                MachineRecipeType recipeType = data.getType().getRecipeType();
-                if (recipeType != null && recipeType instanceof MachineRecipeStandardType standardType) {
-                    int outputSlot = data.getStartSlot(UIModuleType.Output);
-                    if (heat > 0) {
-                        ItemStack input = entity.getInventory().getStackInSlot(inputSlot).copy();
-                        if (maxProgress == 0 && standardType.validInput(input)) {
-                            MachineStandardRecipe recipe = standardType.getRecipe(List.of(input));
-                            ItemStack output = entity.inventory.getStackInSlot(outputSlot).copy();
-                            ItemStack recipeOutput = recipe.getOutputItems().getFirst().copy();
-                            int inputCount = recipe.inputsForConsumption(List.of(input)).get(input.getItem());
-                            if (output.isEmpty() 
-                            || (output.getItem().equals(recipeOutput.getItem()) && output.getCount() <= output.getMaxStackSize() + recipeOutput.getCount())) {
-                                entity.inventory.extractItem(inputSlot, inputCount, false);
-                                entity.setCurrentRecipe(recipe);
-                                maxProgress = (int)((double)recipe.getTime() / data.getMachineSpeed());
-                                updated = true;
-                            }
-                        } else if (maxProgress == 0 && standardType == ModMachineRecipes.SMELTER) {
-                            SingleRecipeInput recipeInput = new SingleRecipeInput(input);
-                            Optional<RecipeHolder<SmeltingRecipe>> furnaceRecipe = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, recipeInput, level);
-                            if (furnaceRecipe.isPresent()) {
-                                SmeltingRecipe recipe = furnaceRecipe.get().value();
-                                ItemStack output = entity.inventory.getStackInSlot(outputSlot).copy();
-                                ItemStack recipeOutput = recipe.getResultItem(level.registryAccess()).copy();
-                                if (output.isEmpty() 
-                                || (output.getItem().equals(recipeOutput.getItem()) && output.getCount() <= output.getMaxStackSize() + recipeOutput.getCount())) {
-                                    entity.inventory.extractItem(inputSlot, 1, false);
-                                    entity.setCurrentVanillaRecipe(furnaceRecipe.get());
-                                    maxProgress = (int)((double)recipe.getCookingTime() / data.getMachineSpeed());
-                                    updated = true;
-                                }
-                            }
-                        }
-                    }
-                    if (maxProgress > 0) {
-                        if (heat > 0) {
-                            progress++;
-                            updated = true;
-                        } else if (progress > 0) {
-                            progress -= 10;
-                            if (progress < 0) progress = 0;
-                            updated = true;
-                        }
-                    }
-                    if (progress >= maxProgress && maxProgress > 0) {
-                        MachineRecipe recipe = entity.getCurrentRecipe();
-                        if (recipe != null) {
-                            if (recipe instanceof MachineStandardRecipe standardRecipe) {
-                                ItemStack recipeOutput = standardRecipe.getOutputItems().getFirst().copy();
-                                entity.inventory.insertItem(outputSlot, recipeOutput, false);
-                                progress = 0;
-                                maxProgress = 0;
-                                entity.setCurrentRecipe(null);
-                                updated = true;
-                            }
-                        } else {
-                            String vanillaRecipeId = entity.getCurrentVanillaRecipe();
-                            Optional<RecipeHolder<?>> vanillaRecipeHolder = level.getRecipeManager().byKey(ResourceLocation.parse(vanillaRecipeId));
-                            if (vanillaRecipeHolder.isPresent()) {
-                                Recipe<?> vanillaRecipe = vanillaRecipeHolder.get().value();
-                                if (vanillaRecipe.getType() == RecipeType.SMELTING) {
-                                    ItemStack recipeOutput = vanillaRecipe.getResultItem(level.registryAccess()).copy();
-                                    entity.inventory.insertItem(outputSlot, recipeOutput, false);
-                                    progress = 0;
-                                    maxProgress = 0;
-                                    entity.setCurrentVanillaRecipe(null);
-                                    updated = true;
-                                }
-                            }
-                        }
-                    }
-                }
-                if (updated) {
-                    entity.setMachineInt(TrackedStat.HeatLeft, heat);
-                    entity.setMachineInt(TrackedStat.RecipeProgress, progress);
-                    entity.setMachineInt(TrackedStat.RecipeMaxProgress, maxProgress);
-                    entity.setChanged();
-                }
-            }
+            MachineProcessor.serverTick(level, entity);
         }
     }
     public SlotType getSlotType(int slotIndex) {

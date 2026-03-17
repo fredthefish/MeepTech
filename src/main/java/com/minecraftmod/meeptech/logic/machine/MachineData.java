@@ -22,6 +22,7 @@ public class MachineData {
     private HashMap<MachineStat, Object> stats = new HashMap<>();
     private HashMap<UIModuleType, UIModule> uiModules = new HashMap<>();
     private ArrayList<TrackedStat> trackedStats = new ArrayList<>();
+    private ArrayList<MachineUpgrade> upgrades = new ArrayList<>();
     public MachineData(MachineConfigData data) {
         constructFromLayer(data);
         for (MachineComponent component : components.keySet()) {
@@ -76,6 +77,9 @@ public class MachineData {
     public List<TrackedStat> getTrackedStats() {
         return trackedStats;
     }
+    public boolean containsUpgrade(MachineUpgrade upgrade) {
+        return upgrades.contains(upgrade);
+    }
     public void constructFromLayer(MachineConfigData layer) {
         ModuleType module = layer.getModuleType();
         if (module != null) {
@@ -94,8 +98,10 @@ public class MachineData {
                 trackedStats.addAll(machineHeatSource.getTrackedStats());
             } else if (attribute instanceof MachineComponent component) {
                 components.put(component, layer.materialId());
+            } else if (attribute instanceof MachineUpgrade upgrade) {
+                upgrades.add(upgrade);
             }
-            for (int i = 0; i < module.getSubSlotCount(); i++) {
+            for (int i = 0; i < module.getSubSlotCount() + layer.upgradeSlots(); i++) {
                 constructFromLayer(layer.getSubLayer(i));
             }
         }

@@ -10,6 +10,7 @@ categories:
 - Mechanics
 ---
 # Engineering Station
+<ItemImage id="meeptech:engineering_station" />
 The material workstation is used to design machines.
 ## Crafting
 The material workstation is crafted with 5 bricks and 4 blank modules. Blank modules are crafted with 1 cobblestone and 1 paper.

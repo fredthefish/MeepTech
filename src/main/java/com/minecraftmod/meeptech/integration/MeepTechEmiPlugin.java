@@ -69,5 +69,7 @@ public class MeepTechEmiPlugin implements EmiPlugin {
         }
         registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, 
             EmiIngredient.of(Ingredient.of(ModuleItems.MODULES.get(ModModuleTypes.MACHINE_CORE_SMELTER.getId()))));
+        registry.addWorkstation(VanillaEmiRecipeCategories.BLASTING, 
+            EmiIngredient.of(Ingredient.of(ModuleItems.MODULES.get(ModModuleTypes.UPGRADE_SMELTER_BLASTING.getId()))));
     }
 }

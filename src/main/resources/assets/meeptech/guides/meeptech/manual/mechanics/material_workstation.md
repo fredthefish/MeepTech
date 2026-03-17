@@ -10,6 +10,7 @@ categories:
 - Mechanics
 ---
 # Material Workstation
+<ItemImage id="meeptech:material_workstation" />
 The material workstation is used in the early game to turn items into different [Forms](forms.md) of the same [Material](materials.md). For example, it can turn an iron ingot into an iron plate.
 ## Crafting
 First, make a hammer, which is crafted in this format:
