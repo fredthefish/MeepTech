@@ -13,10 +13,9 @@ public class MaterialItem extends Item {
     @Override
     public Component getName(ItemStack stack) {
         MaterialItemData itemData = new MaterialItemData(stack.getItem());
-        if (itemData.getForm().getPrefix()) 
-            return Component.translatable(itemData.getMaterial().getTranslationKey()).append(" ")
-            .append(Component.translatable(itemData.getForm().getTranslationKey()));
-        else return Component.translatable(itemData.getForm().getTranslationKey()).append(" ")
+        if (itemData.getForm().getPrefix()) return Component.translatable(itemData.getForm().getTranslationKey()).append(" ")
             .append(Component.translatable(itemData.getMaterial().getTranslationKey()));
+        else return Component.translatable(itemData.getMaterial().getTranslationKey()).append(" ")
+            .append(Component.translatable(itemData.getForm().getTranslationKey()));
     }
 }

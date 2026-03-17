@@ -2,7 +2,7 @@
   "type": "meeptech:ore_vein",
   "config": {
     "density": 0.75,
-    "height": 32,
+    "height": 16,
     "targets": [
       {
         "targets": [

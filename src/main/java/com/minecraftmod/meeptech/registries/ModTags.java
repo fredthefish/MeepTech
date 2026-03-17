@@ -11,7 +11,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
 public class ModTags {
-    public static final TagKey<Item> INGOT_TAG = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "ingots"));
+    public static final TagKey<Item> BASE_TAG = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "base_materials"));
     public static final TagKey<Item> PLATE_TAG = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "plates"));
     public static final TagKey<Item> HULL_TAG = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "hulls"));
     public static final TagKey<Item> BOX_TAG = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "boxes"));
@@ -21,7 +21,7 @@ public class ModTags {
     public static final TagKey<Item> HAMMER_TAG = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "hammers"));
 
     public static final HashMap<MaterialForm, TagKey<Item>> FORM_TAGS = new HashMap<>() {{
-        put(MaterialForm.INGOT, INGOT_TAG);
+        put(MaterialForm.BASE, BASE_TAG);
         put(MaterialForm.PLATE, PLATE_TAG);
         put(MaterialForm.HULL, HULL_TAG);
         put(MaterialForm.BOX, BOX_TAG);

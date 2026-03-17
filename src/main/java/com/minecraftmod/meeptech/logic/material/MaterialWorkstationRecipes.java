@@ -9,7 +9,7 @@ public class MaterialWorkstationRecipes {
     private Material material;
 
     public static final MaterialWorkstationRecipe[] RECIPES = new MaterialWorkstationRecipe[] {
-        new MaterialWorkstationRecipe(MaterialForm.INGOT, MaterialForm.PLATE, 1, 1),
+        new MaterialWorkstationRecipe(MaterialForm.BASE, MaterialForm.PLATE, 1, 1),
         new MaterialWorkstationRecipe(MaterialForm.PLATE, MaterialForm.BOX, 6, 1),
         new MaterialWorkstationRecipe(MaterialForm.PLATE, MaterialForm.HULL, 8, 1)
     };

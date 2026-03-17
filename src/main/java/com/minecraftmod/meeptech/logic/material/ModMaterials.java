@@ -16,6 +16,7 @@ public class ModMaterials {
     public static final Material IRON = addMaterial("iron");
     public static final Material BRICK = addMaterial("brick");
     public static final Material COPPER = addMaterial("copper");
+    public static final Material COAL = addMaterial("coal");
 
     public static void initializeMaterials() {
         MATERIAL_STAT_TRANSLATION_KEYS.put(MaterialStat.ThermalConductivity, "meeptech.materialStat.thermal_conductivity");
@@ -25,7 +26,7 @@ public class ModMaterials {
         MATERIAL_STAT_TRANSLATION_KEYS.put(MaterialStat.TensileStrength, "meeptech.materialStat.tensile_strength");
 
         //Iron
-        IRON.setForm(MaterialForm.INGOT, Items.IRON_INGOT);
+        IRON.setForm(MaterialForm.BASE, Items.IRON_INGOT);
         IRON.setForm(MaterialForm.RAW, Items.RAW_IRON);
         IRON.setGeneratedForms(List.of(MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL, MaterialForm.ORE));
         IRON.setFormTexture(MaterialForm.HULL, "metal");
@@ -36,7 +37,7 @@ public class ModMaterials {
         IRON.setMeltingPoint(1800);
         IRON.setTensileStrength(600);
 
-        BRICK.setForm(MaterialForm.INGOT, Items.BRICK);
+        BRICK.setForm(MaterialForm.BASE, Items.BRICK);
         BRICK.setGeneratedForms(List.of(MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL));
         BRICK.setFormTexture(MaterialForm.PLATE, "rough_plate");
         BRICK.setFormTexture(MaterialForm.HULL, "brick");
@@ -46,7 +47,7 @@ public class ModMaterials {
         BRICK.setMeltingPoint(1800);
         BRICK.setTensileStrength(5);
 
-        COPPER.setForm(MaterialForm.INGOT, Items.COPPER_INGOT);
+        COPPER.setForm(MaterialForm.BASE, Items.COPPER_INGOT);
         COPPER.setForm(MaterialForm.RAW, Items.RAW_COPPER);
         COPPER.setGeneratedForms(List.of(MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL, MaterialForm.ORE));
         COPPER.setFormTexture(MaterialForm.HULL, "metal");
@@ -56,6 +57,12 @@ public class ModMaterials {
         COPPER.setThermalConductivity(400);
         COPPER.setMeltingPoint(1350);
         COPPER.setTensileStrength(400);
+
+        COAL.setForm(MaterialForm.BASE, Items.COAL);
+        COAL.setGeneratedForms(List.of(MaterialForm.ORE, MaterialForm.RAW));
+        COAL.setFormTexture(MaterialForm.ORE, "coal");
+        COAL.setFormTexture(MaterialForm.RAW, "fine_raw_ore");
+        COAL.setColor(0xFF2d2d2d);
     }
 
     public static Material addMaterial(String materialId) {

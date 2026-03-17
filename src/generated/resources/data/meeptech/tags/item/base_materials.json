@@ -2,6 +2,7 @@
   "values": [
     "minecraft:iron_ingot",
     "minecraft:brick",
-    "minecraft:copper_ingot"
+    "minecraft:copper_ingot",
+    "minecraft:coal"
   ]
 }

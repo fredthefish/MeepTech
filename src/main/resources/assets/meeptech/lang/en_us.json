@@ -24,12 +24,14 @@
   "meeptech.material.iron": "Iron",
   "meeptech.material.brick": "Brick",
   "meeptech.material.copper": "Copper",
+  "meeptech.material.coal": "Coal",
 
   "meeptech.materialForm.base": "Base Form",
   "meeptech.materialForm.plate": "Plate",
   "meeptech.materialForm.large_plate": "Large Plate",
   "meeptech.materialForm.box": "Box",
   "meeptech.materialForm.hull": "Hull",
+  "meeptech.materialForm.raw": "Raw",
 
   "meeptech.materialStat.thermal_conductivity": "Thermal Conductivity",
   "meeptech.materialStat.thermal_resistance": "Thermal Resistance",
@@ -67,7 +69,7 @@
   "meeptech.stoneType.andesite": "Andesite",
   "meeptech.stoneType.tuff": "Tuff",
 
-  "tag.item.meeptech.ingots": "Ingots",
+  "tag.item.meeptech.base_materials": "Base Materials",
   "tag.item.meeptech.boxes": "Boxes",
   "tag.item.meeptech.hulls": "Hulls",
   "tag.item.meeptech.plates": "Plates",
