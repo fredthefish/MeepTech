@@ -26,6 +26,7 @@
   "meeptech.material.copper": "Copper",
   "meeptech.material.coal": "Coal",
   "meeptech.material.tin": "Tin",
+  "meeptech.material.bronze": "Bronze",
 
   "meeptech.materialForm.base": "Base Form",
   "meeptech.materialForm.plate": "Plate",
@@ -34,6 +35,8 @@
   "meeptech.materialForm.hull": "Hull",
   "meeptech.materialForm.raw": "Raw",
   "meeptech.materialForm.ore": "Ore",
+
+  "meeptech.materialForm.ingot": "Ingot",
 
   "meeptech.materialStat.thermal_conductivity": "Thermal Conductivity",
   "meeptech.materialStat.thermal_resistance": "Thermal Resistance",

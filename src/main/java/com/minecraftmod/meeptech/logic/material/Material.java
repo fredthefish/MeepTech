@@ -13,6 +13,7 @@ public class Material {
     private String id;
     private HashMap<MaterialForm, ItemLike> forms = new HashMap<>();
     private HashMap<MaterialForm, String> formTextures = new HashMap<>();
+    private HashMap<MaterialForm, String> formTranslationKeys = new HashMap<>();
     private List<MaterialForm> generatedForms;
     private MachineBase hullBase;
     private int oreMultiplier = 1;
@@ -40,6 +41,13 @@ public class Material {
     public String getFormTexture(MaterialForm form) {
         if (formTextures.containsKey(form)) return formTextures.get(form);
         return form.getId();
+    }
+    public void setFormTranslationKey(MaterialForm form, String key) {
+        formTranslationKeys.put(form, key);
+    }
+    public String getFormTranslationKey(MaterialForm form) {
+        if (formTranslationKeys.containsKey(form)) return "meeptech.materialForm." + formTranslationKeys.get(form);
+        return "meeptech.materialForm." + form.getId();
     }
     public void setGeneratedForms(List<MaterialForm> generatedForms) {
         this.generatedForms = generatedForms;

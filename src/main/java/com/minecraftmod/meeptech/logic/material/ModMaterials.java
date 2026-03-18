@@ -18,6 +18,7 @@ public class ModMaterials {
     public static final Material COPPER = addMaterial("copper");
     public static final Material COAL = addMaterial("coal");
     public static final Material TIN = addMaterial("tin");
+    public static final Material BRONZE = addMaterial("bronze");
 
     public static void initializeMaterials() {
         MATERIAL_STAT_TRANSLATION_KEYS.put(MaterialStat.ThermalConductivity, "meeptech.materialStat.thermal_conductivity");
@@ -76,6 +77,15 @@ public class ModMaterials {
         TIN.setThermalConductivity(60);
         TIN.setMeltingPoint(500);
         TIN.setTensileStrength(30);
+
+        BRONZE.setGeneratedForms(List.of(MaterialForm.BASE, MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL));
+        BRONZE.setFormTexture(MaterialForm.BASE, "ingot");
+        BRONZE.setFormTexture(MaterialForm.HULL, "metal");
+        BRONZE.setColor(0xFFcd7f32);
+        BRONZE.setFormTranslationKey(MaterialForm.BASE, "ingot");
+        BRONZE.setThermalConductivity(25);
+        BRONZE.setMeltingPoint(1250);
+        BRONZE.setTensileStrength(600);
     }
 
     public static Material addMaterial(String materialId) {
