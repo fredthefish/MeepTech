@@ -2,6 +2,7 @@
   "values": [
     "meeptech:iron_hull",
     "meeptech:brick_hull",
-    "meeptech:copper_hull"
+    "meeptech:copper_hull",
+    "meeptech:tin_hull"
   ]
 }

@@ -3,6 +3,7 @@
     "minecraft:iron_ingot",
     "minecraft:brick",
     "minecraft:copper_ingot",
-    "minecraft:coal"
+    "minecraft:coal",
+    "meeptech:tin_base"
   ]
 }

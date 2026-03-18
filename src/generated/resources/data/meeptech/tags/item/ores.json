@@ -2,6 +2,7 @@
   "values": [
     "meeptech:iron_ore",
     "meeptech:copper_ore",
-    "meeptech:coal_ore"
+    "meeptech:coal_ore",
+    "meeptech:tin_ore"
   ]
 }

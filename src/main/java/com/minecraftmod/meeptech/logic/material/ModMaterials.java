@@ -17,6 +17,7 @@ public class ModMaterials {
     public static final Material BRICK = addMaterial("brick");
     public static final Material COPPER = addMaterial("copper");
     public static final Material COAL = addMaterial("coal");
+    public static final Material TIN = addMaterial("tin");
 
     public static void initializeMaterials() {
         MATERIAL_STAT_TRANSLATION_KEYS.put(MaterialStat.ThermalConductivity, "meeptech.materialStat.thermal_conductivity");
@@ -30,7 +31,7 @@ public class ModMaterials {
         IRON.setForm(MaterialForm.RAW, Items.RAW_IRON);
         IRON.setGeneratedForms(List.of(MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL, MaterialForm.ORE));
         IRON.setFormTexture(MaterialForm.HULL, "metal");
-        IRON.setFormTexture(MaterialForm.ORE, "iron");
+        IRON.setFormTexture(MaterialForm.ORE, "dull");
         IRON.setHullBase(ModModuleData.BASE_BASIC);
         IRON.setColor(0xFFe8e8e8);
         IRON.setThermalConductivity(60);
@@ -64,6 +65,17 @@ public class ModMaterials {
         COAL.setFormTexture(MaterialForm.RAW, "fine_raw_ore");
         COAL.setColor(0xFF2d2d2d);
         COAL.setOreMultiplier(2);
+
+        TIN.setGeneratedForms(List.of(MaterialForm.BASE, MaterialForm.RAW, MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL, MaterialForm.ORE));
+        TIN.setFormTexture(MaterialForm.BASE, "dull_ingot");
+        TIN.setFormTexture(MaterialForm.RAW, "dull_raw_ore");
+        TIN.setFormTexture(MaterialForm.PLATE, "dull_plate");
+        TIN.setFormTexture(MaterialForm.HULL, "metal");
+        TIN.setFormTexture(MaterialForm.ORE, "dull");
+        TIN.setColor(0xFFa0a1d6);
+        TIN.setThermalConductivity(60);
+        TIN.setMeltingPoint(500);
+        TIN.setTensileStrength(30);
     }
 
     public static Material addMaterial(String materialId) {

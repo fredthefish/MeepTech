@@ -23,7 +23,7 @@ public class ModServerConfig {
             .define("initialized_from_common", false);
         veinRadius = builder.comment("Radius multiplier for ore veins.")
             .defineInRange("vein_radius", () -> 4, 1, 8);
-        veinsPerChunk = builder.comment("Maximum ore veins per chunk.")
+        veinsPerChunk = builder.comment("Maximum ore veins per chunk.", "Set at zero to disable this feature.")
             .defineInRange("veins_per_chunk", () -> 2, 0, 4);
         builder.pop();
     }

@@ -21,7 +21,8 @@ public class OreItem extends BlockItem {
         MutableComponent component = Component.translatable(itemData.getMaterial().getTranslationKey());
         if (stoneType != OreStoneType.STONE && stoneType != null) 
             component.append(Component.literal(" ").append(Component.translatable("meeptech.stoneType." + stoneType.getSerializedName())));
-        component.append(" Ore");
+        component.append(" ");
+        component.append(Component.translatable("meeptech.materialForm.ore"));
         return component;
     }
 }

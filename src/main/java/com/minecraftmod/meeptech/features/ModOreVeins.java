@@ -13,6 +13,8 @@ public class ModOreVeins {
         addOreVein("iron").addOre(ModMaterials.IRON, 1).setData(4, 4, 0.75f, -64, 128);
     public static final OreVein COAL_VEIN = 
         addOreVein("coal").addOre(ModMaterials.COAL, 1).setData(4, 4, 0.75f, -64, 128);
+    public static final OreVein TIN_VEIN = 
+        addOreVein("tin").addOre(ModMaterials.TIN, 1).setData(4, 4, 0.75f, -64, 128);
 
     public static OreVein addOreVein(String id) {
         OreVein vein = new OreVein(id);

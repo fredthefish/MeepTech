@@ -1,0 +1,84 @@
+{
+  "type": "meeptech:ore_vein",
+  "config": {
+    "density": 0.75,
+    "height": 4,
+    "targets": [
+      {
+        "targets": [
+          {
+            "ore": {
+              "Name": "meeptech:tin_ore",
+              "Properties": {
+                "stone_type": "stone"
+              }
+            },
+            "target": {
+              "Name": "minecraft:stone"
+            }
+          },
+          {
+            "ore": {
+              "Name": "meeptech:tin_ore",
+              "Properties": {
+                "stone_type": "deepslate"
+              }
+            },
+            "target": {
+              "Name": "minecraft:deepslate",
+              "Properties": {
+                "axis": "y"
+              }
+            }
+          },
+          {
+            "ore": {
+              "Name": "meeptech:tin_ore",
+              "Properties": {
+                "stone_type": "granite"
+              }
+            },
+            "target": {
+              "Name": "minecraft:granite"
+            }
+          },
+          {
+            "ore": {
+              "Name": "meeptech:tin_ore",
+              "Properties": {
+                "stone_type": "diorite"
+              }
+            },
+            "target": {
+              "Name": "minecraft:diorite"
+            }
+          },
+          {
+            "ore": {
+              "Name": "meeptech:tin_ore",
+              "Properties": {
+                "stone_type": "andesite"
+              }
+            },
+            "target": {
+              "Name": "minecraft:andesite"
+            }
+          },
+          {
+            "ore": {
+              "Name": "meeptech:tin_ore",
+              "Properties": {
+                "stone_type": "tuff"
+              }
+            },
+            "target": {
+              "Name": "minecraft:tuff"
+            }
+          }
+        ],
+        "weight": 1.0
+      }
+    ],
+    "width": 4
+  }
+}

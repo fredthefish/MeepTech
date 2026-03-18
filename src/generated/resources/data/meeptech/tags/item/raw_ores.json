@@ -2,6 +2,7 @@
   "values": [
     "minecraft:raw_iron",
     "minecraft:raw_copper",
-    "meeptech:coal_raw"
+    "meeptech:coal_raw",
+    "meeptech:tin_raw"
   ]
 }
