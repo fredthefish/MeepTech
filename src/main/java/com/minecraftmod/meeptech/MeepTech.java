@@ -5,15 +5,20 @@ import com.minecraftmod.meeptech.items.ModuleItems;
 import com.minecraftmod.meeptech.logic.material.ModMaterials;
 import com.minecraftmod.meeptech.registries.ModBlockEntities;
 import com.minecraftmod.meeptech.registries.ModBlocks;
+import com.minecraftmod.meeptech.registries.ModCommonConfig;
 import com.minecraftmod.meeptech.registries.ModCreativeTabs;
 import com.minecraftmod.meeptech.registries.ModDataComponents;
 import com.minecraftmod.meeptech.registries.ModFeatures;
 import com.minecraftmod.meeptech.registries.ModItems;
 import com.minecraftmod.meeptech.registries.ModMenus;
 import com.minecraftmod.meeptech.registries.ModPlacementModifiers;
+import com.minecraftmod.meeptech.registries.ModServerConfig;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.client.gui.ConfigurationScreen;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.fml.ModContainer;
 import net.minecraft.resources.ResourceLocation;
 
@@ -33,6 +38,9 @@ public class MeepTech {
         ModFeatures.FEATURES.register(modEventBus);
         ModDataComponents.DATA_COMPONENTS.register(modEventBus);
         ModPlacementModifiers.PLACEMENT_MODIFIERS.register(modEventBus);
+        modContainer.registerConfig(ModConfig.Type.COMMON, ModCommonConfig.SPEC);
+        modContainer.registerConfig(ModConfig.Type.SERVER, ModServerConfig.SPEC);
+        modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
         guideme.Guide.builder(ResourceLocation.fromNamespaceAndPath(MODID, "manual")).build();
     }
 }

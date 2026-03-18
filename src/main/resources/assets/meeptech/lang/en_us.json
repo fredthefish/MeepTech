@@ -81,5 +81,12 @@
   "emi.category.meeptech.solid_fuel": "Solid Fuel Heating Core",
   "emi.category.meeptech.material_workstation": "Material Workstation",
 
-  "config.jade.plugin_meeptech.machine_info": "Machine Info"
+  "config.jade.plugin_meeptech.machine_info": "Machine Info",
+
+  "meeptech.configuration.worldgen": "World Generation",
+  "meeptech.configuration.default_vein_radius": "Default Vein Radius",
+  "meeptech.configuration.default_veins_per_chunk": "Default Veins per Chunk",
+  "meeptech.configuration.initialized_from_common": "Initialized from Common",
+  "meeptech.configuration.vein_radius": "Vein Radius",
+  "meeptech.configuration.veins_per_chunk": "Veins per Chunk"
 }

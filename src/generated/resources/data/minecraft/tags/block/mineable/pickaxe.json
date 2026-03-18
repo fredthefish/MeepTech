@@ -5,8 +5,8 @@
     "meeptech:copper_hull",
     "meeptech:brick_hull",
     "meeptech:iron_hull",
-    "meeptech:copper_ore",
     "meeptech:coal_ore",
+    "meeptech:copper_ore",
     "meeptech:iron_ore"
   ]
 }

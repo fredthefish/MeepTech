@@ -2,7 +2,10 @@ package com.minecraftmod.meeptech.features;
 
 import java.util.List;
 
+import com.minecraftmod.meeptech.registries.ModServerConfig;
+
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,17 +22,26 @@ public class OreVeinFeature extends Feature<OreVeinConfig> {
         BlockPos origin = context.origin();
         WorldGenLevel level = context.level();
         OreVeinConfig config = context.config();
-        int xRad = config.getXRad();
-        int yRad = config.getYRad();
+        int radiusScale = ModServerConfig.INSTANCE.veinRadius.get();
+        int xRad = config.getXRad() * radiusScale;
+        int yRad = config.getYRad() * radiusScale;
+        int chunkX = SectionPos.blockToSectionCoord(origin.getX());
+        int chunkZ = SectionPos.blockToSectionCoord(origin.getZ());
+        int minChunkX = SectionPos.sectionToBlockCoord(chunkX);
+        int minChunkZ = SectionPos.sectionToBlockCoord(chunkZ);
+        int maxChunkX = minChunkX + 15;
+        int maxChunkZ = minChunkZ + 15;
+
         float density = config.getDensity();
         boolean placed = false;
-        for (int x = -xRad / 2; x <= xRad / 2; x++) {
-            for (int y = -yRad / 2; y <= yRad / 2; y++) {
-                for (int z = -xRad / 2; z <= xRad / 2; z++) {
+        for (int x = -xRad; x <= xRad; x++) {
+            for (int y = -yRad; y <= yRad; y++) {
+                for (int z = -xRad; z <= xRad; z++) {
                     double dist = ((double)(x*x) / (xRad*xRad)) + ((double)(y*y) / (yRad*yRad)) + ((double)(z*z) / (xRad + xRad));
                     if (dist > 1) continue;
                     if (random.nextFloat() > density) continue;
                     BlockPos pos = origin.offset(x, y, z);
+                    if (pos.getX() < minChunkX || pos.getX() > maxChunkX || pos.getZ() < minChunkZ || pos.getZ() > maxChunkZ) continue;
                     BlockState current = level.getBlockState(pos);
                     OreVeinConfig.WeightedTarget chosen = pickWeighted(config.getTargets(), random);
                     if (chosen == null) continue;
