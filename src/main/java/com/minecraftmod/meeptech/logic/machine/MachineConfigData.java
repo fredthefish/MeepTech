@@ -53,21 +53,39 @@ public record MachineConfigData(String moduleSlotType, String itemId, String mat
             return new MachineConfigData(original.moduleSlotType, original.itemId, original.materialId, original.upgradeSlots, newSubLayers);
         }
     }
-    public static MachineConfigData moveUpgradeSlot(MachineConfigData original, List<Integer> path, boolean add) {
-        MachineConfigData updated = moveUpgradeSlotRecursive(original, path, add);
-        return new MachineConfigData(updated.moduleSlotType, updated.itemId, updated.materialId, updated.upgradeSlots + (add ? -1 : 1), updated.subLayers);
+    public static MachineConfigData addUpgradeSlot(MachineConfigData original, List<Integer> path) {
+        MachineConfigData updated = addUpgradeSlotRecursive(original, path);
+        return new MachineConfigData(updated.moduleSlotType, updated.itemId, updated.materialId, updated.upgradeSlots - 1, updated.subLayers);
     }
-    private static MachineConfigData moveUpgradeSlotRecursive(MachineConfigData original, List<Integer> path, boolean add) {
+    private static MachineConfigData addUpgradeSlotRecursive(MachineConfigData original, List<Integer> path) {
         ArrayList<MachineConfigData> newSubLayers = new ArrayList<>(original.subLayers);
         int index = path.get(0);
         if (path.size() == 1) {
             MachineConfigData subLayer = newSubLayers.get(index);
             newSubLayers.set(index, 
-                new MachineConfigData(subLayer.moduleSlotType, subLayer.itemId, subLayer.materialId, subLayer.upgradeSlots + (add ? 1 : -1), subLayer.subLayers));
+                new MachineConfigData(subLayer.moduleSlotType, subLayer.itemId, subLayer.materialId, subLayer.upgradeSlots + 1, subLayer.subLayers));
+            subLayer.subLayers.add(MachineConfigData.EMPTY);
             return new MachineConfigData(original.moduleSlotType, original.itemId, original.materialId, original.upgradeSlots, newSubLayers);
         } else {
             MachineConfigData oldSubLayer = original.getSubLayer(index);
-            MachineConfigData newSubLayer = moveUpgradeSlotRecursive(oldSubLayer, path.subList(1, path.size()), add);
+            MachineConfigData newSubLayer = addUpgradeSlotRecursive(oldSubLayer, path.subList(1, path.size()));
+            newSubLayers.set(index, newSubLayer);
+            return new MachineConfigData(original.moduleSlotType, original.itemId, original.materialId, original.upgradeSlots, newSubLayers);
+        }
+    }
+    public static MachineConfigData removeUpgradeSlot(MachineConfigData original, List<Integer> path) {
+        MachineConfigData updated = removeUpgradeSlotRecursive(original, path);
+        return new MachineConfigData(updated.moduleSlotType, updated.itemId, updated.materialId, updated.upgradeSlots + 1, updated.subLayers);
+    }
+    private static MachineConfigData removeUpgradeSlotRecursive(MachineConfigData original, List<Integer> path) {
+        ArrayList<MachineConfigData> newSubLayers = new ArrayList<>(original.subLayers);
+        int index = path.get(0);
+        if (path.size() == 1) {
+            newSubLayers.remove(index);
+            return new MachineConfigData(original.moduleSlotType, original.itemId, original.materialId, original.upgradeSlots - 1, newSubLayers);
+        } else {
+            MachineConfigData oldSubLayer = original.getSubLayer(index);
+            MachineConfigData newSubLayer = removeUpgradeSlotRecursive(oldSubLayer, path.subList(1, path.size()));
             newSubLayers.set(index, newSubLayer);
             return new MachineConfigData(original.moduleSlotType, original.itemId, original.materialId, original.upgradeSlots, newSubLayers);
         }
@@ -77,6 +95,9 @@ public record MachineConfigData(String moduleSlotType, String itemId, String mat
         for (int i = 0; i < count; i++) {
             subLayers.add(MachineConfigData.EMPTY);
         }
+    }
+    public MachineConfigData setUpgradeSlots(int upgradeSlots) {
+        return new MachineConfigData(moduleSlotType, itemId, materialId, upgradeSlots, subLayers);
     }
     public boolean isEmpty() {
         return this.itemId.isEmpty() && this.materialId.isEmpty() && this.subLayers.isEmpty();

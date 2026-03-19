@@ -33,8 +33,9 @@ public class ModMaterials {
         IRON.setGeneratedForms(List.of(MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL, MaterialForm.ORE));
         IRON.setFormTexture(MaterialForm.HULL, "metal");
         IRON.setFormTexture(MaterialForm.ORE, "dull");
-        IRON.setHullBase(ModModuleData.BASE_BASIC);
+        IRON.setHullBase(ModModuleData.BASE_IRON);
         IRON.setColor(0xFFe8e8e8);
+        IRON.setMaterialTier(1);
         IRON.setThermalConductivity(60);
         IRON.setMeltingPoint(1800);
         IRON.setTensileStrength(600);
@@ -73,7 +74,9 @@ public class ModMaterials {
         TIN.setFormTexture(MaterialForm.PLATE, "dull_plate");
         TIN.setFormTexture(MaterialForm.HULL, "metal");
         TIN.setFormTexture(MaterialForm.ORE, "dull");
+        TIN.setHullBase(ModModuleData.BASE_BASIC);
         TIN.setColor(0xFFa0a1d6);
+        TIN.setFormTranslationKey(MaterialForm.BASE, "ingot");
         TIN.setThermalConductivity(60);
         TIN.setMeltingPoint(500);
         TIN.setTensileStrength(30);
@@ -81,6 +84,7 @@ public class ModMaterials {
         BRONZE.setGeneratedForms(List.of(MaterialForm.BASE, MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL));
         BRONZE.setFormTexture(MaterialForm.BASE, "ingot");
         BRONZE.setFormTexture(MaterialForm.HULL, "metal");
+        BRONZE.setHullBase(ModModuleData.BASE_BRONZE);
         BRONZE.setColor(0xFFcd7f32);
         BRONZE.setFormTranslationKey(MaterialForm.BASE, "ingot");
         BRONZE.setThermalConductivity(25);

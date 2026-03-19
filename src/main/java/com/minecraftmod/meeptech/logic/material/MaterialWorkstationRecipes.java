@@ -20,9 +20,10 @@ public class MaterialWorkstationRecipes {
         MaterialItemData itemData = new MaterialItemData(input.getItem());
         if (itemData.getMaterial() == null) return null;
 
+        if (itemData.getMaterial().getMaterialTier() > 0) return null;
         MaterialWorkstationRecipes result = new MaterialWorkstationRecipes();
-        result.recipes = new ArrayList<MaterialWorkstationRecipe>();
         result.material = itemData.getMaterial();
+        result.recipes = new ArrayList<MaterialWorkstationRecipe>();
         for (MaterialWorkstationRecipe recipe : RECIPES) {
             if (recipe.getInputForm() == itemData.getForm()) {
                 if (input.getCount() >= recipe.getInputAmount()) {

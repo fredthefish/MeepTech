@@ -73,6 +73,13 @@ public class MachineEmiRecipe implements EmiRecipe {
                 widgets.addSlot(getOutputs().get(i), x + 3 + 17 * i, y + 13).recipeContext(this);
             }
         }
+        if (recipe.getHeat() > 0) {
+            int x = 2;
+            int y = 52;
+            widgets.addText(Component.literal("Heat"), x + 1, y + 1, 0x404040, false);
+            String heatString = Formatting.doubleFormatting((double)recipe.getHeat() / 20.0);
+            widgets.addText(Component.literal(heatString + "s"), x + 1, y + 15, 0x404040, false);
+        }
         if (recipe.getTime() > 0) {
             int x = 83;
             int y = 52;

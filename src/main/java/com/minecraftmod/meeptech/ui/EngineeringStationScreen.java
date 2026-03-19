@@ -286,7 +286,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                 if (layer > 0) {
                     int i = 0;
                     for (i = 0; i < data.upgradeSlots(); i++) {
-                        int slotX = startX + type.getSubSlotCount() * (slotSize + 1);
+                        int slotX = startX + (type.getSubSlotCount() + i) * (slotSize + 1);
                         int slotY = startY + layer * (slotSize + titleHeight);
                         if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
                             if (button == 0) {
@@ -315,6 +315,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                                 MachineConfigData subLayer = data.getSubLayer(type.getSubSlotCount() + i);
                                 if (subLayer == null || subLayer.isEmpty()) {
                                     List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
+                                    newList.add(i + type.getSubSlotCount());
                                     PacketDistributor.sendToServer(new EngineeringActionPacket(EngineeringAction.REMOVE_UPGRADE_SLOT, newList));
                                     this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1f));
                                 } else {
@@ -328,7 +329,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                         }
                     }
                     if (upgradeSlots > 0) {
-                        int slotX = startX + type.getSubSlotCount() * (slotSize + 1);
+                        int slotX = startX + (type.getSubSlotCount() + i) * (slotSize + 1);
                         int slotY = startY + layer * (slotSize + titleHeight);
                         if (button == 0 && mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
                             List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));

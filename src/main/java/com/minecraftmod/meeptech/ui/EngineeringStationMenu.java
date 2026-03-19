@@ -143,10 +143,12 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                         if (!data.isEmpty()) {
                             if (!data.hasSubLayers()) {
                                 Item outputItem = data.getItem();
+                                int upgradeSlots = data.upgradeSlots();
                                 if (output.isEmpty() || (output.getCount() <= output.getMaxStackSize() + edit.getCount() && output.getItem().equals(outputItem))) {
                                     if (!output.isEmpty()) output.grow(edit.getCount());
                                     else outputSlot.set(new ItemStack(outputItem, edit.getCount()));
                                     mainData = MachineConfigData.changeSubLayer(mainData, path, MachineConfigData.EMPTY);
+                                    mainData = mainData.setUpgradeSlots(mainData.upgradeSlots() + upgradeSlots);
                                     edit = edit.copy();
                                     edit.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), mainData);
                                     editSlot.set(edit);
@@ -162,7 +164,7 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                 editSlot = this.getSlot(0);
                 edit = editSlot.getItem();
                 data = edit.get(ModDataComponents.MACHINE_CONFIG_DATA.get());
-                data = MachineConfigData.moveUpgradeSlot(data, path, true);
+                data = MachineConfigData.addUpgradeSlot(data, path);
                 edit = edit.copy();
                 edit.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), data);
                 editSlot.set(edit);
@@ -172,7 +174,7 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                 editSlot = this.getSlot(0);
                 edit = editSlot.getItem();
                 data = edit.get(ModDataComponents.MACHINE_CONFIG_DATA.get());
-                data = MachineConfigData.moveUpgradeSlot(data, path, false);
+                data = MachineConfigData.removeUpgradeSlot(data, path);
                 edit = edit.copy();
                 edit.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), data);
                 editSlot.set(edit);
@@ -230,10 +232,12 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                         if (!data.isEmpty()) {
                             if (!data.hasSubLayers()) {
                                 Item outputItem = data.getItem();
+                                int upgradeSlots = data.upgradeSlots();
                                 if (output.isEmpty() || (output.getCount() <= output.getMaxStackSize() + edit.getCount() && output.getItem().equals(outputItem))) {
                                     if (!output.isEmpty()) output.grow(edit.getCount());
                                     else outputSlot.set(new ItemStack(outputItem, edit.getCount()));
                                     mainData = MachineConfigData.changeSubLayer(mainData, path, MachineConfigData.EMPTY);
+                                    mainData = mainData.setUpgradeSlots(mainData.upgradeSlots() + upgradeSlots);
                                     edit = edit.copy();
                                     edit.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), mainData);
                                     editSlot.set(edit);

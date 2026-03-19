@@ -22,3 +22,7 @@ First, you'll want to make a **<ItemLink id="material_workstation" />** and a **
 Next, you'll want to make **Module Templates**. These are quite cheap though.
 <RecipeFor id="meeptech:module_template_basic" />
 After that, you can make the **<ItemLink id="engineering_station" />**.
+
+With the Engineering Station, you can design your first machines, the **<ItemLink id="module_machine_core_smelter" />** and/or the **<ItemLink id="module_machine_core_alloyer" />**.
+They both require a [Heating Core](../modules/heating_core.md). For now use a solid fuel heating core.
+The alloyer is necessary to make Bronze. Once you have bronze, you can enter the Bronze Age.

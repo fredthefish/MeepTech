@@ -1,6 +1,7 @@
 package com.minecraftmod.meeptech.registries;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import com.minecraftmod.meeptech.MeepTech;
@@ -20,10 +21,10 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MeepTech.MODID);
-    public static final HashMap<DeferredBlock<Block>, DeferredItem<Item>> BLOCK_ITEMS = new HashMap<>();
+    public static final Map<DeferredBlock<Block>, DeferredItem<Item>> BLOCK_ITEMS = new LinkedHashMap<>();
 
-    public static final HashMap<Material, DeferredBlock<Block>> HULL_BLOCKS = new HashMap<>();
-    public static final HashMap<Material, DeferredBlock<Block>> ORE_BLOCKS = new HashMap<>();
+    public static final Map<Material, DeferredBlock<Block>> HULL_BLOCKS = new LinkedHashMap<>();
+    public static final Map<Material, DeferredBlock<Block>> ORE_BLOCKS = new LinkedHashMap<>();
 
     public static final DeferredBlock<Block> MATERIAL_WORKSTATION = registerBlock("material_workstation",
         () -> new MaterialWorkstationBlock(BlockBehaviour.Properties.of()

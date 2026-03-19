@@ -22,7 +22,7 @@ public class MachineRecipe {
     private Map<Ingredient, Integer> inputItems = new LinkedHashMap<>();
     private List<ItemStack> outputItems = new ArrayList<>();
     private int time;
-    private Integer heat;
+    private int heat;
     public MachineRecipe(String id, MachineRecipeType type) {
         this.id = id;
         this.type = type;
@@ -62,7 +62,7 @@ public class MachineRecipe {
     public int getTime() {
         return time;
     }
-    public Integer getHeat() {
+    public int getHeat() {
         return heat;
     }
     public boolean fullInputs(List<ItemStack> inputs) {

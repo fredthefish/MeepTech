@@ -2,7 +2,9 @@ package com.minecraftmod.meeptech.logic.material;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.minecraftmod.meeptech.logic.machine.MachineBase;
 
@@ -11,12 +13,13 @@ import net.minecraft.world.level.ItemLike;
 
 public class Material {
     private String id;
-    private HashMap<MaterialForm, ItemLike> forms = new HashMap<>();
-    private HashMap<MaterialForm, String> formTextures = new HashMap<>();
-    private HashMap<MaterialForm, String> formTranslationKeys = new HashMap<>();
+    private Map<MaterialForm, ItemLike> forms = new LinkedHashMap<>();
+    private Map<MaterialForm, String> formTextures = new LinkedHashMap<>();
+    private Map<MaterialForm, String> formTranslationKeys = new LinkedHashMap<>();
     private List<MaterialForm> generatedForms;
     private MachineBase hullBase;
     private int oreMultiplier = 1;
+    private int materialTier; //0 is basic. 1 cannot be worked in the material workstation.
 
     private Double thermalConductivity;
     private Double thermalResistance;
@@ -81,6 +84,12 @@ public class Material {
     }
     public int getOreMultiplier() {
         return oreMultiplier;
+    }
+    public void setMaterialTier(int tier) {
+        this.materialTier = tier;
+    }
+    public int getMaterialTier() {
+        return materialTier;
     }
     public Double getThermalConductivity() {
         if (thermalConductivity != null) return thermalConductivity;
