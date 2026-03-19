@@ -51,7 +51,7 @@ public class ModMaterials {
 
         COPPER.setForm(MaterialForm.BASE, Items.COPPER_INGOT);
         COPPER.setForm(MaterialForm.RAW, Items.RAW_COPPER);
-        COPPER.setGeneratedForms(List.of(MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL, MaterialForm.ORE));
+        COPPER.setGeneratedForms(List.of(MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL, MaterialForm.ORE, MaterialForm.ROTOR));
         COPPER.setFormTexture(MaterialForm.HULL, "metal");
         COPPER.setFormTexture(MaterialForm.ORE, "copper");
         COPPER.setHullBase(ModModuleData.BASE_BASIC);

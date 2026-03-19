@@ -92,19 +92,22 @@ public class MachineProcessor {
                 int outputSlot = data.getStartSlot(UIModuleType.Output);
                 int maxProgress = entity.getMachineInt(TrackedStat.RecipeMaxProgress);
                 if (hasEnergy && maxProgress == 0) {
+                    //TODO: REDO LOGIC FOR MACHINE RECIPE PROCESSING.
                     ItemStack input = entity.getInventory().getStackInSlot(inputSlot).copy();
                     if (standardType.validInput(input)) {
                         MachineStandardRecipe recipe = standardType.getRecipe(List.of(input));
-                        ItemStack output = entity.getInventory().getStackInSlot(outputSlot).copy();
-                        ItemStack recipeOutput = recipe.getOutputItems().getFirst().copy();
-                        int inputCount = recipe.inputsForConsumption(List.of(input)).get(input.getItem());
-                        if (output.isEmpty() 
-                        || (output.getItem().equals(recipeOutput.getItem()) && output.getCount() <= output.getMaxStackSize() + recipeOutput.getCount())) {
-                            entity.getInventory().extractItem(inputSlot, inputCount, false);
-                            entity.setCurrentRecipe(recipe);
-                            maxProgress = (int)((double)recipe.getTime() / data.getMachineSpeed());
-                            updated = true;
-                            thisUpdated = true;
+                        if (recipe != null) {
+                            ItemStack output = entity.getInventory().getStackInSlot(outputSlot).copy();
+                            List<ItemStack> recipeOutputs = recipe.getOutputItems();
+                            int inputCount = recipe.inputsForConsumption(List.of(input)).get(input.getItem());
+                            // if (output.isEmpty() 
+                            // || (output.getItem().equals(recipeOutput.getItem()) && output.getCount() <= output.getMaxStackSize() + recipeOutput.getCount())) {
+                            //     entity.getInventory().extractItem(inputSlot, inputCount, false);
+                            //     entity.setCurrentRecipe(recipe);
+                            //     maxProgress = (int)((double)recipe.getTime() / data.getMachineSpeed());
+                            //     updated = true;
+                            //     thisUpdated = true;
+                            // }
                         }
                     } else if (standardType == ModMachineRecipes.SMELTER) {
                         SingleRecipeInput recipeInput = new SingleRecipeInput(input);

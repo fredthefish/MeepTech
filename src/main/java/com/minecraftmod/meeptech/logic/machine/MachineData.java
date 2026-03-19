@@ -81,28 +81,30 @@ public class MachineData {
         return upgrades.contains(upgrade);
     }
     public void constructFromLayer(MachineConfigData layer) {
-        ModuleType module = layer.getModuleType();
-        if (module != null) {
-            MachineAttribute attribute = module.getAttribute();
-            if (attribute instanceof MachineBase machineBase) {
-                base = machineBase;
-            } else if (attribute instanceof MachineType machineType) {
-                type = machineType;
-                uiModules.put(UIModuleType.Input, machineType.getInputUI());
-                uiModules.put(UIModuleType.Output, machineType.getOutputUI());
-                uiModules.put(UIModuleType.Recipe, machineType.getRecipeUI());
-                trackedStats.addAll(machineType.getTrackedStats());
-            } else if (attribute instanceof HeatSource machineHeatSource) {
-                heatSource = machineHeatSource;
-                uiModules.put(UIModuleType.Energy, heatSource.getEnergyUI());
-                trackedStats.addAll(machineHeatSource.getTrackedStats());
-            } else if (attribute instanceof MachineComponent component) {
-                components.put(component, layer.materialId());
-            } else if (attribute instanceof MachineUpgrade upgrade) {
-                upgrades.add(upgrade);
-            }
-            for (int i = 0; i < module.getSubSlotCount() + layer.upgradeSlots(); i++) {
-                constructFromLayer(layer.getSubLayer(i));
+        if (layer != null) {
+            ModuleType module = layer.getModuleType();
+            if (module != null) {
+                MachineAttribute attribute = module.getAttribute();
+                if (attribute instanceof MachineBase machineBase) {
+                    base = machineBase;
+                } else if (attribute instanceof MachineType machineType) {
+                    type = machineType;
+                    uiModules.put(UIModuleType.Input, machineType.getInputUI());
+                    uiModules.put(UIModuleType.Output, machineType.getOutputUI());
+                    uiModules.put(UIModuleType.Recipe, machineType.getRecipeUI());
+                    trackedStats.addAll(machineType.getTrackedStats());
+                } else if (attribute instanceof HeatSource machineHeatSource) {
+                    heatSource = machineHeatSource;
+                    uiModules.put(UIModuleType.Energy, heatSource.getEnergyUI());
+                    trackedStats.addAll(machineHeatSource.getTrackedStats());
+                } else if (attribute instanceof MachineComponent component) {
+                    components.put(component, layer.materialId());
+                } else if (attribute instanceof MachineUpgrade upgrade) {
+                    upgrades.add(upgrade);
+                }
+                for (int i = 0; i < module.getSubSlotCount() + layer.upgradeSlots(); i++) {
+                    constructFromLayer(layer.getSubLayer(i));
+                }
             }
         }
     }

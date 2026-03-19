@@ -105,7 +105,7 @@ public class MachineStandardRecipe extends MachineRecipe {
     @Override
     public List<EmiIngredient> getEmiInputs() {
         List<EmiIngredient> emiIngredients = new ArrayList<>();
-        for (Ingredient ingredient : inputItems.keySet()) emiIngredients.add(EmiIngredient.of(ingredient));
+        for (Ingredient ingredient : inputItems.keySet()) emiIngredients.add(EmiIngredient.of(ingredient, inputItems.get(ingredient)));
         return emiIngredients;
     }
     @Override

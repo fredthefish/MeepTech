@@ -18,6 +18,7 @@ public class ModModuleData {
     public static MachineBase BASE_BASIC = new MachineBase("basic", 1);
     
     public static MachineType TYPE_SMELTER = new MachineType("smelter", EnergySourceType.Heat, ModMachineRecipes.SMELTER);
+    public static MachineType TYPE_ALLOYER = new MachineType("alloyer", EnergySourceType.Heat, ModMachineRecipes.ALLOYER);
 
     public static HeatSource HEAT_SOURCE_SOLID_FUEL = new HeatSource("solid_fuel", ModMachineRecipes.SOLID_FUEL,
         new EnergyUIModule("Heat", 1, true),

@@ -3,13 +3,13 @@
     "meeptech:material_workstation",
     "meeptech:engineering_station",
     "meeptech:brick_hull",
-    "meeptech:iron_hull",
-    "meeptech:copper_hull",
     "meeptech:tin_hull",
     "meeptech:bronze_hull",
-    "meeptech:coal_ore",
+    "meeptech:iron_hull",
+    "meeptech:copper_hull",
+    "meeptech:tin_ore",
     "meeptech:iron_ore",
     "meeptech:copper_ore",
-    "meeptech:tin_ore"
+    "meeptech:coal_ore"
   ]
 }

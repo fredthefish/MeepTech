@@ -18,6 +18,8 @@ public class ModModuleTypes {
 
     public static final ModuleType MACHINE_CORE_SMELTER = addModuleType(
         new ModuleType("machine_core_smelter", SLOT_MACHINE_CORE, ModModuleData.TYPE_SMELTER, UPGRADE_SLOT_SMELTER));
+    public static final ModuleType MACHINE_CORE_ALLOYER = addModuleType(
+        new ModuleType("machine_core_alloyer", SLOT_MACHINE_CORE, ModModuleData.TYPE_ALLOYER, null));
     public static final ModuleType HEATING_CORE_SOLID_FUEL = addModuleType(
         new ModuleType("heating_core_solid_fuel", SLOT_HEATING_CORE, ModModuleData.HEAT_SOURCE_SOLID_FUEL, null));
     public static final ModuleType FIREBOX_SLOT = addModuleType(
@@ -51,6 +53,7 @@ public class ModModuleTypes {
         UPGRADE_SLOT_SMELTER.addSubType(UPGRADE_SLOT_MACHINE_CORE);
 
         MACHINE_CORE_SMELTER.addSubSlot("heating_core", SLOT_HEATING_CORE);
+        MACHINE_CORE_ALLOYER.addSubSlot("heating_core", SLOT_HEATING_CORE);
         HEATING_CORE_SOLID_FUEL.addSubSlot("firebox_slot", SLOT_FIREBOX);
         FIREBOX_SLOT.setMaterialForm(MaterialForm.BOX);
     }

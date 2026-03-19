@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+     "item": "meeptech:module_template_basic"
+    },
+    {
+     "item": "minecraft:furnace"
+    },
+    {
+     "item": "meeptech:copper_rotor"
+    }
+  ],
+  "result": {
+    "id": "meeptech:module_machine_core_alloyer"
+  }
+}

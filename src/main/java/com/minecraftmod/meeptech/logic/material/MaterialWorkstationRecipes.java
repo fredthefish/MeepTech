@@ -10,6 +10,8 @@ public class MaterialWorkstationRecipes {
 
     public static final MaterialWorkstationRecipe[] RECIPES = new MaterialWorkstationRecipe[] {
         new MaterialWorkstationRecipe(MaterialForm.BASE, MaterialForm.PLATE, 1, 1),
+        new MaterialWorkstationRecipe(MaterialForm.PLATE, MaterialForm.GEAR, 4, 1),
+        new MaterialWorkstationRecipe(MaterialForm.PLATE, MaterialForm.ROTOR, 4, 1),
         new MaterialWorkstationRecipe(MaterialForm.PLATE, MaterialForm.BOX, 6, 1),
         new MaterialWorkstationRecipe(MaterialForm.PLATE, MaterialForm.HULL, 8, 1)
     };

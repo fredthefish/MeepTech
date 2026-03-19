@@ -14,6 +14,7 @@
   "item.meeptech.module_machine_core_smelter": "Smelter Module (Machine Core)",
   "item.meeptech.module_heating_core_solid_fuel": "Solid Fuel Module (Heating Core)",
   "item.meeptech.module_upgrade_smelter_blasting": "Blasting Module (Smelter Upgrade)",
+  "item.meeptech.module_machine_core_alloyer": "Alloyer Module (Machine Core)",
 
   "block.meeptech.material_workstation": "Material Workstation",
   "block.meeptech.engineering_station": "Engineering Station",
@@ -35,7 +36,8 @@
   "meeptech.materialForm.hull": "Hull",
   "meeptech.materialForm.raw": "Raw",
   "meeptech.materialForm.ore": "Ore",
-
+  "meeptech.materialForm.gear": "Gear",
+  "meeptech.materialForm.rotor": "Rotor",
   "meeptech.materialForm.ingot": "Ingot",
 
   "meeptech.materialStat.thermal_conductivity": "Thermal Conductivity",
@@ -57,6 +59,7 @@
   "meeptech.moduleType.smelter": "Smelter",
   "meeptech.moduleType.solid_fuel": "Solid Fuel",
   "meeptech.moduleType.firebox": "Firebox",
+  "meeptech.moduleType.alloyer": "Alloyer",
 
   "meeptech.ui.engineering_station.insert": "Left click to insert.",
   "meeptech.ui.engineering_station.extract": "Right click to extract.",
@@ -81,10 +84,13 @@
   "tag.item.meeptech.hammers": "Hammers",
   "tag.item.meeptech.ores": "Ores",
   "tag.item.meeptech.raw_ores": "Raw Ores",
+  "tag.item.meeptech.gears": "Gears",
+  "tag.item.meeptech.rotors": "Rotors",
 
   "emi.category.meeptech.smelter": "Smelter",
   "emi.category.meeptech.solid_fuel": "Solid Fuel Heating Core",
   "emi.category.meeptech.material_workstation": "Material Workstation",
+  "emi.category.meeptech.alloyer": "Alloyer",
 
   "config.jade.plugin_meeptech.machine_info": "Machine Info",
 

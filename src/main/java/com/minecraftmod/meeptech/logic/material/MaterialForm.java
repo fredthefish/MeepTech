@@ -9,6 +9,8 @@ public class MaterialForm {
     public static final MaterialForm RAW = addMaterialForm("raw", true);
     public static final MaterialForm BASE = addMaterialForm("base");
     public static final MaterialForm PLATE = addMaterialForm("plate");
+    public static final MaterialForm GEAR = addMaterialForm("gear");
+    public static final MaterialForm ROTOR = addMaterialForm("rotor");
     public static final MaterialForm BOX = addMaterialForm("box");
     public static final MaterialForm HULL = addMaterialForm("hull");
 

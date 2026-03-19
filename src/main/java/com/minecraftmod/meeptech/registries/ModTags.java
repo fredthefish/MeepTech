@@ -17,6 +17,8 @@ public class ModTags {
     public static final TagKey<Item> BOX_TAG = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "boxes"));
     public static final TagKey<Item> ORE_TAG = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "ores"));
     public static final TagKey<Item> RAW_ORE_TAG = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "raw_ores"));
+    public static final TagKey<Item> GEAR_TAG = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "gears"));
+    public static final TagKey<Item> ROTOR_TAG = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "rotors"));
 
     public static final TagKey<Item> HAMMER_TAG = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "hammers"));
 
@@ -27,5 +29,7 @@ public class ModTags {
         put(MaterialForm.BOX, BOX_TAG);
         put(MaterialForm.ORE, ORE_TAG);
         put(MaterialForm.RAW, RAW_ORE_TAG);
+        put(MaterialForm.GEAR, GEAR_TAG);
+        put(MaterialForm.ROTOR, ROTOR_TAG);
     }};
 }
