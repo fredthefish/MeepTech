@@ -21,6 +21,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.items.SlotItemHandler;
 
@@ -60,7 +61,8 @@ public class MachineMenu extends AbstractContainerMenu {
                             } else if (slot.getType() == SlotType.INPUT_FUEL) {
                                 MachineAttribute energySource = machineData.getEnergySource();
                                 if (energySource instanceof HeatSource heatSource) {
-                                    return heatSource.getHeatType().validInput(stack);
+                                    return stack.getBurnTime(RecipeType.SMELTING) > 0 
+                                        || heatSource.getHeatType().getRecipe(List.of(stack), List.of()) != null;
                                 }
                                 return false;
                             }
