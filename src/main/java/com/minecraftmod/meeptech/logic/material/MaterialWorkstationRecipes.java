@@ -9,25 +9,24 @@ public class MaterialWorkstationRecipes {
     private Material material;
 
     public static final MaterialWorkstationRecipe[] RECIPES = new MaterialWorkstationRecipe[] {
-        new MaterialWorkstationRecipe(MaterialForm.BASE, MaterialForm.PLATE, 1, 1),
-        new MaterialWorkstationRecipe(MaterialForm.PLATE, MaterialForm.GEAR, 4, 1),
-        new MaterialWorkstationRecipe(MaterialForm.PLATE, MaterialForm.ROTOR, 4, 1),
-        new MaterialWorkstationRecipe(MaterialForm.PLATE, MaterialForm.BOX, 6, 1),
-        new MaterialWorkstationRecipe(MaterialForm.PLATE, MaterialForm.HULL, 8, 1)
+        new MaterialWorkstationRecipe(MaterialForm.BASE, MaterialForm.PLATE, 1, 1, 0),
+        new MaterialWorkstationRecipe(MaterialForm.PLATE, MaterialForm.GEAR, 4, 1, 1),
+        new MaterialWorkstationRecipe(MaterialForm.PLATE, MaterialForm.ROTOR, 4, 1, 1),
+        new MaterialWorkstationRecipe(MaterialForm.PLATE, MaterialForm.BOX, 6, 1, 1),
+        new MaterialWorkstationRecipe(MaterialForm.PLATE, MaterialForm.HULL, 8, 1, 1)
     };
     
     public static final MaterialWorkstationRecipes getAvailableForms(ItemStack input) {
         MaterialItemData itemData = new MaterialItemData(input.getItem());
         if (itemData.getMaterial() == null) return null;
 
-        if (itemData.getMaterial().getMaterialTier() > 0) return null;
         MaterialWorkstationRecipes result = new MaterialWorkstationRecipes();
         result.material = itemData.getMaterial();
         result.recipes = new ArrayList<MaterialWorkstationRecipe>();
         for (MaterialWorkstationRecipe recipe : RECIPES) {
             if (recipe.getInputForm() == itemData.getForm()) {
                 if (input.getCount() >= recipe.getInputAmount()) {
-                    if (result.material.hasForm(recipe.getOutputForm())) {
+                    if (result.material.hasForm(recipe.getOutputForm()) && result.material.getMaterialTier() <= recipe.getMaxTier()) {
                         result.recipes.add(recipe);
                     }
                 }
