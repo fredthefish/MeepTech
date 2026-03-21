@@ -1,0 +1,28 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "meeptech:block/pipe/pipe_end"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "meeptech:block/pipe/pipe_arm"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "meeptech:block/pipe/pipe_arm_input"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "meeptech:block/pipe/pipe_arm_output"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "meeptech:block/pipe/pipe_end_input"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "meeptech:block/pipe/pipe_end_output"
+    }
+  ]
+}

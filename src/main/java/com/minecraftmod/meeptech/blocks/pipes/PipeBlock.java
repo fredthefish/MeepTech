@@ -58,13 +58,27 @@ public class PipeBlock extends Block implements EntityBlock {
         BlockPos neighborPos = pos.relative(placedAgainst);
         BlockState neighborState = level.getBlockState(neighborPos);
         if (neighborState.getBlock() instanceof PipeBlock) {
+            PipeConnection connection = neighborState.getValue(CONNECTIONS.get(placedAgainst.getOpposite()));
+            if (connection != PipeConnection.NONE) return state;
             state = state.setValue(CONNECTIONS.get(placedAgainst), PipeConnection.PIPE);
-            level.setBlock(neighborPos, neighborState.setValue(CONNECTIONS.get(placedAgainst.getOpposite()), PipeConnection.PIPE), UPDATE_ALL);
-            if (level instanceof ServerLevel serverLevel) PipeNetworkManager.get(serverLevel).onPipesConnected(pos, neighborPos, serverLevel);
         } else if (level instanceof ServerLevel serverLevel) {
             PipeNetworkManager.get(serverLevel).onPipeAdded(pos);
         }
         return state;
+    }
+    @Override
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        super.onPlace(state, level, pos, oldState, movedByPiston);
+        for (Direction dir : Direction.values()) {
+            if (state.getValue(CONNECTIONS.get(dir)) != PipeConnection.PIPE) continue;
+            BlockPos neighborPos = pos.relative(dir);
+            BlockState neighborState = level.getBlockState(neighborPos);
+            if (!(neighborState.getBlock() instanceof PipeBlock)) continue;
+            level.setBlock(neighborPos, neighborState.setValue(CONNECTIONS.get(dir.getOpposite()), PipeConnection.PIPE), Block.UPDATE_ALL);
+            if (level instanceof ServerLevel serverLevel) {
+                PipeNetworkManager.get(serverLevel).onPipesConnected(pos, neighborPos, serverLevel);
+            }
+        }
     }
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {

@@ -5,6 +5,8 @@ import java.util.function.Supplier;
 import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
 import com.minecraftmod.meeptech.blocks.MachineBlockEntityRenderer;
 import com.minecraftmod.meeptech.blocks.OreStoneType;
+import com.minecraftmod.meeptech.blocks.pipes.PipeBlockEntityRenderer;
+import com.minecraftmod.meeptech.blocks.pipes.PipeSprites;
 import com.minecraftmod.meeptech.items.MachineItemClientExtension;
 import com.minecraftmod.meeptech.logic.material.Material;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
@@ -33,6 +35,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
@@ -53,6 +56,7 @@ public class MeepTechClient {
     public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         for (Supplier<BlockEntityType<BaseMachineBlockEntity>> blockEntity : ModBlockEntities.HULL_BLOCK_ENTITIES.values())
             event.registerBlockEntityRenderer(blockEntity.get(), MachineBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.PIPE_BE.get(), PipeBlockEntityRenderer::new);
     }
     @SubscribeEvent
     public static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
@@ -108,5 +112,9 @@ public class MeepTechClient {
                 }
             );
         }
+    }
+    @SubscribeEvent
+    public static void onModelsBaked(ModelEvent.BakingCompleted event) {
+        PipeSprites.init(event);
     }
 }

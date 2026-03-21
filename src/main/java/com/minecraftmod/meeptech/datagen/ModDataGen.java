@@ -42,5 +42,6 @@ public class ModDataGen {
             .add(Registries.CONFIGURED_FEATURE, ModWorldgen::bootstrapConfiguredFeatures)
             .add(Registries.PLACED_FEATURE, ModWorldgen::bootstrapPlacedFeatures)
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ModWorldgen::bootstrapBiomeModifiers), Set.of(MeepTech.MODID)));
+        generator.addProvider(event.includeClient(), new ModSpriteSourceProvider(packOutput, event.getLookupProvider(), existingFileHelper));
     }
 }

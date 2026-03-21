@@ -4,6 +4,9 @@
   "meeptech.configuration.section.meeptech.common.toml.title": "MeepTech Configs",
 
   "item.meeptech.manual": "MeepTech Manual",
+  "item.meeptech.extractor": "Item Extractor",
+  "item.meeptech.inserter": "Item Inserter",
+  "item.meeptech.wrench": "Wrench",
   
   "item.meeptech.stone_hammer": "Stone Hammer",
   
@@ -18,6 +21,7 @@
 
   "block.meeptech.material_workstation": "Material Workstation",
   "block.meeptech.engineering_station": "Engineering Station",
+  "block.meeptech.pipe": "Item Pipe",
 
   "itemGroup.meeptech.materials_tab": "MeepTech Materials",
   "itemGroup.meeptech.general_tab": "MeepTech General",
