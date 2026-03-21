@@ -1,0 +1,20 @@
+{
+    "textures": {
+        "side": "meeptech:block/pipe/pipe_arm_input",
+        "end": "meeptech:block/pipe/pipe_cube_input",
+        "particle": "meeptech:block/pipe/pipe_arm_input"
+    },
+    "elements": [
+        {
+            "from": [6, 6, 10],
+            "to": [10, 10, 16],
+            "faces": {
+                "down":  { "texture": "#side", "uv": [0, 0, 6, 4] },
+                "up":    { "texture": "#side", "uv": [0, 0, 6, 4] },
+                "west":  { "texture": "#side", "uv": [0, 0, 6, 4] },
+                "east":  { "texture": "#side", "uv": [0, 0, 6, 4] },
+                "south": { "texture": "#end", "uv": [0, 0, 4, 4] }
+            }
+        }
+    ]
+}

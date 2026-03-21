@@ -8,6 +8,7 @@ import com.minecraftmod.meeptech.MeepTech;
 import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
 import com.minecraftmod.meeptech.blocks.EngineeringStationBlockEntity;
 import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlockEntity;
+import com.minecraftmod.meeptech.blocks.pipes.PipeBlockEntity;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
@@ -29,6 +30,8 @@ public class ModBlockEntities {
             EngineeringStationBlockEntity::new,
             ModBlocks.ENGINEERING_STATION.get()
         ).build(null));
+    public static final Supplier<BlockEntityType<PipeBlockEntity>> PIPE_BE = 
+        BLOCK_ENTITY_TYPES.register("pipe_be", () -> BlockEntityType.Builder.of(PipeBlockEntity::new, ModBlocks.PIPE.get()).build(null));
     static {
         for (DeferredBlock<Block> block : ModBlocks.HULL_BLOCKS.values()) {
             Supplier<BlockEntityType<BaseMachineBlockEntity>> hullBlockEntity = BLOCK_ENTITY_TYPES.register(block.getId().getPath() + "_be", 

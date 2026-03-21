@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import com.minecraftmod.meeptech.MeepTech;
 import com.minecraftmod.meeptech.blocks.EngineeringStationBlock;
 import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlock;
+import com.minecraftmod.meeptech.blocks.pipes.PipeBlock;
 import com.minecraftmod.meeptech.items.HullItem;
 import com.minecraftmod.meeptech.logic.material.Material;
 
@@ -38,6 +39,11 @@ public class ModBlocks {
             .requiresCorrectToolForDrops()
             .sound(SoundType.STONE)
     ));
+    public static final DeferredBlock<Block> PIPE = registerBlock("pipe", () -> new PipeBlock(BlockBehaviour.Properties.of()
+        .strength(2f, 3f)
+        .sound(SoundType.COPPER)
+        .noOcclusion()
+        .isViewBlocking((state, level, pos) -> false)));
 
     private static DeferredBlock<Block> registerBlock(String name, Supplier<Block> block) {
         return registerBlock(name, block, true);

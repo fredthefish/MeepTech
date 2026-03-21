@@ -1,0 +1,79 @@
+{
+    "multipart": [
+        {
+            "apply": { "model": "meeptech:block/pipe_center" }
+        },
+        {
+            "when": { "south": "pipe" },
+            "apply": { "model": "meeptech:block/pipe_arm", "x": 0, "y": 0 }
+        },
+        {
+            "when": { "north": "pipe" },
+            "apply": { "model": "meeptech:block/pipe_arm", "x": 0, "y": 180 }
+        },
+        {
+            "when": { "east": "pipe" },
+            "apply": { "model": "meeptech:block/pipe_arm", "x": 0, "y": 270 }
+        },
+        {
+            "when": { "west": "pipe" },
+            "apply": { "model": "meeptech:block/pipe_arm", "x": 0, "y": 90 }
+        },
+        {
+            "when": { "up": "pipe" },
+            "apply": { "model": "meeptech:block/pipe_arm", "x": 90, "y": 0 }
+        },
+        {
+            "when": { "down": "pipe" },
+            "apply": { "model": "meeptech:block/pipe_arm", "x": 270, "y": 0 }
+        },
+        {
+            "when": { "south": "extractor" },
+            "apply": { "model": "meeptech:block/pipe_arm_extractor", "x": 0, "y": 0 }
+        },
+        {
+            "when": { "north": "extractor" },
+            "apply": { "model": "meeptech:block/pipe_arm_extractor", "x": 0, "y": 180 }
+        },
+        {
+            "when": { "east": "extractor" },
+            "apply": { "model": "meeptech:block/pipe_arm_extractor", "x": 0, "y": 270 }
+        },
+        {
+            "when": { "west": "extractor" },
+            "apply": { "model": "meeptech:block/pipe_arm_extractor", "x": 0, "y": 90 }
+        },
+        {
+            "when": { "up": "extractor" },
+            "apply": { "model": "meeptech:block/pipe_arm_extractor", "x": 90, "y": 0 }
+        },
+        {
+            "when": { "down": "extractor" },
+            "apply": { "model": "meeptech:block/pipe_arm_extractor", "x": 270, "y": 0 }
+        },
+        {
+            "when": { "south": "inserter" },
+            "apply": { "model": "meeptech:block/pipe_arm_inserter", "x": 0, "y": 0 }
+        },
+        {
+            "when": { "north": "inserter" },
+            "apply": { "model": "meeptech:block/pipe_arm_inserter", "x": 0, "y": 180 }
+        },
+        {
+            "when": { "east": "inserter" },
+            "apply": { "model": "meeptech:block/pipe_arm_inserter", "x": 0, "y": 270 }
+        },
+        {
+            "when": { "west": "inserter" },
+            "apply": { "model": "meeptech:block/pipe_arm_inserter", "x": 0, "y": 90 }
+        },
+        {
+            "when": { "up": "inserter" },
+            "apply": { "model": "meeptech:block/pipe_arm_inserter", "x": 90, "y": 0 }
+        },
+        {
+            "when": { "down": "inserter" },
+            "apply": { "model": "meeptech:block/pipe_arm_inserter", "x": 270, "y": 0 }
+        }
+    ]
+}

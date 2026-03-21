@@ -1,0 +1,137 @@
+package com.minecraftmod.meeptech.blocks.pipes;
+
+import java.util.EnumMap;
+import java.util.Map;
+
+import com.minecraftmod.meeptech.registries.ModBlockEntities;
+import com.minecraftmod.meeptech.registries.ModItems;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+
+public class PipeBlock extends Block implements EntityBlock {
+    public static final Map<Direction, EnumProperty<PipeConnection>> CONNECTIONS = new EnumMap<>(Direction.class);
+    static {
+        for (Direction dir : Direction.values()) {
+            CONNECTIONS.put(dir, EnumProperty.create(dir.getSerializedName(), PipeConnection.class));
+        }
+    }
+    public PipeBlock(Properties props) {
+        super(props);
+        BlockState defaultState = stateDefinition.any();
+        for (EnumProperty<PipeConnection> prop : CONNECTIONS.values()) {
+            defaultState = defaultState.setValue(prop, PipeConnection.NONE);
+        }
+        registerDefaultState(defaultState);
+    }
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        CONNECTIONS.values().forEach(builder::add);
+    }
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new PipeBlockEntity(pos, state);
+    }
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        BlockState state = defaultBlockState();
+        Level level = ctx.getLevel();
+        BlockPos pos = ctx.getClickedPos();
+        // Auto-connect from adjacent pipe.
+        Direction placedAgainst = ctx.getClickedFace().getOpposite();
+        BlockPos neighborPos = pos.relative(placedAgainst);
+        BlockState neighborState = level.getBlockState(neighborPos);
+        if (neighborState.getBlock() instanceof PipeBlock) {
+            state = state.setValue(CONNECTIONS.get(placedAgainst), PipeConnection.PIPE);
+            level.setBlock(neighborPos, neighborState.setValue(CONNECTIONS.get(placedAgainst.getOpposite()), PipeConnection.PIPE), UPDATE_ALL);
+            if (level instanceof ServerLevel serverLevel) PipeNetworkManager.get(serverLevel).onPipesConnected(pos, neighborPos, serverLevel);
+        } else if (level instanceof ServerLevel serverLevel) {
+            PipeNetworkManager.get(serverLevel).onPipeAdded(pos);
+        }
+        return state;
+    }
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+        if (newState.getBlock() instanceof PipeBlock) {
+            super.onRemove(state, level, pos, newState, movedByPiston);
+            return;
+        }
+        if (level instanceof ServerLevel serverLevel) {
+            PipeBlockEntity be = (PipeBlockEntity)level.getBlockEntity(pos);
+            if (be != null) {
+                for (Direction dir : Direction.values()) {
+                    PipeConnection connection = be.getFace(dir);
+                    if (connection == PipeConnection.EXTRACTOR) {
+                        ItemStack drop = new ItemStack(ModItems.EXTRACTOR.get());
+                        Block.popResource(level, pos, drop);
+                    } else if (connection == PipeConnection.INSERTER) {
+                        ItemStack drop = new ItemStack(ModItems.INSERTER.get());
+                        Block.popResource(level, pos, drop);
+                    }
+                }
+            }
+            PipeNetworkManager.get(serverLevel).onPipeRemoved(pos, state, serverLevel);
+        }
+        for (Direction dir : Direction.values()) {
+            if (state.getValue(CONNECTIONS.get(dir)) != PipeConnection.PIPE) continue;
+            BlockPos neighborPos = pos.relative(dir);
+            BlockState neighborState = level.getBlockState(neighborPos);
+            if (!(neighborState.getBlock() instanceof PipeBlock)) continue;
+            level.setBlock(neighborPos, neighborState.setValue(CONNECTIONS.get(dir.getOpposite()), PipeConnection.NONE), UPDATE_ALL);
+        }
+        super.onRemove(state, level, pos, newState, movedByPiston);
+    }
+    @SuppressWarnings("unchecked")
+    private static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(
+        BlockEntityType<A> type, BlockEntityType<E> checkedType, BlockEntityTicker<? super E> ticker) {
+        return checkedType == type ? (BlockEntityTicker<A>)ticker : null;
+    }
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        if (level.isClientSide()) return null;
+        return createTickerHelper(type, ModBlockEntities.PIPE_BE.get(), PipeBlockEntity::tick);
+    }
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        VoxelShape shape = Shapes.box(6/16f, 6/16f, 6/16f, 10/16f, 10/16f, 10/16f);
+        for (Direction dir : Direction.values()) {
+            if (state.getValue(CONNECTIONS.get(dir)) == PipeConnection.NONE) continue;
+            shape = Shapes.or(shape, getArmShape(dir));
+        }
+        return shape;
+    }
+    private static VoxelShape getArmShape(Direction dir) {
+        return switch (dir) {
+            case DOWN  -> Shapes.box(6/16f, 0,     6/16f, 10/16f, 6/16f,  10/16f);
+            case UP    -> Shapes.box(6/16f, 10/16f, 6/16f, 10/16f, 1f,    10/16f);
+            case NORTH -> Shapes.box(6/16f, 6/16f, 0,     10/16f, 10/16f, 6/16f);
+            case SOUTH -> Shapes.box(6/16f, 6/16f, 10/16f, 10/16f, 10/16f, 1f);
+            case WEST  -> Shapes.box(0,     6/16f, 6/16f, 6/16f,  10/16f, 10/16f);
+            case EAST  -> Shapes.box(10/16f, 6/16f, 6/16f, 1f,    10/16f, 10/16f);
+        };
+    }
+    @Override
+    public boolean useShapeForLightOcclusion(BlockState state) {
+        return false;
+    }
+    @Override
+    public boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
+        return true;
+    }
+}
