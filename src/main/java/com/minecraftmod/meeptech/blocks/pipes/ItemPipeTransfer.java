@@ -67,12 +67,10 @@ public class ItemPipeTransfer {
     private static int simulateInserterCapacity(IItemHandler dest, IItemHandler source, int max) {
         int canTake = 0;
         for (int i = 0; i < source.getSlots() && canTake < max; i++) {
-            ItemStack stack = source.getStackInSlot(i);
-            if (stack.isEmpty()) continue;
-            int toCheck = Math.min(stack.getCount(), max - canTake);
-            ItemStack toInsert = stack.copyWithCount(toCheck);
-            ItemStack remainder = simulateInsert(dest, toInsert);
-            canTake += toCheck - remainder.getCount();
+            ItemStack extractable = source.extractItem(i, max - canTake, true);
+            if (extractable.isEmpty()) continue;
+            ItemStack remainder = simulateInsert(dest, extractable);
+            canTake += extractable.getCount() - remainder.getCount();
         }
         return canTake;
     }
@@ -93,12 +91,12 @@ public class ItemPipeTransfer {
             List<ItemStack> toInsert = new ArrayList<>();
             int remaining = amount;
             for (int i = 0; i < source.getSlots() && remaining > 0; i++) {
-                ItemStack stack = source.getStackInSlot(i);
-                if (stack.isEmpty()) continue;
-                int available = stack.getCount() - promised[i];
+                ItemStack extractable = source.extractItem(i, remaining, true);
+                if (extractable.isEmpty()) continue;
+                int available = extractable.getCount() - promised[i];
                 if (available <= 0) continue;
                 int take = Math.min(available, remaining);
-                toInsert.add(stack.copyWithCount(take));
+                toInsert.add(extractable.copyWithCount(take));
                 promised[i] += take;
                 remaining -= take;
             }
@@ -121,7 +119,7 @@ public class ItemPipeTransfer {
 
         return extracted;
     }
-    public static void insert(Map<InserterTarget, List<ItemStack>> insertions, List<ItemStack> extracted, ServerLevel level) {
+    public static void insert(Map<InserterTarget, List<ItemStack>> insertions, List<ItemStack> extracted, ServerLevel level, IItemHandler source) {
         List<ItemStack> pool = new ArrayList<>(extracted);
         for (Map.Entry<InserterTarget, List<ItemStack>> entry : insertions.entrySet()) {
             IItemHandler dest = entry.getKey().handler();
@@ -133,8 +131,7 @@ public class ItemPipeTransfer {
                     if (!ItemStack.isSameItemSameComponents(poolStack, stack)) continue;
                     int take = Math.min(poolStack.getCount(), needed);
                     ItemStack inserting = poolStack.copyWithCount(take);
-                    for (int i = 0; i < dest.getSlots()
-                            && !inserting.isEmpty(); i++) {
+                    for (int i = 0; i < dest.getSlots() && !inserting.isEmpty(); i++) {
                         inserting = dest.insertItem(i, inserting, false);
                     }
                     poolStack.shrink(take - inserting.getCount());
@@ -142,6 +139,14 @@ public class ItemPipeTransfer {
                 }
             }
         }
+        //Try to return uninserted items back to the source.
+        for (ItemStack remaining : pool) {
+            if (remaining.isEmpty()) continue;
+            for (int i = 0; i < source.getSlots() && !remaining.isEmpty(); i++) {
+                remaining = source.insertItem(i, remaining, false);
+            }
+        }
+
     }
     public record InserterTarget(BlockPos pos, Direction face, IItemHandler handler) {}
 }

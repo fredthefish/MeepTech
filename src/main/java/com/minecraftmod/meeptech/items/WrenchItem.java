@@ -17,6 +17,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 public class WrenchItem extends Item {
     public WrenchItem(Properties props) {
@@ -32,43 +33,78 @@ public class WrenchItem extends Item {
         if (!(state.getBlock() instanceof PipeBlock)) return InteractionResult.PASS;
         if (level.isClientSide()) return InteractionResult.SUCCESS;
         ServerLevel serverLevel = (ServerLevel)level;
-        PipeConnection currentConnection = state.getValue(PipeBlock.CONNECTIONS.get(face));
+        Vec3 hitPos = ctx.getClickLocation().subtract(pos.getX(), pos.getY(), pos.getZ());
+        Direction clickedConnection = getClickedConnection(state, face, hitPos);
+        return handleWrenchAction(state, pos, clickedConnection, player, level, serverLevel);
+    }
+    private Direction getClickedConnection(BlockState state, Direction face, Vec3 hitPos) {
+        for (Direction dir : Direction.values()) {
+            if (state.getValue(PipeBlock.CONNECTIONS.get(dir)) == PipeConnection.NONE) 
+                continue;
+            if (isHittingArm(dir, hitPos)) return dir;
+        }
+        return face;
+    }
+    private boolean isHittingArm(Direction dir, Vec3 hitPos) {
+        float min = 6f / 16f;
+        float max = 10f / 16f;
+        return switch (dir) {
+            case SOUTH -> hitPos.z >= max
+                && hitPos.x >= min && hitPos.x <= max
+                && hitPos.y >= min && hitPos.y <= max;
+            case NORTH -> hitPos.z <= min
+                && hitPos.x >= min && hitPos.x <= max
+                && hitPos.y >= min && hitPos.y <= max;
+            case EAST -> hitPos.x >= max
+                && hitPos.z >= min && hitPos.z <= max
+                && hitPos.y >= min && hitPos.y <= max;
+            case WEST -> hitPos.x <= min
+                && hitPos.z >= min && hitPos.z <= max
+                && hitPos.y >= min && hitPos.y <= max;
+            case UP -> hitPos.y >= max
+                && hitPos.x >= min && hitPos.x <= max
+                && hitPos.z >= min && hitPos.z <= max;
+            case DOWN -> hitPos.y <= min
+                && hitPos.x >= min && hitPos.x <= max
+                && hitPos.z >= min && hitPos.z <= max;
+        };
+    }
+    private InteractionResult handleWrenchAction(BlockState state, BlockPos pos, Direction clickedDir, Player player, Level level, ServerLevel serverLevel) {
+        PipeConnection currentConnection = state.getValue(PipeBlock.CONNECTIONS.get(clickedDir));
         switch (currentConnection) {
             case NONE -> {
-                BlockPos neighborPos = pos.relative(face);
+                BlockPos neighborPos = pos.relative(clickedDir);
                 BlockState neighborState = level.getBlockState(neighborPos);
-                if (!(neighborState.getBlock() instanceof PipeBlock)) {
-                    return InteractionResult.FAIL;
-                }
-                level.setBlock(pos, state.setValue(PipeBlock.CONNECTIONS.get(face), PipeConnection.PIPE), Block.UPDATE_ALL);
-                level.setBlock(neighborPos, neighborState.setValue(PipeBlock.CONNECTIONS.get(face.getOpposite()), PipeConnection.PIPE), Block.UPDATE_ALL);
+                if (!(neighborState.getBlock() instanceof PipeBlock)) return InteractionResult.FAIL;
+                PipeConnection neighborConnection = neighborState.getValue(PipeBlock.CONNECTIONS.get(clickedDir.getOpposite()));
+                if (neighborConnection != PipeConnection.NONE) return InteractionResult.FAIL;
+                level.setBlock(pos, state.setValue(PipeBlock.CONNECTIONS.get(clickedDir), PipeConnection.PIPE), Block.UPDATE_ALL);
+                level.setBlock(neighborPos, neighborState.setValue(PipeBlock.CONNECTIONS.get(clickedDir.getOpposite()), PipeConnection.PIPE), Block.UPDATE_ALL);
                 PipeNetworkManager.get(serverLevel).onPipesConnected(pos, neighborPos, serverLevel);
             }
             case PIPE -> {
-                BlockPos neighborPos = pos.relative(face);
+                if (player != null && player.isShiftKeyDown()) return InteractionResult.PASS;
+                BlockPos neighborPos = pos.relative(clickedDir);
                 BlockState neighborState = level.getBlockState(neighborPos);
-                level.setBlock(pos, state.setValue(PipeBlock.CONNECTIONS.get(face), PipeConnection.NONE), Block.UPDATE_ALL);
+                BlockState oldState = state;
+                BlockState oldNeighborState = neighborState;
+                level.setBlock(pos, state.setValue(PipeBlock.CONNECTIONS.get(clickedDir), PipeConnection.NONE), Block.UPDATE_ALL);
                 if (neighborState.getBlock() instanceof PipeBlock) {
-                    level.setBlock(neighborPos, neighborState.setValue(PipeBlock.CONNECTIONS.get(face.getOpposite()), PipeConnection.NONE), Block.UPDATE_ALL);
+                    level.setBlock(neighborPos, neighborState.setValue(PipeBlock.CONNECTIONS.get(clickedDir.getOpposite()), PipeConnection.NONE), Block.UPDATE_ALL);
                 }
-                PipeNetworkManager.get(serverLevel).onPipesDisconnected(pos, neighborPos, serverLevel);
+                PipeNetworkManager.get(serverLevel).onPipesDisconnected(pos, neighborPos, oldState, oldNeighborState, serverLevel);
             }
             case EXTRACTOR, INSERTER -> {
-                if (player == null || !player.isShiftKeyDown()) {
-                    return InteractionResult.PASS;
-                }
+                if (player == null || !player.isShiftKeyDown()) return InteractionResult.PASS;
                 PipeBlockEntity be = (PipeBlockEntity)level.getBlockEntity(pos);
                 if (be == null) return InteractionResult.FAIL;
-                PipeConnection attachment = be.getFace(face);
                 ItemStack stack = ItemStack.EMPTY;
-                if (attachment == PipeConnection.EXTRACTOR) stack = new ItemStack(ModItems.EXTRACTOR.get());
-                if (attachment == PipeConnection.INSERTER) stack = new ItemStack(ModItems.INSERTER.get());
-                if (!player.addItem(stack)) {
-                    Block.popResource(level, pos, stack);
-                }
-                be.setFace(face, PipeConnection.NONE);
-                level.setBlock(pos, state.setValue(PipeBlock.CONNECTIONS.get(face), PipeConnection.NONE), Block.UPDATE_ALL);
-                PipeNetworkManager.get(serverLevel).onAttachmentRemoved(pos, face, attachment, serverLevel);
+                if (currentConnection == PipeConnection.EXTRACTOR) stack = new ItemStack(ModItems.EXTRACTOR.get());
+                if (currentConnection == PipeConnection.INSERTER) stack = new ItemStack(ModItems.INSERTER.get());
+                if (!player.addItem(stack)) Block.popResource(level, pos, stack);
+                be.setFace(clickedDir, PipeConnection.NONE);
+                level.setBlock(pos, state.setValue(PipeBlock.CONNECTIONS.get(clickedDir), PipeConnection.NONE), Block.UPDATE_ALL);
+                PipeNetworkManager.get(serverLevel).onAttachmentRemoved(pos, clickedDir, currentConnection, serverLevel);
             }
         }
         return InteractionResult.CONSUME;

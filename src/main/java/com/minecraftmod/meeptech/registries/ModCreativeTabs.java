@@ -40,8 +40,12 @@ public class ModCreativeTabs {
         .displayItems((params, output) -> {
             output.accept(ModItems.MANUAL.get());
             output.accept(ModItems.HAMMER.get());
+            output.accept(ModItems.WRENCH.get());
             output.accept(ModBlocks.MATERIAL_WORKSTATION.get());
             output.accept(ModBlocks.ENGINEERING_STATION.get());
+            output.accept(ModBlocks.PIPE.get());
+            output.accept(ModItems.EXTRACTOR.get());
+            output.accept(ModItems.INSERTER.get());
             ModuleItems.MODULES.values().forEach(item -> {
                 //Materials have their own tab.
                 if (new MaterialItemData(item.get()).getMaterial() == null) output.accept(item.get());

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -99,11 +100,18 @@ public class PipeNetworkManager extends SavedData {
         larger.incrementTopologyVersion();
         setDirty();
     }
-    public void onPipesDisconnected(BlockPos posA, BlockPos posB, ServerLevel level) {
+    public void onPipesDisconnected(BlockPos posA, BlockPos posB, BlockState stateA, BlockState stateB, ServerLevel level) {
         PipeNetwork network = getNetwork(posA);
         if (network == null) return;
-        List<BlockPos> neighborsOfA = getConnectedPipeNeighbors(posA, level).stream().filter(n -> !n.equals(posB)).toList();
-        handlePotentialSplit(network, neighborsOfA, level);
+        List<BlockPos> neighborsOfA = getConnectedPipeNeighbors(posA, stateA).stream().filter(n -> !n.equals(posB)).toList();
+        List<BlockPos> neighborsOfB = getConnectedPipeNeighbors(posB, stateB).stream().filter(n -> !n.equals(posA)).toList();
+        Set<BlockPos> candidateSet = new LinkedHashSet<>();
+        candidateSet.addAll(neighborsOfA);
+        candidateSet.addAll(neighborsOfB);
+        if (network.getPipes().contains(posA)) candidateSet.add(posA);
+        if (network.getPipes().contains(posB)) candidateSet.add(posB);
+        List<BlockPos> splitCandidates = new ArrayList<>(candidateSet);
+        handlePotentialSplit(network, splitCandidates, level);
         network.incrementTopologyVersion();
         setDirty();
     }

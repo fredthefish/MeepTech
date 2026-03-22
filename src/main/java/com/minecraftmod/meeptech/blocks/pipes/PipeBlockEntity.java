@@ -87,6 +87,6 @@ public class PipeBlockEntity extends BlockEntity {
         int totalExtraction = simulatedInsertions.values().stream().flatMap(List::stream).mapToInt(ItemStack::getCount).sum();
         if (totalExtraction == 0) return;
         List<ItemStack> extracted = ItemPipeTransfer.extract(source, totalExtraction);
-        ItemPipeTransfer.insert(simulatedInsertions, extracted, level);
+        ItemPipeTransfer.insert(simulatedInsertions, extracted, level, source);
     }
 }
