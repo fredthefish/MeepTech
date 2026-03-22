@@ -18,5 +18,10 @@ public class ModCapabilities {
         for (Supplier<BlockEntityType<BaseMachineBlockEntity>> blockEntity : ModBlockEntities.HULL_BLOCK_ENTITIES.values())
             event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, blockEntity.get(),
             (be, side) -> be.getAutomationHandler());
+        event.registerBlockEntity(
+            Capabilities.FluidHandler.BLOCK,
+            ModBlockEntities.FLUID_TANK_BE.get(),
+            (be, side) -> be.getTank()
+        );
     }
 }

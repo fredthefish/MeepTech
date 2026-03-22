@@ -72,5 +72,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent(ModItems.HAMMER.getId().getPath(), mcLoc("item/generated"))
             .texture("layer0", ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "item/handle_hammer"))
             .texture("layer1", ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "item/base_hammer"));
+        handheldItem(ModItems.WRENCH.get());
     }
 }

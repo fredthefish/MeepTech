@@ -22,6 +22,7 @@
   "block.meeptech.material_workstation": "Material Workstation",
   "block.meeptech.engineering_station": "Engineering Station",
   "block.meeptech.pipe": "Item Pipe",
+  "block.meeptech.fluid_tank": "Fluid Tank",
 
   "itemGroup.meeptech.materials_tab": "MeepTech Materials",
   "itemGroup.meeptech.general_tab": "MeepTech General",

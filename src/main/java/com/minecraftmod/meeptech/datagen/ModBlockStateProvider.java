@@ -61,6 +61,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 return ConfiguredModel.builder().modelFile(models.get(stoneType)).build();
             });
         }
+        customTopBottomBlock(ModBlocks.FLUID_TANK, "tank");
     }
     private void customTopBottomBlock(DeferredBlock<Block> block, String path) {
         String name = block.getId().getPath();

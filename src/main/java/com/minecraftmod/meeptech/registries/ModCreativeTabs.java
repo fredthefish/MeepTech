@@ -46,6 +46,7 @@ public class ModCreativeTabs {
             output.accept(ModBlocks.PIPE.get());
             output.accept(ModItems.EXTRACTOR.get());
             output.accept(ModItems.INSERTER.get());
+            output.accept(ModBlocks.FLUID_TANK.get());
             ModuleItems.MODULES.values().forEach(item -> {
                 //Materials have their own tab.
                 if (new MaterialItemData(item.get()).getMaterial() == null) output.accept(item.get());

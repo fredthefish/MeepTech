@@ -17,6 +17,7 @@ import com.minecraftmod.meeptech.registries.ModDataComponents;
 import com.minecraftmod.meeptech.registries.ModItems;
 import com.minecraftmod.meeptech.registries.ModMenus;
 import com.minecraftmod.meeptech.ui.EngineeringStationScreen;
+import com.minecraftmod.meeptech.ui.FluidTankScreen;
 import com.minecraftmod.meeptech.ui.MaterialWorkstationScreen;
 import com.minecraftmod.meeptech.ui.MachineScreen;
 
@@ -51,6 +52,7 @@ public class MeepTechClient {
         event.register(ModMenus.MATERIAL_WORKSTATION_MENU.get(), MaterialWorkstationScreen::new);
         event.register(ModMenus.ENGINEERING_STATION_MENU.get(), EngineeringStationScreen::new);
         event.register(ModMenus.MACHINE_MENU.get(), MachineScreen::new);
+        event.register(ModMenus.FLUID_TANK_MENU.get(), FluidTankScreen::new);
     }
     @SubscribeEvent
     public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {

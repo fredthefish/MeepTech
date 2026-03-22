@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "meeptech:block/tank/bottom",
+    "side": "meeptech:block/tank/side",
+    "top": "meeptech:block/tank/top"
+  }
+}

@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 import com.minecraftmod.meeptech.MeepTech;
 import com.minecraftmod.meeptech.ui.EngineeringStationMenu;
+import com.minecraftmod.meeptech.ui.FluidTankMenu;
 import com.minecraftmod.meeptech.ui.MachineMenu;
 import com.minecraftmod.meeptech.ui.MaterialWorkstationMenu;
 
@@ -20,4 +21,6 @@ public class ModMenus {
         IMenuTypeExtension.create((windowId, inv, data) -> new EngineeringStationMenu(windowId, inv)));
     public static final Supplier<MenuType<MachineMenu>> MACHINE_MENU = MENUS.register("machine", () -> 
         IMenuTypeExtension.create(MachineMenu::new));
+    public static final Supplier<MenuType<FluidTankMenu>> FLUID_TANK_MENU = MENUS.register("fluid_tank", () -> 
+        IMenuTypeExtension.create(FluidTankMenu::new));
 }

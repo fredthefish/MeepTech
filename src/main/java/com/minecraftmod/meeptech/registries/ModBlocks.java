@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 
 import com.minecraftmod.meeptech.MeepTech;
 import com.minecraftmod.meeptech.blocks.EngineeringStationBlock;
+import com.minecraftmod.meeptech.blocks.FluidTankBlock;
 import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlock;
 import com.minecraftmod.meeptech.blocks.pipes.PipeBlock;
 import com.minecraftmod.meeptech.items.HullItem;
@@ -44,7 +45,10 @@ public class ModBlocks {
         .sound(SoundType.COPPER)
         .noOcclusion()
         .isViewBlocking((state, level, pos) -> false)));
-
+    public static final DeferredBlock<Block> FLUID_TANK = registerBlock("fluid_tank", () -> new FluidTankBlock(BlockBehaviour.Properties.of()
+        .strength(2f, 6f)
+        .sound(SoundType.METAL),
+        8000));
     private static DeferredBlock<Block> registerBlock(String name, Supplier<Block> block) {
         return registerBlock(name, block, true);
     }
