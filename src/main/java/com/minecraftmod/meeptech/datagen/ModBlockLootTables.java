@@ -9,6 +9,7 @@ import com.minecraftmod.meeptech.registries.ModBlocks;
 import com.minecraftmod.meeptech.registries.ModDataComponents;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
@@ -25,8 +26,9 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.MATERIAL_WORKSTATION.get());
         this.dropSelf(ModBlocks.ENGINEERING_STATION.get());
         this.dropSelf(ModBlocks.PIPE.get());
-        this.add(ModBlocks.FLUID_TANK.get(), block -> 
-            this.createSingleItemTable(block).apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)));
+        this.add(ModBlocks.FLUID_TANK.get(), block -> this.createSingleItemTable(block)
+            .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
+            .include(DataComponents.BLOCK_ENTITY_DATA)));
         for (DeferredBlock<Block> hullBlock : ModBlocks.HULL_BLOCKS.values()) {
             this.add(hullBlock.get(), block -> this.createSingleItemTable(block)
                 .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)

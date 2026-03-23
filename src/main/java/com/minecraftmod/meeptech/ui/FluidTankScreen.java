@@ -1,6 +1,7 @@
 package com.minecraftmod.meeptech.ui;
 
 import com.minecraftmod.meeptech.MeepTech;
+import com.minecraftmod.meeptech.network.FluidTankActionPacket;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,8 +11,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "textures/gui/blank_ui.png");
@@ -38,10 +42,11 @@ public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
         int amount = menu.getFluidAmount();
         int capacity = menu.getCapacity();
         if (!fluid.isEmpty() && capacity > 0) {
-            int remaining = (int)((float) amount / capacity * FLUID_BAR_HEIGHT);
+            int fillHeight = (int)((float) amount / capacity * FLUID_BAR_HEIGHT);
             int spriteHeight = 16;
             int barX = leftPos + FLUID_BAR_X;
-            int barBottom = topPos + FLUID_BAR_Y + FLUID_BAR_HEIGHT;
+            int barY = topPos + FLUID_BAR_Y;
+            int barBottom = barY + FLUID_BAR_HEIGHT;
             TextureAtlasSprite sprite = getFluidSprite(fluid);
             if (sprite != null) {
                 int color = getFluidColor(fluid);
@@ -50,12 +55,13 @@ public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
                 float b = (color & 0xFF) / 255f;
                 float a = ((color >> 24) & 0xFF) / 255f;
                 if (a == 0) a = 1f;
-                while (remaining > 0) {
-                    int segmentHeight = Math.min(remaining, spriteHeight);
-                    int segmentY = barBottom - remaining;
-                    graphics.blit(barX, segmentY, 0, FLUID_BAR_WIDTH, segmentHeight, sprite, r, g, b, a);
-                    remaining -= segmentHeight;
+                graphics.enableScissor(barX, barBottom - fillHeight, barX + FLUID_BAR_WIDTH, barBottom);
+                int y = barBottom;
+                while (y > barY) {
+                    y -= spriteHeight;
+                    graphics.blit(barX, y, 0, FLUID_BAR_WIDTH, spriteHeight, sprite, r, g, b, a);
                 }
+                graphics.disableScissor();
             }
         }
     }
@@ -72,6 +78,19 @@ public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
                 graphics.renderTooltip(font, Component.translatable(fluid.getFluid().getFluidType().getDescriptionId()), mouseX - leftPos, mouseY - topPos);
             }
         }
+    }
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        int barX = leftPos + FLUID_BAR_X;
+        int barY = topPos + FLUID_BAR_Y;
+        if (mouseX >= barX && mouseX <= barX + FLUID_BAR_WIDTH && mouseY >= barY && mouseY <= barY + FLUID_BAR_HEIGHT) {
+            ItemStack carried = minecraft.player.containerMenu.getCarried();
+            if (FluidUtil.getFluidHandler(carried).isPresent()) {
+                PacketDistributor.sendToServer(new FluidTankActionPacket(menu.getBlockEntityPos()));
+                return true;
+            }
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
     }
     private TextureAtlasSprite getFluidSprite(FluidStack fluid) {
         IClientFluidTypeExtensions extensions = IClientFluidTypeExtensions.of(fluid.getFluid().getFluidType());

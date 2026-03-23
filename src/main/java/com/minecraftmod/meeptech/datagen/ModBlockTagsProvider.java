@@ -21,7 +21,8 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
     protected void addTags(HolderLookup.Provider provider) {
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .add(ModBlocks.MATERIAL_WORKSTATION.get())
-            .add(ModBlocks.ENGINEERING_STATION.get());
+            .add(ModBlocks.ENGINEERING_STATION.get())
+            .add(ModBlocks.FLUID_TANK.get());
         for (DeferredBlock<Block> hullBlock : ModBlocks.HULL_BLOCKS.values()) {
             tag(BlockTags.MINEABLE_WITH_PICKAXE).add(hullBlock.get());
         }

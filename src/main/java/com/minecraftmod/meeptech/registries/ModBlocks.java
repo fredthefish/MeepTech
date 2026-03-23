@@ -47,7 +47,8 @@ public class ModBlocks {
         .isViewBlocking((state, level, pos) -> false)));
     public static final DeferredBlock<Block> FLUID_TANK = registerBlock("fluid_tank", () -> new FluidTankBlock(BlockBehaviour.Properties.of()
         .strength(2f, 6f)
-        .sound(SoundType.METAL),
+        .sound(SoundType.METAL)
+        .requiresCorrectToolForDrops(),
         8000));
     private static DeferredBlock<Block> registerBlock(String name, Supplier<Block> block) {
         return registerBlock(name, block, true);

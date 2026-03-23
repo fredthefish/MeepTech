@@ -2,12 +2,16 @@ package com.minecraftmod.meeptech.network;
 
 import java.util.List;
 
+import com.minecraftmod.meeptech.ui.EngineeringStationMenu;
+
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record EngineeringActionPacket(EngineeringAction action, List<Integer> path) implements CustomPacketPayload {
     public static final Type<EngineeringActionPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath("meeptech", "engineering_action"));
@@ -28,5 +32,13 @@ public record EngineeringActionPacket(EngineeringAction action, List<Integer> pa
         REMOVE_UPGRADE_SLOT,
         INSERT_UPGRADE,
         EXTRACT_UPGRADE
+    }
+    public static void handle(EngineeringActionPacket packet, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            Player player = context.player();
+            if (player.containerMenu instanceof EngineeringStationMenu menu) {
+                menu.handleVirtualAction(packet.action(), packet.path());
+            }
+        });
     }
 }

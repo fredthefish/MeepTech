@@ -4,6 +4,7 @@ import com.minecraftmod.meeptech.blocks.FluidTankBlockEntity;
 import com.minecraftmod.meeptech.registries.ModBlocks;
 import com.minecraftmod.meeptech.registries.ModMenus;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -12,16 +13,22 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
 public class FluidTankMenu extends AbstractContainerMenu {
     private final FluidTankBlockEntity blockEntity;
+    private final Player player;
     private final ContainerData data;
     private final ContainerLevelAccess access;
     public FluidTankMenu(int id, Inventory inv, FluidTankBlockEntity blockEntity, ContainerLevelAccess access) {
         super(ModMenus.FLUID_TANK_MENU.get(), id);
         this.blockEntity = blockEntity;
         this.access = access;
+        this.player = inv.player;
         this.data = new ContainerData() {
             @Override
             public int get(int index) {
@@ -74,5 +81,25 @@ public class FluidTankMenu extends AbstractContainerMenu {
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
         return ItemStack.EMPTY;
+    }
+    public void handleCellClick() {
+        ItemStack carried = getCarried();
+        if (carried.isEmpty()) return;
+        if (!FluidUtil.getFluidHandler(carried).isPresent()) return;
+        IItemHandler playerInventory = new InvWrapper(player.getInventory());
+        FluidActionResult fillResult = FluidUtil.tryEmptyContainerAndStow(carried, blockEntity.getTank(), 
+            playerInventory, blockEntity.getTank().getCapacity(), player, true);
+        if (fillResult.isSuccess()) {
+            setCarried(fillResult.getResult());
+            return;
+        }
+        FluidActionResult drainResult = FluidUtil.tryFillContainerAndStow(carried, blockEntity.getTank(), 
+            playerInventory, blockEntity.getTank().getCapacity(), player, true);
+        if (drainResult.isSuccess()) {
+            setCarried(drainResult.getResult());
+        }
+    }
+    public BlockPos getBlockEntityPos() {
+        return blockEntity.getBlockPos();
     }
 }
