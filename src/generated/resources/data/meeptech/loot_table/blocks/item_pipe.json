@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "meeptech:pipe"
+          "name": "meeptech:item_pipe"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "meeptech:blocks/pipe"
+  "random_sequence": "meeptech:blocks/item_pipe"
 }

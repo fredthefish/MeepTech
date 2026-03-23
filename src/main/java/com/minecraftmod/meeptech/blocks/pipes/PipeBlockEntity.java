@@ -62,17 +62,17 @@ public class PipeBlockEntity extends BlockEntity {
             }
         }
     }
-    public static void tick(Level level, BlockPos pos, BlockState state, PipeBlockEntity entity) {
+    public static void tickItem(Level level, BlockPos pos, BlockState state, PipeBlockEntity entity) {
         if (level == null || level.isClientSide()) return;
         if (level.getGameTime() % 5 != entity.tickOffset) return;
         ServerLevel serverLevel = (ServerLevel) level;
         for (Direction dir : Direction.values()) {
             PipeConnection attachment = entity.faces.get(dir);
             if (attachment != PipeConnection.EXTRACTOR) continue;
-            tickExtractor(dir, attachment, serverLevel, pos, serverLevel);
+            tickItemExtractor(dir, attachment, serverLevel, pos, serverLevel);
         }
     }
-    private static void tickExtractor(Direction dir, PipeConnection attachment, ServerLevel serverLevel, BlockPos worldPosition, ServerLevel level) {
+    private static void tickItemExtractor(Direction dir, PipeConnection attachment, ServerLevel serverLevel, BlockPos worldPosition, ServerLevel level) {
         BlockPos sourcePos = worldPosition.relative(dir);
         IItemHandler source = serverLevel.getCapability(Capabilities.ItemHandler.BLOCK, sourcePos, dir.getOpposite());
         if (source == null) return;

@@ -92,7 +92,7 @@ public class PipeBlockEntityRenderer implements BlockEntityRenderer<PipeBlockEnt
         for (Direction dir : Direction.values()) {
             PipeConnection connection = state.getValue(PipeBlock.CONNECTIONS.get(dir));
             TextureAtlasSprite sprite = connection == PipeConnection.NONE
-                ? PipeSprites.PIPE_END
+                ? PipeSprites.ITEM_PIPE_END
                 : null;
             if (sprite == null) continue;
             switch (dir) {
@@ -137,14 +137,14 @@ public class PipeBlockEntityRenderer implements BlockEntityRenderer<PipeBlockEnt
     }
     private void renderArm(Direction dir, PipeConnection connection, PoseStack pose, VertexConsumer consumer, int packedLight, int packedOverlay) {
         TextureAtlasSprite side = switch (connection) {
-            case EXTRACTOR -> PipeSprites.PIPE_ARM_INPUT;
-            case INSERTER  -> PipeSprites.PIPE_ARM_OUTPUT;
-            default        -> PipeSprites.PIPE_ARM;
+            case EXTRACTOR -> PipeSprites.ITEM_PIPE_ARM_INPUT;
+            case INSERTER  -> PipeSprites.ITEM_PIPE_ARM_OUTPUT;
+            default        -> PipeSprites.ITEM_PIPE_ARM;
         };
         TextureAtlasSprite end = switch (connection) {
-            case EXTRACTOR -> PipeSprites.PIPE_END_INPUT;
-            case INSERTER  -> PipeSprites.PIPE_END_OUTPUT;
-            default        -> PipeSprites.PIPE_END;
+            case EXTRACTOR -> PipeSprites.ITEM_PIPE_END_INPUT;
+            case INSERTER  -> PipeSprites.ITEM_PIPE_END_OUTPUT;
+            default        -> PipeSprites.ITEM_PIPE_END;
         };
         pose.pushPose();
         pose.translate(0.5, 0.5, 0.5);

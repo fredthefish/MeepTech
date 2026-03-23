@@ -3,21 +3,15 @@ package com.minecraftmod.meeptech.blocks.pipes;
 import java.util.EnumMap;
 import java.util.Map;
 
-import com.minecraftmod.meeptech.registries.ModBlockEntities;
-import com.minecraftmod.meeptech.registries.ModItems;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
@@ -25,7 +19,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class PipeBlock extends Block implements EntityBlock {
+public abstract class PipeBlock extends Block implements EntityBlock {
     public static final Map<Direction, EnumProperty<PipeConnection>> CONNECTIONS = new EnumMap<>(Direction.class);
     static {
         for (Direction dir : Direction.values()) {
@@ -79,47 +73,6 @@ public class PipeBlock extends Block implements EntityBlock {
                 PipeNetworkManager.get(serverLevel).onPipesConnected(pos, neighborPos, serverLevel);
             }
         }
-    }
-    @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        if (newState.getBlock() instanceof PipeBlock) {
-            super.onRemove(state, level, pos, newState, movedByPiston);
-            return;
-        }
-        if (level instanceof ServerLevel serverLevel) {
-            PipeBlockEntity be = (PipeBlockEntity)level.getBlockEntity(pos);
-            if (be != null) {
-                for (Direction dir : Direction.values()) {
-                    PipeConnection connection = be.getFace(dir);
-                    if (connection == PipeConnection.EXTRACTOR) {
-                        ItemStack drop = new ItemStack(ModItems.EXTRACTOR.get());
-                        Block.popResource(level, pos, drop);
-                    } else if (connection == PipeConnection.INSERTER) {
-                        ItemStack drop = new ItemStack(ModItems.INSERTER.get());
-                        Block.popResource(level, pos, drop);
-                    }
-                }
-            }
-            PipeNetworkManager.get(serverLevel).onPipeRemoved(pos, state, serverLevel);
-        }
-        for (Direction dir : Direction.values()) {
-            if (state.getValue(CONNECTIONS.get(dir)) != PipeConnection.PIPE) continue;
-            BlockPos neighborPos = pos.relative(dir);
-            BlockState neighborState = level.getBlockState(neighborPos);
-            if (!(neighborState.getBlock() instanceof PipeBlock)) continue;
-            level.setBlock(neighborPos, neighborState.setValue(CONNECTIONS.get(dir.getOpposite()), PipeConnection.NONE), UPDATE_ALL);
-        }
-        super.onRemove(state, level, pos, newState, movedByPiston);
-    }
-    @SuppressWarnings("unchecked")
-    private static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(
-        BlockEntityType<A> type, BlockEntityType<E> checkedType, BlockEntityTicker<? super E> ticker) {
-        return checkedType == type ? (BlockEntityTicker<A>)ticker : null;
-    }
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        if (level.isClientSide()) return null;
-        return createTickerHelper(type, ModBlockEntities.PIPE_BE.get(), PipeBlockEntity::tick);
     }
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {

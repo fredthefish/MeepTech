@@ -4,10 +4,11 @@
   "meeptech.configuration.section.meeptech.common.toml.title": "MeepTech Configs",
 
   "item.meeptech.manual": "MeepTech Manual",
-  "item.meeptech.extractor": "Item Extractor",
-  "item.meeptech.inserter": "Item Inserter",
+  "item.meeptech.item_extractor": "Item Extractor",
+  "item.meeptech.item_inserter": "Item Inserter",
   "item.meeptech.wrench": "Wrench",
   "item.meeptech.fluid_cell": "Fluid Cell",
+  "item.meeptech.fluid_cell.empty": "Empty Fluid Cell",
   "item.meeptech.stone_hammer": "Stone Hammer",
   "item.meeptech.hull.empty": "Empty",
   "item.meeptech.hull.partial": "Incomplete",
@@ -20,7 +21,7 @@
 
   "block.meeptech.material_workstation": "Material Workstation",
   "block.meeptech.engineering_station": "Engineering Station",
-  "block.meeptech.pipe": "Item Pipe",
+  "block.meeptech.item_pipe": "Item Pipe",
   "block.meeptech.fluid_tank": "Fluid Tank",
 
   "itemGroup.meeptech.materials_tab": "MeepTech Materials",

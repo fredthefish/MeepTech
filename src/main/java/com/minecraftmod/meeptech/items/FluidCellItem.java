@@ -42,5 +42,10 @@ public class FluidCellItem extends Item {
             tooltip.add(Component.translatable("tooltip.meeptech.fluid_cell_empty", capacity));
         }
     }
-
+    @Override
+    public Component getName(ItemStack stack) {
+        if (isEmpty(stack)) return Component.translatable("item.meeptech.fluid_cell.empty");
+        FluidStack fluidStack = getFluid(stack);
+        return Component.translatable(fluidStack.getDescriptionId()).append(" ").append(Component.translatable("item.meeptech.fluid_cell"));
+    }
 }

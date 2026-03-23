@@ -34,7 +34,7 @@ public class ModBlockEntities {
             ModBlocks.ENGINEERING_STATION.get()
         ).build(null));
     public static final Supplier<BlockEntityType<PipeBlockEntity>> PIPE_BE = 
-        BLOCK_ENTITY_TYPES.register("pipe_be", () -> BlockEntityType.Builder.of(PipeBlockEntity::new, ModBlocks.PIPE.get()).build(null));
+        BLOCK_ENTITY_TYPES.register("pipe_be", () -> BlockEntityType.Builder.of(PipeBlockEntity::new, ModBlocks.ITEM_PIPE.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FluidTankBlockEntity>> FLUID_TANK_BE = 
         BLOCK_ENTITY_TYPES.register("fluid_tank", () -> BlockEntityType.Builder.of((pos, state) -> {
             if (state.getBlock() instanceof FluidTankBlock tankBlock) return new FluidTankBlockEntity(pos, state, tankBlock.getCapacity());

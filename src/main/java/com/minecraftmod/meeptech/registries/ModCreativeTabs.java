@@ -43,9 +43,9 @@ public class ModCreativeTabs {
             output.accept(ModItems.WRENCH.get());
             output.accept(ModBlocks.MATERIAL_WORKSTATION.get());
             output.accept(ModBlocks.ENGINEERING_STATION.get());
-            output.accept(ModBlocks.PIPE.get());
-            output.accept(ModItems.EXTRACTOR.get());
-            output.accept(ModItems.INSERTER.get());
+            output.accept(ModBlocks.ITEM_PIPE.get());
+            output.accept(ModItems.ITEM_EXTRACTOR.get());
+            output.accept(ModItems.ITEM_INSERTER.get());
             output.accept(ModBlocks.FLUID_TANK.get());
             output.accept(ModItems.FLUID_CELL.get());
             ModuleItems.MODULES.values().forEach(item -> {

@@ -8,7 +8,7 @@ import com.minecraftmod.meeptech.MeepTech;
 import com.minecraftmod.meeptech.blocks.EngineeringStationBlock;
 import com.minecraftmod.meeptech.blocks.FluidTankBlock;
 import com.minecraftmod.meeptech.blocks.MaterialWorkstationBlock;
-import com.minecraftmod.meeptech.blocks.pipes.PipeBlock;
+import com.minecraftmod.meeptech.blocks.pipes.ItemPipeBlock;
 import com.minecraftmod.meeptech.items.HullItem;
 import com.minecraftmod.meeptech.logic.material.Material;
 
@@ -40,7 +40,7 @@ public class ModBlocks {
             .requiresCorrectToolForDrops()
             .sound(SoundType.STONE)
     ));
-    public static final DeferredBlock<Block> PIPE = registerBlock("pipe", () -> new PipeBlock(BlockBehaviour.Properties.of()
+    public static final DeferredBlock<Block> ITEM_PIPE = registerBlock("item_pipe", () -> new ItemPipeBlock(BlockBehaviour.Properties.of()
         .strength(2f, 3f)
         .sound(SoundType.COPPER)
         .noOcclusion()

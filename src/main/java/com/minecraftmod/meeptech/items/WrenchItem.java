@@ -99,8 +99,8 @@ public class WrenchItem extends Item {
                 PipeBlockEntity be = (PipeBlockEntity)level.getBlockEntity(pos);
                 if (be == null) return InteractionResult.FAIL;
                 ItemStack stack = ItemStack.EMPTY;
-                if (currentConnection == PipeConnection.EXTRACTOR) stack = new ItemStack(ModItems.EXTRACTOR.get());
-                if (currentConnection == PipeConnection.INSERTER) stack = new ItemStack(ModItems.INSERTER.get());
+                if (currentConnection == PipeConnection.EXTRACTOR) stack = new ItemStack(ModItems.ITEM_EXTRACTOR.get());
+                if (currentConnection == PipeConnection.INSERTER) stack = new ItemStack(ModItems.ITEM_INSERTER.get());
                 if (!player.addItem(stack)) Block.popResource(level, pos, stack);
                 be.setFace(clickedDir, PipeConnection.NONE);
                 level.setBlock(pos, state.setValue(PipeBlock.CONNECTIONS.get(clickedDir), PipeConnection.NONE), Block.UPDATE_ALL);
