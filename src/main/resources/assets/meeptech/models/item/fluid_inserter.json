@@ -1,32 +1,22 @@
 {
-    "parent": "minecraft:builtin/block",
+    "parent": "minecraft:block/block",
     "gui_light": "front",
     "textures": {
-        "side": "meeptech:block/item_pipe/pipe_arm",
-        "end": "meeptech:block/item_pipe/pipe_end"
+        "side": "meeptech:block/fluid_pipe/pipe_arm_output",
+        "end": "meeptech:block/pipe/pipe_end_output",
+        "cube": "meeptech:block/fluid_pipe/pipe_end"
     },
     "elements": [
         {
             "from": [6, 6, 6],
             "to": [10, 10, 10],
             "faces": {
-                "down":  { "texture": "#end", "uv": [0, 0, 4, 4] },
-                "up":    { "texture": "#end", "uv": [0, 0, 4, 4] },
-                "north": { "texture": "#end", "uv": [0, 0, 4, 4] },
-                "south": { "texture": "#end", "uv": [0, 0, 4, 4] },
-                "west":  { "texture": "#end", "uv": [0, 0, 4, 4] },
-                "east":  { "texture": "#end", "uv": [0, 0, 4, 4] }
-            }
-        },
-        {
-            "from": [0, 6, 6],
-            "to": [6, 10, 10],
-            "faces": {
-                "down":  { "texture": "#side", "uv": [0, 0, 6, 4] },
-                "up":    { "texture": "#side", "uv": [0, 0, 6, 4] },
-                "north": { "texture": "#side", "uv": [0, 0, 6, 4] },
-                "south": { "texture": "#side", "uv": [0, 0, 6, 4] },
-                "west":  { "texture": "#end",  "uv": [0, 0, 4, 4] }
+                "down":  { "texture": "#cube", "uv": [0, 0, 4, 4] },
+                "up":    { "texture": "#cube", "uv": [0, 0, 4, 4] },
+                "north": { "texture": "#cube", "uv": [0, 0, 4, 4] },
+                "south": { "texture": "#cube", "uv": [0, 0, 4, 4] },
+                "west":  { "texture": "#cube", "uv": [0, 0, 4, 4] },
+                "east":  { "texture": "#cube", "uv": [0, 0, 4, 4] }
             }
         },
         {
@@ -35,7 +25,7 @@
             "faces": {
                 "down":  { "texture": "#side", "uv": [0, 0, 6, 4] },
                 "up":    { "texture": "#side", "uv": [0, 0, 6, 4] },
-                "north": { "texture": "#side", "uv": [0, 0, 6, 4] },
+                "north": { "texture": "#side", "uv": [6, 4, 0, 0] },
                 "south": { "texture": "#side", "uv": [0, 0, 6, 4] },
                 "east":  { "texture": "#end",  "uv": [0, 0, 4, 4] }
             }

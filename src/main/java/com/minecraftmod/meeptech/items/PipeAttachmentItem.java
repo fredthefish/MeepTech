@@ -35,7 +35,7 @@ public class PipeAttachmentItem extends Item {
         if (clickedState.getBlock() instanceof PipeBlock) {
             return tryAttach(level, clickedPos, clickedFace, ctx);
         }
-        // Clicked from an inventory adjacent to a pipe.
+        // Clicked from a container adjacent to a pipe.
         BlockPos adjacentPipePos = clickedPos.relative(clickedFace);
         BlockState adjacentState = level.getBlockState(adjacentPipePos);
         if (adjacentState.getBlock() instanceof PipeBlock) {
@@ -49,8 +49,6 @@ public class PipeAttachmentItem extends Item {
         BlockState pipeState = level.getBlockState(pipePos);
         PipeConnection currentConnection = pipeState.getValue(PipeBlock.CONNECTIONS.get(face));
         if (currentConnection != PipeConnection.NONE) return InteractionResult.FAIL;
-        // BlockPos inventoryPos = pipePos.relative(face);
-        // if (serverLevel.getCapability(Capabilities.ItemHandler.BLOCK, inventoryPos, face.getOpposite()) == null) return InteractionResult.FAIL;
         PipeBlockEntity be = (PipeBlockEntity) level.getBlockEntity(pipePos);
         if (be == null) return InteractionResult.FAIL;
         be.setFace(face, type);

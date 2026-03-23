@@ -26,6 +26,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.MATERIAL_WORKSTATION.get());
         this.dropSelf(ModBlocks.ENGINEERING_STATION.get());
         this.dropSelf(ModBlocks.ITEM_PIPE.get());
+        this.dropSelf(ModBlocks.FLUID_PIPE.get());
         this.add(ModBlocks.FLUID_TANK.get(), block -> this.createSingleItemTable(block)
             .apply(CopyComponentsFunction.copyComponents(CopyComponentsFunction.Source.BLOCK_ENTITY)
             .include(DataComponents.BLOCK_ENTITY_DATA)));

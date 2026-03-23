@@ -61,7 +61,8 @@ public class MeepTechClient {
     public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         for (Supplier<BlockEntityType<BaseMachineBlockEntity>> blockEntity : ModBlockEntities.HULL_BLOCK_ENTITIES.values())
             event.registerBlockEntityRenderer(blockEntity.get(), MachineBlockEntityRenderer::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.PIPE_BE.get(), PipeBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.ITEM_PIPE_BE.get(), PipeBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.FLUID_PIPE_BE.get(), PipeBlockEntityRenderer::new);
     }
     @SubscribeEvent
     public static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {

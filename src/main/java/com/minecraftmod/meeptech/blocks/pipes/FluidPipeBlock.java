@@ -15,9 +15,9 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ItemPipeBlock extends PipeBlock {
-    public ItemPipeBlock(Properties props) {
-        super(props, PipeType.ITEM);
+public class FluidPipeBlock extends PipeBlock {
+    public FluidPipeBlock(Properties props) {
+        super(props, PipeType.FLUID);
     }
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
@@ -31,10 +31,10 @@ public class ItemPipeBlock extends PipeBlock {
                 for (Direction dir : Direction.values()) {
                     PipeConnection connection = be.getFace(dir);
                     if (connection == PipeConnection.EXTRACTOR) {
-                        ItemStack drop = new ItemStack(ModItems.ITEM_EXTRACTOR.get());
+                        ItemStack drop = new ItemStack(ModItems.FLUID_EXTRACTOR.get());
                         Block.popResource(level, pos, drop);
                     } else if (connection == PipeConnection.INSERTER) {
-                        ItemStack drop = new ItemStack(ModItems.ITEM_INSERTER.get());
+                        ItemStack drop = new ItemStack(ModItems.FLUID_INSERTER.get());
                         Block.popResource(level, pos, drop);
                     }
                 }
@@ -58,6 +58,6 @@ public class ItemPipeBlock extends PipeBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         if (level.isClientSide()) return null;
-        return createTickerHelper(type, ModBlockEntities.ITEM_PIPE_BE.get(), PipeBlockEntity::tickItem);
+        return createTickerHelper(type, ModBlockEntities.FLUID_PIPE_BE.get(), PipeBlockEntity::tickFluid);
     }
 }

@@ -6,6 +6,8 @@
   "item.meeptech.manual": "MeepTech Manual",
   "item.meeptech.item_extractor": "Item Extractor",
   "item.meeptech.item_inserter": "Item Inserter",
+  "item.meeptech.fluid_extractor": "Fluid Extractor",
+  "item.meeptech.fluid_inserter": "Fluid Inserter",
   "item.meeptech.wrench": "Wrench",
   "item.meeptech.fluid_cell": "Fluid Cell",
   "item.meeptech.fluid_cell.empty": "Empty Fluid Cell",
@@ -22,6 +24,7 @@
   "block.meeptech.material_workstation": "Material Workstation",
   "block.meeptech.engineering_station": "Engineering Station",
   "block.meeptech.item_pipe": "Item Pipe",
+  "block.meeptech.fluid_pipe": "Fluid Pipe",
   "block.meeptech.fluid_tank": "Fluid Tank",
 
   "itemGroup.meeptech.materials_tab": "MeepTech Materials",

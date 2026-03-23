@@ -2,21 +2,21 @@
     "parent": "minecraft:block/block",
     "gui_light": "front",
     "textures": {
-        "particle": "meeptech:block/pipe/pipe_end",
-        "side": "meeptech:block/pipe/pipe_arm_output",
-        "end": "meeptech:block/pipe/pipe_end_output"
+        "side": "meeptech:block/item_pipe/pipe_arm_output",
+        "end": "meeptech:block/pipe/pipe_end_output",
+        "cube": "meeptech:block/item_pipe/pipe_end"
     },
     "elements": [
         {
             "from": [6, 6, 6],
             "to": [10, 10, 10],
             "faces": {
-                "down":  { "texture": "#particle", "uv": [0, 0, 4, 4] },
-                "up":    { "texture": "#particle", "uv": [0, 0, 4, 4] },
-                "north": { "texture": "#particle", "uv": [0, 0, 4, 4] },
-                "south": { "texture": "#particle", "uv": [0, 0, 4, 4] },
-                "west":  { "texture": "#particle", "uv": [0, 0, 4, 4] },
-                "east":  { "texture": "#particle", "uv": [0, 0, 4, 4] }
+                "down":  { "texture": "#cube", "uv": [0, 0, 4, 4] },
+                "up":    { "texture": "#cube", "uv": [0, 0, 4, 4] },
+                "north": { "texture": "#cube", "uv": [0, 0, 4, 4] },
+                "south": { "texture": "#cube", "uv": [0, 0, 4, 4] },
+                "west":  { "texture": "#cube", "uv": [0, 0, 4, 4] },
+                "east":  { "texture": "#cube", "uv": [0, 0, 4, 4] }
             }
         },
         {

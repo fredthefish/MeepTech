@@ -3,6 +3,8 @@ package com.minecraftmod.meeptech.blocks.pipes;
 import java.util.EnumMap;
 import java.util.Map;
 
+import com.minecraftmod.meeptech.blocks.pipes.PipeBlockEntity.PipeType;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -20,14 +22,16 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public abstract class PipeBlock extends Block implements EntityBlock {
+    private final PipeType type;
     public static final Map<Direction, EnumProperty<PipeConnection>> CONNECTIONS = new EnumMap<>(Direction.class);
     static {
         for (Direction dir : Direction.values()) {
             CONNECTIONS.put(dir, EnumProperty.create(dir.getSerializedName(), PipeConnection.class));
         }
     }
-    public PipeBlock(Properties props) {
+    public PipeBlock(Properties props, PipeType type) {
         super(props);
+        this.type = type;
         BlockState defaultState = stateDefinition.any();
         for (EnumProperty<PipeConnection> prop : CONNECTIONS.values()) {
             defaultState = defaultState.setValue(prop, PipeConnection.NONE);
@@ -40,7 +44,7 @@ public abstract class PipeBlock extends Block implements EntityBlock {
     }
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new PipeBlockEntity(pos, state);
+        return new PipeBlockEntity(pos, state, type);
     }
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext ctx) {

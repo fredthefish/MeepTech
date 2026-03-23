@@ -22,6 +22,10 @@ public class ModItems {
         ITEMS.register("item_extractor", () -> new PipeAttachmentItem(PipeConnection.EXTRACTOR, new Item.Properties()));
     public static final DeferredItem<Item> ITEM_INSERTER = 
         ITEMS.register("item_inserter", () -> new PipeAttachmentItem(PipeConnection.INSERTER, new Item.Properties()));
+    public static final DeferredItem<Item> FLUID_EXTRACTOR = 
+        ITEMS.register("fluid_extractor", () -> new PipeAttachmentItem(PipeConnection.EXTRACTOR, new Item.Properties()));
+    public static final DeferredItem<Item> FLUID_INSERTER = 
+        ITEMS.register("fluid_inserter", () -> new PipeAttachmentItem(PipeConnection.INSERTER, new Item.Properties()));
     public static final DeferredItem<Item> WRENCH = ITEMS.register("wrench", () -> new WrenchItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<FluidCellItem> FLUID_CELL = ModItems.ITEMS.register("fluid_cell", 
         () -> new FluidCellItem(1000, new Item.Properties()));

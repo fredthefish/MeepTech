@@ -20,10 +20,14 @@ public class ModSpriteSourceProvider extends SpriteSourceProvider {
     protected void gather() {
         SourceList blockAtlas = atlas(BLOCKS_ATLAS);
         //Pipe textures
-        blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/pipe/pipe_end"), Optional.empty()));
-        blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/pipe/pipe_arm"), Optional.empty()));
-        blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/pipe/pipe_arm_input"), Optional.empty()));
-        blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/pipe/pipe_arm_output"), Optional.empty()));
+        blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/item_pipe/pipe_end"), Optional.empty()));
+        blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/item_pipe/pipe_arm"), Optional.empty()));
+        blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/item_pipe/pipe_arm_input"), Optional.empty()));
+        blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/item_pipe/pipe_arm_output"), Optional.empty()));
+        blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/fluid_pipe/pipe_end"), Optional.empty()));
+        blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/fluid_pipe/pipe_arm"), Optional.empty()));
+        blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/fluid_pipe/pipe_arm_input"), Optional.empty()));
+        blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/fluid_pipe/pipe_arm_output"), Optional.empty()));
         blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/pipe/pipe_end_input"), Optional.empty()));
         blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/pipe/pipe_end_output"), Optional.empty()));
     }

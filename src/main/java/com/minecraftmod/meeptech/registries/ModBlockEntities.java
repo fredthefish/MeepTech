@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import com.minecraftmod.meeptech.blocks.pipes.PipeBlockEntity.PipeType;
 
 public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, MeepTech.MODID);
@@ -33,8 +34,12 @@ public class ModBlockEntities {
             EngineeringStationBlockEntity::new,
             ModBlocks.ENGINEERING_STATION.get()
         ).build(null));
-    public static final Supplier<BlockEntityType<PipeBlockEntity>> PIPE_BE = 
-        BLOCK_ENTITY_TYPES.register("pipe_be", () -> BlockEntityType.Builder.of(PipeBlockEntity::new, ModBlocks.ITEM_PIPE.get()).build(null));
+    public static final Supplier<BlockEntityType<PipeBlockEntity>> ITEM_PIPE_BE = 
+        BLOCK_ENTITY_TYPES.register("item_pipe_be", () -> 
+            BlockEntityType.Builder.of((pos, state) -> new PipeBlockEntity(pos, state, PipeType.ITEM), ModBlocks.ITEM_PIPE.get()).build(null));
+    public static final Supplier<BlockEntityType<PipeBlockEntity>> FLUID_PIPE_BE = 
+        BLOCK_ENTITY_TYPES.register("fluid_pipe_be", () -> 
+            BlockEntityType.Builder.of((pos, state) -> new PipeBlockEntity(pos, state, PipeType.FLUID), ModBlocks.FLUID_PIPE.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FluidTankBlockEntity>> FLUID_TANK_BE = 
         BLOCK_ENTITY_TYPES.register("fluid_tank", () -> BlockEntityType.Builder.of((pos, state) -> {
             if (state.getBlock() instanceof FluidTankBlock tankBlock) return new FluidTankBlockEntity(pos, state, tankBlock.getCapacity());

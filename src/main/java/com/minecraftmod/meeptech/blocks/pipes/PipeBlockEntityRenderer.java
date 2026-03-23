@@ -2,6 +2,7 @@ package com.minecraftmod.meeptech.blocks.pipes;
 
 import org.joml.Matrix4f;
 
+import com.minecraftmod.meeptech.blocks.pipes.PipeBlockEntity.PipeType;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -33,7 +34,7 @@ public class PipeBlockEntityRenderer implements BlockEntityRenderer<PipeBlockEnt
         for (Direction dir : Direction.values()) {
             PipeConnection connection = state.getValue(PipeBlock.CONNECTIONS.get(dir));
             if (connection == PipeConnection.NONE) continue;
-            renderArm(dir, connection, pose, consumer, packedLight, packedOverlay);
+            renderArm(be, dir, connection, pose, consumer, packedLight, packedOverlay);
         }
     }
     private void renderQuad(PoseStack pose, VertexConsumer consumer, TextureAtlasSprite sprite, 
@@ -91,9 +92,9 @@ public class PipeBlockEntityRenderer implements BlockEntityRenderer<PipeBlockEnt
     private void renderCenterCube(PipeBlockEntity be, BlockState state, PoseStack pose, VertexConsumer consumer, int packedLight, int packedOverlay) {
         for (Direction dir : Direction.values()) {
             PipeConnection connection = state.getValue(PipeBlock.CONNECTIONS.get(dir));
-            TextureAtlasSprite sprite = connection == PipeConnection.NONE
-                ? PipeSprites.ITEM_PIPE_END
-                : null;
+            TextureAtlasSprite sprite = null;
+            if (be.getPipeType() == PipeType.ITEM && connection == PipeConnection.NONE) sprite = PipeSprites.ITEM_PIPE_END;
+            if (be.getPipeType() == PipeType.FLUID && connection == PipeConnection.NONE) sprite = PipeSprites.FLUID_PIPE_END;
             if (sprite == null) continue;
             switch (dir) {
                 case UP -> renderQuadBothSides(pose, consumer, sprite,
@@ -135,17 +136,36 @@ public class PipeBlockEntityRenderer implements BlockEntityRenderer<PipeBlockEnt
             }
         }
     }
-    private void renderArm(Direction dir, PipeConnection connection, PoseStack pose, VertexConsumer consumer, int packedLight, int packedOverlay) {
-        TextureAtlasSprite side = switch (connection) {
-            case EXTRACTOR -> PipeSprites.ITEM_PIPE_ARM_INPUT;
-            case INSERTER  -> PipeSprites.ITEM_PIPE_ARM_OUTPUT;
-            default        -> PipeSprites.ITEM_PIPE_ARM;
-        };
-        TextureAtlasSprite end = switch (connection) {
-            case EXTRACTOR -> PipeSprites.ITEM_PIPE_END_INPUT;
-            case INSERTER  -> PipeSprites.ITEM_PIPE_END_OUTPUT;
-            default        -> PipeSprites.ITEM_PIPE_END;
-        };
+    private void renderArm(PipeBlockEntity be, Direction dir, PipeConnection connection, PoseStack pose, VertexConsumer consumer, int packedLight, int packedOverlay) {
+        TextureAtlasSprite side = null;
+        TextureAtlasSprite end = null;
+        switch (be.getPipeType()) {
+            case PipeType.ITEM:
+                side = switch (connection) {
+                    case EXTRACTOR -> PipeSprites.ITEM_PIPE_ARM_INPUT;
+                    case INSERTER  -> PipeSprites.ITEM_PIPE_ARM_OUTPUT;
+                    default        -> PipeSprites.ITEM_PIPE_ARM;
+                };
+                end = switch (connection) {
+                    case EXTRACTOR -> PipeSprites.PIPE_END_INPUT;
+                    case INSERTER  -> PipeSprites.PIPE_END_OUTPUT;
+                    default        -> PipeSprites.ITEM_PIPE_END;
+                };
+                break;
+            case PipeType.FLUID:
+                side = switch (connection) {
+                    case EXTRACTOR -> PipeSprites.FLUID_PIPE_ARM_INPUT;
+                    case INSERTER  -> PipeSprites.FLUID_PIPE_ARM_OUTPUT;
+                    default        -> PipeSprites.FLUID_PIPE_ARM;
+                };
+                end = switch (connection) {
+                    case EXTRACTOR -> PipeSprites.PIPE_END_INPUT;
+                    case INSERTER  -> PipeSprites.PIPE_END_OUTPUT;
+                    default        -> PipeSprites.FLUID_PIPE_END;
+                };
+                break;
+        }
+        if (side == null || end == null) return;
         pose.pushPose();
         pose.translate(0.5, 0.5, 0.5);
         switch (dir) {

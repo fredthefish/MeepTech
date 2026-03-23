@@ -2,8 +2,8 @@
     "parent": "minecraft:builtin/block",
     "gui_light": "front",
     "textures": {
-        "side": "meeptech:block/item_pipe/pipe_arm",
-        "end": "meeptech:block/item_pipe/pipe_end"
+        "side": "meeptech:block/fluid_pipe/pipe_arm",
+        "end": "meeptech:block/fluid_pipe/pipe_end"
     },
     "elements": [
         {

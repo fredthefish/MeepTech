@@ -1,0 +1,6 @@
+{
+    "textures": {
+        "particle": "meeptech:block/fluid_pipe/pipe_particle"
+    },
+    "elements": []
+}
