@@ -14,5 +14,6 @@ public class ModNetworking {
         final PayloadRegistrar registrar = event.registrar("1");
         registrar.playToServer(EngineeringActionPacket.TYPE, EngineeringActionPacket.STREAM_CODEC, EngineeringActionPacket::handle);
         registrar.playToServer(FluidTankActionPacket.TYPE, FluidTankActionPacket.STREAM_CODEC, FluidTankActionPacket::handle);
+        registrar.playToServer(FluidCellActionPacket.TYPE, FluidCellActionPacket.STREAM_CODEC, FluidCellActionPacket::handle);
     }
 }

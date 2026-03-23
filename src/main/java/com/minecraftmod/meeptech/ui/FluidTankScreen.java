@@ -1,6 +1,9 @@
 package com.minecraftmod.meeptech.ui;
 
 import com.minecraftmod.meeptech.MeepTech;
+import com.minecraftmod.meeptech.items.FluidCellItem;
+import com.minecraftmod.meeptech.network.FluidCellActionPacket;
+import com.minecraftmod.meeptech.network.FluidCellActionPacket.FluidCellAction;
 import com.minecraftmod.meeptech.network.FluidTankActionPacket;
 
 import net.minecraft.client.Minecraft;
@@ -32,6 +35,12 @@ public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
         super(menu, inv, title);
         this.imageWidth = GUI_WIDTH;
         this.imageHeight = GUI_HEIGHT;
+    }
+    @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
+        this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
     @Override
     protected void renderBg(GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
@@ -85,6 +94,12 @@ public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
         int barY = topPos + FLUID_BAR_Y;
         if (mouseX >= barX && mouseX <= barX + FLUID_BAR_WIDTH && mouseY >= barY && mouseY <= barY + FLUID_BAR_HEIGHT) {
             ItemStack carried = minecraft.player.containerMenu.getCarried();
+            if (carried.getItem() instanceof FluidCellItem) {
+                boolean isShift = hasShiftDown();
+                FluidCellAction action = button == 0 ? FluidCellAction.EXTRACT_INTO_CELL : FluidCellAction.INSERT_INTO_TANK;
+                PacketDistributor.sendToServer(new FluidCellActionPacket(menu.getBlockEntityPos(), action, isShift));
+                return true;
+            }
             if (FluidUtil.getFluidHandler(carried).isPresent()) {
                 PacketDistributor.sendToServer(new FluidTankActionPacket(menu.getBlockEntityPos()));
                 return true;
