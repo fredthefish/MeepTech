@@ -13,18 +13,13 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.SpriteSourceProvider;
 
 public class ModSpriteSourceProvider extends SpriteSourceProvider {
-
-    public ModSpriteSourceProvider(PackOutput output,
-            CompletableFuture<HolderLookup.Provider> lookupProvider,
-            ExistingFileHelper existingFileHelper) {
+    public ModSpriteSourceProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, MeepTech.MODID, existingFileHelper);
     }
-
     @Override
     protected void gather() {
         SourceList blockAtlas = atlas(BLOCKS_ATLAS);
-
-        // Register all pipe textures for stitching
+        //Pipe textures
         blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/pipe/pipe_end"), Optional.empty()));
         blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/pipe/pipe_arm"), Optional.empty()));
         blockAtlas.addSource(new SingleFile(ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/pipe/pipe_arm_input"), Optional.empty()));

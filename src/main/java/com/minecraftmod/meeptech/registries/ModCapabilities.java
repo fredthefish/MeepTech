@@ -21,7 +21,7 @@ public class ModCapabilities {
             event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, blockEntity.get(),
             (be, side) -> be.getAutomationHandler());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.FLUID_TANK_BE.get(), (be, side) -> be.getTank());
-        event.registerItem(Capabilities.FluidHandler.ITEM, (stack, ctx) -> new FluidHandlerItemStack(
-            ModDataComponents.FLUID_CELL_CONTENT, stack, ((FluidCellItem) stack.getItem()).getCapacity()), ModItems.FLUID_CELL.get());
+        event.registerItem(Capabilities.FluidHandler.ITEM, (stack, ctx) -> 
+            new FluidHandlerItemStack(ModDataComponents.FLUID_CELL_CONTENT, stack, ((FluidCellItem) stack.getItem()).getCapacity()), ModItems.FLUID_CELL.get());
     }
 }

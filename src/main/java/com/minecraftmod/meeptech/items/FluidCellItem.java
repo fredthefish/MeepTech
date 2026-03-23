@@ -21,8 +21,7 @@ public class FluidCellItem extends Item {
         return capacity; 
     }
     public FluidStack getFluid(ItemStack stack) {
-        SimpleFluidContent content = stack.get(
-            ModDataComponents.FLUID_CELL_CONTENT.get());
+        SimpleFluidContent content = stack.get(ModDataComponents.FLUID_CELL_CONTENT.get());
         return content != null ? content.copy() : FluidStack.EMPTY;
     }
     public int getFluidAmount(ItemStack stack) {

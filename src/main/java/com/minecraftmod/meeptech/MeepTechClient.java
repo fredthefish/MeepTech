@@ -39,7 +39,10 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 @Mod(value = MeepTech.MODID, dist = Dist.CLIENT)
@@ -101,6 +104,13 @@ public class MeepTechClient {
             if (tintIndex == 1) return 0xFFBBBBBB;
             return 0xFFFFFFFF;
         }, ModItems.HAMMER.get());
+        event.register((stack, tintIndex) -> {
+            if (tintIndex == 1) {
+                FluidStack fluidStack = FluidUtil.getFluidContained(stack).orElse(FluidStack.EMPTY);
+                if (!fluidStack.isEmpty()) return IClientFluidTypeExtensions.of(fluidStack.getFluid()).getTintColor(fluidStack);
+            }
+            return 0xFFFFFFFF; // default white (no tint)
+        }, ModItems.FLUID_CELL.get());
     }
     @SubscribeEvent
     public static void registerItemProperties(FMLClientSetupEvent event) {

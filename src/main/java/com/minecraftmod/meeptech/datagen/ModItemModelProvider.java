@@ -15,10 +15,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.ModelFile.UncheckedModelFile;
+import net.neoforged.neoforge.client.model.generators.loaders.DynamicFluidContainerModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
@@ -73,5 +75,11 @@ public class ModItemModelProvider extends ItemModelProvider {
             .texture("layer0", ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "item/handle_hammer"))
             .texture("layer1", ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "item/base_hammer"));
         handheldItem(ModItems.WRENCH.get());
+        getBuilder(ModItems.FLUID_CELL.getId().getPath())
+            .parent(new ModelFile.UncheckedModelFile("neoforge:item/default"))
+            .customLoader(DynamicFluidContainerModelBuilder::begin)
+            .fluid(Fluids.EMPTY).applyTint(true).coverIsMask(true).applyFluidLuminosity(true).end()
+            .texture("base", modLoc("item/fluid_cell/base"))
+            .texture("fluid", modLoc("item/fluid_cell/overlay"));
     }
 }
