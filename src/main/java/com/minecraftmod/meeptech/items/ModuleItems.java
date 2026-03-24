@@ -12,15 +12,14 @@ public class ModuleItems {
     public static final Map<String, DeferredItem<Item>> MODULES = new HashMap<>();
     public static final Map<String, DeferredItem<Item>> MODULE_ITEMS = new HashMap<>(); //Non-hulls.
     
+    public static DeferredItem<Item> TEMPLATE_PRIMITIVE = addModuleItem("template_primitive");
+    public static DeferredItem<Item> TEMPLATE_STEAM = addModuleItem("template_steam");
     public static DeferredItem<Item> SMELTER_CORE = addModuleItem("machine_core_smelter");
     public static DeferredItem<Item> SOLID_FUEL_CORE = addModuleItem("heating_core_solid_fuel");
     public static DeferredItem<Item> SMELTER_BLASTING = addModuleItem("upgrade_smelter_blasting");
     public static DeferredItem<Item> ALLOYER_CORE = addModuleItem("machine_core_alloyer");
     public static DeferredItem<Item> STEAM_BOILER_CORE = addModuleItem("machine_core_steam_boiler");
-    public static void registerModuleItems() {
-        addModuleItem("template_primitive");
-        addModuleItem("template_steam");
-    }
+    
     private static DeferredItem<Item> addModuleItem(String id) {
         DeferredItem<Item> item = ModItems.ITEMS.registerSimpleItem("module_" + id);
         MODULES.put(id, item);

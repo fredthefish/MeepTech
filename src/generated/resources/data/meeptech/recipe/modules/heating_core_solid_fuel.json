@@ -1,14 +1,16 @@
 {
   "type": "minecraft:crafting_shapeless",
+  "category": "misc",
   "ingredients": [
     {
-      "item": "meeptech:module_template_basic"
+      "item": "meeptech:module_template_primitive"
     },
     {
       "tag": "minecraft:coals"
     }
   ],
   "result": {
+    "count": 1,
     "id": "meeptech:module_heating_core_solid_fuel"
   }
 }

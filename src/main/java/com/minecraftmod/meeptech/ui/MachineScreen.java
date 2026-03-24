@@ -5,6 +5,7 @@ import com.minecraftmod.meeptech.items.FluidCellItem;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
 import com.minecraftmod.meeptech.logic.ui.EnergyUIModule;
 import com.minecraftmod.meeptech.logic.ui.RecipeUIModule;
+import com.minecraftmod.meeptech.logic.ui.SlotType;
 import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
 import com.minecraftmod.meeptech.logic.ui.UIModule;
 import com.minecraftmod.meeptech.network.FluidCellActionPacket;
@@ -55,7 +56,7 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
                 if (slot.getSlotClass() == SlotClass.ITEM) 
                     guiGraphics.blit(SLOT, x + slot.getX(), y + slot.getY(), 0, 0, slotSize, slotSize, slotSize, slotSize);
                 else if (slot.getSlotClass() == SlotClass.FLUID) {
-                    FluidTankWidget fluidTankWidget = new FluidTankWidget(x + slot.getX() + 1, y + slot.getY() + 1, slotSize - 2, slotSize - 2, 
+                    FluidTankWidget fluidTankWidget = new FluidTankWidget(x + slot.getX(), y + slot.getY(), slotSize, slotSize, 
                         machineData.getStartFluidSlot(uiModule.getType()) + slot.getModuleId());
                     fluidTankWidget.render(guiGraphics, menu);
                 }
@@ -100,7 +101,7 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         for (UIModule uiModule : machineData.getUiModules()) {
             for (SlotUIElement slot : uiModule.getSlots()) {
                 if (slot.getSlotClass() == SlotClass.FLUID) {
-                    FluidTankWidget fluidTankWidget = new FluidTankWidget(x + slot.getX() + 1, y + slot.getY() + 1, slotSize - 2, slotSize - 2, 
+                    FluidTankWidget fluidTankWidget = new FluidTankWidget(x + slot.getX(), y + slot.getY(), slotSize, slotSize, 
                         machineData.getStartFluidSlot(uiModule.getType()) + slot.getModuleId());
                     if (fluidTankWidget.isMouseOver(mouseX, mouseY)) {
                         guiGraphics.renderComponentTooltip(font, fluidTankWidget.getTooltip(menu), mouseX, mouseY);
@@ -118,17 +119,17 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
             for (SlotUIElement slot : uiModule.getSlots()) {
                 if (slot.getSlotClass() == SlotClass.FLUID) {
                     int slotId = machineData.getStartFluidSlot(uiModule.getType()) + slot.getModuleId();
-                    FluidTankWidget fluidTankWidget = new FluidTankWidget(x + slot.getX() + 1, y + slot.getY() + 1, slotSize - 2, slotSize - 2, slotId);
+                    FluidTankWidget fluidTankWidget = new FluidTankWidget(x + slot.getX(), y + slot.getY(), slotSize, slotSize, slotId);
                     if (fluidTankWidget.isMouseOver(mouseX, mouseY)) {
                         ItemStack carried = minecraft.player.containerMenu.getCarried();
                         if (carried.getItem() instanceof FluidCellItem) {
                             boolean isShift = hasShiftDown();
                             FluidCellAction action = button == 0 ? FluidCellAction.EXTRACT_INTO_CELL : FluidCellAction.INSERT_INTO_TANK;
-                            PacketDistributor.sendToServer(new FluidCellActionPacket(action, isShift, slotId));
+                            PacketDistributor.sendToServer(new FluidCellActionPacket(action, isShift, slotId, slot.getType() == SlotType.OUTPUT));
                             return true;
                         }
                         if (FluidUtil.getFluidHandler(carried).isPresent()) {
-                            PacketDistributor.sendToServer(new FluidTankActionPacket(slotId));
+                            PacketDistributor.sendToServer(new FluidTankActionPacket(slotId, slot.getType() == SlotType.OUTPUT));
                             return true;
                         }
                     }

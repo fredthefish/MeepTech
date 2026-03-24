@@ -1,7 +1,6 @@
 package com.minecraftmod.meeptech;
 
 import com.minecraftmod.meeptech.items.MaterialItems;
-import com.minecraftmod.meeptech.items.ModuleItems;
 import com.minecraftmod.meeptech.logic.material.ModMaterials;
 import com.minecraftmod.meeptech.registries.ModBlockEntities;
 import com.minecraftmod.meeptech.registries.ModBlocks;
@@ -27,7 +26,6 @@ public class MeepTech {
     public static final String MODID = "meeptech";
 
     public MeepTech(IEventBus modEventBus, ModContainer modContainer) {
-        ModuleItems.registerModuleItems();
         ModMaterials.initializeMaterials();
         MaterialItems.registerMaterialItems();
         ModItems.ITEMS.register(modEventBus);

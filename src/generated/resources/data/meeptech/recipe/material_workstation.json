@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "H": {
+      "item": "meeptech:stone_hammer"
+    },
+    "S": {
+      "item": "minecraft:stone"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "SHS",
+    "SSS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "meeptech:material_workstation"
+  }
+}

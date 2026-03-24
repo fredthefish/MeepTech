@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_rotor": {
+      "conditions": {
+        "items": [
+          {
+            "items": "meeptech:copper_rotor"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "meeptech:modules/machine_core_alloyer"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_rotor"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "meeptech:modules/machine_core_alloyer"
+    ]
+  }
+}

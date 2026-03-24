@@ -34,11 +34,10 @@ public class FluidTankWidget {
         int capacity = tank.getCapacity();
         graphics.blit(FLUID_SLOT, x, y, width, height, 0, 0, 18, 18, 18, 18);
         if (!fluid.isEmpty() && capacity > 0) {
-            int fluidHeight = (int) ((float) fluid.getAmount() / capacity * height);
-            renderFluidStack(graphics, fluid, x, y + height - fluidHeight, width, fluidHeight);
+            renderFluidStack(graphics, fluid, x, y);
         }
     }
-    private void renderFluidStack(GuiGraphics graphics, FluidStack fluid, int x, int y, int width, int height) {
+    private void renderFluidStack(GuiGraphics graphics, FluidStack fluid, int x, int y) {
         IClientFluidTypeExtensions props = IClientFluidTypeExtensions.of(fluid.getFluid());
         ResourceLocation stillTexture = props.getStillTexture(fluid);
         if (stillTexture == null) return;
@@ -51,13 +50,7 @@ public class FluidTankWidget {
         RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
         RenderSystem.setShaderColor(r, g, b, a);
         int spriteSize = 16;
-        for (int row = 0; row < height; row += spriteSize) {
-            int drawHeight = Math.min(spriteSize, height - row);
-            for (int col = 0; col < width; col += spriteSize) {
-                int drawWidth = Math.min(spriteSize, width - col);
-                graphics.blit(x + col, y + row, 0, drawWidth, drawHeight, sprite);
-            }
-        }
+        graphics.blit(x + 1, y + 1, 0, spriteSize, spriteSize, sprite);
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
     }
     public boolean isMouseOver(double mouseX, double mouseY) {

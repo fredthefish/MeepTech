@@ -11,10 +11,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-public record FluidTankActionPacket(int tank) implements CustomPacketPayload {
+public record FluidTankActionPacket(int tank, boolean output) implements CustomPacketPayload {
     public static final Type<FluidTankActionPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath("meeptech", "fluid_tank_action"));
     public static final StreamCodec<RegistryFriendlyByteBuf, FluidTankActionPacket> STREAM_CODEC =
-        StreamCodec.composite(ByteBufCodecs.INT, FluidTankActionPacket::tank, FluidTankActionPacket::new);
+        StreamCodec.composite(ByteBufCodecs.INT, FluidTankActionPacket::tank, ByteBufCodecs.BOOL, FluidTankActionPacket::output, 
+            FluidTankActionPacket::new);
     @Override
     public Type<? extends CustomPacketPayload> type() {
         return TYPE;
@@ -23,10 +24,10 @@ public record FluidTankActionPacket(int tank) implements CustomPacketPayload {
         context.enqueueWork(() -> {
             Player player = context.player();
             if (player.containerMenu instanceof FluidTankMenu menu) {
-                menu.handleCellClick(menu, packet.tank());
+                menu.handleCellClick(menu, packet.tank(), packet.output());
             }
             if (player.containerMenu instanceof MachineMenu menu) {
-                menu.handleCellClick(menu, packet.tank());
+                menu.handleCellClick(menu, packet.tank(), packet.output());
             }
         });
     }

@@ -12,11 +12,12 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.codec.NeoForgeStreamCodecs;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-public record FluidCellActionPacket(FluidCellAction action, boolean shift, int tank) implements CustomPacketPayload {
+public record FluidCellActionPacket(FluidCellAction action, boolean shift, int tank, boolean output) implements CustomPacketPayload {
     public static final Type<FluidCellActionPacket> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath("meeptech", "fluid_cell_action"));
     public static final StreamCodec<RegistryFriendlyByteBuf, FluidCellActionPacket> STREAM_CODEC = StreamCodec.composite(
             NeoForgeStreamCodecs.enumCodec(FluidCellAction.class), FluidCellActionPacket::action,
-            ByteBufCodecs.BOOL, FluidCellActionPacket::shift, ByteBufCodecs.INT, FluidCellActionPacket::tank, FluidCellActionPacket::new);
+            ByteBufCodecs.BOOL, FluidCellActionPacket::shift, ByteBufCodecs.INT, FluidCellActionPacket::tank, 
+            ByteBufCodecs.BOOL, FluidCellActionPacket::output, FluidCellActionPacket::new);
     @Override
     public Type<? extends CustomPacketPayload> type() { 
         return TYPE; 
@@ -25,10 +26,10 @@ public record FluidCellActionPacket(FluidCellAction action, boolean shift, int t
         ctx.enqueueWork(() -> {
             Player player = ctx.player();
             if (player.containerMenu instanceof FluidTankMenu menu) {
-                menu.handleFluidCellClick(packet.action(), packet.shift(), menu, packet.tank());
+                menu.handleFluidCellClick(packet.action(), packet.shift(), menu, packet.tank(), packet.output());
             }
             if (player.containerMenu instanceof MachineMenu menu) {
-                menu.handleFluidCellClick(packet.action(), packet.shift(), menu, packet.tank());
+                menu.handleFluidCellClick(packet.action(), packet.shift(), menu, packet.tank(), packet.output());
             }
         });
     }

@@ -97,11 +97,11 @@ public class FluidTankScreen extends AbstractContainerScreen<FluidTankMenu> {
             if (carried.getItem() instanceof FluidCellItem) {
                 boolean isShift = hasShiftDown();
                 FluidCellAction action = button == 0 ? FluidCellAction.EXTRACT_INTO_CELL : FluidCellAction.INSERT_INTO_TANK;
-                PacketDistributor.sendToServer(new FluidCellActionPacket(action, isShift, 0));
+                PacketDistributor.sendToServer(new FluidCellActionPacket(action, isShift, 0, false));
                 return true;
             }
             if (FluidUtil.getFluidHandler(carried).isPresent()) {
-                PacketDistributor.sendToServer(new FluidTankActionPacket(0));
+                PacketDistributor.sendToServer(new FluidTankActionPacket(0, false));
                 return true;
             }
         }

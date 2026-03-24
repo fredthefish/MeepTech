@@ -24,16 +24,18 @@ public interface IFluidMenu {
     public <FluidBlockEntity extends BlockEntity & IFluidTankBlockEntity> FluidBlockEntity getBlockEntity();
     public Player getPlayer();
 
-    public default <MenuType extends AbstractContainerMenu & IFluidMenu> void handleCellClick(MenuType menu, int tankIndex) {
+    public default <MenuType extends AbstractContainerMenu & IFluidMenu> void handleCellClick(MenuType menu, int tankIndex, boolean output) {
         ItemStack carried = menu.getCarried();
         if (carried.isEmpty()) return;
         if (!FluidUtil.getFluidHandler(carried).isPresent()) return;
         IItemHandler playerInventory = new InvWrapper(menu.getPlayer().getInventory());
-        FluidActionResult fillResult = FluidUtil.tryEmptyContainerAndStow(carried, menu.getBlockEntity().getTank(tankIndex), 
-            playerInventory, menu.getBlockEntity().getTank(tankIndex).getCapacity(), menu.getPlayer(), true);
-        if (fillResult.isSuccess()) {
-            menu.setCarried(fillResult.getResult());
-            return;
+        if (!output) {
+            FluidActionResult fillResult = FluidUtil.tryEmptyContainerAndStow(carried, menu.getBlockEntity().getTank(tankIndex), 
+                playerInventory, menu.getBlockEntity().getTank(tankIndex).getCapacity(), menu.getPlayer(), true);
+            if (fillResult.isSuccess()) {
+                menu.setCarried(fillResult.getResult());
+                return;
+            }
         }
         FluidActionResult drainResult = FluidUtil.tryFillContainerAndStow(carried, menu.getBlockEntity().getTank(tankIndex), 
             playerInventory, menu.getBlockEntity().getTank(tankIndex).getCapacity(), menu.getPlayer(), true);
@@ -41,13 +43,14 @@ public interface IFluidMenu {
             menu.setCarried(drainResult.getResult());
         }
     }
-    public default <MenuType extends AbstractContainerMenu & IFluidMenu> void handleFluidCellClick(FluidCellAction action, boolean shift, MenuType menu, int tankIndex) {
+    public default <MenuType extends AbstractContainerMenu & IFluidMenu> void handleFluidCellClick(
+            FluidCellAction action, boolean shift, MenuType menu, int tankIndex, boolean output) {
         ItemStack carried = menu.getCarried();
         if (!(carried.getItem() instanceof FluidCellItem cellItem)) return;
         FluidTank tank = menu.getBlockEntity().getTank(tankIndex);
         if (action == FluidCellAction.EXTRACT_INTO_CELL) {
             if (cellItem.isFull(carried)) {
-                handleFluidCellClick(FluidCellAction.INSERT_INTO_TANK, shift, menu, tankIndex);
+                handleFluidCellClick(FluidCellAction.INSERT_INTO_TANK, shift, menu, tankIndex, output);
                 return;
             }
             if (tank.isEmpty()) return;
@@ -93,7 +96,7 @@ public interface IFluidMenu {
                     if (!menu.getPlayer().getInventory().add(remaining)) menu.getPlayer().drop(remaining, false);
                 }
             }
-        } else {
+        } else if (!output) {
             FluidStack cellFluid = cellItem.getFluid(carried);
             if (cellFluid.isEmpty()) return;
             if (!shift) {

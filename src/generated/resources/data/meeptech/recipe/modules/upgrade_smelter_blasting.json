@@ -1,14 +1,16 @@
 {
   "type": "minecraft:crafting_shapeless",
+  "category": "misc",
   "ingredients": [
     {
-      "item": "meeptech:module_template_basic"
+      "item": "meeptech:module_template_primitive"
     },
     {
       "item": "minecraft:blast_furnace"
     }
   ],
   "result": {
+    "count": 1,
     "id": "meeptech:module_upgrade_smelter_blasting"
   }
 }
