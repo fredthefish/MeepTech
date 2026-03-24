@@ -8,6 +8,8 @@ import com.minecraftmod.meeptech.registries.ModCommonConfig;
 import com.minecraftmod.meeptech.registries.ModCreativeTabs;
 import com.minecraftmod.meeptech.registries.ModDataComponents;
 import com.minecraftmod.meeptech.registries.ModFeatures;
+import com.minecraftmod.meeptech.registries.ModFluidTypes;
+import com.minecraftmod.meeptech.registries.ModFluids;
 import com.minecraftmod.meeptech.registries.ModItems;
 import com.minecraftmod.meeptech.registries.ModMenus;
 import com.minecraftmod.meeptech.registries.ModPlacementModifiers;
@@ -30,6 +32,8 @@ public class MeepTech {
         MaterialItems.registerMaterialItems();
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
+        ModFluidTypes.FLUID_TYPES.register(modEventBus);
+        ModFluids.FLUIDS.register(modEventBus);
         ModBlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
         ModMenus.MENUS.register(modEventBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);

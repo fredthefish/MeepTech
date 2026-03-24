@@ -7,10 +7,14 @@ import java.util.Map;
 import com.minecraftmod.meeptech.items.ModuleItems;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
 import com.minecraftmod.meeptech.logic.material.ModMaterials;
+import com.minecraftmod.meeptech.registries.ModFluids;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.material.Fluids;
+import net.neoforged.neoforge.common.crafting.SizedIngredient;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 public class ModMachineRecipes {
     private static Map<String, MachineRecipeType> RECIPES = new HashMap<>();
@@ -27,11 +31,16 @@ public class ModMachineRecipes {
         RECIPES.put(SOLID_FUEL.getId(), SOLID_FUEL);
         RECIPES.put(ALLOYER.getId(), ALLOYER);
 
-        SOLID_FUEL.addRecipe(new MachineRecipe("burn_coal", SOLID_FUEL).setInputItems(Map.of(Ingredient.of(Items.SUGAR_CANE), 1)).setHeat(300));
+        SOLID_FUEL.addRecipe(new MachineRecipe("burn_coal", SOLID_FUEL).setInputItems(List.of(SizedIngredient.of(Items.SUGAR_CANE, 1))).setHeat(300));
 
         ALLOYER.addRecipe(new MachineRecipe("alloy_bronze", ALLOYER)
-            .setInputItems(Map.of(Ingredient.of(Items.COPPER_INGOT), 3, Ingredient.of(ModMaterials.TIN.getForm(MaterialForm.BASE)), 1))
+            .setInputItems(List.of(SizedIngredient.of(Items.COPPER_INGOT, 3), SizedIngredient.of(ModMaterials.TIN.getForm(MaterialForm.BASE), 1)))
             .setOutputItems(List.of(new ItemStack(ModMaterials.BRONZE.getForm(MaterialForm.BASE), 4))).setTime(200));
+
+        BOILER.addRecipe(new MachineRecipe("boil_water", BOILER)
+            .setInputFluids(List.of(SizedFluidIngredient.of(Fluids.WATER, 1)))
+            .setOutputFluids(List.of(new FluidStack(ModFluids.STEAM.get(), 100))).setTime(20));
+
         isInitialized = true;
     }
     public static Map<String, MachineRecipeType> getRecipeTypes() {

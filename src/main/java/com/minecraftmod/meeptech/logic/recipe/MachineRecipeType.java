@@ -6,6 +6,8 @@ import java.util.Map;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 public class MachineRecipeType {
@@ -65,8 +67,10 @@ public class MachineRecipeType {
     public MachineRecipe getRecipe(String recipe) {
         return recipes.get(recipe);
     }
-    public MachineRecipe getRecipe(List<ItemStack> inputs, List<ItemStack> outputs) {
-        for (MachineRecipe recipe : recipes.values()) if (recipe.fullInputs(inputs)) if (recipe.canOutput(outputs)) return recipe;
+    public MachineRecipe getRecipe(List<ItemStack> inputs, List<ItemStack> outputs, List<FluidStack> inputFluids, List<FluidTank> outputTanks) {
+        for (MachineRecipe recipe : recipes.values()) 
+            if (recipe.fullInputs(inputs, inputFluids)) 
+                if (recipe.canOutput(outputs, outputTanks)) return recipe;
         return null;
     }
 }

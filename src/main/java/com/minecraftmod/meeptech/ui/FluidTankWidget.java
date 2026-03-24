@@ -37,6 +37,9 @@ public class FluidTankWidget {
             renderFluidStack(graphics, fluid, x, y);
         }
     }
+    public void renderOverlay(GuiGraphics graphics) {
+        graphics.fill(x + 1, y + 1, x + width - 1, y + height - 1, 0x80FFFFFF); 
+    }
     private void renderFluidStack(GuiGraphics graphics, FluidStack fluid, int x, int y) {
         IClientFluidTypeExtensions props = IClientFluidTypeExtensions.of(fluid.getFluid());
         ResourceLocation stillTexture = props.getStillTexture(fluid);
@@ -65,6 +68,7 @@ public class FluidTankWidget {
         List<Component> tooltip = new ArrayList<>();
         if (fluid.isEmpty()) {
             tooltip.add(Component.translatable("meeptech.ui.empty_tank"));
+            tooltip.add(Component.literal(capacity + " mB").withStyle(ChatFormatting.GRAY));
         } else {
             tooltip.add(fluid.getHoverName());
             tooltip.add(Component.literal(fluid.getAmount() + " / " + capacity + " mB").withStyle(ChatFormatting.GRAY));

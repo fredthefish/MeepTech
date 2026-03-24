@@ -71,7 +71,7 @@ public class MachineMenu extends AbstractContainerMenu implements IFluidMenu {
                             MachineAttribute energySource = machineData.getEnergySource();
                             if (energySource instanceof HeatSource heatSource) {
                                 return stack.getBurnTime(RecipeType.SMELTING) > 0 
-                                    || heatSource.getHeatType().getRecipe(List.of(stack), List.of()) != null;
+                                    || heatSource.getHeatType().getRecipe(List.of(stack), List.of(), List.of(), List.of()) != null;
                             }
                             return false;
                         }

@@ -11,6 +11,7 @@ import com.minecraftmod.meeptech.logic.module.ModModuleData;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipe;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipeType;
 import com.minecraftmod.meeptech.logic.recipe.ModMachineRecipes;
+import com.minecraftmod.meeptech.logic.recipe.MachineRecipe.ConsumptionPlan;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
 import com.minecraftmod.meeptech.logic.ui.UIModuleType;
 
@@ -23,6 +24,8 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
 public class MachineProcessor {
     public static void serverTick(Level level, BaseMachineBlockEntity entity) {
@@ -61,7 +64,7 @@ public class MachineProcessor {
                     if (heatType == ModMachineRecipes.SOLID_FUEL) {
                         ItemStack fuelStack = entity.getInventory().getStackInSlot(fuelSlot);
                         if (!fuelStack.isEmpty()) {
-                            MachineRecipe recipe = heatType.getRecipe(List.of(fuelStack), List.of());
+                            MachineRecipe recipe = heatType.getRecipe(List.of(fuelStack), List.of(), List.of(), List.of());
                             double rate = data.getMachineSpeed();
                             if (recipe != null) {
                                 entity.getInventory().extractItem(fuelSlot, 1, false);
@@ -89,14 +92,23 @@ public class MachineProcessor {
                 if (hasEnergy && maxProgress == 0) {
                     List<ItemStack> inputs = new ArrayList<>();
                     List<ItemStack> outputs = new ArrayList<>();
+                    List<FluidStack> inputFluids = new ArrayList<>();
+                    List<FluidTank> inputTanks = new ArrayList<>();
+                    List<FluidTank> outputTanks = new ArrayList<>();
                     for (int i = data.getStartItemSlot(UIModuleType.Input); i < data.getStartItemSlot(UIModuleType.Output); i++) 
-                        inputs.add(entity.getInventory().getStackInSlot(i).copy());
+                        inputs.add(entity.getInventory().getStackInSlot(i));
                     for (int i = data.getStartItemSlot(UIModuleType.Output); i < data.getStartItemSlot(UIModuleType.Energy); i++) 
-                        outputs.add(entity.getInventory().getStackInSlot(i).copy());
-                    MachineRecipe recipe = recipeType.getRecipe(inputs, outputs);
+                        outputs.add(entity.getInventory().getStackInSlot(i));
+                    for (int i = data.getStartFluidSlot(UIModuleType.Input); i < data.getStartFluidSlot(UIModuleType.Output); i++) {
+                        inputTanks.add(entity.getTank(i));
+                        inputFluids.add(entity.getTank(i).getFluid());
+                    }
+                    for (int i = data.getStartFluidSlot(UIModuleType.Output); i < data.getStartFluidSlot(UIModuleType.Energy); i++)
+                        outputTanks.add(entity.getTank(i));
+                    MachineRecipe recipe = recipeType.getRecipe(inputs, outputs, inputFluids, outputTanks);
                     if (recipe != null) {
-                        int[] consumed = recipe.inputsForConsumption(inputs);
-                        for (int i = 0; i < consumed.length; i++) entity.getInventory().extractItem(i, consumed[i], false);
+                        ConsumptionPlan consumptionPlan = recipe.inputsForConsumption(inputs, inputFluids);
+                        consumptionPlan.execute(inputs, inputTanks);
                         entity.setCurrentRecipe(recipe);
                         maxProgress = (int)((double)recipe.getTime() / data.getMachineSpeed());
                         updated = true;
@@ -164,8 +176,49 @@ public class MachineProcessor {
             if (progress >= maxProgress && maxProgress > 0) {
                 MachineRecipe recipe = entity.getCurrentRecipe();
                 if (recipe != null) {
-                    ItemStack recipeOutput = recipe.getOutputItems().getFirst().copy();
-                    entity.getInventory().insertItem(outputSlot, recipeOutput, false);
+                    List<ItemStack> recipeOutputs = recipe.getOutputItems();
+                    List<FluidStack> recipeOutputFluids = recipe.getOutputFluids();
+                    for (ItemStack output : recipeOutputs) {
+                        int remaining = output.getCount();
+                        for (int i = data.getStartItemSlot(UIModuleType.Output); i < data.getStartItemSlot(UIModuleType.Energy) && remaining > 0; i++) {
+                            ItemStack slot = entity.getInventory().getStackInSlot(i);
+                            if (slot.isEmpty()) continue;
+                            if (!ItemStack.isSameItemSameComponents(slot, output)) continue;
+                            int space = Math.min(64, slot.getMaxStackSize()) - slot.getCount();
+                            if (space <= 0) continue;
+                            int place = Math.min(remaining, space);
+                            slot.grow(place);
+                            remaining -= place;
+                        }
+                        for (int i = data.getStartItemSlot(UIModuleType.Output); i < data.getStartItemSlot(UIModuleType.Energy) && remaining > 0; i++) {
+                            ItemStack slot = entity.getInventory().getStackInSlot(i);
+                            if (!slot.isEmpty()) continue;
+                            int place = Math.min(remaining, Math.min(64, output.getMaxStackSize()));
+                            entity.getInventory().setStackInSlot(i, output.copyWithCount(place));
+                            remaining -= place;
+                        }
+                    }
+                    for (FluidStack output : recipeOutputFluids) {
+                        int remaining = output.getAmount();
+                        for (int i = data.getStartFluidSlot(UIModuleType.Output); i < data.getStartFluidSlot(UIModuleType.Energy) && remaining > 0; i++) {
+                            FluidTank tank = entity.getTank(i);
+                            FluidStack inTank = tank.getFluid();
+                            if (inTank.isEmpty()) continue;
+                            if (!FluidStack.isSameFluidSameComponents(inTank, output)) continue;
+                            int space = tank.getCapacity() - inTank.getAmount();
+                            if (space <= 0) continue;
+                            int place = Math.min(remaining, space);
+                            inTank.grow(place);
+                            remaining -= place;
+                        }
+                        for (int i = data.getStartFluidSlot(UIModuleType.Output); i < data.getStartFluidSlot(UIModuleType.Energy) && remaining > 0; i++) {
+                            FluidTank tank = entity.getTank(i);
+                            if (!tank.getFluid().isEmpty()) continue;
+                            int place = Math.min(remaining, tank.getCapacity());
+                            tank.setFluid(output.copyWithAmount(place));
+                            remaining -= place;
+                        }
+                    }
                     progress = 0;
                     maxProgress = 0;
                     entity.setCurrentRecipe(null);

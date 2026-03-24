@@ -14,6 +14,7 @@ import com.minecraftmod.meeptech.logic.material.ModMaterials;
 import com.minecraftmod.meeptech.registries.ModBlockEntities;
 import com.minecraftmod.meeptech.registries.ModBlocks;
 import com.minecraftmod.meeptech.registries.ModDataComponents;
+import com.minecraftmod.meeptech.registries.ModFluidTypes;
 import com.minecraftmod.meeptech.registries.ModItems;
 import com.minecraftmod.meeptech.registries.ModMenus;
 import com.minecraftmod.meeptech.ui.EngineeringStationScreen;
@@ -69,6 +70,20 @@ public class MeepTechClient {
         for (DeferredBlock<Block> block : ModBlocks.HULL_BLOCKS.values()) {
             event.registerItem(new MachineItemClientExtension(), block.get().asItem());
         }
+        event.registerFluidType(new IClientFluidTypeExtensions() {
+            @Override
+            public ResourceLocation getStillTexture() {
+                return ResourceLocation.withDefaultNamespace("block/water_still");
+            }
+            @Override
+            public ResourceLocation getFlowingTexture() {
+                return ResourceLocation.withDefaultNamespace("block/water_flow");
+            }
+            @Override
+            public int getTintColor() {
+                return 0x88DDDDDD;
+            }
+        }, ModFluidTypes.STEAM_TYPE.get());
     }
     @SubscribeEvent
     public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {

@@ -117,5 +117,7 @@
 
   "tooltip.meeptech.fluid_tank.fluid": "Fluid: %s (%s / %s mB)",
   "tooltip.meeptech.fluid_cell": "Fluid: %s (%s / %s mB)",
-  "tooltip.meeptech.fluid_cell_empty": "Empty (%s mB)"
+  "tooltip.meeptech.fluid_cell_empty": "Empty (%s mB)",
+  
+  "fluid.meeptech.steam": "Steam"
 }

@@ -59,6 +59,7 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
                     FluidTankWidget fluidTankWidget = new FluidTankWidget(x + slot.getX(), y + slot.getY(), slotSize, slotSize, 
                         machineData.getStartFluidSlot(uiModule.getType()) + slot.getModuleId());
                     fluidTankWidget.render(guiGraphics, menu);
+                    if (fluidTankWidget.isMouseOver(mouseX, mouseY)) fluidTankWidget.renderOverlay(guiGraphics);
                 }
             }
             if (uiModule instanceof RecipeUIModule recipeUIModule) {
