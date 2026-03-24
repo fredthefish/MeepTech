@@ -4,6 +4,7 @@ import com.minecraftmod.meeptech.blocks.pipes.PipeBlock;
 import com.minecraftmod.meeptech.blocks.pipes.PipeBlockEntity;
 import com.minecraftmod.meeptech.blocks.pipes.PipeConnection;
 import com.minecraftmod.meeptech.blocks.pipes.PipeNetworkManager;
+import com.minecraftmod.meeptech.blocks.pipes.PipeBlockEntity.PipeType;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,13 +18,15 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class PipeAttachmentItem extends Item {
-    private final PipeConnection type;
-    public PipeAttachmentItem(PipeConnection type, Properties properties) {
+    private final PipeConnection connectionType;
+    private final PipeType pipeType;
+    public PipeAttachmentItem(PipeConnection connectionType, PipeType pipeType, Properties properties) {
         super(properties);
-        this.type = type;
+        this.connectionType = connectionType;
+        this.pipeType = pipeType;
     }
-    public PipeConnection getType() {
-        return type;
+    public PipeConnection getConnectionType() {
+        return connectionType;
     }
     @Override
     public InteractionResult useOn(UseOnContext ctx) {
@@ -32,14 +35,14 @@ public class PipeAttachmentItem extends Item {
         Direction clickedFace = ctx.getClickedFace();
         BlockState clickedState = level.getBlockState(clickedPos);
         // Clicked from a pipe.
-        if (clickedState.getBlock() instanceof PipeBlock) {
-            return tryAttach(level, clickedPos, clickedFace, ctx);
+        if (clickedState.getBlock() instanceof PipeBlock pipeBlock) {
+            if (pipeBlock.getPipeType() == pipeType) return tryAttach(level, clickedPos, clickedFace, ctx);
         }
         // Clicked from a container adjacent to a pipe.
         BlockPos adjacentPipePos = clickedPos.relative(clickedFace);
         BlockState adjacentState = level.getBlockState(adjacentPipePos);
-        if (adjacentState.getBlock() instanceof PipeBlock) {
-            return tryAttach(level, adjacentPipePos, clickedFace.getOpposite(), ctx);
+        if (adjacentState.getBlock() instanceof PipeBlock pipeBlock) {
+            if (pipeBlock.getPipeType() == pipeType) return tryAttach(level, adjacentPipePos, clickedFace.getOpposite(), ctx);
         }
         return InteractionResult.PASS;
     }
@@ -51,9 +54,9 @@ public class PipeAttachmentItem extends Item {
         if (currentConnection != PipeConnection.NONE) return InteractionResult.FAIL;
         PipeBlockEntity be = (PipeBlockEntity) level.getBlockEntity(pipePos);
         if (be == null) return InteractionResult.FAIL;
-        be.setFace(face, type);
-        level.setBlock(pipePos, pipeState.setValue(PipeBlock.CONNECTIONS.get(face), type), Block.UPDATE_ALL);
-        PipeNetworkManager.get(serverLevel).onAttachmentAdded(pipePos, face, type, serverLevel);
+        be.setFace(face, connectionType);
+        level.setBlock(pipePos, pipeState.setValue(PipeBlock.CONNECTIONS.get(face), connectionType), Block.UPDATE_ALL);
+        PipeNetworkManager.get(serverLevel).onAttachmentAdded(pipePos, face, connectionType, serverLevel);
         Player player = ctx.getPlayer();
         if (player != null && !player.isCreative()) {
             player.getItemInHand(ctx.getHand()).shrink(1);

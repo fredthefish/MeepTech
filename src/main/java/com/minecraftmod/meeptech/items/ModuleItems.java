@@ -11,16 +11,15 @@ import net.neoforged.neoforge.registries.DeferredItem;
 public class ModuleItems {
     public static final Map<String, DeferredItem<Item>> MODULES = new HashMap<>();
     public static final Map<String, DeferredItem<Item>> MODULE_ITEMS = new HashMap<>(); //Non-hulls.
-    public static DeferredItem<Item> SMELTER_CORE;
-    public static DeferredItem<Item> SOLID_FUEL_CORE;
-    public static DeferredItem<Item> SMELTER_BLASTING;
-    public static DeferredItem<Item> ALLOYER_CORE;
+    
+    public static DeferredItem<Item> SMELTER_CORE = addModuleItem("machine_core_smelter");
+    public static DeferredItem<Item> SOLID_FUEL_CORE = addModuleItem("heating_core_solid_fuel");
+    public static DeferredItem<Item> SMELTER_BLASTING = addModuleItem("upgrade_smelter_blasting");
+    public static DeferredItem<Item> ALLOYER_CORE = addModuleItem("machine_core_alloyer");
+    public static DeferredItem<Item> STEAM_BOILER_CORE = addModuleItem("machine_core_steam_boiler");
     public static void registerModuleItems() {
-        addModuleItem("template_basic");
-        SMELTER_CORE = addModuleItem("machine_core_smelter");
-        SOLID_FUEL_CORE = addModuleItem("heating_core_solid_fuel");
-        SMELTER_BLASTING = addModuleItem("upgrade_smelter_blasting");
-        ALLOYER_CORE = addModuleItem("machine_core_alloyer");
+        addModuleItem("template_primitive");
+        addModuleItem("template_steam");
     }
     private static DeferredItem<Item> addModuleItem(String id) {
         DeferredItem<Item> item = ModItems.ITEMS.registerSimpleItem("module_" + id);

@@ -55,12 +55,14 @@ public abstract class PipeBlock extends Block implements EntityBlock {
         Direction placedAgainst = ctx.getClickedFace().getOpposite();
         BlockPos neighborPos = pos.relative(placedAgainst);
         BlockState neighborState = level.getBlockState(neighborPos);
-        if (neighborState.getBlock() instanceof PipeBlock) {
-            PipeConnection connection = neighborState.getValue(CONNECTIONS.get(placedAgainst.getOpposite()));
-            if (connection != PipeConnection.NONE) return state;
-            state = state.setValue(CONNECTIONS.get(placedAgainst), PipeConnection.PIPE);
+        if (neighborState.getBlock() instanceof PipeBlock neighborBlock) {
+            if (neighborBlock.getPipeType() == type) {
+                PipeConnection connection = neighborState.getValue(CONNECTIONS.get(placedAgainst.getOpposite()));
+                if (connection != PipeConnection.NONE) return state;
+                state = state.setValue(CONNECTIONS.get(placedAgainst), PipeConnection.PIPE);
+            }
         } else if (level instanceof ServerLevel serverLevel) {
-            PipeNetworkManager.get(serverLevel).onPipeAdded(pos);
+            PipeNetworkManager.get(serverLevel).onPipeAdded(pos, type);
         }
         return state;
     }
@@ -71,10 +73,11 @@ public abstract class PipeBlock extends Block implements EntityBlock {
             if (state.getValue(CONNECTIONS.get(dir)) != PipeConnection.PIPE) continue;
             BlockPos neighborPos = pos.relative(dir);
             BlockState neighborState = level.getBlockState(neighborPos);
-            if (!(neighborState.getBlock() instanceof PipeBlock)) continue;
+            if (!(neighborState.getBlock() instanceof PipeBlock neighborBlock)) continue;
+            if (neighborBlock.getPipeType() != type) continue;
             level.setBlock(neighborPos, neighborState.setValue(CONNECTIONS.get(dir.getOpposite()), PipeConnection.PIPE), Block.UPDATE_ALL);
             if (level instanceof ServerLevel serverLevel) {
-                PipeNetworkManager.get(serverLevel).onPipesConnected(pos, neighborPos, serverLevel);
+                PipeNetworkManager.get(serverLevel).onPipesConnected(pos, neighborPos, serverLevel, type);
             }
         }
     }
@@ -104,5 +107,8 @@ public abstract class PipeBlock extends Block implements EntityBlock {
     @Override
     public boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
         return true;
+    }
+    public PipeType getPipeType() {
+        return type;
     }
 }

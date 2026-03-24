@@ -129,7 +129,21 @@ public class PipeBlockEntity extends BlockEntity {
         FluidPipeTransfer.insert(simulatedInsertions, extracted, level, source);
     }
     public enum PipeType {
-        ITEM,
-        FLUID
+        ITEM("item"),
+        FLUID("fluid");
+        String name;
+        private PipeType(String name) {
+            this.name = name;
+        }
+        @Override
+        public String toString() {
+            return name;
+        }
+        public static PipeType fromString(String name) {
+            for (PipeType type : values()) {
+                if (type.name.equals(name)) return type;
+            }
+            return null;
+        }
     }
 }

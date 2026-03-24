@@ -39,7 +39,7 @@ public class ItemPipeBlock extends PipeBlock {
                     }
                 }
             }
-            PipeNetworkManager.get(serverLevel).onPipeRemoved(pos, state, serverLevel);
+            PipeNetworkManager.get(serverLevel).onPipeRemoved(pos, state, serverLevel, getPipeType());
         }
         for (Direction dir : Direction.values()) {
             if (state.getValue(CONNECTIONS.get(dir)) != PipeConnection.PIPE) continue;

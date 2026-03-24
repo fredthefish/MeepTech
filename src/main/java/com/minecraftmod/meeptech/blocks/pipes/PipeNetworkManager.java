@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.minecraftmod.meeptech.MeepTech;
+import com.minecraftmod.meeptech.blocks.pipes.PipeBlockEntity.PipeType;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -41,14 +42,14 @@ public class PipeNetworkManager extends SavedData {
     public Map<UUID, PipeNetwork> getNetworks() {
         return networks;
     }
-    public void onPipeAdded(BlockPos pos) {
-        PipeNetwork network = new PipeNetwork(UUID.randomUUID());
+    public void onPipeAdded(BlockPos pos, PipeType type) {
+        PipeNetwork network = new PipeNetwork(UUID.randomUUID(), type);
         network.addPipe(pos);
         networks.put(network.getId(), network);
         pipeToNetwork.put(pos, network.getId());
         setDirty();
     }
-    public void onPipeRemoved(BlockPos pos, BlockState oldState, ServerLevel level) {
+    public void onPipeRemoved(BlockPos pos, BlockState oldState, ServerLevel level, PipeType type) {
         PipeNetwork network = getNetwork(pos);
         if (network == null) return;
         List<BlockPos> neighbors = getConnectedPipeNeighbors(pos, oldState);
@@ -59,7 +60,7 @@ public class PipeNetworkManager extends SavedData {
             setDirty();
             return;
         }
-        handlePotentialSplit(network, neighbors, level);
+        handlePotentialSplit(network, neighbors, level, type);
         setDirty();
     }
     private List<BlockPos> getConnectedPipeNeighbors(BlockPos pos, BlockState state) {
@@ -71,15 +72,15 @@ public class PipeNetworkManager extends SavedData {
         }
         return neighbors;
     }
-    public void onPipesConnected(BlockPos posA, BlockPos posB, ServerLevel level) {
+    public void onPipesConnected(BlockPos posA, BlockPos posB, ServerLevel level, PipeType type) {
         PipeNetwork netA = getNetwork(posA);
         PipeNetwork netB = getNetwork(posB);
         if (netA == null) {
-            onPipeAdded(posA);
+            onPipeAdded(posA, type);
             netA = getNetwork(posA);
         }
         if (netB == null) {
-            onPipeAdded(posB);
+            onPipeAdded(posB, type);
             netB = getNetwork(posB);
         }
         if (netA.getId().equals(netB.getId())) return;
@@ -100,7 +101,7 @@ public class PipeNetworkManager extends SavedData {
         larger.incrementTopologyVersion();
         setDirty();
     }
-    public void onPipesDisconnected(BlockPos posA, BlockPos posB, BlockState stateA, BlockState stateB, ServerLevel level) {
+    public void onPipesDisconnected(BlockPos posA, BlockPos posB, BlockState stateA, BlockState stateB, ServerLevel level, PipeType type) {
         PipeNetwork network = getNetwork(posA);
         if (network == null) return;
         List<BlockPos> neighborsOfA = getConnectedPipeNeighbors(posA, stateA).stream().filter(n -> !n.equals(posB)).toList();
@@ -111,7 +112,7 @@ public class PipeNetworkManager extends SavedData {
         if (network.getPipes().contains(posA)) candidateSet.add(posA);
         if (network.getPipes().contains(posB)) candidateSet.add(posB);
         List<BlockPos> splitCandidates = new ArrayList<>(candidateSet);
-        handlePotentialSplit(network, splitCandidates, level);
+        handlePotentialSplit(network, splitCandidates, level, type);
         network.incrementTopologyVersion();
         setDirty();
     }
@@ -137,7 +138,7 @@ public class PipeNetworkManager extends SavedData {
         network.incrementTopologyVersion();
         setDirty();
     }
-    private void handlePotentialSplit(PipeNetwork network, List<BlockPos> neighbors, ServerLevel level) {
+    private void handlePotentialSplit(PipeNetwork network, List<BlockPos> neighbors, ServerLevel level, PipeType type) {
         if (neighbors.size() <= 1) {
             network.incrementTopologyVersion();
             return;
@@ -167,7 +168,7 @@ public class PipeNetworkManager extends SavedData {
         network.incrementTopologyVersion();
         for (Set<BlockPos> subgroup : subgroups) {
             if (subgroup == largest) continue;
-            PipeNetwork newNetwork = new PipeNetwork(UUID.randomUUID());
+            PipeNetwork newNetwork = new PipeNetwork(UUID.randomUUID(), type);
             for (BlockPos pipe : subgroup) {
                 newNetwork.addPipe(pipe);
                 pipeToNetwork.put(pipe, newNetwork.getId());
@@ -214,8 +215,10 @@ public class PipeNetworkManager extends SavedData {
     public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
         ListTag networkList = new ListTag();
         for (PipeNetwork network : networks.values()) {
+            if (network.getPipeType() == null) continue;
             CompoundTag netTag = new CompoundTag();
             netTag.putUUID("id", network.getId());
+            netTag.putString("type", network.getPipeType().toString());
             ListTag pipeList = new ListTag();
             for (BlockPos pos : network.getPipes()) {
                 CompoundTag pipeTag = new CompoundTag();
@@ -249,7 +252,7 @@ public class PipeNetworkManager extends SavedData {
         ListTag networkList = tag.getList("networks", Tag.TAG_COMPOUND);
         for (int i = 0; i < networkList.size(); i++) {
             CompoundTag netTag = networkList.getCompound(i);
-            PipeNetwork network = new PipeNetwork(netTag.getUUID("id"));
+            PipeNetwork network = new PipeNetwork(netTag.getUUID("id"), PipeType.fromString(netTag.getString("type")));
             ListTag pipeList = netTag.getList("pipes", Tag.TAG_COMPOUND);
             for (int j = 0; j < pipeList.size(); j++) {
                 BlockPos pos = NbtUtils.readBlockPos(pipeList.getCompound(j), "pos").get();

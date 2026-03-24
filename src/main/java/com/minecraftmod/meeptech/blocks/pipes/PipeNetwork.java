@@ -4,11 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import com.minecraftmod.meeptech.blocks.pipes.PipeBlockEntity.PipeType;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 
 public class PipeNetwork {
     private final UUID id;
+    private final PipeType type;
     private final Set<BlockPos> pipes = new HashSet<>();
     private final Set<FacePos> extractors = new HashSet<>();
     private final Set<FacePos> inserters = new HashSet<>();
@@ -16,11 +19,15 @@ public class PipeNetwork {
 
     public record FacePos(BlockPos pos, Direction face) {}
 
-    public PipeNetwork(UUID id) { 
+    public PipeNetwork(UUID id, PipeType type) { 
         this.id = id; 
+        this.type = type;
     }
     public UUID getId() { 
         return id; 
+    }
+    public PipeType getPipeType() {
+        return type;
     }
     public Set<BlockPos> getPipes() { 
         return pipes;

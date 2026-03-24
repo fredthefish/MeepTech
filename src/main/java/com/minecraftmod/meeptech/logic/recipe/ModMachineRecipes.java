@@ -20,6 +20,7 @@ public class ModMachineRecipes {
     public static MachineRecipeType ALLOYER = new MachineRecipeType("alloyer", ModuleItems.ALLOYER_CORE).setItemIO(2, 1);
     public static MachineRecipeType SOLID_FUEL = 
         new MachineRecipeType("solid_fuel", ModuleItems.SOLID_FUEL_CORE).setItemIO(1, 0).setHasHeat(true);
+    public static MachineRecipeType BOILER = new MachineRecipeType("boiler", ModuleItems.STEAM_BOILER_CORE).setFluidIO(1, 1);
 
     public static void registerRecipes() {
         RECIPES.put(SMELTER.getId(), SMELTER);

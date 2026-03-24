@@ -11,6 +11,8 @@ import net.neoforged.neoforge.registries.DeferredItem;
 public class MachineRecipeType {
     private int inputSlots = 0;
     private int outputSlots = 0;
+    private int inputTanks = 0;
+    private int outputTanks = 0;
     private String id;
     private DeferredItem<Item> iconItem;
     private final Map<String, MachineRecipe> recipes = new LinkedHashMap<>();
@@ -31,9 +33,20 @@ public class MachineRecipeType {
     public int getOutputSlots() {
         return outputSlots;
     }
+    public int getInputTanks() {
+        return inputTanks;
+    }
+    public int getOutputTanks() {
+        return outputTanks;
+    }
     public MachineRecipeType setItemIO(int inputSlots, int outputSlots) {
         this.inputSlots = inputSlots;
         this.outputSlots = outputSlots;
+        return this;
+    }
+    public MachineRecipeType setFluidIO(int inputTanks, int outputTanks) {
+        this.inputTanks = inputTanks;
+        this.outputTanks = outputTanks;
         return this;
     }
     public MachineRecipeType setHasHeat(boolean hasHeat) {

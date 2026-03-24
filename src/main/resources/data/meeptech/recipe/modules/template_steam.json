@@ -2,13 +2,13 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "tag": "minecraft:stone_crafting_materials"
+      "item": "meeptech:bronze_plate"
     },
     {
       "item": "minecraft:paper"
     }
   ],
   "result": {
-    "id": "meeptech:module_template_basic"
+    "id": "meeptech:module_template_steam"
   }
 }
