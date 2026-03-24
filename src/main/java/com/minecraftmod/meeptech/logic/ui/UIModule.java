@@ -1,13 +1,16 @@
 package com.minecraftmod.meeptech.logic.ui;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import com.minecraftmod.meeptech.logic.ui.SlotUIElement.SlotClass;
 
 public class UIModule {
     private UIModuleType type;
     private String title;
-    private ArrayList<SlotUIElement> slots;
+    private List<SlotUIElement> slots;
 
-    public UIModule(UIModuleType type, String title, int slotCount) {
+    public UIModule(UIModuleType type, String title, int slotCount, int tankCount) {
         this.type = type;
         this.title = title;
         this.slots = new ArrayList<>();
@@ -27,7 +30,10 @@ public class UIModule {
                 break;
         }
         for (int i = 0; i < slotCount; i++) {
-            slots.add(new SlotUIElement(slotType, i, this));
+            slots.add(new SlotUIElement(slotType, SlotClass.ITEM, i, this));
+        }
+        for (int i = 0; i < tankCount; i++) {
+            slots.add(new SlotUIElement(slotType, SlotClass.FLUID, i, this));
         }
     }
     public UIModuleType getType() {
@@ -39,8 +45,20 @@ public class UIModule {
     public int getSlotCount() {
         return slots.size();
     }
-    public ArrayList<SlotUIElement> getSlots() {
+    public int getItemSlotCount() {
+        return slots.stream().filter(slot -> slot.getSlotClass() == SlotClass.ITEM).toList().size();
+    }
+    public int getTankSlotCount() {
+        return slots.stream().filter(slot -> slot.getSlotClass() == SlotClass.FLUID).toList().size();
+    }
+    public List<SlotUIElement> getSlots() {
         return slots;
+    }
+    public List<SlotUIElement> getItemSlots() {
+        return slots.stream().filter(slot -> slot.getSlotClass() == SlotClass.ITEM).toList();
+    }
+    public List<SlotUIElement> getFluidSlots() {
+        return slots.stream().filter(slot -> slot.getSlotClass() == SlotClass.FLUID).toList();
     }
     public int getX() {
         if (type == UIModuleType.Input || type == UIModuleType.Energy) return 8;

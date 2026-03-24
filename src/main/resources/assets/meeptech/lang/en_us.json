@@ -72,6 +72,7 @@
   "meeptech.moduleType.solid_fuel": "Solid Fuel",
   "meeptech.moduleType.firebox": "Firebox",
   "meeptech.moduleType.alloyer": "Alloyer",
+  "meeptech.moduleType.boiler": "Steam Boiler",
 
   "meeptech.ui.engineering_station.insert": "Left click to insert.",
   "meeptech.ui.engineering_station.extract": "Right click to extract.",

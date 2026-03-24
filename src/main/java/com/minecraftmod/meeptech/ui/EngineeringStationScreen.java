@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.minecraftmod.meeptech.MeepTech;
 import com.minecraftmod.meeptech.items.HullItem;
+import com.minecraftmod.meeptech.logic.machine.MachineBase;
 import com.minecraftmod.meeptech.logic.machine.MachineComponent;
 import com.minecraftmod.meeptech.logic.machine.MachineConfigData;
 import com.minecraftmod.meeptech.logic.material.ModMaterials;
@@ -234,6 +235,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
             MachineConfigData data = (editSlot.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) ? 
                 editSlot.get(ModDataComponents.MACHINE_CONFIG_DATA.get()) : type.getEmptyMachineConfigData();
             int upgradeSlots = data.upgradeSlots();
+            int hullTier = ((MachineBase)data.getModuleType().getAttribute()).getModuleTier();
             int layer = 0;
             int startX = x + boxX;
             int startY = y + boxY + titleHeight;
@@ -255,7 +257,10 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                             } else {
                                 ItemStack input = this.menu.getSlot(1).getItem();
                                 if (!input.isEmpty()) {
-                                    if (input.getCount() >= editSlot.getCount() && 
+                                    ModuleType moduleType = ModuleType.getModuleType(input);
+                                    int moduleTier = hullTier;
+                                    if (moduleType != null) moduleTier = moduleType.getModuleTier();
+                                    if (input.getCount() >= editSlot.getCount() && moduleTier <= hullTier &&
                                     data.getModuleType().getSubSlot(i).getType().itemFitsSlotType(input)) {
                                         List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
                                         newList.add(i);
@@ -302,7 +307,10 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                                 } else {
                                     ItemStack input = this.menu.getSlot(1).getItem();
                                     if (!input.isEmpty()) {
-                                        if (input.getCount() >= editSlot.getCount() && 
+                                        ModuleType moduleType = ModuleType.getModuleType(input);
+                                        int moduleTier = hullTier;
+                                        if (moduleType != null) moduleTier = moduleType.getModuleTier();
+                                        if (input.getCount() >= editSlot.getCount() && moduleTier <= hullTier &&
                                         data.getModuleType().getUpgradeType().itemFitsSlotType(input)) {
                                             List<Integer> newList = new ArrayList<>(selectionPath.subList(0, layer));
                                             newList.add(i + type.getSubSlotCount());

@@ -51,7 +51,7 @@ public class MachineProcessor {
             boolean thisUpdated = false;
             if (data.getEnergySource() instanceof HeatSource heatSource) {
                 int heat = entity.getMachineInt(TrackedStat.HeatLeft);
-                int fuelSlot = data.getStartSlot(UIModuleType.Energy);
+                int fuelSlot = data.getStartItemSlot(UIModuleType.Energy);
                 if (heat > 0) {
                     heat--;
                     updated = true;
@@ -89,9 +89,9 @@ public class MachineProcessor {
                 if (hasEnergy && maxProgress == 0) {
                     List<ItemStack> inputs = new ArrayList<>();
                     List<ItemStack> outputs = new ArrayList<>();
-                    for (int i = data.getStartSlot(UIModuleType.Input); i < data.getStartSlot(UIModuleType.Output); i++) 
+                    for (int i = data.getStartItemSlot(UIModuleType.Input); i < data.getStartItemSlot(UIModuleType.Output); i++) 
                         inputs.add(entity.getInventory().getStackInSlot(i).copy());
-                    for (int i = data.getStartSlot(UIModuleType.Output); i < data.getStartSlot(UIModuleType.Energy); i++) 
+                    for (int i = data.getStartItemSlot(UIModuleType.Output); i < data.getStartItemSlot(UIModuleType.Energy); i++) 
                         outputs.add(entity.getInventory().getStackInSlot(i).copy());
                     MachineRecipe recipe = recipeType.getRecipe(inputs, outputs);
                     if (recipe != null) {
@@ -102,17 +102,17 @@ public class MachineProcessor {
                         updated = true;
                         thisUpdated = true;
                     } else if (recipeType == ModMachineRecipes.SMELTER) {
-                        SingleRecipeInput recipeInput = new SingleRecipeInput(entity.getInventory().getStackInSlot(data.getStartSlot(UIModuleType.Input)));
+                        SingleRecipeInput recipeInput = new SingleRecipeInput(entity.getInventory().getStackInSlot(data.getStartItemSlot(UIModuleType.Input)));
                         boolean otherRecipe = false;
                         if (data.containsUpgrade(ModModuleData.UPGRADE_BLASTING)) {
                             Optional<RecipeHolder<BlastingRecipe>> blastingRecipe = level.getRecipeManager().getRecipeFor(RecipeType.BLASTING, recipeInput, level);
                             if (blastingRecipe.isPresent()) {
                                 BlastingRecipe recipeValue = blastingRecipe.get().value();
-                                ItemStack output = entity.getInventory().getStackInSlot(data.getStartSlot(UIModuleType.Output)).copy();
+                                ItemStack output = entity.getInventory().getStackInSlot(data.getStartItemSlot(UIModuleType.Output)).copy();
                                 ItemStack recipeOutput = recipeValue.getResultItem(level.registryAccess()).copy();
                                 if (output.isEmpty() 
                                 || (output.getItem().equals(recipeOutput.getItem()) && output.getCount() <= output.getMaxStackSize() + recipeOutput.getCount())) {
-                                    entity.getInventory().extractItem(data.getStartSlot(UIModuleType.Input), 1, false);
+                                    entity.getInventory().extractItem(data.getStartItemSlot(UIModuleType.Input), 1, false);
                                     entity.setCurrentVanillaRecipe(blastingRecipe.get());
                                     maxProgress = (int)((double)recipeValue.getCookingTime() / data.getMachineSpeed());
                                     updated = true;
@@ -125,11 +125,11 @@ public class MachineProcessor {
                             Optional<RecipeHolder<SmeltingRecipe>> furnaceRecipe = level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, recipeInput, level);
                             if (furnaceRecipe.isPresent()) {
                                 SmeltingRecipe recipeValue = furnaceRecipe.get().value();
-                                ItemStack output = entity.getInventory().getStackInSlot(data.getStartSlot(UIModuleType.Output)).copy();
+                                ItemStack output = entity.getInventory().getStackInSlot(data.getStartItemSlot(UIModuleType.Output)).copy();
                                 ItemStack recipeOutput = recipeValue.getResultItem(level.registryAccess()).copy();
                                 if (output.isEmpty() 
                                 || (output.getItem().equals(recipeOutput.getItem()) && output.getCount() <= output.getMaxStackSize() + recipeOutput.getCount())) {
-                                    entity.getInventory().extractItem(data.getStartSlot(UIModuleType.Input), 1, false);
+                                    entity.getInventory().extractItem(data.getStartItemSlot(UIModuleType.Input), 1, false);
                                     entity.setCurrentVanillaRecipe(furnaceRecipe.get());
                                     maxProgress = (int)((double)recipeValue.getCookingTime() / data.getMachineSpeed());
                                     updated = true;
@@ -160,7 +160,7 @@ public class MachineProcessor {
         public void recipeEnd() {
             int progress = entity.getMachineInt(TrackedStat.RecipeProgress);
             int maxProgress = entity.getMachineInt(TrackedStat.RecipeMaxProgress);
-            int outputSlot = data.getStartSlot(UIModuleType.Output);
+            int outputSlot = data.getStartItemSlot(UIModuleType.Output);
             if (progress >= maxProgress && maxProgress > 0) {
                 MachineRecipe recipe = entity.getCurrentRecipe();
                 if (recipe != null) {

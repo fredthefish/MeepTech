@@ -6,6 +6,7 @@ import com.minecraftmod.meeptech.logic.ui.EnergyUIModule;
 import com.minecraftmod.meeptech.logic.ui.RecipeUIModule;
 import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
 import com.minecraftmod.meeptech.logic.ui.UIModule;
+import com.minecraftmod.meeptech.logic.ui.SlotUIElement.SlotClass;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -16,8 +17,10 @@ import net.minecraft.world.entity.player.Inventory;
 public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
     private static final ResourceLocation BASE_UI = ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/four_panel_ui.png");
     private static final ResourceLocation SLOT = ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/widgets/slot.png");
-    private static final ResourceLocation PROGRESS_BAR_EMPTY = ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/widgets/progress_empty.png");
-    private static final ResourceLocation PROGRESS_BAR_FULL = ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/widgets/progress_full.png");
+    private static final ResourceLocation PROGRESS_BAR_EMPTY = 
+        ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/widgets/progress_empty.png");
+    private static final ResourceLocation PROGRESS_BAR_FULL = 
+        ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/widgets/progress_full.png");
     private static final ResourceLocation HEAT_OFF = ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/widgets/heat_off.png");
     private static final ResourceLocation HEAT_ON = ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/widgets/heat_on.png");
     private static final int slotSize = 18;
@@ -42,7 +45,13 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         for (UIModule uiModule : machineData.getUiModules()) {
             guiGraphics.drawString(this.font, uiModule.getTitle(), x + uiModule.getX() + 1, y + uiModule.getY() + 1, 0x404040, false);
             for (SlotUIElement slot : uiModule.getSlots()) {
-                guiGraphics.blit(SLOT, x + slot.getX(), y + slot.getY(), 0, 0, slotSize, slotSize, slotSize, slotSize);
+                if (slot.getSlotClass() == SlotClass.ITEM) 
+                    guiGraphics.blit(SLOT, x + slot.getX(), y + slot.getY(), 0, 0, slotSize, slotSize, slotSize, slotSize);
+                else if (slot.getSlotClass() == SlotClass.FLUID) {
+                    FluidTankWidget fluidTankWidget = new FluidTankWidget(x + slot.getX(), y + slot.getY(), slotSize, slotSize, 
+                        machineData.getStartFluidSlot(uiModule.getType()) + slot.getModuleId());
+                    fluidTankWidget.render(guiGraphics, menu);
+                }
             }
             if (uiModule instanceof RecipeUIModule recipeUIModule) {
                 if (recipeUIModule.hasProgressBar()) {
@@ -71,6 +80,22 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
                         guiGraphics.drawString(font, Formatting.doubleFormatting((double)heat / 20.0) + "s",
                             x + energyUIModule.getX() + 25, y + energyUIModule.getY() + 15, 0x404040, false);
                     }
+                }
+            }
+        }
+    }
+    @Override
+    protected void renderTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        super.renderTooltip(guiGraphics, mouseX, mouseY);
+        int x = (this.width - this.imageWidth) / 2;
+        int y = (this.height - this.imageHeight) / 2;
+        MachineData machineData = this.menu.getMachineData();
+        for (UIModule uiModule : machineData.getUiModules()) {
+            for (SlotUIElement slot : uiModule.getSlots()) {
+                if (slot.getSlotClass() == SlotClass.FLUID) {
+                    FluidTankWidget fluidTankWidget = new FluidTankWidget(x + slot.getX(), y + slot.getY(), slotSize, slotSize, 
+                        machineData.getStartItemSlot(uiModule.getType()) + slot.getModuleId());
+                    fluidTankWidget.render(guiGraphics, menu);
                 }
             }
         }

@@ -23,12 +23,15 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.SlotItemHandler;
 
 public class MachineMenu extends AbstractContainerMenu {
     private final ContainerLevelAccess access;
     private final BaseMachineBlockEntity blockEntity;
     private final MachineContainerData machineContainerData;
+    private final FluidStack[] trackedFluids;
 
     public MachineMenu(int windowId, Inventory playerInv, RegistryFriendlyByteBuf buf) {
         this(windowId, playerInv, getClientBlockEntity(playerInv, buf), ContainerLevelAccess.NULL);
@@ -46,34 +49,36 @@ public class MachineMenu extends AbstractContainerMenu {
         this.access = access;
 
         this.addDataSlots(machineContainerData);
-
-        if (blockEntity != null) {
-            if (this.blockEntity.getMachineData() != null) {
-                MachineData machineData = this.blockEntity.getMachineData();
-                List<SlotUIElement> uiSlots = machineData.getSlots();
-                int i = 0;
-                for (SlotUIElement slot : uiSlots) {
-                    SlotItemHandler newSlot = new SlotItemHandler(blockEntity.getInventory(), i, slot.getX() + 1, slot.getY() + 1) {
-                        @Override
-                        public boolean mayPlace(ItemStack stack) {
-                            if (slot.getType() == SlotType.INPUT) {
-                                return true;
-                            } else if (slot.getType() == SlotType.INPUT_FUEL) {
-                                MachineAttribute energySource = machineData.getEnergySource();
-                                if (energySource instanceof HeatSource heatSource) {
-                                    return stack.getBurnTime(RecipeType.SMELTING) > 0 
-                                        || heatSource.getHeatType().getRecipe(List.of(stack), List.of()) != null;
-                                }
-                                return false;
+        if (this.blockEntity.getMachineData() != null) {
+            MachineData machineData = this.blockEntity.getMachineData();
+            this.trackedFluids = new FluidStack[machineData.getTankSlotCount()];
+            List<SlotUIElement> itemSlots = machineData.getItemSlots();
+            int i = 0;
+            for (SlotUIElement slot : itemSlots) {
+                SlotItemHandler newSlot = new SlotItemHandler(blockEntity.getInventory(), i, slot.getX() + 1, slot.getY() + 1) {
+                    @Override
+                    public boolean mayPlace(ItemStack stack) {
+                        if (slot.getType() == SlotType.INPUT) {
+                            return true;
+                        } else if (slot.getType() == SlotType.INPUT_FUEL) {
+                            MachineAttribute energySource = machineData.getEnergySource();
+                            if (energySource instanceof HeatSource heatSource) {
+                                return stack.getBurnTime(RecipeType.SMELTING) > 0 
+                                    || heatSource.getHeatType().getRecipe(List.of(stack), List.of()) != null;
                             }
                             return false;
                         }
-                    };
-                    this.addSlot(newSlot);
-                    i++;
-                }
+                        return false;
+                    }
+                };
+                this.addSlot(newSlot);
+                i++;
             }
-        }
+            List<SlotUIElement> fluidSlots = machineData.getFluidSlots();
+            for (i = 0; i < fluidSlots.size(); i++) {
+                trackedFluids[i] = FluidStack.EMPTY;
+            }
+        } else this.trackedFluids = new FluidStack[0];
 
         //Add inventory/hotbar.
         for (int i = 0; i < 3; i++) {
@@ -97,15 +102,15 @@ public class MachineMenu extends AbstractContainerMenu {
             ItemStack stackInSlot = slot.getItem();
             itemStack = stackInSlot.copy();
             MachineData machineData = this.blockEntity.getMachineData();
-            int slotCount = machineData.getSlotCount();
+            int slotCount = machineData.getItemSlotCount();
             if (index < slotCount) {
                 if (!this.moveItemStackTo(stackInSlot, slotCount, slotCount + 36, true)) return ItemStack.EMPTY;
             } else {
-                int start = machineData.getStartSlot(UIModuleType.Energy);
-                int end = machineData.getStartSlot(UIModuleType.Recipe);
+                int start = machineData.getStartItemSlot(UIModuleType.Energy);
+                int end = machineData.getStartItemSlot(UIModuleType.Recipe);
                 if (!this.moveItemStackTo(stackInSlot, start, end, false)) {
-                    start = machineData.getStartSlot(UIModuleType.Input);
-                    end = machineData.getStartSlot(UIModuleType.Output);
+                    start = machineData.getStartItemSlot(UIModuleType.Input);
+                    end = machineData.getStartItemSlot(UIModuleType.Output);
                     if (!this.moveItemStackTo(stackInSlot, start, end, false)) return ItemStack.EMPTY;
                 }
             }
@@ -127,5 +132,22 @@ public class MachineMenu extends AbstractContainerMenu {
     }
     public int getHeat() {
         return machineContainerData.getFromStat(TrackedStat.HeatLeft);
+    }
+    public FluidStack getFluidInTank(int index) {
+        return trackedFluids[index];
+    }
+    public FluidTank getTank(int index) {
+        return blockEntity.getFluidTanks().get(index);
+    }
+    @Override
+    public void broadcastChanges() {
+        super.broadcastChanges();
+        for (int i = 0; i < trackedFluids.length; i++) {
+            FluidStack current = blockEntity.getFluidTanks().get(i).getFluid();
+            if (!FluidStack.matches(current, trackedFluids[i])) {
+                trackedFluids[i] = current.copy();
+                // TODO
+            }
+        }
     }
 }

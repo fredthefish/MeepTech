@@ -2,6 +2,7 @@ package com.minecraftmod.meeptech.ui;
 
 import java.util.List;
 
+import com.minecraftmod.meeptech.logic.machine.MachineBase;
 import com.minecraftmod.meeptech.logic.machine.MachineConfigData;
 import com.minecraftmod.meeptech.logic.material.MaterialItemData;
 import com.minecraftmod.meeptech.logic.module.ModuleSlotType;
@@ -93,6 +94,7 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                 ModuleType type = ModuleType.getModuleType(edit);
                 MachineConfigData mainData = (edit.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) ? 
                     edit.get(ModDataComponents.MACHINE_CONFIG_DATA.get()) : type.getEmptyMachineConfigData();
+                int hullTier = ((MachineBase)mainData.getModuleType().getAttribute()).getModuleTier();
                 MachineConfigData data = mainData;
                 ModuleSlotType slotType = null;
                 int layer = 0;
@@ -104,11 +106,13 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                         layer++;
                     } else {
                         if (data.isEmpty() && !input.isEmpty()) {
-                            if (slotType.itemFitsSlotType(input) && input.getCount() >= edit.getCount()) {
-                                ModuleType inputModuleType = ModuleType.getModuleType(input);
+                            ModuleType moduleType = ModuleType.getModuleType(input);
+                            int moduleTier = hullTier;
+                            if (moduleType != null) moduleTier = moduleType.getModuleTier();
+                            if (slotType.itemFitsSlotType(input) && input.getCount() >= edit.getCount() && moduleTier <= hullTier) {
                                 inputSlot.remove(edit.getCount());
-                                if (inputModuleType != null) {
-                                    mainData = MachineConfigData.changeSubLayer(mainData, path, inputModuleType.getEmptyMachineConfigData());
+                                if (moduleType != null) {
+                                    mainData = MachineConfigData.changeSubLayer(mainData, path, moduleType.getEmptyMachineConfigData());
                                 } else {
                                     //If it isn't a module, it must be a component.
                                     MaterialItemData itemData = new MaterialItemData(input.getItem());
@@ -188,6 +192,7 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                 type = ModuleType.getModuleType(edit);
                 mainData = (edit.has(ModDataComponents.MACHINE_CONFIG_DATA.get())) ? 
                     edit.get(ModDataComponents.MACHINE_CONFIG_DATA.get()) : type.getEmptyMachineConfigData();
+                hullTier = ((MachineBase)mainData.getModuleType().getAttribute()).getModuleTier();
                 data = mainData;
                 layer = 0;
                 while (path.size() >= layer) {
@@ -198,11 +203,13 @@ public class EngineeringStationMenu extends AbstractContainerMenu {
                     } else {
                         if ((data == null || data.isEmpty()) && !input.isEmpty()) {
                             slotType = type.getUpgradeType();
-                            if (slotType.itemFitsSlotType(input) && input.getCount() >= edit.getCount()) {
-                                ModuleType inputModuleType = ModuleType.getModuleType(input);
+                            ModuleType moduleType = ModuleType.getModuleType(input);
+                            int moduleTier = hullTier;
+                            if (moduleType != null) moduleTier = moduleType.getModuleTier();
+                            if (slotType.itemFitsSlotType(input) && input.getCount() >= edit.getCount() && moduleTier <= hullTier) {
                                 inputSlot.remove(edit.getCount());
-                                if (inputModuleType != null) {
-                                    mainData = MachineConfigData.changeSubLayer(mainData, path, inputModuleType.getEmptyMachineConfigData());
+                                if (moduleType != null) {
+                                    mainData = MachineConfigData.changeSubLayer(mainData, path, moduleType.getEmptyMachineConfigData());
                                 }
                                 edit = edit.copy();
                                 edit.set(ModDataComponents.MACHINE_CONFIG_DATA.get(), mainData);

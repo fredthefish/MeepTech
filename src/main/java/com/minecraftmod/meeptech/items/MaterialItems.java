@@ -30,7 +30,7 @@ public class MaterialItems {
                         .sound(SoundType.METAL)), false);
                     ModBlocks.HULL_BLOCKS.put(material, hullBlock);
                     generatedItem = ModBlocks.registerBlockHullItem(generatedId, hullBlock);
-                    ModuleType hullModule = ModModuleTypes.addModuleType(new ModuleType(generatedId, ModModuleTypes.SLOT_MACHINE_BASE, material.getHullBase(), null));
+                    ModuleType hullModule = ModModuleTypes.addModuleType(new ModuleType(generatedId, ModModuleTypes.SLOT_MACHINE_BASE, material.getHullBase()));
                     hullModule.addSubSlot("machine_core", ModModuleTypes.SLOT_MACHINE_CORE);
                     hullModule.setAssociatedItem(generatedItem);
                 } else if (form == MaterialForm.ORE) {

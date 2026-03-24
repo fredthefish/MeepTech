@@ -19,13 +19,13 @@ public class ModuleType {
     private final ModuleSlotType type;
     private final MachineAttribute attribute;
     private final List<ModuleSlot> subSlots;
-    private final ModuleSlotType upgradeType;
+    private ModuleSlotType upgradeType;
+    private int moduleTier = 0;
     private MaterialForm materialForm = null;
-    public ModuleType(String id, ModuleSlotType type, MachineAttribute attribute, ModuleSlotType upgradeType) {
+    public ModuleType(String id, ModuleSlotType type, MachineAttribute attribute) {
         this.id = id;
         this.type = type;
         this.attribute = attribute;
-        this.upgradeType = upgradeType;
         this.subSlots = new ArrayList<>();
     }
     public String getId() {
@@ -52,11 +52,20 @@ public class ModuleType {
     public MachineAttribute getAttribute() {
         return attribute;
     }
+    public void setUpgradeType(ModuleSlotType upgradeType) {
+        this.upgradeType = upgradeType;
+    }
     public ModuleSlotType getUpgradeType() {
         return upgradeType;
     }
     public void addSubSlot(String subSlotId, ModuleSlotType subSlotType) {
         subSlots.add(new ModuleSlot(subSlotId, subSlotType));
+    }
+    public void setModuleTier(int tier) {
+        moduleTier = tier;
+    }
+    public int getModuleTier() {
+        return moduleTier;
     }
     public MachineConfigData getEmptyMachineConfigData() {
         ArrayList<MachineConfigData> subModules = new ArrayList<>();

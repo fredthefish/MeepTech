@@ -21,8 +21,8 @@ public class MachineType extends MachineAttribute {
         this.energySource = energySource;
         this.recipeType = recipeType;
         if (recipeType != null) {
-            this.inputModule = new UIModule(UIModuleType.Input, "Input", recipeType.getInputSlots());
-            this.outputModule = new UIModule(UIModuleType.Output, "Output", recipeType.getOutputSlots());
+            this.inputModule = new UIModule(UIModuleType.Input, "Input", recipeType.getInputSlots(), recipeType.getInputTanks());
+            this.outputModule = new UIModule(UIModuleType.Output, "Output", recipeType.getOutputSlots(), recipeType.getOutputTanks());
             this.recipeModule = new RecipeUIModule("Recipe", true);
             this.trackedStats.addAll(List.of(TrackedStat.RecipeProgress, TrackedStat.RecipeMaxProgress));
         }

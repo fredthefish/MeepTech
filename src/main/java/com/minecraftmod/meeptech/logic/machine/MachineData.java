@@ -23,6 +23,7 @@ public class MachineData {
     private HashMap<UIModuleType, UIModule> uiModules = new HashMap<>();
     private ArrayList<TrackedStat> trackedStats = new ArrayList<>();
     private ArrayList<MachineUpgrade> upgrades = new ArrayList<>();
+    private int tankCapacity = 8000;
     public MachineData(MachineConfigData data) {
         constructFromLayer(data);
         for (MachineComponent component : components.keySet()) {
@@ -37,6 +38,9 @@ public class MachineData {
     public MachineType getType() {
         return type;
     }
+    public int getTankCapacity() {
+        return tankCapacity;
+    }
     public MachineAttribute getEnergySource() {
         if (type.getEnergySource() == EnergySourceType.Heat) {
             return heatSource;
@@ -47,10 +51,17 @@ public class MachineData {
         if (stats.containsKey(MachineStat.SPEED)) return (double)stats.get(MachineStat.SPEED);
         return 1;
     }
-    public int getSlotCount() {
+    public int getItemSlotCount() {
         int count = 0;
         for (UIModule uiModule : uiModules.values()) {
-            count += uiModule.getSlotCount();
+            count += uiModule.getItemSlotCount();
+        }
+        return count;
+    }
+    public int getTankSlotCount() {
+        int count = 0;
+        for (UIModule uiModule : uiModules.values()) {
+            count += uiModule.getTankSlotCount();
         }
         return count;
     }
@@ -62,12 +73,37 @@ public class MachineData {
         }
         return slots;
     }
-    public int getStartSlot(UIModuleType type) {
+    public List<SlotUIElement> getItemSlots() {
+        ArrayList<SlotUIElement> slots = new ArrayList<>();
+        for (UIModuleType type : typeOrder) {
+            UIModule module = uiModules.get(type);
+            if (module != null) slots.addAll(module.getItemSlots());
+        }
+        return slots;
+    }
+    public List<SlotUIElement> getFluidSlots() {
+        ArrayList<SlotUIElement> slots = new ArrayList<>();
+        for (UIModuleType type : typeOrder) {
+            UIModule module = uiModules.get(type);
+            if (module != null) slots.addAll(module.getFluidSlots());
+        }
+        return slots;
+    }
+    public int getStartItemSlot(UIModuleType type) {
         int count = 0;
         for (UIModuleType eachType : typeOrder) {
             if (type == eachType) return count;
             UIModule module = uiModules.get(eachType);
-            if (module != null) count += module.getSlotCount();
+            if (module != null) count += module.getItemSlotCount();
+        }
+        throw new IllegalStateException("Could not find UIModuleType type in MachineData typeOrder.");
+    }
+    public int getStartFluidSlot(UIModuleType type) {
+        int count = 0;
+        for (UIModuleType eachType : typeOrder) {
+            if (type == eachType) return count;
+            UIModule module = uiModules.get(eachType);
+            if (module != null) count += module.getTankSlotCount();
         }
         throw new IllegalStateException("Could not find UIModuleType type in MachineData typeOrder.");
     }
