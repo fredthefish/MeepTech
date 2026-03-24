@@ -3,6 +3,7 @@ package com.minecraftmod.meeptech.ui;
 import java.util.List;
 
 import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
+import com.minecraftmod.meeptech.blocks.IFluidTankBlockEntity;
 import com.minecraftmod.meeptech.logic.machine.HeatSource;
 import com.minecraftmod.meeptech.logic.machine.MachineAttribute;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
@@ -10,11 +11,14 @@ import com.minecraftmod.meeptech.logic.ui.SlotType;
 import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
 import com.minecraftmod.meeptech.logic.ui.UIModuleType;
+import com.minecraftmod.meeptech.network.FluidTankSyncPayload;
 import com.minecraftmod.meeptech.network.MachineContainerData;
 import com.minecraftmod.meeptech.registries.ModMenus;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -26,12 +30,14 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.SlotItemHandler;
+import net.neoforged.neoforge.network.PacketDistributor;
 
-public class MachineMenu extends AbstractContainerMenu {
+public class MachineMenu extends AbstractContainerMenu implements IFluidMenu {
     private final ContainerLevelAccess access;
     private final BaseMachineBlockEntity blockEntity;
     private final MachineContainerData machineContainerData;
     private final FluidStack[] trackedFluids;
+    private final Player player;
 
     public MachineMenu(int windowId, Inventory playerInv, RegistryFriendlyByteBuf buf) {
         this(windowId, playerInv, getClientBlockEntity(playerInv, buf), ContainerLevelAccess.NULL);
@@ -47,6 +53,7 @@ public class MachineMenu extends AbstractContainerMenu {
         this.blockEntity = blockEntity;
         this.machineContainerData = blockEntity.getTrackedData();
         this.access = access;
+        this.player = playerInv.player;
 
         this.addDataSlots(machineContainerData);
         if (this.blockEntity.getMachineData() != null) {
@@ -139,6 +146,9 @@ public class MachineMenu extends AbstractContainerMenu {
     public FluidTank getTank(int index) {
         return blockEntity.getFluidTanks().get(index);
     }
+    public void setFluid(int index, FluidStack fluid) {
+        blockEntity.getFluidTanks().get(index).setFluid(fluid);
+    }
     @Override
     public void broadcastChanges() {
         super.broadcastChanges();
@@ -146,8 +156,23 @@ public class MachineMenu extends AbstractContainerMenu {
             FluidStack current = blockEntity.getFluidTanks().get(i).getFluid();
             if (!FluidStack.matches(current, trackedFluids[i])) {
                 trackedFluids[i] = current.copy();
-                // TODO
+                if (blockEntity.getLevel() instanceof ServerLevel serverLevel) {
+                    for (ServerPlayer sp : serverLevel.players()) {
+                        if (sp.containerMenu == this) {
+                            PacketDistributor.sendToPlayer(sp, new FluidTankSyncPayload(blockEntity.getBlockPos(), i, current.copy()));
+                        }
+                    }
+                }
             }
         }
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public <FluidBlockEntity extends BlockEntity & IFluidTankBlockEntity> FluidBlockEntity getBlockEntity() {
+        return (FluidBlockEntity)blockEntity;
+    }
+    @Override
+    public Player getPlayer() {
+        return player;
     }
 }

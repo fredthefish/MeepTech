@@ -1,11 +1,15 @@
 package com.minecraftmod.meeptech.ui;
 
 import com.minecraftmod.meeptech.helpers.Formatting;
+import com.minecraftmod.meeptech.items.FluidCellItem;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
 import com.minecraftmod.meeptech.logic.ui.EnergyUIModule;
 import com.minecraftmod.meeptech.logic.ui.RecipeUIModule;
 import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
 import com.minecraftmod.meeptech.logic.ui.UIModule;
+import com.minecraftmod.meeptech.network.FluidCellActionPacket;
+import com.minecraftmod.meeptech.network.FluidCellActionPacket.FluidCellAction;
+import com.minecraftmod.meeptech.network.FluidTankActionPacket;
 import com.minecraftmod.meeptech.logic.ui.SlotUIElement.SlotClass;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -13,6 +17,9 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
     private static final ResourceLocation BASE_UI = ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/four_panel_ui.png");
@@ -48,7 +55,7 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
                 if (slot.getSlotClass() == SlotClass.ITEM) 
                     guiGraphics.blit(SLOT, x + slot.getX(), y + slot.getY(), 0, 0, slotSize, slotSize, slotSize, slotSize);
                 else if (slot.getSlotClass() == SlotClass.FLUID) {
-                    FluidTankWidget fluidTankWidget = new FluidTankWidget(x + slot.getX(), y + slot.getY(), slotSize, slotSize, 
+                    FluidTankWidget fluidTankWidget = new FluidTankWidget(x + slot.getX() + 1, y + slot.getY() + 1, slotSize - 2, slotSize - 2, 
                         machineData.getStartFluidSlot(uiModule.getType()) + slot.getModuleId());
                     fluidTankWidget.render(guiGraphics, menu);
                 }
@@ -93,12 +100,42 @@ public class MachineScreen extends AbstractContainerScreen<MachineMenu> {
         for (UIModule uiModule : machineData.getUiModules()) {
             for (SlotUIElement slot : uiModule.getSlots()) {
                 if (slot.getSlotClass() == SlotClass.FLUID) {
-                    FluidTankWidget fluidTankWidget = new FluidTankWidget(x + slot.getX(), y + slot.getY(), slotSize, slotSize, 
-                        machineData.getStartItemSlot(uiModule.getType()) + slot.getModuleId());
-                    fluidTankWidget.render(guiGraphics, menu);
+                    FluidTankWidget fluidTankWidget = new FluidTankWidget(x + slot.getX() + 1, y + slot.getY() + 1, slotSize - 2, slotSize - 2, 
+                        machineData.getStartFluidSlot(uiModule.getType()) + slot.getModuleId());
+                    if (fluidTankWidget.isMouseOver(mouseX, mouseY)) {
+                        guiGraphics.renderComponentTooltip(font, fluidTankWidget.getTooltip(menu), mouseX, mouseY);
+                    }
                 }
             }
         }
+    }
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        int x = (this.width - this.imageWidth) / 2;
+        int y = (this.height - this.imageHeight) / 2;
+        MachineData machineData = this.menu.getMachineData();
+        for (UIModule uiModule : machineData.getUiModules()) {
+            for (SlotUIElement slot : uiModule.getSlots()) {
+                if (slot.getSlotClass() == SlotClass.FLUID) {
+                    int slotId = machineData.getStartFluidSlot(uiModule.getType()) + slot.getModuleId();
+                    FluidTankWidget fluidTankWidget = new FluidTankWidget(x + slot.getX() + 1, y + slot.getY() + 1, slotSize - 2, slotSize - 2, slotId);
+                    if (fluidTankWidget.isMouseOver(mouseX, mouseY)) {
+                        ItemStack carried = minecraft.player.containerMenu.getCarried();
+                        if (carried.getItem() instanceof FluidCellItem) {
+                            boolean isShift = hasShiftDown();
+                            FluidCellAction action = button == 0 ? FluidCellAction.EXTRACT_INTO_CELL : FluidCellAction.INSERT_INTO_TANK;
+                            PacketDistributor.sendToServer(new FluidCellActionPacket(action, isShift, slotId));
+                            return true;
+                        }
+                        if (FluidUtil.getFluidHandler(carried).isPresent()) {
+                            PacketDistributor.sendToServer(new FluidTankActionPacket(slotId));
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
     }
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {

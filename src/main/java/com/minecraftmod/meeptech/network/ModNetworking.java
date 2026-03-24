@@ -15,5 +15,6 @@ public class ModNetworking {
         registrar.playToServer(EngineeringActionPacket.TYPE, EngineeringActionPacket.STREAM_CODEC, EngineeringActionPacket::handle);
         registrar.playToServer(FluidTankActionPacket.TYPE, FluidTankActionPacket.STREAM_CODEC, FluidTankActionPacket::handle);
         registrar.playToServer(FluidCellActionPacket.TYPE, FluidCellActionPacket.STREAM_CODEC, FluidCellActionPacket::handle);
+        registrar.playToClient(FluidTankSyncPayload.TYPE, FluidTankSyncPayload.STREAM_CODEC, FluidTankSyncPayload::handleOnClient);
     }
 }

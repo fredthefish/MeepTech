@@ -67,7 +67,7 @@ public class FluidTankBlock extends Block implements EntityBlock {
     public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         List<ItemStack> drops = super.getDrops(state, params);
         BlockEntity be = params.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
-        if (be instanceof FluidTankBlockEntity tankEntity && !tankEntity.getTank().isEmpty()) {
+        if (be instanceof FluidTankBlockEntity tankEntity && !tankEntity.getTank(0).isEmpty()) {
             for (ItemStack stack : drops) {
                 if (stack.is(this.asItem())) {
                     stack.set(DataComponents.BLOCK_ENTITY_DATA, CustomData.of(tankEntity.saveWithId(params.getLevel().registryAccess())));

@@ -26,7 +26,7 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
-public class FluidTankBlockEntity extends BlockEntity implements MenuProvider {
+public class FluidTankBlockEntity extends BlockEntity implements MenuProvider, IFluidTankBlockEntity {
     private final FluidTank tank;
     private final int capacity;
     public FluidTankBlockEntity(BlockPos pos, BlockState state, int capacity) {
@@ -43,7 +43,8 @@ public class FluidTankBlockEntity extends BlockEntity implements MenuProvider {
             }
         };
     }
-    public FluidTank getTank() {
+    @Override
+    public FluidTank getTank(int index) {
         return tank; 
     }
     public int getCapacity() {

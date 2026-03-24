@@ -83,6 +83,7 @@
   "meeptech.ui.engineering_station.add_upgrade_slot": "Left click to add upgrade slot.",
   "meeptech.ui.engineering_station.remove_upgrade_slot": "Right click to remove upgrade slot.",
   "meeptech.ui.engineering_station.upgrade_slots_left": "Upgrade slots left: ",
+  "meeptech.ui.empty_tank": "Empty Tank",
 
   "meeptech.stoneType.deepslate": "Deepslate",
   "meeptech.stoneType.granite": "Granite",

@@ -46,7 +46,7 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
-public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider {
+public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider, IFluidTankBlockEntity {
     private MachineConfigData machineConfigData;
     private MachineData machineData = null;
     private final ItemStackHandler inventory;
@@ -144,8 +144,13 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
         if (tag.contains("FluidTanks")) {
             tanks.clear();
             ListTag tanksTag = tag.getList("FluidTanks", Tag.TAG_COMPOUND);
-            for (int i = 0; i < Math.min(tanksTag.size(), tanks.size()); i++) {
-                FluidTank tank = new FluidTank(getMachineData().getTankCapacity());
+            for (int i = 0; i < tanksTag.size(); i++) {
+                FluidTank tank = new FluidTank(getMachineData().getTankCapacity()) {
+                    @Override
+                    protected void onContentsChanged() {
+                        setChanged();
+                    }
+                };
                 tanks.add(tank.readFromNBT(registries, tanksTag.getCompound(i)));
             }
         }
@@ -203,6 +208,10 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider 
     }
     public List<FluidTank> getFluidTanks() {
         return tanks;
+    }
+    @Override
+    public FluidTank getTank(int index) {
+        return tanks.get(index);
     }
     public IFluidHandler getFluidHandler() {
         return fluidHandler;

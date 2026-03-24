@@ -19,6 +19,7 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 public class FluidTankWidget {
     private final int x, y, width, height;
     private final int tankIndex;
+    private static final ResourceLocation FLUID_SLOT = ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/widgets/fluid_slot.png");
 
     public FluidTankWidget(int x, int y, int width, int height, int tankIndex) {
         this.x = x;
@@ -31,12 +32,11 @@ public class FluidTankWidget {
         FluidTank tank = menu.getTank(tankIndex);
         FluidStack fluid = tank.getFluid();
         int capacity = tank.getCapacity();
-        // TODO: Draw tank background (optional, or part of your GUI texture)
+        graphics.blit(FLUID_SLOT, x, y, width, height, 0, 0, 18, 18, 18, 18);
         if (!fluid.isEmpty() && capacity > 0) {
             int fluidHeight = (int) ((float) fluid.getAmount() / capacity * height);
             renderFluidStack(graphics, fluid, x, y + height - fluidHeight, width, fluidHeight);
         }
-        // TODO: Draw tank overlay/border on top (a glass overlay texture)
     }
     private void renderFluidStack(GuiGraphics graphics, FluidStack fluid, int x, int y, int width, int height) {
         IClientFluidTypeExtensions props = IClientFluidTypeExtensions.of(fluid.getFluid());
@@ -60,9 +60,9 @@ public class FluidTankWidget {
         }
         RenderSystem.setShaderColor(1f, 1f, 1f, 1f);
     }
-    public boolean isMouseOver(int leftPos, int topPos, double mouseX, double mouseY) {
-        int renderX = leftPos + x;
-        int renderY = topPos + y;
+    public boolean isMouseOver(double mouseX, double mouseY) {
+        int renderX = x;
+        int renderY = y;
         return mouseX >= renderX && mouseX < renderX + width && mouseY >= renderY && mouseY < renderY + height;
     }
     public List<Component> getTooltip(MachineMenu menu) {
@@ -71,7 +71,7 @@ public class FluidTankWidget {
         int capacity = tank.getCapacity();
         List<Component> tooltip = new ArrayList<>();
         if (fluid.isEmpty()) {
-            tooltip.add(Component.translatable("gui.meeptech.empty_tank"));
+            tooltip.add(Component.translatable("meeptech.ui.empty_tank"));
         } else {
             tooltip.add(fluid.getHoverName());
             tooltip.add(Component.literal(fluid.getAmount() + " / " + capacity + " mB").withStyle(ChatFormatting.GRAY));
