@@ -60,10 +60,8 @@ public class MachineEmiRecipe implements EmiRecipe {
     @Override
     public void addWidgets(WidgetHolder widgets) {
         ResourceLocation quadrants = ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "textures/gui/quadrants_ui.png");
-        // ResourceLocation tank = ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "textures/gui/widgets/fluid_slot.png");
-        int capacity = 8000;
         widgets.addTexture(quadrants, 0, 0, 164, 102, 0, 0, 164, 102, 164, 102);
-        if (type.getInputSlots() > 0) {
+        if (type.getInputSlots() > 0 || type.getInputTanks() > 0) {
             int x = 2;
             int y = 2;
             widgets.addText(Component.literal("Inputs"), x + 1, y + 1, 0x404040, false);
@@ -71,11 +69,11 @@ public class MachineEmiRecipe implements EmiRecipe {
                 widgets.addSlot(getInputs().get(i), x + 3 + 17 * i, y + 13);
             }
             for (int i = 0; i < type.getInputTanks(); i++) {
-                widgets.addTank(getInputs().get(i + type.getInputSlots()), 
-                    x + 3 + 17 * (i + type.getInputSlots()), y + 13, 18, 18, capacity);
+                EmiIngredient tank = getInputs().get(i + type.getInputSlots());
+                widgets.addTank(tank, x + 3 + 17 * (i + type.getInputSlots()), y + 13, 18, 18, (int)tank.getAmount());
             }
         }
-        if (type.getOutputSlots() > 0) {
+        if (type.getOutputSlots() > 0 || type.getOutputTanks() > 0) {
             int x = 83;
             int y = 2;
             widgets.addText(Component.literal("Outputs"), x + 1, y + 1, 0x404040, false);
@@ -83,8 +81,8 @@ public class MachineEmiRecipe implements EmiRecipe {
                 widgets.addSlot(getOutputs().get(i), x + 3 + 17 * i, y + 13).recipeContext(this);
             }
             for (int i = 0; i < type.getOutputTanks(); i++) {
-                widgets.addTank(getInputs().get(i + type.getOutputSlots()), 
-                    x + 3 + 17 * (i + type.getOutputSlots()), y + 13, 18, 18, capacity);
+                EmiIngredient tank = getOutputs().get(i + type.getOutputSlots());
+                widgets.addTank(tank, x + 3 + 17 * (i + type.getOutputSlots()), y + 13, 18, 18, (int)tank.getAmount()).recipeContext(this);
             }
         }
         if (recipe.getHeat() > 0) {

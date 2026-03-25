@@ -1,6 +1,6 @@
 package com.minecraftmod.meeptech.logic.recipe;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,20 +16,16 @@ import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 public class ModMachineRecipes {
-    private static Map<String, MachineRecipeType> RECIPES = new HashMap<>();
+    private static Map<String, MachineRecipeType> RECIPES = new LinkedHashMap<>();
     private static boolean isInitialized = false;
 
-    public static MachineRecipeType SMELTER = new MachineRecipeType("smelter", ModuleItems.SMELTER_CORE).setItemIO(1, 1);
-    public static MachineRecipeType ALLOYER = new MachineRecipeType("alloyer", ModuleItems.ALLOYER_CORE).setItemIO(2, 1);
+    public static MachineRecipeType SMELTER = addRecipeType(new MachineRecipeType("smelter", ModuleItems.SMELTER_CORE).setItemIO(1, 1));
+    public static MachineRecipeType ALLOYER = addRecipeType(new MachineRecipeType("alloyer", ModuleItems.ALLOYER_CORE).setItemIO(2, 1));
     public static MachineRecipeType SOLID_FUEL = 
-        new MachineRecipeType("solid_fuel", ModuleItems.SOLID_FUEL_CORE).setItemIO(1, 0).setHasHeat(true);
-    public static MachineRecipeType BOILER = new MachineRecipeType("boiler", ModuleItems.STEAM_BOILER_CORE).setFluidIO(1, 1);
+        addRecipeType(new MachineRecipeType("solid_fuel", ModuleItems.SOLID_FUEL_CORE).setItemIO(1, 0).setHasHeat(true));
+    public static MachineRecipeType BOILER = addRecipeType(new MachineRecipeType("boiler", ModuleItems.STEAM_BOILER_CORE).setFluidIO(1, 1));
 
     public static void registerRecipes() {
-        RECIPES.put(SMELTER.getId(), SMELTER);
-        RECIPES.put(SOLID_FUEL.getId(), SOLID_FUEL);
-        RECIPES.put(ALLOYER.getId(), ALLOYER);
-
         SOLID_FUEL.addRecipe(new MachineRecipe("burn_coal", SOLID_FUEL).setInputItems(List.of(SizedIngredient.of(Items.SUGAR_CANE, 1))).setHeat(300));
 
         ALLOYER.addRecipe(new MachineRecipe("alloy_bronze", ALLOYER)
@@ -41,6 +37,10 @@ public class ModMachineRecipes {
             .setOutputFluids(List.of(new FluidStack(ModFluids.STEAM.get(), 100))).setTime(20));
 
         isInitialized = true;
+    }
+    private static MachineRecipeType addRecipeType(MachineRecipeType type) {
+        RECIPES.put(type.getId(), type);
+        return type;
     }
     public static Map<String, MachineRecipeType> getRecipeTypes() {
         if (!isInitialized) registerRecipes();

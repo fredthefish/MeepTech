@@ -10,7 +10,6 @@ import com.minecraftmod.meeptech.integration.MachineEmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
-import dev.emi.emi.api.stack.FluidEmiStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
@@ -211,12 +210,12 @@ public class MachineRecipe {
     }
     public List<EmiIngredient> getEmiFluidInputs() {
         List<EmiIngredient> emiIngredients = new ArrayList<>();
-        for (FluidStack stack : inputFluids) emiIngredients.add(FluidEmiStack.of(stack.getFluid(), stack.getAmount()));
+        for (FluidStack stack : inputFluids) emiIngredients.add(EmiStack.of(stack.getFluid(), stack.getAmount()));
         return emiIngredients;
     }
     public List<EmiStack> getEmiFluidOutputs() {
         List<EmiStack> emiStacks = new ArrayList<>();
-        for (FluidStack stack : outputFluids) emiStacks.add(FluidEmiStack.of(stack.getFluid(), stack.getAmount()));
+        for (FluidStack stack : outputFluids) emiStacks.add(EmiStack.of(stack.getFluid(), stack.getAmount()));
         return emiStacks;
     }
     public MachineEmiRecipe getEmiRecipe(ResourceLocation syntheticId, EmiRecipeCategory category) {

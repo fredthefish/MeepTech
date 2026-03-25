@@ -105,6 +105,7 @@
   "emi.category.meeptech.solid_fuel": "Solid Fuel Heating Core",
   "emi.category.meeptech.material_workstation": "Material Workstation",
   "emi.category.meeptech.alloyer": "Alloyer",
+  "emi.category.meeptech.boiler": "Steam Boiler",
 
   "config.jade.plugin_meeptech.machine_info": "Machine Info",
 
