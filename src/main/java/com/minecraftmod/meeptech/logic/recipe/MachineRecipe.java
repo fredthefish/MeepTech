@@ -10,20 +10,20 @@ import com.minecraftmod.meeptech.integration.MachineEmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.stack.FluidEmiStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 public class MachineRecipe {
     private String id;
     private MachineRecipeType type;
     private List<SizedIngredient> inputItems = new ArrayList<>();
     private List<ItemStack> outputItems = new ArrayList<>();
-    private List<SizedFluidIngredient> inputFluids = new ArrayList<>();
+    private List<FluidStack> inputFluids = new ArrayList<>();
     private List<FluidStack> outputFluids = new ArrayList<>();
     private int time;
     private int heat;
@@ -39,7 +39,7 @@ public class MachineRecipe {
         this.outputItems.addAll(outputs);
         return this;
     }
-    public MachineRecipe setInputFluids(List<SizedFluidIngredient> inputs) {
+    public MachineRecipe setInputFluids(List<FluidStack> inputs) {
         this.inputFluids.addAll(inputs);
         return this;
     }
@@ -98,12 +98,12 @@ public class MachineRecipe {
             }
             if (still > 0) return false;
         }
-        for (SizedFluidIngredient required : this.inputFluids) {
-            int still = required.amount();
+        for (FluidStack required : this.inputFluids) {
+            int still = required.getAmount();
             for (int i = 0; i < inputFluids.size() && still > 0; i++) {
                 FluidStack stack = inputFluids.get(i);
                 if (stack.isEmpty()) continue;
-                if (!required.ingredient().test(stack)) continue;
+                if (!FluidStack.isSameFluidSameComponents(required, stack)) continue;
                 int available = stack.getAmount() - claimedFluids[i];
                 if (available <= 0) continue;
                 int take = Math.min(available, still);
@@ -133,12 +133,12 @@ public class MachineRecipe {
                 still -= take;
             }
         }
-        for (SizedFluidIngredient required : this.inputFluids) {
-            int still = required.amount();
+        for (FluidStack required : this.inputFluids) {
+            int still = required.getAmount();
             for (int i = 0; i < inputFluids.size() && still > 0; i++) {
                 FluidStack stack = inputFluids.get(i);
                 if (stack.isEmpty()) continue;
-                if (!required.ingredient().test(stack)) continue;
+                if (!FluidStack.isSameFluidSameComponents(required, stack)) continue;
                 int available = stack.getAmount() - claimedFluids[i];
                 if (available <= 0) continue;
                 int take = Math.min(available, still);
@@ -207,6 +207,16 @@ public class MachineRecipe {
     public List<EmiStack> getEmiOutputs() {
         List<EmiStack> emiStacks = new ArrayList<>();
         for (ItemStack stack : outputItems) emiStacks.add(EmiStack.of(stack));
+        return emiStacks;
+    }
+    public List<EmiIngredient> getEmiFluidInputs() {
+        List<EmiIngredient> emiIngredients = new ArrayList<>();
+        for (FluidStack stack : inputFluids) emiIngredients.add(FluidEmiStack.of(stack.getFluid(), stack.getAmount()));
+        return emiIngredients;
+    }
+    public List<EmiStack> getEmiFluidOutputs() {
+        List<EmiStack> emiStacks = new ArrayList<>();
+        for (FluidStack stack : outputFluids) emiStacks.add(FluidEmiStack.of(stack.getFluid(), stack.getAmount()));
         return emiStacks;
     }
     public MachineEmiRecipe getEmiRecipe(ResourceLocation syntheticId, EmiRecipeCategory category) {

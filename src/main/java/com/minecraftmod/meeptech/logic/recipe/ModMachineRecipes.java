@@ -14,7 +14,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.crafting.SizedIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 public class ModMachineRecipes {
     private static Map<String, MachineRecipeType> RECIPES = new HashMap<>();
@@ -38,7 +37,7 @@ public class ModMachineRecipes {
             .setOutputItems(List.of(new ItemStack(ModMaterials.BRONZE.getForm(MaterialForm.BASE), 4))).setTime(200));
 
         BOILER.addRecipe(new MachineRecipe("boil_water", BOILER)
-            .setInputFluids(List.of(SizedFluidIngredient.of(Fluids.WATER, 1)))
+            .setInputFluids(List.of(new FluidStack(Fluids.WATER, 1)))
             .setOutputFluids(List.of(new FluidStack(ModFluids.STEAM.get(), 100))).setTime(20));
 
         isInitialized = true;

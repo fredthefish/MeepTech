@@ -1,7 +1,9 @@
 package com.minecraftmod.meeptech.integration;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.minecraftmod.meeptech.MeepTech;
 import com.minecraftmod.meeptech.helpers.Formatting;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipe;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipeType;
@@ -17,8 +19,8 @@ import net.minecraft.resources.ResourceLocation;
 public class MachineEmiRecipe implements EmiRecipe {
     private final EmiRecipeCategory category;
     private final ResourceLocation id;
-    private final List<EmiIngredient> inputs;
-    private final List<EmiStack> outputs;
+    private final List<EmiIngredient> inputs = new ArrayList<>();
+    private final List<EmiStack> outputs = new ArrayList<>();
     private final MachineRecipe recipe;
     private final MachineRecipeType type;
     public MachineEmiRecipe(ResourceLocation id, EmiRecipeCategory category, MachineRecipe recipe, MachineRecipeType type) {
@@ -26,8 +28,10 @@ public class MachineEmiRecipe implements EmiRecipe {
         this.id = id;
         this.recipe = recipe;
         this.type = type;
-        this.inputs = recipe.getEmiInputs();
-        this.outputs = recipe.getEmiOutputs();
+        this.inputs.addAll(recipe.getEmiInputs());
+        this.outputs.addAll(recipe.getEmiOutputs());
+        this.inputs.addAll(recipe.getEmiFluidInputs());
+        this.outputs.addAll(recipe.getEmiFluidOutputs());
     }
     @Override
     public EmiRecipeCategory getCategory() {
@@ -55,7 +59,9 @@ public class MachineEmiRecipe implements EmiRecipe {
     }
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        ResourceLocation quadrants = ResourceLocation.fromNamespaceAndPath("meeptech", "textures/gui/quadrants_ui.png");
+        ResourceLocation quadrants = ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "textures/gui/quadrants_ui.png");
+        // ResourceLocation tank = ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "textures/gui/widgets/fluid_slot.png");
+        int capacity = 8000;
         widgets.addTexture(quadrants, 0, 0, 164, 102, 0, 0, 164, 102, 164, 102);
         if (type.getInputSlots() > 0) {
             int x = 2;
@@ -64,6 +70,10 @@ public class MachineEmiRecipe implements EmiRecipe {
             for (int i = 0; i < type.getInputSlots(); i++) {
                 widgets.addSlot(getInputs().get(i), x + 3 + 17 * i, y + 13);
             }
+            for (int i = 0; i < type.getInputTanks(); i++) {
+                widgets.addTank(getInputs().get(i + type.getInputSlots()), 
+                    x + 3 + 17 * (i + type.getInputSlots()), y + 13, 18, 18, capacity);
+            }
         }
         if (type.getOutputSlots() > 0) {
             int x = 83;
@@ -71,6 +81,10 @@ public class MachineEmiRecipe implements EmiRecipe {
             widgets.addText(Component.literal("Outputs"), x + 1, y + 1, 0x404040, false);
             for (int i = 0; i < type.getOutputSlots(); i++) {
                 widgets.addSlot(getOutputs().get(i), x + 3 + 17 * i, y + 13).recipeContext(this);
+            }
+            for (int i = 0; i < type.getOutputTanks(); i++) {
+                widgets.addTank(getInputs().get(i + type.getOutputSlots()), 
+                    x + 3 + 17 * (i + type.getOutputSlots()), y + 13, 18, 18, capacity);
             }
         }
         if (recipe.getHeat() > 0) {
