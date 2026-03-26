@@ -81,7 +81,7 @@ public class ModMaterials {
         TIN.setMeltingPoint(500);
         TIN.setTensileStrength(30);
 
-        BRONZE.setGeneratedForms(List.of(MaterialForm.BASE, MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL));
+        BRONZE.setGeneratedForms(List.of(MaterialForm.BASE, MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL, MaterialForm.ROTOR, MaterialForm.GEAR));
         BRONZE.setFormTexture(MaterialForm.BASE, "ingot");
         BRONZE.setFormTexture(MaterialForm.HULL, "metal");
         BRONZE.setHullBase(ModModuleData.BASE_BRONZE);

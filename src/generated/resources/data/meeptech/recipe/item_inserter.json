@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "H": {
+      "item": "meeptech:item_pipe"
+    },
+    "P": {
+      "item": "minecraft:hopper"
+    }
+  },
+  "pattern": [
+    "H",
+    "P"
+  ],
+  "result": {
+    "count": 1,
+    "id": "meeptech:item_inserter"
+  }
+}

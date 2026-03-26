@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "meeptech:bronze_gear"
+    },
+    "P": {
+      "item": "meeptech:bronze_plate"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "G G",
+    "PPP"
+  ],
+  "result": {
+    "count": 16,
+    "id": "meeptech:item_pipe"
+  }
+}

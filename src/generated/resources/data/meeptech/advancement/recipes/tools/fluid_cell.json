@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "meeptech:fluid_cell"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tin_plate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "meeptech:tin_plate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_tin_plate"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "meeptech:fluid_cell"
+    ]
+  }
+}

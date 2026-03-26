@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "T": {
+      "item": "meeptech:tin_plate"
+    }
+  },
+  "pattern": [
+    "TTT",
+    "TGT",
+    "TTT"
+  ],
+  "result": {
+    "count": 1,
+    "id": "meeptech:fluid_tank"
+  }
+}

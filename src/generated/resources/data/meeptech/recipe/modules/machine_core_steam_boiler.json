@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "meeptech:module_template_steam"
+    },
+    {
+      "item": "meeptech:fluid_tank"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "meeptech:module_machine_core_steam_boiler"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "T": {
+      "item": "meeptech:tin_base"
+    }
+  },
+  "pattern": [
+    "T T",
+    " I ",
+    " T "
+  ],
+  "result": {
+    "count": 1,
+    "id": "meeptech:wrench"
+  }
+}

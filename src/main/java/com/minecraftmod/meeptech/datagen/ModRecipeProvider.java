@@ -72,6 +72,52 @@ public class ModRecipeProvider extends RecipeProvider {
             .requires(Items.BOOK).requires(ModuleItems.TEMPLATE_PRIMITIVE.get())
             .unlockedBy("has_module", has(ModuleItems.TEMPLATE_PRIMITIVE.get()))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "manual"));
+        //Logistics
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.WRENCH.get())
+            .pattern("T T").pattern(" I ").pattern(" T ")
+            .define('T', ModMaterials.TIN.getForm(MaterialForm.BASE)).define('I', Items.IRON_INGOT)
+            .unlockedBy("has_tin", has(ModMaterials.TIN.getForm(MaterialForm.BASE)))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "wrench"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.FLUID_CELL.get())
+            .pattern("T").pattern("G")
+            .define('T', ModMaterials.TIN.getForm(MaterialForm.PLATE)).define('G', Items.GLASS)
+            .unlockedBy("has_tin_plate", has(ModMaterials.TIN.getForm(MaterialForm.PLATE)))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "fluid_cell"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.FLUID_TANK.get())
+            .pattern("TTT").pattern("TGT").pattern("TTT")
+            .define('T', ModMaterials.TIN.getForm(MaterialForm.PLATE)).define('G', Items.GLASS)
+            .unlockedBy("has_tin_plate", has(ModMaterials.TIN.getForm(MaterialForm.PLATE)))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "fluid_tank"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.ITEM_PIPE.get(), 16)
+            .pattern("PPP").pattern("G G").pattern("PPP")
+            .define('P', ModMaterials.BRONZE.getForm(MaterialForm.PLATE)).define('G', ModMaterials.BRONZE.getForm(MaterialForm.GEAR))
+            .unlockedBy("has_bronze_gear", has(ModMaterials.BRONZE.getForm(MaterialForm.GEAR)))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "item_pipe"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.FLUID_PIPE.get(), 16)
+            .pattern("PPP").pattern("R R").pattern("PPP")
+            .define('P', ModMaterials.BRONZE.getForm(MaterialForm.PLATE)).define('R', ModMaterials.BRONZE.getForm(MaterialForm.ROTOR))
+            .unlockedBy("has_bronze_rotor", has(ModMaterials.BRONZE.getForm(MaterialForm.ROTOR)))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "fluid_pipe"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ITEM_EXTRACTOR.get())
+            .pattern("H").pattern("P")
+            .define('H', Items.HOPPER).define('P', ModBlocks.ITEM_PIPE.get())
+            .unlockedBy("has_item_pipe", has(ModBlocks.ITEM_PIPE.get()))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "item_extractor"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ITEM_INSERTER.get())
+            .pattern("H").pattern("P")
+            .define('P', Items.HOPPER).define('H', ModBlocks.ITEM_PIPE.get())
+            .unlockedBy("has_item_pipe", has(ModBlocks.ITEM_PIPE.get()))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "item_inserter"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FLUID_EXTRACTOR.get())
+            .pattern("H").pattern("P")
+            .define('H', Items.HOPPER).define('P', ModBlocks.FLUID_PIPE.get())
+            .unlockedBy("has_fluid_pipe", has(ModBlocks.FLUID_PIPE.get()))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "fluid_extractor"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FLUID_INSERTER.get())
+            .pattern("H").pattern("P")
+            .define('P', Items.HOPPER).define('H', ModBlocks.FLUID_PIPE.get())
+            .unlockedBy("has_fluid_pipe", has(ModBlocks.FLUID_PIPE.get()))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "fluid_inserter"));
         //Modules
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.TEMPLATE_PRIMITIVE)
             .requires(ItemTags.STONE_CRAFTING_MATERIALS).requires(Items.PAPER)
@@ -97,5 +143,9 @@ public class ModRecipeProvider extends RecipeProvider {
             .requires(ModuleItems.TEMPLATE_PRIMITIVE).requires(Items.BLAST_FURNACE)
             .unlockedBy("has_blast_furnace", has(Items.BLAST_FURNACE))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/upgrade_smelter_blasting"));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.STEAM_BOILER_CORE)
+            .requires(ModuleItems.TEMPLATE_STEAM).requires(ModBlocks.FLUID_TANK)
+            .unlockedBy("has_tank", has(ModBlocks.FLUID_TANK))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/machine_core_steam_boiler"));
     }
 }

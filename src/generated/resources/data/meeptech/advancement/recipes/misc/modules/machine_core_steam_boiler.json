@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_tank": {
+      "conditions": {
+        "items": [
+          {
+            "items": "meeptech:fluid_tank"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "meeptech:modules/machine_core_steam_boiler"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_tank"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "meeptech:modules/machine_core_steam_boiler"
+    ]
+  }
+}

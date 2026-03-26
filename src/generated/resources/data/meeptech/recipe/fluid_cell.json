@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "T": {
+      "item": "meeptech:tin_plate"
+    }
+  },
+  "pattern": [
+    "T",
+    "G"
+  ],
+  "result": {
+    "count": 1,
+    "id": "meeptech:fluid_cell"
+  }
+}

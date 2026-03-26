@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "item": "meeptech:bronze_plate"
+    },
+    "R": {
+      "item": "meeptech:bronze_rotor"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "R R",
+    "PPP"
+  ],
+  "result": {
+    "count": 16,
+    "id": "meeptech:fluid_pipe"
+  }
+}

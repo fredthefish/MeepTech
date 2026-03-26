@@ -73,11 +73,11 @@ public class MeepTechClient {
         event.registerFluidType(new IClientFluidTypeExtensions() {
             @Override
             public ResourceLocation getStillTexture() {
-                return ResourceLocation.withDefaultNamespace("block/water_still");
+                return ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/fluid/thick_still");
             }
             @Override
             public ResourceLocation getFlowingTexture() {
-                return ResourceLocation.withDefaultNamespace("block/water_flow");
+                return ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "block/fluid/thick_flowing");
             }
             @Override
             public int getTintColor() {
