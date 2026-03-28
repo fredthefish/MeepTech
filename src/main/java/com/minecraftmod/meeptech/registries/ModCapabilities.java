@@ -19,7 +19,10 @@ public class ModCapabilities {
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
         for (Supplier<BlockEntityType<BaseMachineBlockEntity>> blockEntity : ModBlockEntities.HULL_BLOCK_ENTITIES.values()) {
             event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, blockEntity.get(), (be, side) -> be.getAutomationHandler());
-            event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, blockEntity.get(), (be, side) -> be.getFluidHandler());
+            event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, blockEntity.get(), (be, side) -> {
+                if (side != null) return be.getAutomationFluidHandler();
+                return be.getFluidHandler();
+            });
         }
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.FLUID_TANK_BE.get(), (be, side) -> be.getTank(0));
         event.registerItem(Capabilities.FluidHandler.ITEM, (stack, ctx) -> 

@@ -14,6 +14,7 @@ import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
 import com.minecraftmod.meeptech.machines.CombinedFluidHandler;
 import com.minecraftmod.meeptech.machines.MachineProcessor;
+import com.minecraftmod.meeptech.machines.CombinedFluidHandler.FluidTankWithData;
 import com.minecraftmod.meeptech.network.MachineContainerData;
 import com.minecraftmod.meeptech.registries.ModBlockEntities;
 import com.minecraftmod.meeptech.ui.MachineMenu;
@@ -50,11 +51,12 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider,
     private MachineConfigData machineConfigData;
     private MachineData machineData = null;
     private final ItemStackHandler inventory;
-    private final List<FluidTank> tanks;
+    private final List<FluidTankWithData> tanks;
     protected final HashMap<TrackedStat, Integer> machineInts = new HashMap<>();
     protected final MachineContainerData trackedData = new MachineContainerData(machineInts, this);
     private final MachineAutomationHandler automationHandler = new MachineAutomationHandler(this);
     private final IFluidHandler fluidHandler;
+    private final IFluidHandler automationFluidHandler;
     private MachineRecipe currentRecipe = null;
     private String currentVanillaRecipe = null;
     private final Block block;
@@ -69,7 +71,8 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider,
             }
         };
         this.tanks = new ArrayList<>();
-        this.fluidHandler = new CombinedFluidHandler(tanks);
+        this.fluidHandler = new CombinedFluidHandler(tanks, false);
+        this.automationFluidHandler = new CombinedFluidHandler(tanks, true);
     }
     private static BlockEntityType<BaseMachineBlockEntity> getBlockEntityType(Block block) {
         for (DeferredBlock<Block> deferredBlock : ModBlockEntities.HULL_BLOCK_ENTITIES.keySet()) {
@@ -109,8 +112,8 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider,
             tag.putString("CurrentVanillaRecipe", currentVanillaRecipe);
         }
         ListTag tanksTag = new ListTag();
-        for (FluidTank tank : tanks) {
-            tanksTag.add(tank.writeToNBT(registries, new CompoundTag()));
+        for (FluidTankWithData tank : tanks) {
+            tanksTag.add(tank.tank().writeToNBT(registries, new CompoundTag()));
         }
         tag.put("FluidTanks", tanksTag);
     }
@@ -144,14 +147,15 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider,
         if (tag.contains("FluidTanks")) {
             tanks.clear();
             ListTag tanksTag = tag.getList("FluidTanks", Tag.TAG_COMPOUND);
+            MachineData data = getMachineData();
             for (int i = 0; i < tanksTag.size(); i++) {
-                FluidTank tank = new FluidTank(getMachineData().getTankCapacity()) {
+                FluidTank tank = new FluidTank(data.getTankCapacity()) {
                     @Override
                     protected void onContentsChanged() {
                         setChanged();
                     }
                 };
-                tanks.add(tank.readFromNBT(registries, tanksTag.getCompound(i)));
+                tanks.add(new FluidTankWithData(tank.readFromNBT(registries, tanksTag.getCompound(i)), data.getFluidSlots().get(i).getType()));
             }
         }
     }
@@ -186,7 +190,8 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider,
                 int tankCount = machineData.getTankSlotCount();
                 if (tankCount != tanks.size()) {
                     tanks.clear();
-                    for (int i = 0; i < tankCount; i++) tanks.add(new FluidTank(machineData.getTankCapacity()));
+                    for (int i = 0; i < tankCount; i++) 
+                        tanks.add(new FluidTankWithData(new FluidTank(machineData.getTankCapacity()), machineData.getFluidSlots().get(i).getType()));
                 }
                 setChanged();
             }
@@ -206,15 +211,20 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider,
     public ItemStackHandler getInventory() {
         return inventory;
     }
-    public List<FluidTank> getFluidTanks() {
+    public List<FluidTankWithData> getFluidTanks() {
         return tanks;
     }
     @Override
     public FluidTank getTank(int index) {
-        return tanks.get(index);
+        return tanks.get(index).tank();
     }
+    @Override
     public IFluidHandler getFluidHandler() {
         return fluidHandler;
+    }
+    @Override
+    public IFluidHandler getAutomationFluidHandler() {
+        return automationFluidHandler;
     }
     public void setMachineInt(TrackedStat key, int value) {
         trackedData.setFromStat(key, value);

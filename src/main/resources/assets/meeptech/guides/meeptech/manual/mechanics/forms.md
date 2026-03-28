@@ -3,7 +3,6 @@ navigation:
     title: Material Forms
     icon: meeptech:iron_plate
     parent: mechanics.md
-    position: 1
 categories:
 - Mechanics
 ---

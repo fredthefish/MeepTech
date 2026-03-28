@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_rotor": {
+    "has_gear": {
       "conditions": {
         "items": [
           {
-            "items": "meeptech:copper_rotor"
+            "items": "meeptech:copper_gear"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_rotor"
+      "has_gear"
     ]
   ],
   "rewards": {

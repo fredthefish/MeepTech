@@ -3,7 +3,6 @@ navigation:
     title: Materials
     icon: minecraft:iron_ingot
     parent: mechanics.md
-    position: 0
 categories:
 - Mechanics
 ---

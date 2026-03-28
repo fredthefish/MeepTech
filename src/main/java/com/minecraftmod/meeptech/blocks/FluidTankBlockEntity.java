@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
@@ -107,5 +108,13 @@ public class FluidTankBlockEntity extends BlockEntity implements MenuProvider, I
     @Override
     public Component getDisplayName() {
         return Component.translatable("block.meeptech.fluid_tank");
+    }
+    @Override
+    public IFluidHandler getFluidHandler() {
+        return tank;
+    }
+    @Override
+    public IFluidHandler getAutomationFluidHandler() {
+        return tank;
     }
 }

@@ -144,16 +144,16 @@ public class MachineMenu extends AbstractContainerMenu implements IFluidMenu {
         return trackedFluids[index];
     }
     public FluidTank getTank(int index) {
-        return blockEntity.getFluidTanks().get(index);
+        return blockEntity.getTank(index);
     }
     public void setFluid(int index, FluidStack fluid) {
-        blockEntity.getFluidTanks().get(index).setFluid(fluid);
+        blockEntity.getTank(index).setFluid(fluid);
     }
     @Override
     public void broadcastChanges() {
         super.broadcastChanges();
         for (int i = 0; i < trackedFluids.length; i++) {
-            FluidStack current = blockEntity.getFluidTanks().get(i).getFluid();
+            FluidStack current = blockEntity.getTank(i).getFluid();
             if (!FluidStack.matches(current, trackedFluids[i])) {
                 trackedFluids[i] = current.copy();
                 if (blockEntity.getLevel() instanceof ServerLevel serverLevel) {

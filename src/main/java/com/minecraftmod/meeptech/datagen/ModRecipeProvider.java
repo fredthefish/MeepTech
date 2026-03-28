@@ -63,7 +63,7 @@ public class ModRecipeProvider extends RecipeProvider {
             .define('S', Items.STONE).define('H', ModItems.HAMMER.get())
             .unlockedBy("has_hammer", has(ModItems.HAMMER.get()))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "material_workstation"));
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.MATERIAL_WORKSTATION.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.ENGINEERING_STATION.get())
             .pattern("BMB").pattern("MBM").pattern("BMB")
             .define('B', Items.BRICK).define('M', ModuleItems.TEMPLATE_PRIMITIVE.get())
             .unlockedBy("has_module", has(ModuleItems.TEMPLATE_PRIMITIVE.get()))
@@ -132,8 +132,8 @@ public class ModRecipeProvider extends RecipeProvider {
             .unlockedBy("has_furnace", has(Items.FURNACE))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/machine_core_smelter"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.ALLOYER_CORE)
-            .requires(ModuleItems.TEMPLATE_PRIMITIVE).requires(Items.FURNACE).requires(ModMaterials.COPPER.getForm(MaterialForm.ROTOR))
-            .unlockedBy("has_rotor", has(ModMaterials.COPPER.getForm(MaterialForm.ROTOR)))
+            .requires(ModuleItems.TEMPLATE_PRIMITIVE).requires(Items.FURNACE).requires(ModMaterials.COPPER.getForm(MaterialForm.GEAR))
+            .unlockedBy("has_gear", has(ModMaterials.COPPER.getForm(MaterialForm.GEAR)))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/machine_core_alloyer"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.SOLID_FUEL_CORE)
             .requires(ModuleItems.TEMPLATE_PRIMITIVE).requires(ItemTags.COALS)

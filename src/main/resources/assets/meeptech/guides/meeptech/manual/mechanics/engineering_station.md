@@ -3,7 +3,6 @@ navigation:
     title: Engineering Station
     icon: meeptech:engineering_station
     parent: mechanics.md
-    position: 4
 item_ids:
 - meeptech:engineering_station
 categories:

@@ -5,10 +5,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.minecraftmod.meeptech.blocks.IFluidTankBlockEntity;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
@@ -21,18 +22,23 @@ public class FluidPipeTransfer {
             Direction inserterDir = inserterFace.face();
             if (!level.isLoaded(inserterPos)) continue;
             BlockPos destPos = inserterPos.relative(inserterDir);
-            IFluidHandler dest = level.getCapability(Capabilities.FluidHandler.BLOCK, destPos, inserterDir.getOpposite());
-            if (dest == null) continue;
-            if (!hasRoom(dest)) continue;
-            valid.add(new InserterTarget(inserterPos, inserterDir, dest));
+            if (level.getBlockEntity(destPos) instanceof IFluidTankBlockEntity tankEntity) {
+                IFluidHandler dest = tankEntity.getAutomationFluidHandler();
+                if (dest == null) continue;
+                if (!hasRoom(dest)) continue;
+                valid.add(new InserterTarget(inserterPos, inserterDir, dest));
+            }
         }
         return valid;
     }
     private static boolean hasRoom(IFluidHandler handler) {
         for (int i = 0; i < handler.getTanks(); i++) {
             FluidStack stack = handler.getFluidInTank(i);
-            if (stack.isEmpty()) return true;
-            if (stack.getAmount() < handler.getTankCapacity(i)) return true;
+            int accepted = handler.fill(stack.copyWithAmount(1), IFluidHandler.FluidAction.SIMULATE);
+            if (accepted > 0) return true;
+        }
+        for (int i = 0; i < handler.getTanks(); i++) {
+            if (handler.getFluidInTank(i).isEmpty() && handler.getTankCapacity(i) > 0) return true;
         }
         return false;
     }
@@ -71,28 +77,34 @@ public class FluidPipeTransfer {
             FluidStack inTank = source.getFluidInTank(i);
             if (inTank.isEmpty()) continue;
             int toTry = Math.min(inTank.getAmount(), max - canTake);
-            int accepted = dest.fill(inTank.copyWithAmount(toTry), FluidAction.SIMULATE);
+            FluidStack drainable = source.drain(inTank.copyWithAmount(toTry), IFluidHandler.FluidAction.SIMULATE);
+            if (drainable.isEmpty()) continue;
+            int accepted = dest.fill(drainable, IFluidHandler.FluidAction.SIMULATE);
             canTake += accepted;
         }
         return canTake;
     }
     public static Map<InserterTarget, List<FluidStack>> simulate(Map<InserterTarget, Integer> allocations, IFluidHandler source) {
         Map<InserterTarget, List<FluidStack>> result = new LinkedHashMap<>();
-        int[] promised = new int[source.getTanks()];
+        Map<FluidStack, Integer> drainable = new LinkedHashMap<>(); //List of drainable slots and the remaining amount for each slot.
+        for (int i = 0; i < source.getTanks(); i++) {
+            FluidStack inTank = source.getFluidInTank(i);
+            if (inTank.isEmpty()) continue;
+            FluidStack test = source.drain(inTank.copyWithAmount(1), IFluidHandler.FluidAction.SIMULATE);
+            if (!test.isEmpty()) drainable.put(inTank, inTank.getAmount());
+        }
         for (Map.Entry<InserterTarget, Integer> entry : allocations.entrySet()) {
             InserterTarget inserter = entry.getKey();
             int amount = entry.getValue();
             if (amount == 0) continue;
             List<FluidStack> toInsert = new ArrayList<>();
             int remaining = amount;
-            for (int i = 0; i < source.getTanks() && remaining > 0; i++) {
-                FluidStack inTank = source.getFluidInTank(i);
-                if (inTank.isEmpty()) continue;
-                int available = inTank.getAmount() - promised[i];
-                if (available <= 0) continue;
-                int take = Math.min(available, remaining);
-                toInsert.add(inTank.copyWithAmount(take));
-                promised[i] += take;
+            for (FluidStack slot : drainable.keySet()) {
+                if (remaining <= 0) break;
+                if (drainable.get(slot) <= 0) continue;
+                int take = Math.min(drainable.get(slot), remaining);
+                toInsert.add(slot.copyWithAmount(take));
+                drainable.put(slot, drainable.get(slot) - take);
                 remaining -= take;
             }
             if (!toInsert.isEmpty()) {

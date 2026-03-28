@@ -3,7 +3,6 @@ navigation:
     title: Material Workstation
     icon: meeptech:material_workstation
     parent: mechanics.md
-    position: 3
 item_ids:
 - meeptech:material_workstation
 categories:

@@ -4,6 +4,7 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import com.minecraftmod.meeptech.blocks.IFluidTankBlockEntity;
 import com.minecraftmod.meeptech.registries.ModBlockEntities;
 
 import net.minecraft.core.BlockPos;
@@ -113,7 +114,9 @@ public class PipeBlockEntity extends BlockEntity {
     }
     private static void tickFluidExtractor(Direction dir, PipeConnection attachment, ServerLevel serverLevel, BlockPos worldPosition, ServerLevel level) {
         BlockPos sourcePos = worldPosition.relative(dir);
-        IFluidHandler source = serverLevel.getCapability(Capabilities.FluidHandler.BLOCK, sourcePos, dir.getOpposite());
+        IFluidHandler source;
+        if (serverLevel.getBlockEntity(sourcePos) instanceof IFluidTankBlockEntity tankEntity) source = tankEntity.getAutomationFluidHandler();
+        else source = serverLevel.getCapability(Capabilities.FluidHandler.BLOCK, sourcePos, dir.getOpposite());
         if (source == null) return;
         PipeNetwork network = PipeNetworkManager.get(serverLevel).getNetwork(worldPosition);
         if (network == null) return;

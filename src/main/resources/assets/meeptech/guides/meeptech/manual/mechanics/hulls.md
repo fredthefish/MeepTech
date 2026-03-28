@@ -3,7 +3,6 @@ navigation:
     title: Hulls
     icon: meeptech:iron_hull
     parent: mechanics.md
-    position: 2
 categories:
 - Mechanics
 ---

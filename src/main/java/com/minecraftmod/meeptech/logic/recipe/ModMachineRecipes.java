@@ -33,7 +33,7 @@ public class ModMachineRecipes {
             .setOutputItems(List.of(new ItemStack(ModMaterials.BRONZE.getForm(MaterialForm.BASE), 4))).setTime(200));
 
         BOILER.addRecipe(new MachineRecipe("boil_water", BOILER)
-            .setInputFluids(List.of(new FluidStack(Fluids.WATER, 1)))
+            .setInputFluids(List.of(new FluidStack(Fluids.WATER, 100)))
             .setOutputFluids(List.of(new FluidStack(ModFluids.STEAM.get(), 100))).setTime(20));
 
         isInitialized = true;
