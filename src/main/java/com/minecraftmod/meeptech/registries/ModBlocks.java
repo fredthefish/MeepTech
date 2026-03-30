@@ -45,11 +45,13 @@ public class ModBlocks {
         .strength(2f, 3f)
         .sound(SoundType.COPPER)
         .noOcclusion()
+        .forceSolidOn()
         .isViewBlocking((state, level, pos) -> false)));
     public static final DeferredBlock<Block> FLUID_PIPE = registerBlock("fluid_pipe", () -> new FluidPipeBlock(BlockBehaviour.Properties.of()
         .strength(2f, 3f)
         .sound(SoundType.COPPER)
         .noOcclusion()
+        .forceSolidOn()
         .isViewBlocking((state, level, pos) -> false)));
     public static final DeferredBlock<Block> FLUID_TANK = registerBlock("fluid_tank", () -> new FluidTankBlock(BlockBehaviour.Properties.of()
         .strength(2f, 6f)
