@@ -29,8 +29,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -237,12 +235,12 @@ public class BaseMachineBlockEntity extends BlockEntity implements MenuProvider,
     }
     public static void tick(Level level, BlockPos pos, BlockState state, BaseMachineBlockEntity entity) {
         if (level.isClientSide()) {
-            if (entity.getMachineInt(TrackedStat.HeatLeft) > 0) {
-                if (level.random.nextDouble() < 0.1) {
-                    level.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                        SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1, 1, false);
-                }
-            }
+            // if (entity.getMachineInt(TrackedStat.HeatLeft) > 0) {
+            //     if (level.random.nextDouble() < 0.1) {
+            //         level.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+            //             SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1, 1, false);
+            //     }
+            // }
         } else {
             MachineProcessor.serverTick(level, entity);
         }

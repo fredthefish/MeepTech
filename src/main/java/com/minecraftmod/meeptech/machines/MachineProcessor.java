@@ -55,11 +55,7 @@ public class MachineProcessor {
             if (data.getEnergySource() instanceof HeatSource heatSource) {
                 int heat = entity.getMachineInt(TrackedStat.HeatLeft);
                 int fuelSlot = data.getStartItemSlot(UIModuleType.Energy);
-                if (heat > 0) {
-                    heat--;
-                    updated = true;
-                    thisUpdated = true;
-                } else if (heat == 0) {
+                if (heat == 0) {
                     MachineRecipeType heatType = heatSource.getHeatType();
                     if (heatType == ModMachineRecipes.SOLID_FUEL) {
                         ItemStack fuelStack = entity.getInventory().getStackInSlot(fuelSlot);
@@ -160,6 +156,11 @@ public class MachineProcessor {
             if (maxProgress > 0) {
                 if (hasEnergy) {
                     progress++;
+                    int heat = entity.getMachineInt(TrackedStat.HeatLeft);
+                    if (heat > 0) {
+                        heat--;
+                        entity.setMachineInt(TrackedStat.HeatLeft, heat);
+                    }
                     updated = true;
                 } else if (progress > 0) {
                     progress -= 10;
