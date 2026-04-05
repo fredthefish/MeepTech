@@ -22,11 +22,12 @@ public class ModModuleData {
     public static MachineType TYPE_SMELTER = new MachineType("smelter", EnergySourceType.Heat, ModMachineRecipes.SMELTER);
     public static MachineType TYPE_ALLOYER = new MachineType("alloyer", EnergySourceType.Heat, ModMachineRecipes.ALLOYER);
     public static MachineType TYPE_STEAM_BOILER = new MachineType("boiler", EnergySourceType.Heat, ModMachineRecipes.BOILER);
-
+    
     public static HeatSource HEAT_SOURCE_SOLID_FUEL = new HeatSource("solid_fuel", ModMachineRecipes.SOLID_FUEL,
-        new EnergyUIModule("Heat", 1, 0, true),
-        List.of(TrackedStat.HeatLeft)
+    new EnergyUIModule("Heat", 1, 0, true),
+    List.of(TrackedStat.HeatLeft)
     );
+    //ENERGY_STEAM
 
     public static MachineComponent COMPONENT_FIREBOX = new MachineComponent("firebox", MachineStat.SPEED, MaterialStat.MeltingPoint, 
         (stat) -> {

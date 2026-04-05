@@ -52,10 +52,8 @@ public class ModMaterials {
 
         COPPER.setForm(MaterialForm.BASE, Items.COPPER_INGOT);
         COPPER.setForm(MaterialForm.RAW, Items.RAW_COPPER);
-        COPPER.setGeneratedForms(List.of(MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL, MaterialForm.ORE, MaterialForm.GEAR));
-        COPPER.setFormTexture(MaterialForm.HULL, "metal");
+        COPPER.setGeneratedForms(List.of(MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.ORE, MaterialForm.GEAR));
         COPPER.setFormTexture(MaterialForm.ORE, "copper");
-        COPPER.setHullBase(ModModuleData.BASE_BASIC);
         COPPER.setColor(0xFFe77c56);
         COPPER.setThermalConductivity(400);
         COPPER.setMeltingPoint(1350);
@@ -68,13 +66,11 @@ public class ModMaterials {
         COAL.setColor(0xFF2d2d2d);
         COAL.setOreMultiplier(2);
 
-        TIN.setGeneratedForms(List.of(MaterialForm.BASE, MaterialForm.RAW, MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL, MaterialForm.ORE));
+        TIN.setGeneratedForms(List.of(MaterialForm.BASE, MaterialForm.RAW, MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.ORE));
         TIN.setFormTexture(MaterialForm.BASE, "dull_ingot");
         TIN.setFormTexture(MaterialForm.RAW, "dull_raw_ore");
         TIN.setFormTexture(MaterialForm.PLATE, "dull_plate");
-        TIN.setFormTexture(MaterialForm.HULL, "metal");
         TIN.setFormTexture(MaterialForm.ORE, "dull");
-        TIN.setHullBase(ModModuleData.BASE_BASIC);
         TIN.setColor(0xFFa0a1d6);
         TIN.setFormTranslationKey(MaterialForm.BASE, "ingot");
         TIN.setThermalConductivity(60);
