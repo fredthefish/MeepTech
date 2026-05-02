@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
-import com.minecraftmod.meeptech.logic.machine.HeatSource;
+import com.minecraftmod.meeptech.logic.machine.EnergySource;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
 import com.minecraftmod.meeptech.logic.module.ModModuleData;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipe;
@@ -52,11 +52,11 @@ public class MachineProcessor {
 
         public void runEnergy() {
             boolean thisUpdated = false;
-            if (data.getEnergySource() instanceof HeatSource heatSource) {
+            if (data.getEnergySource() instanceof EnergySource energySource) {
                 int heat = entity.getMachineInt(TrackedStat.HeatLeft);
                 int fuelSlot = data.getStartItemSlot(UIModuleType.Energy);
                 if (heat == 0) {
-                    MachineRecipeType heatType = heatSource.getHeatType();
+                    MachineRecipeType heatType = energySource.getEnergyType();
                     if (heatType == ModMachineRecipes.SOLID_FUEL) {
                         ItemStack fuelStack = entity.getInventory().getStackInSlot(fuelSlot);
                         if (!fuelStack.isEmpty()) {

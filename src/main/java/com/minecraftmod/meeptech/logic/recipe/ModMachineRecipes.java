@@ -24,6 +24,8 @@ public class ModMachineRecipes {
     public static MachineRecipeType SOLID_FUEL = 
         addRecipeType(new MachineRecipeType("solid_fuel", ModuleItems.SOLID_FUEL_CORE).setItemIO(1, 0).setHasHeat(true));
     public static MachineRecipeType BOILER = addRecipeType(new MachineRecipeType("boiler", ModuleItems.STEAM_BOILER_CORE).setFluidIO(1, 1));
+    public static MachineRecipeType STEAM_ENERGY = 
+        addRecipeType(new MachineRecipeType("steam_energy", ModuleItems.STEAM_ENERGY_CORE).setFluidIO(1, 0).setHasHeat(true));
 
     public static void registerRecipes() {
         SOLID_FUEL.addRecipe(new MachineRecipe("burn_coal", SOLID_FUEL).setInputItems(List.of(SizedIngredient.of(Items.SUGAR_CANE, 1))).setHeat(300));

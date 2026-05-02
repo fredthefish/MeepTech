@@ -2,7 +2,7 @@ package com.minecraftmod.meeptech.items;
 
 import java.util.List;
 
-import com.minecraftmod.meeptech.logic.machine.HeatSource;
+import com.minecraftmod.meeptech.logic.machine.EnergySource;
 import com.minecraftmod.meeptech.logic.machine.MachineAttribute;
 import com.minecraftmod.meeptech.logic.machine.MachineConfigData;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
@@ -51,7 +51,7 @@ public class HullItem extends BlockItem {
         tooltipComponents.add(Component.translatable(ModModuleTypes.SLOT_MACHINE_CORE.getTranslationKey())
             .append(": ").append(Component.translatable("meeptech.moduleType." + machineData.getType().getId())));
         MachineAttribute energySource = machineData.getEnergySource();
-        if (energySource instanceof HeatSource heatSource) {
+        if (energySource instanceof EnergySource heatSource) {
             tooltipComponents.add(Component.translatable(ModModuleTypes.SLOT_HEATING_CORE.getTranslationKey())
             .append(": ").append(Component.translatable("meeptech.moduleType." + heatSource.getId())));
         }

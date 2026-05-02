@@ -3,7 +3,7 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "meeptech:module_template_primitive"
+      "item": "meeptech:module_template_stone"
     },
     {
       "item": "minecraft:furnace"

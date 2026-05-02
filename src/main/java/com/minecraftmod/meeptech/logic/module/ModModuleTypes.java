@@ -12,7 +12,6 @@ public class ModModuleTypes {
     public static final ModuleSlotType SLOT_MACHINE_CORE = addModuleSlotType(new ModuleSlotType("machine_core"));
     public static final ModuleSlotType SLOT_ENERGY_CORE = addModuleSlotType(new ModuleSlotType("energy_core"));
     public static final ModuleSlotType SLOT_HEATING_CORE = addModuleSlotType(new ModuleSlotType("heating_core"));
-    public static final ModuleSlotType SLOT_FIREBOX = addModuleSlotType(new ModuleSlotType("firebox_slot"));
 
     public static final ModuleSlotType UPGRADE_SLOT_MACHINE_CORE = addModuleSlotType(new ModuleSlotType("upgrade_machine_core"));
     public static final ModuleSlotType UPGRADE_SLOT_SMELTER = addModuleSlotType(new ModuleSlotType("upgrade_machine_core_smelter"));
@@ -23,7 +22,6 @@ public class ModModuleTypes {
         addModuleType(new ModuleType("heating_core_solid_fuel", SLOT_HEATING_CORE, ModModuleData.HEAT_SOURCE_SOLID_FUEL));
     public static final ModuleType MACHINE_CORE_STEAM_BOILER = 
         addModuleType(new ModuleType("machine_core_steam_boiler", SLOT_MACHINE_CORE, ModModuleData.TYPE_STEAM_BOILER));
-    public static final ModuleType FIREBOX_SLOT = addModuleType(new ModuleType("firebox_slot", SLOT_FIREBOX, ModModuleData.COMPONENT_FIREBOX));
     public static final ModuleType UPGRADE_SMELTER_BLASTING = 
         addModuleType(new ModuleType("upgrade_smelter_blasting", UPGRADE_SLOT_SMELTER, ModModuleData.UPGRADE_BLASTING));
 
@@ -49,7 +47,6 @@ public class ModModuleTypes {
     }
     public static void initializeModuleTypes() {
         SLOT_MACHINE_BASE.setMaterialForm(MaterialForm.HULL);
-        SLOT_FIREBOX.setMaterialForm(MaterialForm.BOX);
         UPGRADE_SLOT_SMELTER.addSubType(UPGRADE_SLOT_MACHINE_CORE);
         SLOT_ENERGY_CORE.addSubType(SLOT_HEATING_CORE);
         MACHINE_CORE_SMELTER.addSubSlot("energy_core", SLOT_ENERGY_CORE);
@@ -57,7 +54,5 @@ public class ModModuleTypes {
         MACHINE_CORE_ALLOYER.addSubSlot("energy_core", SLOT_ENERGY_CORE);
         MACHINE_CORE_STEAM_BOILER.addSubSlot("heating_core", SLOT_HEATING_CORE);
         MACHINE_CORE_STEAM_BOILER.setModuleTier(1);
-        HEATING_CORE_SOLID_FUEL.addSubSlot("firebox_slot", SLOT_FIREBOX);
-        FIREBOX_SLOT.setMaterialForm(MaterialForm.BOX);
     }
 }

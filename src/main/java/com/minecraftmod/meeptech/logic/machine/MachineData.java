@@ -17,7 +17,7 @@ public class MachineData {
 
     private MachineBase base;
     private MachineType type;
-    private HeatSource heatSource;
+    private EnergySource energySource;
     private HashMap<MachineComponent, String> components = new HashMap<>();
     private HashMap<MachineStat, Object> stats = new HashMap<>();
     private HashMap<UIModuleType, UIModule> uiModules = new HashMap<>();
@@ -41,11 +41,8 @@ public class MachineData {
     public int getTankCapacity() {
         return tankCapacity;
     }
-    public MachineAttribute getEnergySource() {
-        if (type.getEnergySource() == EnergySourceType.Heat) {
-            return heatSource;
-        }
-        return null;
+    public EnergySource getEnergySource() {
+        return energySource;
     }
     public double getMachineSpeed() {
         if (stats.containsKey(MachineStat.SPEED)) return (double)stats.get(MachineStat.SPEED);
@@ -129,10 +126,10 @@ public class MachineData {
                     uiModules.put(UIModuleType.Output, machineType.getOutputUI());
                     uiModules.put(UIModuleType.Recipe, machineType.getRecipeUI());
                     trackedStats.addAll(machineType.getTrackedStats());
-                } else if (attribute instanceof HeatSource machineHeatSource) {
-                    heatSource = machineHeatSource;
-                    uiModules.put(UIModuleType.Energy, heatSource.getEnergyUI());
-                    trackedStats.addAll(machineHeatSource.getTrackedStats());
+                } else if (attribute instanceof EnergySource machineEnergySource) {
+                    energySource = machineEnergySource;
+                    uiModules.put(UIModuleType.Energy, energySource.getEnergyUI());
+                    trackedStats.addAll(energySource.getTrackedStats());
                 } else if (attribute instanceof MachineComponent component) {
                     components.put(component, layer.materialId());
                 } else if (attribute instanceof MachineUpgrade upgrade) {

@@ -12,8 +12,8 @@ public class ModuleItems {
     public static final Map<String, DeferredItem<Item>> MODULES = new HashMap<>();
     public static final Map<String, DeferredItem<Item>> MODULE_ITEMS = new HashMap<>(); //Non-hulls.
     
-    public static DeferredItem<Item> TEMPLATE_PRIMITIVE = addModuleItem("template_primitive");
-    public static DeferredItem<Item> TEMPLATE_STEAM = addModuleItem("template_steam");
+    public static DeferredItem<Item> TEMPLATE_STONE = addModuleItem("template_stone");
+    public static DeferredItem<Item> TEMPLATE_BRONZE = addModuleItem("template_bronze");
     public static DeferredItem<Item> SMELTER_CORE = addModuleItem("machine_core_smelter");
     public static DeferredItem<Item> SOLID_FUEL_CORE = addModuleItem("heating_core_solid_fuel");
     public static DeferredItem<Item> SMELTER_BLASTING = addModuleItem("upgrade_smelter_blasting");

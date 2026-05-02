@@ -6,7 +6,7 @@
       "item": "minecraft:brick"
     },
     "M": {
-      "item": "meeptech:module_template_primitive"
+      "item": "meeptech:module_template_stone"
     }
   },
   "pattern": [

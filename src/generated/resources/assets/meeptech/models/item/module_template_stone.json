@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "meeptech:item/module/template_steam"
+    "layer0": "meeptech:item/module/template_stone"
   }
 }

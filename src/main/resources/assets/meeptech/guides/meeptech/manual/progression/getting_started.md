@@ -20,7 +20,7 @@ You will need a source of **Clay** and **Sugar Cane** however.
 First, you'll want to make a **<ItemLink id="material_workstation" />** and a **Hammer**. Stone hammers are good enough for now.
 
 Next, you'll want to make **Module Templates**. These are quite cheap though.
-<RecipeFor id="meeptech:module_template_basic" />
+<RecipeFor id="meeptech:module_template_stone" />
 After that, you can make the **<ItemLink id="engineering_station" />**.
 
 With the Engineering Station, you can design your first machines, the **<ItemLink id="module_machine_core_smelter" />** and/or the **<ItemLink id="module_machine_core_alloyer" />**.

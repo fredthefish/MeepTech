@@ -7,13 +7,15 @@ import com.minecraftmod.meeptech.logic.recipe.MachineRecipeType;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
 import com.minecraftmod.meeptech.logic.ui.UIModule;
 
-public class HeatSource extends MachineAttribute {
-    private MachineRecipeType heatType;
+public class EnergySource extends MachineAttribute {
+    private MachineRecipeType energyType;
+    private EnergySourceType energySourceType;
     private UIModule energyModule;
     private ArrayList<TrackedStat> trackedStats = new ArrayList<>();
-    public HeatSource(String id, MachineRecipeType heatType, UIModule energyModule, List<TrackedStat> trackedStats) {
+    public EnergySource(String id, MachineRecipeType energyType, EnergySourceType energySourceType, UIModule energyModule, List<TrackedStat> trackedStats) {
         super(id);
-        this.heatType = heatType;
+        this.energyType = energyType;
+        this.energySourceType = energySourceType;
         this.energyModule = energyModule;
         if (trackedStats != null) this.trackedStats.addAll(trackedStats);
     }
@@ -23,7 +25,10 @@ public class HeatSource extends MachineAttribute {
     public List<TrackedStat> getTrackedStats() {
         return trackedStats;
     }
-    public MachineRecipeType getHeatType() {
-        return heatType;
+    public MachineRecipeType getEnergyType() {
+        return energyType;
+    }
+    public EnergySourceType getEnergySourceType() {
+        return energySourceType;
     }
 }

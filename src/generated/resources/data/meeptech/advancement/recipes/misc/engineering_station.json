@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "meeptech:module_template_primitive"
+            "items": "meeptech:module_template_stone"
           }
         ]
       },

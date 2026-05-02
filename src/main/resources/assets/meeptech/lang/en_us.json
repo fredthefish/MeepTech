@@ -15,13 +15,14 @@
   "item.meeptech.hull.empty": "Empty",
   "item.meeptech.hull.partial": "Incomplete",
 
-  "item.meeptech.module_template_primitive": "Primitive Module Template",
-  "item.meeptech.module_template_steam": "Steam Module Template",
+  "item.meeptech.module_template_stone": "Primitive Age Module Template",
+  "item.meeptech.module_template_bronze": "Bronze Age Module Template",
   "item.meeptech.module_machine_core_smelter": "Smelter Module (Machine Core)",
   "item.meeptech.module_heating_core_solid_fuel": "Solid Fuel Module (Heating Core)",
   "item.meeptech.module_upgrade_smelter_blasting": "Blasting Module (Smelter Upgrade)",
   "item.meeptech.module_machine_core_alloyer": "Alloyer Module (Machine Core)",
   "item.meeptech.module_machine_core_steam_boiler": "Steam Boiler Module (Machine Core)",
+  "item.meeptech.module_energy_core_steam": "Steam Power Module (Energy Core)",
 
   "block.meeptech.material_workstation": "Material Workstation",
   "block.meeptech.engineering_station": "Engineering Station",
@@ -64,7 +65,7 @@
   "meeptech.moduleSlotType.machine_base": "Machine Base",
   "meeptech.moduleSlotType.machine_core": "Machine Core",
   "meeptech.moduleSlotType.heating_core": "Heating Core",
-  "meeptech.moduleSlotType.firebox_slot": "Firebox Slot",
+  "meeptech.moduleSlotType.energy_core": "Energy Core",
 
   "meeptech.moduleType.basic_hull": "Basic",
   "meeptech.moduleType.bronze_hull": "Bronze",

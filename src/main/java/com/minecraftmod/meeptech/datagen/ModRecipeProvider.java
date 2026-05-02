@@ -65,12 +65,12 @@ public class ModRecipeProvider extends RecipeProvider {
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "material_workstation"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.ENGINEERING_STATION.get())
             .pattern("BMB").pattern("MBM").pattern("BMB")
-            .define('B', Items.BRICK).define('M', ModuleItems.TEMPLATE_PRIMITIVE.get())
-            .unlockedBy("has_module", has(ModuleItems.TEMPLATE_PRIMITIVE.get()))
+            .define('B', Items.BRICK).define('M', ModuleItems.TEMPLATE_STONE.get())
+            .unlockedBy("has_module", has(ModuleItems.TEMPLATE_STONE.get()))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "engineering_station"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.MANUAL.get())
-            .requires(Items.BOOK).requires(ModuleItems.TEMPLATE_PRIMITIVE.get())
-            .unlockedBy("has_module", has(ModuleItems.TEMPLATE_PRIMITIVE.get()))
+            .requires(Items.BOOK).requires(ModuleItems.TEMPLATE_STONE.get())
+            .unlockedBy("has_module", has(ModuleItems.TEMPLATE_STONE.get()))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "manual"));
         //Logistics
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.WRENCH.get())
@@ -119,32 +119,32 @@ public class ModRecipeProvider extends RecipeProvider {
             .unlockedBy("has_fluid_pipe", has(ModBlocks.FLUID_PIPE.get()))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "fluid_inserter"));
         //Modules
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.TEMPLATE_PRIMITIVE)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.TEMPLATE_STONE)
             .requires(ItemTags.STONE_CRAFTING_MATERIALS).requires(Items.PAPER)
             .unlockedBy("has_paper", has(Items.PAPER))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/template_primitive"));
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.TEMPLATE_STEAM)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.TEMPLATE_BRONZE)
             .requires(ModMaterials.BRONZE.getForm(MaterialForm.PLATE)).requires(Items.PAPER)
             .unlockedBy("has_bronze", has(ModMaterials.BRONZE.getForm(MaterialForm.PLATE)))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/template_steam"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.SMELTER_CORE)
-            .requires(ModuleItems.TEMPLATE_PRIMITIVE).requires(Items.FURNACE)
+            .requires(ModuleItems.TEMPLATE_STONE).requires(Items.FURNACE)
             .unlockedBy("has_furnace", has(Items.FURNACE))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/machine_core_smelter"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.ALLOYER_CORE)
-            .requires(ModuleItems.TEMPLATE_PRIMITIVE).requires(Items.FURNACE).requires(ModMaterials.COPPER.getForm(MaterialForm.GEAR))
+            .requires(ModuleItems.TEMPLATE_STONE).requires(Items.FURNACE).requires(ModMaterials.COPPER.getForm(MaterialForm.GEAR))
             .unlockedBy("has_gear", has(ModMaterials.COPPER.getForm(MaterialForm.GEAR)))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/machine_core_alloyer"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.SOLID_FUEL_CORE)
-            .requires(ModuleItems.TEMPLATE_PRIMITIVE).requires(ItemTags.COALS)
+            .requires(ModuleItems.TEMPLATE_STONE).requires(ItemTags.COALS)
             .unlockedBy("has_coals", has(ItemTags.COALS))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/heating_core_solid_fuel"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.SMELTER_BLASTING)
-            .requires(ModuleItems.TEMPLATE_PRIMITIVE).requires(Items.BLAST_FURNACE)
+            .requires(ModuleItems.TEMPLATE_STONE).requires(Items.BLAST_FURNACE)
             .unlockedBy("has_blast_furnace", has(Items.BLAST_FURNACE))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/upgrade_smelter_blasting"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.STEAM_BOILER_CORE)
-            .requires(ModuleItems.TEMPLATE_STEAM).requires(ModBlocks.FLUID_TANK)
+            .requires(ModuleItems.TEMPLATE_BRONZE).requires(ModBlocks.FLUID_TANK)
             .unlockedBy("has_tank", has(ModBlocks.FLUID_TANK))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/machine_core_steam_boiler"));
     }

@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
 import com.minecraftmod.meeptech.blocks.IFluidTankBlockEntity;
-import com.minecraftmod.meeptech.logic.machine.HeatSource;
-import com.minecraftmod.meeptech.logic.machine.MachineAttribute;
+import com.minecraftmod.meeptech.logic.machine.EnergySource;
+import com.minecraftmod.meeptech.logic.machine.EnergySourceType;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
 import com.minecraftmod.meeptech.logic.ui.SlotType;
 import com.minecraftmod.meeptech.logic.ui.SlotUIElement;
@@ -68,11 +68,10 @@ public class MachineMenu extends AbstractContainerMenu implements IFluidMenu {
                         if (slot.getType() == SlotType.INPUT) {
                             return true;
                         } else if (slot.getType() == SlotType.INPUT_FUEL) {
-                            MachineAttribute energySource = machineData.getEnergySource();
-                            if (energySource instanceof HeatSource heatSource) {
+                            EnergySource energySource = machineData.getEnergySource();
+                            if (energySource.getEnergySourceType() == EnergySourceType.Heat)
                                 return stack.getBurnTime(RecipeType.SMELTING) > 0 
-                                    || heatSource.getHeatType().getRecipe(List.of(stack), List.of(), List.of(), List.of()) != null;
-                            }
+                                    || energySource.getEnergyType().getRecipe(List.of(stack), List.of(), List.of(), List.of()) != null;
                             return false;
                         }
                         return false;
