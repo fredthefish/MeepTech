@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.minecraftmod.meeptech.blocks.BaseMachineBlockEntity;
 import com.minecraftmod.meeptech.logic.machine.EnergySource;
+import com.minecraftmod.meeptech.logic.machine.EnergySourceType;
 import com.minecraftmod.meeptech.logic.machine.MachineData;
 import com.minecraftmod.meeptech.logic.module.ModModuleData;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipe;
@@ -14,6 +15,7 @@ import com.minecraftmod.meeptech.logic.recipe.ModMachineRecipes;
 import com.minecraftmod.meeptech.logic.recipe.MachineRecipe.ConsumptionPlan;
 import com.minecraftmod.meeptech.logic.ui.TrackedStat;
 import com.minecraftmod.meeptech.logic.ui.UIModuleType;
+import com.minecraftmod.meeptech.registries.ModFluids;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -25,6 +27,7 @@ import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
 public class MachineProcessor {
@@ -52,7 +55,8 @@ public class MachineProcessor {
 
         public void runEnergy() {
             boolean thisUpdated = false;
-            if (data.getEnergySource() instanceof EnergySource energySource) {
+            EnergySource energySource = data.getEnergySource();
+            if (energySource.getEnergySourceType() == EnergySourceType.Heat) {
                 int heat = entity.getMachineInt(TrackedStat.HeatLeft);
                 int fuelSlot = data.getStartItemSlot(UIModuleType.Energy);
                 if (heat == 0) {
@@ -78,6 +82,10 @@ public class MachineProcessor {
                 }
                 if (heat > 0) hasEnergy = true;
                 if (thisUpdated) entity.setMachineInt(TrackedStat.HeatLeft, heat);
+            } else if (energySource.getEnergySourceType() == EnergySourceType.Steam) {
+                int steamSlot = data.getStartFluidSlot(UIModuleType.Energy);
+                FluidStack steamStack = entity.getTank(steamSlot).getFluid();
+                if (steamStack.getFluid() == ModFluids.STEAM.get() && steamStack.getAmount() > 0) hasEnergy = true;
             }
         }
         public void startMachines() {
@@ -156,10 +164,16 @@ public class MachineProcessor {
             if (maxProgress > 0) {
                 if (hasEnergy) {
                     progress++;
-                    int heat = entity.getMachineInt(TrackedStat.HeatLeft);
-                    if (heat > 0) {
-                        heat--;
-                        entity.setMachineInt(TrackedStat.HeatLeft, heat);
+                    EnergySourceType energySourceType = data.getEnergySource().getEnergySourceType();
+                    if (energySourceType == EnergySourceType.Heat) {
+                        int heat = entity.getMachineInt(TrackedStat.HeatLeft);
+                        if (heat > 0) {
+                            heat--;
+                            entity.setMachineInt(TrackedStat.HeatLeft, heat);
+                        }
+                    } else if (energySourceType == EnergySourceType.Steam) {
+                        int steamSlot = data.getStartFluidSlot(UIModuleType.Energy);
+                        entity.getTank(steamSlot).drain(1, FluidAction.EXECUTE);
                     }
                     updated = true;
                 } else if (progress > 0) {

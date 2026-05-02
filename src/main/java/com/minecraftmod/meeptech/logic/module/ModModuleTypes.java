@@ -22,6 +22,7 @@ public class ModModuleTypes {
         addModuleType(new ModuleType("heating_core_solid_fuel", SLOT_HEATING_CORE, ModModuleData.HEAT_SOURCE_SOLID_FUEL));
     public static final ModuleType MACHINE_CORE_STEAM_BOILER = 
         addModuleType(new ModuleType("machine_core_steam_boiler", SLOT_MACHINE_CORE, ModModuleData.TYPE_STEAM_BOILER));
+    public static final ModuleType ENERGY_CORE_STEAM = addModuleType(new ModuleType("energy_core_steam", SLOT_ENERGY_CORE, ModModuleData.ENERGY_SOURCE_STEAM));
     public static final ModuleType UPGRADE_SMELTER_BLASTING = 
         addModuleType(new ModuleType("upgrade_smelter_blasting", UPGRADE_SLOT_SMELTER, ModModuleData.UPGRADE_BLASTING));
 

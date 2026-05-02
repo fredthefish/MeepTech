@@ -23,9 +23,8 @@ public class ModModuleData {
     public static EnergySource HEAT_SOURCE_SOLID_FUEL = new EnergySource("solid_fuel", ModMachineRecipes.SOLID_FUEL, EnergySourceType.Heat,
         new EnergyUIModule("Heat", 1, 0, true),
         List.of(TrackedStat.HeatLeft));
-    public static EnergySource ENERGY_SOURCE_STEAM = new EnergySource("steam", ModMachineRecipes.STEAM_ENERGY, EnergySourceType.Steam,
-        new EnergyUIModule("Steam", 0, 1, true),
-        List.of(TrackedStat.HeatLeft));
+    public static EnergySource ENERGY_SOURCE_STEAM = new EnergySource("steam", null, EnergySourceType.Steam,
+        new EnergyUIModule("Steam", 0, 1, false), List.of());
 
     public static MachineUpgrade UPGRADE_BLASTING = new MachineUpgrade("blasting");
 }
