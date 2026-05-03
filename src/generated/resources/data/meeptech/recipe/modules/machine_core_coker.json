@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "meeptech:module_template_bronze"
+    },
+    {
+      "item": "meeptech:brick_box"
+    },
+    {
+      "item": "minecraft:coal"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "meeptech:module_machine_core_coker"
+  }
+}

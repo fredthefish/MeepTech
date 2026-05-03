@@ -19,6 +19,7 @@ public class ModMaterials {
     public static final Material COAL = addMaterial("coal");
     public static final Material TIN = addMaterial("tin");
     public static final Material BRONZE = addMaterial("bronze");
+    public static final Material COKE = addMaterial("coke");
 
     public static void initializeMaterials() {
         MATERIAL_STAT_TRANSLATION_KEYS.put(MaterialStat.ThermalConductivity, "meeptech.materialStat.thermal_conductivity");
@@ -71,8 +72,8 @@ public class ModMaterials {
         TIN.setFormTexture(MaterialForm.RAW, "dull_raw_ore");
         TIN.setFormTexture(MaterialForm.PLATE, "dull_plate");
         TIN.setFormTexture(MaterialForm.ORE, "dull");
-        TIN.setColor(0xFFa0a1d6);
         TIN.setFormTranslationKey(MaterialForm.BASE, "ingot");
+        TIN.setColor(0xFFa0a1d6);
         TIN.setThermalConductivity(60);
         TIN.setMeltingPoint(500);
         TIN.setTensileStrength(30);
@@ -81,11 +82,16 @@ public class ModMaterials {
         BRONZE.setFormTexture(MaterialForm.BASE, "ingot");
         BRONZE.setFormTexture(MaterialForm.HULL, "metal");
         BRONZE.setHullBase(ModModuleData.BASE_BRONZE);
-        BRONZE.setColor(0xFFcd7f32);
         BRONZE.setFormTranslationKey(MaterialForm.BASE, "ingot");
+        BRONZE.setColor(0xFFcd7f32);
         BRONZE.setThermalConductivity(25);
         BRONZE.setMeltingPoint(1250);
         BRONZE.setTensileStrength(600);
+
+        COKE.setGeneratedForms(List.of(MaterialForm.BASE));
+        COKE.setFormTexture(MaterialForm.BASE, "lignite");
+        COKE.setFormTranslationKey(MaterialForm.BASE, "clump");
+        COKE.setColor(0xFF6b6b6b);
     }
 
     public static Material addMaterial(String materialId) {

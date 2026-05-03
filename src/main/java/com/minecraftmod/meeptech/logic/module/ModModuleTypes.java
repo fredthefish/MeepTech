@@ -25,6 +25,7 @@ public class ModModuleTypes {
     public static final ModuleType ENERGY_CORE_STEAM = addModuleType(new ModuleType("energy_core_steam", SLOT_ENERGY_CORE, ModModuleData.ENERGY_SOURCE_STEAM));
     public static final ModuleType UPGRADE_SMELTER_BLASTING = 
         addModuleType(new ModuleType("upgrade_smelter_blasting", UPGRADE_SLOT_SMELTER, ModModuleData.UPGRADE_BLASTING));
+    public static final ModuleType MACHINE_CORE_COKER = addModuleType(new ModuleType("machine_core_coker", SLOT_MACHINE_CORE, ModModuleData.TYPE_COKER));
 
     public static ModuleType addModuleType(ModuleType type) {
         MODULE_TYPES.add(type);
@@ -55,5 +56,7 @@ public class ModModuleTypes {
         MACHINE_CORE_ALLOYER.addSubSlot("energy_core", SLOT_ENERGY_CORE);
         MACHINE_CORE_STEAM_BOILER.addSubSlot("heating_core", SLOT_HEATING_CORE);
         MACHINE_CORE_STEAM_BOILER.setModuleTier(1);
+        MACHINE_CORE_COKER.addSubSlot("energy_core", SLOT_ENERGY_CORE);
+        MACHINE_CORE_COKER.setModuleTier(1);
     }
 }

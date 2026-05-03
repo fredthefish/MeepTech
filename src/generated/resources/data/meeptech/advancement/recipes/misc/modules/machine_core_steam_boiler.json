@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_tank": {
+    "has_bronze_template": {
       "conditions": {
         "items": [
           {
-            "items": "meeptech:fluid_tank"
+            "items": "meeptech:module_template_bronze"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_tank"
+      "has_bronze_template"
     ]
   ],
   "rewards": {

@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_stone_template": {
+    "has_bronze_template": {
       "conditions": {
         "items": [
           {
-            "items": "meeptech:module_template_stone"
+            "items": "meeptech:module_template_bronze"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "meeptech:modules/heating_core_solid_fuel"
+        "recipe": "meeptech:modules/machine_core_coker"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_stone_template"
+      "has_bronze_template"
     ]
   ],
   "rewards": {
     "recipes": [
-      "meeptech:modules/heating_core_solid_fuel"
+      "meeptech:modules/machine_core_coker"
     ]
   }
 }

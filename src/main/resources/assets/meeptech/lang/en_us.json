@@ -23,6 +23,7 @@
   "item.meeptech.module_machine_core_alloyer": "Alloyer Module (Machine Core)",
   "item.meeptech.module_machine_core_steam_boiler": "Steam Boiler Module (Machine Core)",
   "item.meeptech.module_energy_core_steam": "Steam Power Module (Energy Core)",
+  "item.meeptech.module_machine_core_coker": "Coker Module (Machine Core)",
 
   "block.meeptech.material_workstation": "Material Workstation",
   "block.meeptech.engineering_station": "Engineering Station",
@@ -40,6 +41,7 @@
   "meeptech.material.coal": "Coal",
   "meeptech.material.tin": "Tin",
   "meeptech.material.bronze": "Bronze",
+  "meeptech.material.coke": "Coke",
 
   "meeptech.materialForm.base": "Base Form",
   "meeptech.materialForm.plate": "Plate",
@@ -51,6 +53,7 @@
   "meeptech.materialForm.gear": "Gear",
   "meeptech.materialForm.rotor": "Rotor",
   "meeptech.materialForm.ingot": "Ingot",
+  "meeptech.materialForm.clump": "Clump",
 
   "meeptech.materialStat.thermal_conductivity": "Thermal Conductivity",
   "meeptech.materialStat.thermal_resistance": "Thermal Resistance",
@@ -76,6 +79,7 @@
   "meeptech.moduleType.alloyer": "Alloyer",
   "meeptech.moduleType.boiler": "Steam Boiler",
   "meeptech.moduleType.steam": "Steam",
+  "meeptech.moduleType.coker": "Coker",
 
   "meeptech.ui.engineering_station.insert": "Left click to insert.",
   "meeptech.ui.engineering_station.extract": "Right click to extract.",
@@ -109,6 +113,7 @@
   "emi.category.meeptech.material_workstation": "Material Workstation",
   "emi.category.meeptech.alloyer": "Alloyer",
   "emi.category.meeptech.boiler": "Steam Boiler",
+  "emi.category.meeptech.coker": "Coker",
 
   "config.jade.plugin_meeptech.machine_info": "Machine Info",
 

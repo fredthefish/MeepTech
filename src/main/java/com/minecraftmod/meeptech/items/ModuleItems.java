@@ -20,6 +20,7 @@ public class ModuleItems {
     public static DeferredItem<Item> ALLOYER_CORE = addModuleItem("machine_core_alloyer");
     public static DeferredItem<Item> STEAM_BOILER_CORE = addModuleItem("machine_core_steam_boiler");
     public static DeferredItem<Item> STEAM_ENERGY_CORE = addModuleItem("energy_core_steam");
+    public static DeferredItem<Item> COKER_CORE = addModuleItem("machine_core_coker");
     
     private static DeferredItem<Item> addModuleItem(String id) {
         DeferredItem<Item> item = ModItems.ITEMS.registerSimpleItem("module_" + id);

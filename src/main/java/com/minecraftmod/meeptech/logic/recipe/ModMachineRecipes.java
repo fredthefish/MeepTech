@@ -24,9 +24,12 @@ public class ModMachineRecipes {
     public static MachineRecipeType SOLID_FUEL = 
         addRecipeType(new MachineRecipeType("solid_fuel", ModuleItems.SOLID_FUEL_CORE).setItemIO(1, 0).setHasHeat(true));
     public static MachineRecipeType BOILER = addRecipeType(new MachineRecipeType("boiler", ModuleItems.STEAM_BOILER_CORE).setFluidIO(1, 1));
+    public static MachineRecipeType COKER = addRecipeType(new MachineRecipeType("coker", ModuleItems.COKER_CORE)).setItemIO(1, 1);
 
     public static void registerRecipes() {
-        SOLID_FUEL.addRecipe(new MachineRecipe("burn_coal", SOLID_FUEL).setInputItems(List.of(SizedIngredient.of(Items.SUGAR_CANE, 1))).setHeat(300));
+        SOLID_FUEL.addRecipe(new MachineRecipe("burn_sugar_cane", SOLID_FUEL).setInputItems(List.of(SizedIngredient.of(Items.SUGAR_CANE, 1))).setHeat(30));
+        SOLID_FUEL.addRecipe(new MachineRecipe("burn_coke", SOLID_FUEL)
+            .setInputItems(List.of(SizedIngredient.of(ModMaterials.COKE.getForm(MaterialForm.BASE), 1))).setHeat(320));
 
         ALLOYER.addRecipe(new MachineRecipe("alloy_bronze", ALLOYER)
             .setInputItems(List.of(SizedIngredient.of(Items.COPPER_INGOT, 3), SizedIngredient.of(ModMaterials.TIN.getForm(MaterialForm.BASE), 1)))
@@ -35,6 +38,10 @@ public class ModMachineRecipes {
         BOILER.addRecipe(new MachineRecipe("boil_water", BOILER)
             .setInputFluids(List.of(new FluidStack(Fluids.WATER, 80)))
             .setOutputFluids(List.of(new FluidStack(ModFluids.STEAM.get(), 80))).setTime(20));
+        
+        COKER.addRecipe(new MachineRecipe("coke_coal", COKER).setTime(200)
+            .setInputItems(List.of(SizedIngredient.of(Items.COAL, 1)))
+            .setOutputItems(List.of(new ItemStack(ModMaterials.COKE.getForm(MaterialForm.BASE)))));
         
         isInitialized = true;
     }

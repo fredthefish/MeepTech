@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_blast_furnace": {
+    "has_bronze_template": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:blast_furnace"
+            "items": "meeptech:module_template_bronze"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_blast_furnace"
+      "has_bronze_template"
     ]
   ],
   "rewards": {
