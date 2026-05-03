@@ -16,10 +16,11 @@ public class ModModuleData {
     public static MachineBase BASE_BRONZE = new MachineBase("bronze_hull", 1, 1);
     public static MachineBase BASE_IRON = new MachineBase("iron_hull", 2, 2);
     
-    public static MachineType TYPE_SMELTER = new MachineType("smelter", EnergySourceType.Heat, ModMachineRecipes.SMELTER);
-    public static MachineType TYPE_ALLOYER = new MachineType("alloyer", EnergySourceType.Heat, ModMachineRecipes.ALLOYER);
-    public static MachineType TYPE_STEAM_BOILER = new MachineType("boiler", EnergySourceType.Heat, ModMachineRecipes.BOILER);
-    public static MachineType TYPE_COKER = new MachineType("coker", EnergySourceType.Heat, ModMachineRecipes.COKER);
+    public static MachineType TYPE_SMELTER = new MachineType("smelter", ModMachineRecipes.SMELTER);
+    public static MachineType TYPE_ALLOYER = new MachineType("alloyer", ModMachineRecipes.ALLOYER);
+    public static MachineType TYPE_STEAM_BOILER = new MachineType("boiler", ModMachineRecipes.BOILER);
+    public static MachineType TYPE_COKER = new MachineType("coker", ModMachineRecipes.COKER);
+    public static MachineType TYPE_PRESSER = new MachineType("presser", ModMachineRecipes.PRESSER);
     
     public static EnergySource HEAT_SOURCE_SOLID_FUEL = new EnergySource("solid_fuel", ModMachineRecipes.SOLID_FUEL, EnergySourceType.Heat,
         new EnergyUIModule("Heat", 1, 0, true),

@@ -10,15 +10,13 @@ import com.minecraftmod.meeptech.logic.ui.UIModule;
 import com.minecraftmod.meeptech.logic.ui.UIModuleType;
 
 public class MachineType extends MachineAttribute {
-    private EnergySourceType energySource;
     private MachineRecipeType recipeType;
     private UIModule inputModule;
     private UIModule outputModule;
     private UIModule recipeModule;
     private ArrayList<TrackedStat> trackedStats = new ArrayList<>();
-    public MachineType(String id, EnergySourceType energySource, MachineRecipeType recipeType) {
+    public MachineType(String id, MachineRecipeType recipeType) {
         super(id);
-        this.energySource = energySource;
         this.recipeType = recipeType;
         if (recipeType != null) {
             this.inputModule = new UIModule(UIModuleType.Input, "Input", recipeType.getInputSlots(), recipeType.getInputTanks());
@@ -41,9 +39,6 @@ public class MachineType extends MachineAttribute {
     }
     public List<TrackedStat> getTrackedStats() {
         return trackedStats;
-    }
-    public EnergySourceType getEnergySource() {
-        return energySource;
     }
     public MachineRecipeType getRecipeType() {
         return recipeType;

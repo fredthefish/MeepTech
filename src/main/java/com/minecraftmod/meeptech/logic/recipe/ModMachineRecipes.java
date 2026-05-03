@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.minecraftmod.meeptech.items.ModuleItems;
+import com.minecraftmod.meeptech.logic.material.Material;
 import com.minecraftmod.meeptech.logic.material.MaterialForm;
 import com.minecraftmod.meeptech.logic.material.ModMaterials;
 import com.minecraftmod.meeptech.registries.ModFluids;
@@ -25,6 +26,7 @@ public class ModMachineRecipes {
         addRecipeType(new MachineRecipeType("solid_fuel", ModuleItems.SOLID_FUEL_CORE).setItemIO(1, 0).setHasHeat(true));
     public static MachineRecipeType BOILER = addRecipeType(new MachineRecipeType("boiler", ModuleItems.STEAM_BOILER_CORE).setFluidIO(1, 1));
     public static MachineRecipeType COKER = addRecipeType(new MachineRecipeType("coker", ModuleItems.COKER_CORE)).setItemIO(1, 1);
+    public static MachineRecipeType PRESSER = addRecipeType(new MachineRecipeType("presser", ModuleItems.PRESSER_CORE)).setItemIO(1, 1);
 
     public static void registerRecipes() {
         SOLID_FUEL.addRecipe(new MachineRecipe("burn_sugar_cane", SOLID_FUEL).setInputItems(List.of(SizedIngredient.of(Items.SUGAR_CANE, 1))).setHeat(30));
@@ -45,6 +47,16 @@ public class ModMachineRecipes {
         COKER.addRecipe(new MachineRecipe("coke_coal", COKER).setTime(200)
             .setInputItems(List.of(SizedIngredient.of(Items.COAL, 1)))
             .setOutputItems(List.of(new ItemStack(ModMaterials.COKE.getForm(MaterialForm.BASE)))));
+
+        //Presser
+        for (Material material : ModMaterials.MATERIALS) {
+            if (material.hasForm(MaterialForm.BASE) && material.hasForm(MaterialForm.PLATE)) {
+                PRESSER.addRecipe(new MachineRecipe("press_" + material.getId(), PRESSER)
+                    .setTime(60 + 40 * material.getMaterialTier())
+                    .setInputItems(List.of(SizedIngredient.of(material.getForm(MaterialForm.BASE), 1)))
+                    .setOutputItems(List.of(new ItemStack(material.getForm(MaterialForm.PLATE)))));
+            }
+        }
         
         isInitialized = true;
     }

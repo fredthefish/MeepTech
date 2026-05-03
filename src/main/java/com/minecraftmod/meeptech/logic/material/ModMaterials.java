@@ -35,7 +35,6 @@ public class ModMaterials {
         IRON.setGeneratedForms(List.of(MaterialForm.ORE));
         IRON.setFormTexture(MaterialForm.ORE, "dull");
         IRON.setColor(0xFFe8e8e8);
-        IRON.setMaterialTier(1);
         IRON.setThermalConductivity(60);
         IRON.setMeltingPoint(1800);
         IRON.setTensileStrength(600);
@@ -105,6 +104,7 @@ public class ModMaterials {
         WROUGHT_IRON.setHullBase(ModModuleData.BASE_IRON);
         WROUGHT_IRON.setFormTranslationKey(MaterialForm.BASE, "ingot");
         WROUGHT_IRON.setColor(0xFF594a4b);
+        WROUGHT_IRON.setMaterialTier(1);
     }
 
     public static Material addMaterial(String materialId) {

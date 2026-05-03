@@ -28,7 +28,7 @@ public class ModCreativeTabs {
 
     public static final Supplier<CreativeModeTab> MATERIALS_TAB = CREATIVE_MODE_TABS.register("meeptech_materials", () -> CreativeModeTab.builder()
         .title(Component.translatable("itemGroup." + MeepTech.MODID + ".materials_tab"))
-        .icon(() -> new ItemStack(ModMaterials.getMaterial("iron").getForm(MaterialForm.PLATE)))
+        .icon(() -> new ItemStack(ModMaterials.PIG_IRON.getForm(MaterialForm.BASE)))
         .displayItems((params, output) -> {
             for (Material material : ModMaterials.MATERIALS) {
                 HashMap<MaterialForm, ItemLike> forms = material.getForms();
