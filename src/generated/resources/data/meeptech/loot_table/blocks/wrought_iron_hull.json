@@ -20,11 +20,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "meeptech:iron_hull"
+          "name": "meeptech:wrought_iron_hull"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "meeptech:blocks/iron_hull"
+  "random_sequence": "meeptech:blocks/wrought_iron_hull"
 }

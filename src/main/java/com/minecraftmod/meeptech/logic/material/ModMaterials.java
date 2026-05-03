@@ -30,13 +30,10 @@ public class ModMaterials {
         MATERIAL_STAT_TRANSLATION_KEYS.put(MaterialStat.MeltingPoint, "meeptech.materialStat.melting_point");
         MATERIAL_STAT_TRANSLATION_KEYS.put(MaterialStat.TensileStrength, "meeptech.materialStat.tensile_strength");
 
-        //Iron
         IRON.setForm(MaterialForm.BASE, Items.IRON_INGOT);
         IRON.setForm(MaterialForm.RAW, Items.RAW_IRON);
-        IRON.setGeneratedForms(List.of(MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL, MaterialForm.ORE));
-        IRON.setFormTexture(MaterialForm.HULL, "metal");
+        IRON.setGeneratedForms(List.of(MaterialForm.ORE));
         IRON.setFormTexture(MaterialForm.ORE, "dull");
-        IRON.setHullBase(ModModuleData.BASE_IRON);
         IRON.setColor(0xFFe8e8e8);
         IRON.setMaterialTier(1);
         IRON.setThermalConductivity(60);
@@ -55,7 +52,7 @@ public class ModMaterials {
 
         COPPER.setForm(MaterialForm.BASE, Items.COPPER_INGOT);
         COPPER.setForm(MaterialForm.RAW, Items.RAW_COPPER);
-        COPPER.setGeneratedForms(List.of(MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.ORE, MaterialForm.GEAR));
+        COPPER.setGeneratedForms(List.of(MaterialForm.PLATE, MaterialForm.ORE, MaterialForm.GEAR));
         COPPER.setFormTexture(MaterialForm.ORE, "copper");
         COPPER.setFormTexture(MaterialForm.PLATE, "shiny_plate");
         COPPER.setFormTexture(MaterialForm.GEAR, "shiny_gear");
@@ -71,7 +68,7 @@ public class ModMaterials {
         COAL.setColor(0xFF2d2d2d);
         COAL.setOreMultiplier(2);
 
-        TIN.setGeneratedForms(List.of(MaterialForm.BASE, MaterialForm.RAW, MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.ORE));
+        TIN.setGeneratedForms(List.of(MaterialForm.BASE, MaterialForm.PLATE, MaterialForm.RAW, MaterialForm.ORE));
         TIN.setFormTexture(MaterialForm.BASE, "dull_ingot");
         TIN.setFormTexture(MaterialForm.RAW, "dull_raw_ore");
         TIN.setFormTexture(MaterialForm.PLATE, "dull_plate");
@@ -82,9 +79,9 @@ public class ModMaterials {
         TIN.setMeltingPoint(500);
         TIN.setTensileStrength(30);
 
-        BRONZE.setGeneratedForms(List.of(MaterialForm.BASE, MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.HULL, MaterialForm.ROTOR, MaterialForm.GEAR));
+        BRONZE.setGeneratedForms(List.of(MaterialForm.BASE, MaterialForm.PLATE, MaterialForm.HULL, MaterialForm.ROTOR, MaterialForm.GEAR));
         BRONZE.setFormTexture(MaterialForm.BASE, "ingot");
-        BRONZE.setFormTexture(MaterialForm.HULL, "metal");
+        BRONZE.setFormTexture(MaterialForm.HULL, "bolted");
         BRONZE.setHullBase(ModModuleData.BASE_BRONZE);
         BRONZE.setFormTranslationKey(MaterialForm.BASE, "ingot");
         BRONZE.setColor(0xFFcd7f32);
@@ -102,8 +99,10 @@ public class ModMaterials {
         PIG_IRON.setFormTranslationKey(MaterialForm.BASE, "ingot");
         PIG_IRON.setColor(0xFFae9a9a);
 
-        WROUGHT_IRON.setGeneratedForms(List.of(MaterialForm.BASE));
+        WROUGHT_IRON.setGeneratedForms(List.of(MaterialForm.BASE, MaterialForm.PLATE, MaterialForm.HULL));
         WROUGHT_IRON.setFormTexture(MaterialForm.BASE, "ingot");
+        WROUGHT_IRON.setFormTexture(MaterialForm.HULL, "rusty");
+        WROUGHT_IRON.setHullBase(ModModuleData.BASE_IRON);
         WROUGHT_IRON.setFormTranslationKey(MaterialForm.BASE, "ingot");
         WROUGHT_IRON.setColor(0xFF594a4b);
     }

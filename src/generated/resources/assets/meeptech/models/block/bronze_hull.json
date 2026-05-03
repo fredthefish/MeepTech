@@ -47,7 +47,7 @@
     }
   ],
   "textures": {
-    "all": "meeptech:block/hull/metal",
-    "particle": "meeptech:block/hull/metal"
+    "all": "meeptech:block/hull/bolted",
+    "particle": "meeptech:block/hull/bolted"
   }
 }

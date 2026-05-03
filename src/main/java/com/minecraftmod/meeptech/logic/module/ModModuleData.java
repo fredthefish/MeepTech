@@ -14,7 +14,7 @@ import com.minecraftmod.meeptech.logic.ui.TrackedStat;
 public class ModModuleData {
     public static MachineBase BASE_BASIC = new MachineBase("basic_hull", 0, 0);
     public static MachineBase BASE_BRONZE = new MachineBase("bronze_hull", 1, 1);
-    public static MachineBase BASE_IRON = new MachineBase("iron_hull", 2, 1);
+    public static MachineBase BASE_IRON = new MachineBase("iron_hull", 2, 2);
     
     public static MachineType TYPE_SMELTER = new MachineType("smelter", EnergySourceType.Heat, ModMachineRecipes.SMELTER);
     public static MachineType TYPE_ALLOYER = new MachineType("alloyer", EnergySourceType.Heat, ModMachineRecipes.ALLOYER);

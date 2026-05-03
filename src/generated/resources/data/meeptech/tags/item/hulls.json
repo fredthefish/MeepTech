@@ -1,7 +1,7 @@
 {
   "values": [
-    "meeptech:iron_hull",
     "meeptech:brick_hull",
-    "meeptech:bronze_hull"
+    "meeptech:bronze_hull",
+    "meeptech:wrought_iron_hull"
   ]
 }

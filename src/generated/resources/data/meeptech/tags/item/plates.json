@@ -1,9 +1,9 @@
 {
   "values": [
-    "meeptech:iron_plate",
     "meeptech:brick_plate",
     "meeptech:copper_plate",
     "meeptech:tin_plate",
-    "meeptech:bronze_plate"
+    "meeptech:bronze_plate",
+    "meeptech:wrought_iron_plate"
   ]
 }
