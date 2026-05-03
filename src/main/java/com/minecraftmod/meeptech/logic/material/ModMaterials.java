@@ -21,6 +21,7 @@ public class ModMaterials {
     public static final Material BRONZE = addMaterial("bronze");
     public static final Material COKE = addMaterial("coke");
     public static final Material PIG_IRON = addMaterial("pig_iron");
+    public static final Material WROUGHT_IRON = addMaterial("wrought_iron");
 
     public static void initializeMaterials() {
         MATERIAL_STAT_TRANSLATION_KEYS.put(MaterialStat.ThermalConductivity, "meeptech.materialStat.thermal_conductivity");
@@ -100,6 +101,11 @@ public class ModMaterials {
         PIG_IRON.setFormTexture(MaterialForm.BASE, "rough_ingot");
         PIG_IRON.setFormTranslationKey(MaterialForm.BASE, "ingot");
         PIG_IRON.setColor(0xFFae9a9a);
+
+        WROUGHT_IRON.setGeneratedForms(List.of(MaterialForm.BASE));
+        WROUGHT_IRON.setFormTexture(MaterialForm.BASE, "ingot");
+        WROUGHT_IRON.setFormTranslationKey(MaterialForm.BASE, "ingot");
+        WROUGHT_IRON.setColor(0xFF594a4b);
     }
 
     public static Material addMaterial(String materialId) {

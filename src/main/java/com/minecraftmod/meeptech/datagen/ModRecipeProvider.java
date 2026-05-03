@@ -72,6 +72,11 @@ public class ModRecipeProvider extends RecipeProvider {
             .requires(Items.BOOK).requires(ModuleItems.TEMPLATE_STONE.get())
             .unlockedBy("has_module", has(ModuleItems.TEMPLATE_STONE.get()))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "manual"));
+        //Progression
+        SimpleCookingRecipeBuilder.blasting(Ingredient.of(ModMaterials.PIG_IRON.getForm(MaterialForm.BASE)),
+            RecipeCategory.MISC, ModMaterials.WROUGHT_IRON.getForm(MaterialForm.BASE), 0.5f, 100)
+            .unlockedBy("has_pig_iron", has(ModMaterials.PIG_IRON.getForm(MaterialForm.BASE)))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "wrought_iron_blasting"));
         //Logistics
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.WRENCH.get())
             .pattern("T T").pattern(" I ").pattern(" T ")

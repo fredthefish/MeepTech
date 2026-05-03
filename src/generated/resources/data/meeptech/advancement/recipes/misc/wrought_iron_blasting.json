@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_pig_iron": {
+      "conditions": {
+        "items": [
+          {
+            "items": "meeptech:pig_iron_base"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "meeptech:wrought_iron_blasting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_pig_iron"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "meeptech:wrought_iron_blasting"
+    ]
+  }
+}
