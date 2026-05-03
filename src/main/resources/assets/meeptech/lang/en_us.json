@@ -25,6 +25,7 @@
   "item.meeptech.module_energy_core_steam": "Steam Power Module (Energy Core)",
   "item.meeptech.module_machine_core_coker": "Coker Module (Machine Core)",
   "item.meeptech.module_machine_core_presser": "Presser Module (Machine Core)",
+  "item.meeptech.module_machine_core_water_pumper": "Water Pumper Module (Machine Core)",
 
   "block.meeptech.material_workstation": "Material Workstation",
   "block.meeptech.engineering_station": "Engineering Station",
@@ -84,6 +85,7 @@
   "meeptech.moduleType.steam": "Steam",
   "meeptech.moduleType.coker": "Coker",
   "meeptech.moduleType.presser": "Presser",
+  "meeptech.moduleType.water_pumper": "Water Pumper",
 
   "meeptech.ui.engineering_station.insert": "Left click to insert.",
   "meeptech.ui.engineering_station.extract": "Right click to extract.",
@@ -119,6 +121,7 @@
   "emi.category.meeptech.boiler": "Steam Boiler",
   "emi.category.meeptech.coker": "Coker",
   "emi.category.meeptech.presser": "Presser",
+  "emi.category.meeptech.water_pumper": "Water Pumper",
 
   "config.jade.plugin_meeptech.machine_info": "Machine Info",
 

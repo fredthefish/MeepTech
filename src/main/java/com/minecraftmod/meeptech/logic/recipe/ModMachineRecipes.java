@@ -27,6 +27,8 @@ public class ModMachineRecipes {
     public static MachineRecipeType BOILER = addRecipeType(new MachineRecipeType("boiler", ModuleItems.STEAM_BOILER_CORE).setFluidIO(1, 1));
     public static MachineRecipeType COKER = addRecipeType(new MachineRecipeType("coker", ModuleItems.COKER_CORE)).setItemIO(1, 1);
     public static MachineRecipeType PRESSER = addRecipeType(new MachineRecipeType("presser", ModuleItems.PRESSER_CORE)).setItemIO(1, 1);
+    public static MachineRecipeType WATER_PUMPER = 
+        addRecipeType(new MachineRecipeType("water_pumper", ModuleItems.WATER_PUMPER_CORE)).setFluidIO(1, 1);
 
     public static void registerRecipes() {
         SOLID_FUEL.addRecipe(new MachineRecipe("burn_sugar_cane", SOLID_FUEL).setInputItems(List.of(SizedIngredient.of(Items.SUGAR_CANE, 1))).setHeat(30));
@@ -47,6 +49,10 @@ public class ModMachineRecipes {
         COKER.addRecipe(new MachineRecipe("coke_coal", COKER).setTime(200)
             .setInputItems(List.of(SizedIngredient.of(Items.COAL, 1)))
             .setOutputItems(List.of(new ItemStack(ModMaterials.COKE.getForm(MaterialForm.BASE)))));
+
+        WATER_PUMPER.addRecipe(new MachineRecipe("pump_water", WATER_PUMPER).setTime(10)
+            .setFluidCatalysts(List.of(new FluidStack(Fluids.WATER, 2000)))
+            .setOutputFluids(List.of(new FluidStack(Fluids.WATER, 160))));
 
         //Presser
         for (Material material : ModMaterials.MATERIALS) {

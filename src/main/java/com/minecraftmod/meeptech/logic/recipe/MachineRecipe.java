@@ -24,6 +24,8 @@ public class MachineRecipe {
     private List<ItemStack> outputItems = new ArrayList<>();
     private List<FluidStack> inputFluids = new ArrayList<>();
     private List<FluidStack> outputFluids = new ArrayList<>();
+    private List<SizedIngredient> catalystItems = new ArrayList<>();
+    private List<FluidStack> catalystFluids = new ArrayList<>();
     private int time;
     private int heat;
     public MachineRecipe(String id, MachineRecipeType type) {
@@ -44,6 +46,14 @@ public class MachineRecipe {
     }
     public MachineRecipe setOutputFluids(List<FluidStack> outputs) {
         this.outputFluids.addAll(outputs);
+        return this;
+    }
+    public MachineRecipe setItemCatalysts(List<SizedIngredient> inputs) {
+        this.catalystItems.addAll(inputs);
+        return this;
+    }
+    public MachineRecipe setFluidCatalysts(List<FluidStack> inputs) {
+        this.catalystFluids.addAll(inputs);
         return this;
     }
     public MachineRecipe setTime(int time) {
@@ -83,7 +93,10 @@ public class MachineRecipe {
     public boolean fullInputs(List<ItemStack> inputItems, List<FluidStack> inputFluids) {
         int[] claimedItems = new int[inputItems.size()];
         int[] claimedFluids = new int[inputFluids.size()];
-        for (SizedIngredient required : this.inputItems) {
+        List<SizedIngredient> neededItems = new ArrayList<>();
+        neededItems.addAll(this.inputItems);
+        neededItems.addAll(this.catalystItems);
+        for (SizedIngredient required : neededItems) {
             int still = required.count();
             for (int i = 0; i < inputItems.size() && still > 0; i++) {
                 ItemStack stack = inputItems.get(i);
@@ -97,7 +110,10 @@ public class MachineRecipe {
             }
             if (still > 0) return false;
         }
-        for (FluidStack required : this.inputFluids) {
+        List<FluidStack> neededFluids = new ArrayList<>();
+        neededFluids.addAll(this.inputFluids);
+        neededFluids.addAll(this.catalystFluids);
+        for (FluidStack required : neededFluids) {
             int still = required.getAmount();
             for (int i = 0; i < inputFluids.size() && still > 0; i++) {
                 FluidStack stack = inputFluids.get(i);
@@ -217,6 +233,16 @@ public class MachineRecipe {
         List<EmiStack> emiStacks = new ArrayList<>();
         for (FluidStack stack : outputFluids) emiStacks.add(EmiStack.of(stack.getFluid(), stack.getAmount()));
         return emiStacks;
+    }
+    public List<EmiIngredient> getEmiCatalystItems() {
+        List<EmiIngredient> emiCatalysts = new ArrayList<>();
+        for (SizedIngredient ingredient : catalystItems) emiCatalysts.add(EmiIngredient.of(ingredient.ingredient(), ingredient.count()));
+        return emiCatalysts;
+    }
+    public List<EmiIngredient> getEmiCatalystFluids() {
+        List<EmiIngredient> emiCatalysts = new ArrayList<>();
+        for (FluidStack stack : catalystFluids) emiCatalysts.add(EmiStack.of(stack.getFluid(), stack.getAmount()));
+        return emiCatalysts;
     }
     public MachineEmiRecipe getEmiRecipe(ResourceLocation syntheticId, EmiRecipeCategory category) {
         return new MachineEmiRecipe(syntheticId, category, this, type);

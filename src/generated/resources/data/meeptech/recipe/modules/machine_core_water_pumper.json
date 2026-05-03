@@ -9,11 +9,11 @@
       "item": "meeptech:fluid_tank"
     },
     {
-      "item": "minecraft:furnace"
+      "item": "minecraft:piston"
     }
   ],
   "result": {
     "count": 1,
-    "id": "meeptech:module_machine_core_steam_boiler"
+    "id": "meeptech:module_machine_core_water_pumper"
   }
 }

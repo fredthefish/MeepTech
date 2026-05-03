@@ -52,10 +52,13 @@ public class MachineProcessor {
             this.entity = entity;
             this.data = data;
         }
-
         public void runEnergy() {
             boolean thisUpdated = false;
             EnergySource energySource = data.getEnergySource();
+            if (energySource == null) {
+                hasEnergy = true;
+                return;
+            }
             if (energySource.getEnergySourceType() == EnergySourceType.Heat) {
                 int heat = entity.getMachineInt(TrackedStat.HeatLeft);
                 int fuelSlot = data.getStartItemSlot(UIModuleType.Energy);
@@ -164,18 +167,21 @@ public class MachineProcessor {
             if (maxProgress > 0) {
                 if (hasEnergy) {
                     progress++;
-                    EnergySourceType energySourceType = data.getEnergySource().getEnergySourceType();
-                    if (energySourceType == EnergySourceType.Heat) {
-                        int heat = entity.getMachineInt(TrackedStat.HeatLeft);
-                        if (heat > 0) {
-                            heat--;
-                            entity.setMachineInt(TrackedStat.HeatLeft, heat);
+                    EnergySource energySource = data.getEnergySource();
+                    if (energySource != null) {
+                        EnergySourceType energySourceType = energySource.getEnergySourceType();
+                        if (energySourceType == EnergySourceType.Heat) {
+                            int heat = entity.getMachineInt(TrackedStat.HeatLeft);
+                            if (heat > 0) {
+                                heat--;
+                                entity.setMachineInt(TrackedStat.HeatLeft, heat);
+                            }
+                        } else if (energySourceType == EnergySourceType.Steam) {
+                            int steamSlot = data.getStartFluidSlot(UIModuleType.Energy);
+                            entity.getTank(steamSlot).drain(1, FluidAction.EXECUTE);
                         }
-                    } else if (energySourceType == EnergySourceType.Steam) {
-                        int steamSlot = data.getStartFluidSlot(UIModuleType.Energy);
-                        entity.getTank(steamSlot).drain(1, FluidAction.EXECUTE);
+                        updated = true;
                     }
-                    updated = true;
                 } else if (progress > 0) {
                     progress -= 10;
                     if (progress < 0) progress = 0;
