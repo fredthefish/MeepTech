@@ -27,6 +27,7 @@ public class HullItem extends BlockItem {
         if (data != null && !data.isEmpty() && data.hasSubLayers()) {
             if (data.allSlotsFilled()) {
                 MachineData machineData = data.toMachineData();
+                if (machineData == null) return Component.literal("Unknown Machine");
                 return Component.translatable(machineData.getBase().getTranslationKey()).append(" ")
                     .append(Component.translatable(machineData.getType().getTranslationKey()));
             } else {

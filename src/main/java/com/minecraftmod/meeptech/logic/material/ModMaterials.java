@@ -20,6 +20,7 @@ public class ModMaterials {
     public static final Material TIN = addMaterial("tin");
     public static final Material BRONZE = addMaterial("bronze");
     public static final Material COKE = addMaterial("coke");
+    public static final Material PIG_IRON = addMaterial("pig_iron");
 
     public static void initializeMaterials() {
         MATERIAL_STAT_TRANSLATION_KEYS.put(MaterialStat.ThermalConductivity, "meeptech.materialStat.thermal_conductivity");
@@ -55,6 +56,8 @@ public class ModMaterials {
         COPPER.setForm(MaterialForm.RAW, Items.RAW_COPPER);
         COPPER.setGeneratedForms(List.of(MaterialForm.PLATE, MaterialForm.BOX, MaterialForm.ORE, MaterialForm.GEAR));
         COPPER.setFormTexture(MaterialForm.ORE, "copper");
+        COPPER.setFormTexture(MaterialForm.PLATE, "shiny_plate");
+        COPPER.setFormTexture(MaterialForm.GEAR, "shiny_gear");
         COPPER.setColor(0xFFe77c56);
         COPPER.setThermalConductivity(400);
         COPPER.setMeltingPoint(1350);
@@ -92,6 +95,11 @@ public class ModMaterials {
         COKE.setFormTexture(MaterialForm.BASE, "lignite");
         COKE.setFormTranslationKey(MaterialForm.BASE, "clump");
         COKE.setColor(0xFF6b6b6b);
+
+        PIG_IRON.setGeneratedForms(List.of(MaterialForm.BASE));
+        PIG_IRON.setFormTexture(MaterialForm.BASE, "rough_ingot");
+        PIG_IRON.setFormTranslationKey(MaterialForm.BASE, "ingot");
+        PIG_IRON.setColor(0xFFae9a9a);
     }
 
     public static Material addMaterial(String materialId) {

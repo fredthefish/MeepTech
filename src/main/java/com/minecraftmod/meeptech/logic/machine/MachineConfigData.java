@@ -112,7 +112,11 @@ public record MachineConfigData(String moduleSlotType, String itemId, String mat
         return !moduleSlotType.isEmpty() && !materialId.isEmpty();
     }
     public Item getItem() {
-        if (!itemId.isEmpty()) return ModModuleTypes.getModuleType(itemId).getItem();
+        if (!itemId.isEmpty()) {
+            ModuleType type = ModModuleTypes.getModuleType(itemId);
+            if (type == null) return null;
+            return type.getItem();
+        }
         if (!materialId.isEmpty() && !moduleSlotType.isEmpty()) {
             MaterialForm form = ModModuleTypes.getModuleSlotType(moduleSlotType).getMaterialForm();
             return ModMaterials.getMaterial(materialId).getForm(form);
@@ -121,7 +125,9 @@ public record MachineConfigData(String moduleSlotType, String itemId, String mat
     }
     public MachineData toMachineData() {
         if (allSlotsFilled()) {
-            return new MachineData(this);
+            MachineData data = new MachineData(this);
+            if (data.getType() == null) return null;
+            return data;
         }
         return null;
     }

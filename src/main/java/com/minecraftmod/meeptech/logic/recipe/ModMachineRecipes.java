@@ -34,6 +34,9 @@ public class ModMachineRecipes {
         ALLOYER.addRecipe(new MachineRecipe("alloy_bronze", ALLOYER)
             .setInputItems(List.of(SizedIngredient.of(Items.COPPER_INGOT, 3), SizedIngredient.of(ModMaterials.TIN.getForm(MaterialForm.BASE), 1)))
             .setOutputItems(List.of(new ItemStack(ModMaterials.BRONZE.getForm(MaterialForm.BASE), 4))).setTime(200));
+        ALLOYER.addRecipe(new MachineRecipe("alloy_pig_iron", ALLOYER)
+            .setInputItems(List.of(SizedIngredient.of(Items.IRON_INGOT, 1), SizedIngredient.of(ModMaterials.COKE.getForm(MaterialForm.BASE), 1)))
+            .setOutputItems(List.of(new ItemStack(ModMaterials.PIG_IRON.getForm(MaterialForm.BASE)))).setTime(200));
 
         BOILER.addRecipe(new MachineRecipe("boil_water", BOILER)
             .setInputFluids(List.of(new FluidStack(Fluids.WATER, 80)))

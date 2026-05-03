@@ -75,15 +75,18 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                     if (mouseX >= slotX && mouseX < slotX + slotSize && mouseY >= slotY && mouseY < slotY + slotSize) {
                         MachineConfigData subLayer = data.getSubLayer(i);
                         if (!subLayer.isEmpty()) {
-                            ItemStack preview = new ItemStack(subLayer.getItem());
-                            List<Component> tooltip = new ArrayList<>();
-                            tooltip.add(preview.getHoverName());
-                            if (selectionPath.size() > layer && selectionPath.get(layer) == i)
-                                tooltip.add(Component.translatable("meeptech.ui.engineering_station.deselect"));
-                            else tooltip.add(Component.translatable("meeptech.ui.engineering_station.select"));
-                            if (!subLayer.hasSubLayers())
-                                tooltip.add(Component.translatable("meeptech.ui.engineering_station.extract"));
-                            guiGraphics.renderTooltip(this.font, tooltip, Optional.empty(), mouseX, mouseY);
+                            Item item = subLayer.getItem();
+                            if (item != null) {
+                                ItemStack preview = new ItemStack(item);
+                                List<Component> tooltip = new ArrayList<>();
+                                tooltip.add(preview.getHoverName());
+                                if (selectionPath.size() > layer && selectionPath.get(layer) == i)
+                                    tooltip.add(Component.translatable("meeptech.ui.engineering_station.deselect"));
+                                else tooltip.add(Component.translatable("meeptech.ui.engineering_station.select"));
+                                if (!subLayer.hasSubLayers())
+                                    tooltip.add(Component.translatable("meeptech.ui.engineering_station.extract"));
+                                guiGraphics.renderTooltip(this.font, tooltip, Optional.empty(), mouseX, mouseY);
+                            }
                         } else {
                             List<Component> tooltip = new ArrayList<>();
                             tooltip.add(Component.translatable(type.getSubSlot(i).getType().getTranslationKey()));
@@ -124,6 +127,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                 if (selectionPath.size() > layer) {
                     data = data.getSubLayer(selectionPath.get(layer));
                     type = data.getModuleType();
+                    if (type == null) break;
                 }
                 layer++;
             }
@@ -172,8 +176,11 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                         }
                         MachineConfigData subLayer = data.getSubLayer(i);
                         if (!subLayer.isEmpty()) {
-                            ItemStack preview = new ItemStack(subLayer.getItem());
-                            guiGraphics.renderItem(preview, slotX + 1, slotY + 1);
+                            Item item = subLayer.getItem();
+                            if (item != null) {
+                                ItemStack preview = new ItemStack(item);
+                                guiGraphics.renderItem(preview, slotX + 1, slotY + 1);
+                            }
                         }
                     }
                     if (layer > 0) {
@@ -207,6 +214,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                 if (selectionPath.size() > layer) {
                     data = data.getSubLayer(selectionPath.get(layer));
                     type = data.getModuleType();
+                    if (type == null) break;
                     Item item = data.getItem();
                     if (item != null) {
                         ItemStack itemStack = new ItemStack(item);
@@ -349,6 +357,7 @@ public class EngineeringStationScreen extends AbstractContainerScreen<Engineerin
                 if (selectionPath.size() > layer) {
                     data = data.getSubLayer(selectionPath.get(layer));
                     type = data.getModuleType();
+                    if (type == null) break;
                 }
                 layer++;
             }

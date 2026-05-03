@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "meeptech:item/material/gear"
+    "layer0": "meeptech:item/material/shiny_gear"
   }
 }

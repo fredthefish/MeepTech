@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "meeptech:item/material/shiny_plate"
+    "layer0": "meeptech:item/material/rough_ingot"
   }
 }

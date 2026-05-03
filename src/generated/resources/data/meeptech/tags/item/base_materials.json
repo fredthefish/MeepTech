@@ -6,6 +6,7 @@
     "minecraft:coal",
     "meeptech:tin_base",
     "meeptech:bronze_base",
-    "meeptech:coke_base"
+    "meeptech:coke_base",
+    "meeptech:pig_iron_base"
   ]
 }
