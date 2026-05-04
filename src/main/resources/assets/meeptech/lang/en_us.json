@@ -14,9 +14,13 @@
   "item.meeptech.stone_hammer": "Stone Hammer",
   "item.meeptech.hull.empty": "Empty",
   "item.meeptech.hull.partial": "Incomplete",
+  "item.meeptech.mold": "Blank Mold",
+  "item.meeptech.mold_gear": "Gear Mold",
+  "item.meeptech.mold_rotor": "Rotor Mold",
 
-  "item.meeptech.module_template_stone": "Primitive Age Module Template",
-  "item.meeptech.module_template_bronze": "Bronze Age Module Template",
+  "item.meeptech.module_template_stone": "Stone Module Template",
+  "item.meeptech.module_template_bronze": "Bronze Module Template",
+  "item.meeptech.module_template_iron": "Iron Module Template",
   "item.meeptech.module_machine_core_smelter": "Smelter Module (Machine Core)",
   "item.meeptech.module_heating_core_solid_fuel": "Solid Fuel Module (Heating Core)",
   "item.meeptech.module_upgrade_smelter_blasting": "Blasting Module (Smelter Upgrade)",
@@ -26,6 +30,7 @@
   "item.meeptech.module_machine_core_coker": "Coker Module (Machine Core)",
   "item.meeptech.module_machine_core_presser": "Presser Module (Machine Core)",
   "item.meeptech.module_machine_core_water_pumper": "Water Pumper Module (Machine Core)",
+  "item.meeptech.module_machine_core_molder": "Molder Module (Machine Core)",
 
   "block.meeptech.material_workstation": "Material Workstation",
   "block.meeptech.engineering_station": "Engineering Station",
@@ -74,9 +79,9 @@
   "meeptech.moduleSlotType.heating_core": "Heating Core",
   "meeptech.moduleSlotType.energy_core": "Energy Core",
 
-  "meeptech.moduleType.basic_hull": "Basic",
+  "meeptech.moduleType.basic_hull": "Brick",
   "meeptech.moduleType.bronze_hull": "Bronze",
-  "meeptech.moduleType.iron_hull": "Iron",
+  "meeptech.moduleType.iron_hull": "Wrought Iron",
   "meeptech.moduleType.smelter": "Smelter",
   "meeptech.moduleType.solid_fuel": "Solid Fuel",
   "meeptech.moduleType.firebox": "Firebox",
@@ -86,6 +91,7 @@
   "meeptech.moduleType.coker": "Coker",
   "meeptech.moduleType.presser": "Presser",
   "meeptech.moduleType.water_pumper": "Water Pumper",
+  "meeptech.moduleType.molder": "Molder",
 
   "meeptech.ui.engineering_station.insert": "Left click to insert.",
   "meeptech.ui.engineering_station.extract": "Right click to extract.",
@@ -122,6 +128,7 @@
   "emi.category.meeptech.coker": "Coker",
   "emi.category.meeptech.presser": "Presser",
   "emi.category.meeptech.water_pumper": "Water Pumper",
+  "emi.category.meeptech.molder": "Molder",
 
   "config.jade.plugin_meeptech.machine_info": "Machine Info",
 

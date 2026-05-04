@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_paper": {
+    "has_bronze_plate": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:paper"
+            "items": "meeptech:bronze_plate"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "meeptech:modules/template_primitive"
+        "recipe": "meeptech:modules/template_bronze"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_paper"
+      "has_bronze_plate"
     ]
   ],
   "rewards": {
     "recipes": [
-      "meeptech:modules/template_primitive"
+      "meeptech:modules/template_bronze"
     ]
   }
 }

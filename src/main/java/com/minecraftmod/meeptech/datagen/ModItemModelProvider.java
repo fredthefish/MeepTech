@@ -81,5 +81,8 @@ public class ModItemModelProvider extends ItemModelProvider {
             .fluid(Fluids.EMPTY).applyTint(true).coverIsMask(true).applyFluidLuminosity(true).end()
             .texture("base", modLoc("item/fluid_cell/base"))
             .texture("fluid", modLoc("item/fluid_cell/overlay"));
+        basicItem(ModItems.MOLD.get());
+        basicItem(ModItems.MOLD_GEAR.get());
+        basicItem(ModItems.MOLD_ROTOR.get());
     }
 }

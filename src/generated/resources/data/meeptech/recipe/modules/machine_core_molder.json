@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "meeptech:module_template_iron"
+    },
+    {
+      "item": "meeptech:mold"
+    },
+    {
+      "item": "minecraft:piston"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "meeptech:module_machine_core_molder"
+  }
+}

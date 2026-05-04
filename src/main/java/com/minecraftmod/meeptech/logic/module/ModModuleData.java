@@ -22,6 +22,7 @@ public class ModModuleData {
     public static MachineType TYPE_COKER = new MachineType("coker", ModMachineRecipes.COKER);
     public static MachineType TYPE_PRESSER = new MachineType("presser", ModMachineRecipes.PRESSER);
     public static MachineType TYPE_WATER_PUMPER = new MachineType("water_pumper", ModMachineRecipes.WATER_PUMPER);
+    public static MachineType TYPE_MOLDER = new MachineType("molder", ModMachineRecipes.MOLDER);
     
     public static EnergySource HEAT_SOURCE_SOLID_FUEL = new EnergySource("solid_fuel", ModMachineRecipes.SOLID_FUEL, EnergySourceType.Heat,
         new EnergyUIModule("Heat", 1, 0, true),

@@ -9,6 +9,7 @@ import com.minecraftmod.meeptech.logic.material.MaterialForm;
 import com.minecraftmod.meeptech.logic.material.ModMaterials;
 import com.minecraftmod.meeptech.registries.ModBlocks;
 import com.minecraftmod.meeptech.registries.ModItems;
+import com.minecraftmod.meeptech.registries.ModTags;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -77,6 +78,21 @@ public class ModRecipeProvider extends RecipeProvider {
             RecipeCategory.MISC, ModMaterials.WROUGHT_IRON.getForm(MaterialForm.BASE), 0.5f, 100)
             .unlockedBy("has_pig_iron", has(ModMaterials.PIG_IRON.getForm(MaterialForm.BASE)))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "wrought_iron_blasting"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.MOLD.get())
+            .pattern("PP").pattern("PP")
+            .define('P', ModMaterials.WROUGHT_IRON.getForm(MaterialForm.PLATE))
+            .unlockedBy("has_iron_plate", has(ModMaterials.WROUGHT_IRON.getForm(MaterialForm.PLATE)))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "mold"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.MOLD_GEAR.get())
+            .pattern("H  ").pattern(" M ").pattern("   ")
+            .define('H', ModTags.HAMMER_TAG).define('M', ModItems.MOLD.get())
+            .unlockedBy("has_mold", has(ModItems.MOLD.get()))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "mold_gear"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.MOLD_ROTOR.get())
+            .pattern(" H ").pattern(" M ").pattern("   ")
+            .define('H', ModTags.HAMMER_TAG).define('M', ModItems.MOLD.get())
+            .unlockedBy("has_mold", has(ModItems.MOLD.get()))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "mold_rotor"));
         //Logistics
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.WRENCH.get())
             .pattern("T T").pattern(" I ").pattern(" T ")
@@ -127,11 +143,15 @@ public class ModRecipeProvider extends RecipeProvider {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.TEMPLATE_STONE)
             .requires(ItemTags.STONE_CRAFTING_MATERIALS).requires(Items.PAPER)
             .unlockedBy("has_paper", has(Items.PAPER))
-            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/template_primitive"));
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/template_stone"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.TEMPLATE_BRONZE)
             .requires(ModMaterials.BRONZE.getForm(MaterialForm.PLATE)).requires(Items.PAPER)
-            .unlockedBy("has_bronze", has(ModMaterials.BRONZE.getForm(MaterialForm.PLATE)))
-            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/template_steam"));
+            .unlockedBy("has_bronze_plate", has(ModMaterials.BRONZE.getForm(MaterialForm.PLATE)))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/template_bronze"));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.TEMPLATE_IRON)
+            .requires(ModMaterials.WROUGHT_IRON.getForm(MaterialForm.PLATE)).requires(Items.PAPER)
+            .unlockedBy("has_wrought_iron_plate", has(ModMaterials.WROUGHT_IRON.getForm(MaterialForm.PLATE)))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/template_iron"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.SMELTER_CORE)
             .requires(ModuleItems.TEMPLATE_STONE).requires(Items.FURNACE)
             .unlockedBy("has_stone_template", has(ModuleItems.TEMPLATE_STONE))
@@ -164,5 +184,9 @@ public class ModRecipeProvider extends RecipeProvider {
             .requires(ModuleItems.TEMPLATE_BRONZE).requires(ModBlocks.FLUID_TANK).requires(Items.PISTON)
             .unlockedBy("has_bronze_template", has(ModuleItems.TEMPLATE_BRONZE))
             .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/machine_core_water_pumper"));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModuleItems.MOLDER_CORE)
+            .requires(ModuleItems.TEMPLATE_IRON).requires(ModItems.MOLD).requires(Items.PISTON)
+            .unlockedBy("has_iron_template", has(ModuleItems.TEMPLATE_IRON))
+            .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(MeepTech.MODID, "modules/machine_core_molder"));
     }
 }

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "H": {
+      "tag": "meeptech:hammers"
+    },
+    "M": {
+      "item": "meeptech:mold"
+    }
+  },
+  "pattern": [
+    " H ",
+    " M ",
+    "   "
+  ],
+  "result": {
+    "count": 1,
+    "id": "meeptech:mold_rotor"
+  }
+}

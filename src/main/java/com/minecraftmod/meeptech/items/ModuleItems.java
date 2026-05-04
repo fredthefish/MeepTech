@@ -14,6 +14,7 @@ public class ModuleItems {
     
     public static DeferredItem<Item> TEMPLATE_STONE = addModuleItem("template_stone");
     public static DeferredItem<Item> TEMPLATE_BRONZE = addModuleItem("template_bronze");
+    public static DeferredItem<Item> TEMPLATE_IRON = addModuleItem("template_iron");
     public static DeferredItem<Item> SMELTER_CORE = addModuleItem("machine_core_smelter");
     public static DeferredItem<Item> SOLID_FUEL_CORE = addModuleItem("heating_core_solid_fuel");
     public static DeferredItem<Item> SMELTER_BLASTING = addModuleItem("upgrade_smelter_blasting");
@@ -23,6 +24,7 @@ public class ModuleItems {
     public static DeferredItem<Item> COKER_CORE = addModuleItem("machine_core_coker");
     public static DeferredItem<Item> PRESSER_CORE = addModuleItem("machine_core_presser");
     public static DeferredItem<Item> WATER_PUMPER_CORE = addModuleItem("machine_core_water_pumper");
+    public static DeferredItem<Item> MOLDER_CORE = addModuleItem("machine_core_molder");
     
     private static DeferredItem<Item> addModuleItem(String id) {
         DeferredItem<Item> item = ModItems.ITEMS.registerSimpleItem("module_" + id);

@@ -25,6 +25,7 @@ public class ModModuleTypes {
     public static final ModuleType MACHINE_CORE_PRESSER = addModuleType(new ModuleType("machine_core_presser", SLOT_MACHINE_CORE, ModModuleData.TYPE_PRESSER));
     public static final ModuleType MACHINE_CORE_WATER_PUMPER = 
         addModuleType(new ModuleType("machine_core_water_pumper", SLOT_MACHINE_CORE, ModModuleData.TYPE_WATER_PUMPER));
+    public static final ModuleType MACHINE_CORE_MOLDER = addModuleType(new ModuleType("machine_core_molder", SLOT_MACHINE_CORE, ModModuleData.TYPE_MOLDER));
     public static final ModuleType HEATING_CORE_SOLID_FUEL = 
         addModuleType(new ModuleType("heating_core_solid_fuel", SLOT_HEATING_CORE, ModModuleData.HEAT_SOURCE_SOLID_FUEL));
     public static final ModuleType ENERGY_CORE_STEAM = addModuleType(new ModuleType("energy_core_steam", SLOT_POWER_CORE, ModModuleData.ENERGY_SOURCE_STEAM));
@@ -66,5 +67,7 @@ public class ModModuleTypes {
         MACHINE_CORE_PRESSER.addSubSlot("power_core", SLOT_POWER_CORE);
         MACHINE_CORE_PRESSER.setModuleTier(1);
         MACHINE_CORE_WATER_PUMPER.setModuleTier(1);
+        MACHINE_CORE_MOLDER.addSubSlot("power_core", SLOT_POWER_CORE);
+        MACHINE_CORE_MOLDER.setModuleTier(2);
     }
 }
